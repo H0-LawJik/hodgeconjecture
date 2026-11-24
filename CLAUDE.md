@@ -9,8 +9,8 @@ A proof repository with a thin Python harness around it. There is one library (`
 ## Boundaries
 
 - **Public.** Everything in this repository is public. Do not add credentials, private paths, personal email addresses, or references to other private projects. Commit with the GitHub noreply address (set per-repo in `.git/config`).
-- **Lean first.** A claim becomes a result only when it is a sorry-free Lean declaration that `tools/check.py` accepts with the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`). Prose, sketches and Python never prove anything here; they organize the search.
-- **Statements of record are upstream.** Never restate the conjecture or a variant that `Paul-Lez/HodgeConjecture` states; prove theorems whose types are those `Prop`s. No interface structures for missing objects (decision 0003). Do not add notation, instances or attributes that change how an upstream statement elaborates.
+- **Lean first.** A claim becomes a result only when it is a sorry-free Lean declaration that `tools/check.py` accepts with the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`). Prose, sketches and Python prove nothing here; they organize the search.
+- **Statements of record are upstream.** Do not restate the conjecture or a variant that `Paul-Lez/HodgeConjecture` states; prove theorems whose types are those `Prop`s. No interface structures for missing objects (decision 0003). Do not add notation, instances or attributes that change how an upstream statement elaborates.
 - **Upstream-first.** General mathematics goes to Mathlib; statement-level definitions and sanity checks go to `Paul-Lez/HodgeConjecture`; this repository keeps proofs of variants, reductions, frontier statements, the ledger, falsification records and the literature map. Record anything kept locally that belongs upstream in `docs/gaps.md`.
 - **Equality first.** Aim at non-vacuous equalities (decision 0004). Inclusions are steps; identities between classes are proved exactly, with the sign in the docstring and in `docs/conventions.md`; "up to a nonzero scalar" does not discharge an identity rung.
 - **Falsification.** Every checked rung gets a red-team pass covering vacuity, sign and normalization conventions (`docs/conventions.md`), and upstream definition drift between pins. Keep the October 2026 sign-error withdrawals (arXiv:2610.30976) in sight.
@@ -40,7 +40,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `HodgeLadder/CycleClass/Pins.lean` | Rung `cycle-class-pins`: `rfl` pins of each step of the upstream cycle-class and Hodge-class constructions; a change upstream breaks the build here. |
 | `HodgeLadder/CycleClass/Statements.lean` | Rungs `known-half-statement`, `equality-reductions`: cycle classes are Hodge classes, the equality forms, and their equivalence with upstream inclusion plus known half. |
 | `docs/cycle-class.md` | How the cycle class is built at the pin, step by step, with the pins and upstream normalization theorems. |
-| `.lake/packages/HodgeConjecture/` | Upstream source at the pin (statements of record). Read it; never edit it. |
+| `.lake/packages/HodgeConjecture/` | Upstream source at the pin (statements of record). Read it; do not edit it. |
 | `ledger/ladder.json` | Machine-readable status of every rung: `checked`, `stated`, `open`, `refuted`, `dead`. The website reads this file. |
 | `tools/check.py` | The checker: `lake build`, sorry scan, `#print axioms` for every declaration a `checked`/`stated` rung names, ledger validation (statuses and kinds). Standard library only. |
 | `tools/next.py` | Prints the prover brief for the next ready rung or a named one (`--all`, `--json`). The local equivalent of a "desk". |
@@ -59,7 +59,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `docs/conventions.md` | Register of sign and normalization conventions every statement and proof depends on; maintained by the red team. |
 | `docs/audits/` | Dated conformance audits against the literature. |
 | `docs/gaps.md` | Acknowledged gaps: local definitions to upstream, known weaknesses, dropped threads. |
-| `docs/decisions/` | Architecture decision records, one decision per file, numbered and never renumbered. |
+| `docs/decisions/` | Architecture decision records, one decision per file, numbered; numbers are permanent. |
 | `.github/workflows/ci.yml` | Runs `tools/check.py` on every push and pull request. |
 | `.github/ISSUE_TEMPLATE/gap.md`, `.github/PULL_REQUEST_TEMPLATE.md` | Intake shapes for a new rung and for a proof. |
 
@@ -83,7 +83,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 - `import Mathlib` is fine while exploring; narrow to specific modules before the pull request.
 - No `sorry` on `main`. A rung whose statement compiles with `sorry` in the proof goes in a branch, or in the ledger as `stated` once the statement itself is sorry-free and the proof is still open.
 - Variable binders: bind instance arguments per declaration (`[Zero R]` on the theorem, not on the section) when a section mixes `Zero`, `AddMonoid` and `AddGroup`; a section-level `[Zero R]` conflicts with a later `[AddGroup R]`.
-- Cross-reference by ledger rung id (for example `Z-cycles`) in prose, issues and commit messages. Ids are stable identifiers; never rename one, mark it `dead` and add a new rung instead.
+- Cross-reference by ledger rung id (for example `Z-cycles`) in prose, issues and commit messages. Ids are stable identifiers; to retire one, mark it `dead` and add a new rung instead.
 
 ## Change propagation map
 
