@@ -12,7 +12,8 @@ Method per part: stage the part's new `Other/` modules at that part's own head; 
 | 2/11 | #218 | first Chern classes in ordinary sheaf cohomology; exponential sequence; holomorphic logarithm | 10 | `HolomorphicUnitExtension.lean`: main keeps the universe-0 `HasExt` instance for analytic sheaves local to `Hodge/Filtration.lean`, so it is restated locally and `extClass` is called at universe 0 explicitly. The part's edits to statement-level files are not staged: main already computes these groups in universe 0 | builds at the pin |
 | 3/11 | #219 | analytic line bundles and module analytification | 7 | none | builds at the pin |
 | 4/11 | #220 | statement of divisor–Chern compatibility | 1 | none; the part's edits to three existing files were not needed | builds at the pin |
-| 5/11 to 10/11 | #221–#226 | cohomology tools, exponential classes and winding, local divisor equations, normal charts, the identity's proof, finite integral homology | | | not started |
+| 5/11 | #221 | cohomology tools: mapping cones, connecting maps, supported and relative cochains, flasque models | 51 | six, all from Mathlib drift: (a) `Q` is no longer definitionally `quotient ⋙ Qh`, so `PrecompFactorization` and `HypercohomologyFlasqueNaturality` move across `DerivedCategory.quotientCompQhIso` and use `DerivedCategory.Q_map_eq_of_homotopy`; (b) newer `simp` closes two goals in `RelativeCochainConeForgetComparison` and `RelativeCochainConeBoundaryComparison`, so trailing `rfl`s are removed; (c) `SingularExcisionScalar` needs an explicit import of `Mathlib.CategoryTheory.Limits.MonoCoprod`. No statement changed | builds at the pin |
+| 6/11 to 10/11 | #222–#226 | exponential classes and winding, local divisor equations, normal charts, the identity's proof, finite integral homology | | | not started |
 | 11/11 | #9 | reduction to algebraization of line bundles | | | not started |
 | Oka | #230 | proper GAGA, 372 modules | | | waiting on upstream's answer: dependency or vendored |
 | final | #228 | the theorem | | | not started |
@@ -29,6 +30,6 @@ with sign +. On main, `sheafCycleClassOnCycles` (upstream `Other/AlgebraicGeomet
 
 | | Value |
 |---|---|
-| Modules staged and built | 25 |
+| Modules staged and built | 76 |
 | `sorry` in staged files | 0 |
-| Build of `LefschetzPort` at the pin | 4,748 jobs, success |
+| Build of `LefschetzPort` at the pin | 4,821 jobs, success |
