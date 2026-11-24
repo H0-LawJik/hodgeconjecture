@@ -1,85 +1,386 @@
 {
   "schema": 1,
-  "updated": "2026-11-23",
+  "updated": "2026-11-24",
   "project": "hodgeconjecture",
   "repo": "H0-LawJik/hodgeconjecture",
   "toolchain": {
-    "lean": "v4.36.0",
-    "mathlib": "v4.36.0"
+    "lean": "v4.35.0-rc4",
+    "mathlib": "v4.35.0-rc4",
+    "upstream": "Paul-Lez/HodgeConjecture@2ead713"
   },
   "verdict": "open",
   "rungs": [
     {
+      "id": "upstream-statement",
+      "title": "Statements of record: the Hodge conjecture, Lefschetz (1,1) and the low-dimension case, as stated upstream",
+      "status": "stated",
+      "kind": "statement",
+      "module": "HodgeConjecture.Variants",
+      "declarations": [
+        "HodgeConjecture",
+        "LefschetzOneOne",
+        "HodgeConjectureInDimensionLE"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "Paul-Lez/HodgeConjecture (upstream)"
+      ],
+      "note": "Pinned at upstream commit 2ead713 (Lean and Mathlib v4.35.0-rc4). Sorry-free definitions, no axioms; this repository proves things about them and never restates them."
+    },
+    {
+      "id": "statements-consistent",
+      "title": "Lefschetz (1,1) and the low-dimension variant are instances of the upstream Hodge conjecture",
+      "status": "checked",
+      "kind": "reduction",
+      "module": "HodgeLadder.Upstream.Statements",
+      "declarations": [
+        "HodgeLadder.lefschetzOneOne_of_hodgeConjecture",
+        "HodgeLadder.dimensionLE_of_hodgeConjecture"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Definitional consistency check: the variants use the same objects as the main statement, with no cast or reindexing."
+    },
+    {
+      "id": "cycle-class-pins",
+      "title": "The cycle-class and Hodge-class constructions pinned at the upstream commit, with the upstream normalization theorems",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.CycleClass.Pins",
+      "declarations": [
+        "HodgeLadder.Pins.algebraicCycleClassSpan_eq",
+        "HodgeLadder.Pins.cycleComponentSheafClass_eq",
+        "HodgeLadder.Pins.cycleComponentSupportedInjectiveClass_eq",
+        "HodgeLadder.Pins.hodgeClasses_eq",
+        "HodgeLadder.Pins.hodgePiece_eq",
+        "HodgeLadder.Pins.complexRealHomeomorph_eq",
+        "AlgebraicTopology.Singular.normalizedRelativeCoclass_pairing_self",
+        "AlgebraicTopology.Singular.standardComplexLocalClass_ne_zero",
+        "AlgebraicTopology.Singular.relativeHomologyMap_complexDifferentiable_standardComplexLocalClass"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik",
+        "Paul-Lez/HodgeConjecture (upstream normalization theorems)"
+      ],
+      "note": "Definitional pins (rfl) for each step of the upstream construction: local class normalized to pair to 1 with the complex orientation, glued on the smooth locus, extended by purity, support forgotten, ℚ-span over points of coheight p; and the Hodge side F^p ∩ conj F^p. A change upstream breaks the build here. The three upstream theorems encode the normalization (pairs to 1), non-degeneracy of the oriented local class, and chart independence under holomorphic germs. Documented in docs/cycle-class.md."
+    },
+    {
+      "id": "known-half-statement",
+      "title": "The known half and the equality forms, stated on upstream definitions: cycle classes are Hodge classes; Hdg^p = span; Hdg^1 = span",
+      "status": "stated",
+      "kind": "statement",
+      "module": "HodgeLadder.CycleClass.Statements",
+      "declarations": [
+        "HodgeLadder.CycleClassesAreHodge",
+        "HodgeLadder.CycleClassesAreHodgeOne",
+        "HodgeLadder.HodgeConjectureEquality",
+        "HodgeLadder.LefschetzOneOneEquality"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Upstream states only the inclusions. These are the targets of decision 0004; they are statements on upstream definitions, not restatements of the upstream conjecture."
+    },
+    {
+      "id": "equality-reductions",
+      "title": "Each equality form is the upstream inclusion together with the known half",
+      "status": "checked",
+      "kind": "reduction",
+      "module": "HodgeLadder.CycleClass.Statements",
+      "declarations": [
+        "HodgeLadder.hodgeConjectureEquality_iff",
+        "HodgeLadder.lefschetzOneOneEquality_iff",
+        "HodgeLadder.cycleClassesAreHodgeOne_of"
+      ],
+      "depends_on": [
+        "known-half-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "HodgeConjectureEquality ↔ HodgeConjecture ∧ CycleClassesAreHodge; LefschetzOneOneEquality ↔ LefschetzOneOne ∧ CycleClassesAreHodgeOne."
+    },
+    {
+      "id": "lefschetz-upstream-verify",
+      "title": "Independent build and axiom audit of the upstream Lefschetz (1,1) proof (PR #228 head c7d5c94b)",
+      "status": "checked",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "Paul-Lez/HodgeConjecture (upstream proof)",
+        "H0-LawJik (reproduction)"
+      ],
+      "note": "Reproduced 2026-11-24: builds (5,519 jobs), upstream axiom gate passes, direct axiom print shows only the standard three, and a positive control confirms a hidden sorry would be reported. Checked at the upstream commit, not at this repository's pin; the pinned cycle class differs by a nonzero scalar (red-team record), so the identities need divisor-chern-exact.",
+      "external": {
+        "repo": "Paul-Lez/HodgeConjecture",
+        "commit": "c7d5c94b44882a3b58e598a0bd22741e3b11eb8c",
+        "toolchain": "v4.33.1",
+        "declarations": [
+          "lefschetzOneOne"
+        ],
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "record": "docs/sketches/lefschetz-1-1-upstream.md"
+      }
+    },
+    {
+      "id": "nonvacuity-tests",
+      "title": "Non-vacuity tests for the upstream definitions: a variety satisfying the hypotheses, a nonzero class in H^2, a nonzero cycle class",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "Rules out a definitional accident that would make Lefschetz (1,1) or the conjecture trivially true. Exact list from the red-team audit of the upstream proof; contributed upstream to Other/ where upstream wants it. The equality rungs (lefschetz-1-1-equality, cycle-classes-are-hodge, projective-space-test) are the strongest non-vacuity tests; this rung keeps the cheap ones (a variety meeting the hypotheses; a nonzero point class)."
+    },
+    {
+      "id": "lefschetz-port",
+      "title": "Port the upstream Lefschetz (1,1) stack from v4.33.1 to the current upstream pin",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-upstream-verify",
+        "divisor-chern-exact"
+      ],
+      "contributors": [],
+      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it."
+    },
+    {
+      "id": "lefschetz-1-1",
+      "title": "Lefschetz (1,1): the upstream LefschetzOneOne, checked at this repository's pin",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-port",
+        "nonvacuity-tests"
+      ],
+      "contributors": [],
+      "note": "Upstream's LefschetzOneOne (the inclusion Hdg^1 ≤ span), checked here. A step: the checkpoint is done only with lefschetz-1-1-equality (decision 0004), a red-team pass, and the conventions register filled. Then take the Markman inventory."
+    },
+    {
+      "id": "divisor-chern-exact",
+      "title": "Divisor–Chern identity as an exact equality on the pinned cycle class: the class of a Cartier divisor D equals the rational image of c₁(𝒪(D)), sign determined",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-upstream-verify"
+      ],
+      "contributors": [],
+      "note": "Port requirement (decision 0004). The upstream branch proves this on its older cycle-class model; on the pinned model the two agree only up to a nonzero rational scalar, possibly −1 (red-team record). Prove it exactly on the pinned definitions, state the sign in the docstring, and record it in docs/conventions.md. No 'up to scalar' version counts."
+    },
+    {
+      "id": "lefschetz-1-1-equality",
+      "title": "Lefschetz (1,1) as an equality: theorem : HodgeLadder.LefschetzOneOneEquality",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1",
+        "divisor-chern-exact",
+        "equality-reductions"
+      ],
+      "contributors": [],
+      "note": "The checkpoint's definition of done (decision 0004). By lefschetzOneOneEquality_iff it is LefschetzOneOne plus CycleClassesAreHodgeOne. The latter: by divisor-chern-exact each divisor class is a first Chern class; c₁ is a d log class, so it lies in F^1; a rational class is fixed by conjugation, so it lies in conj F^1."
+    },
+    {
+      "id": "cycle-classes-are-hodge",
+      "title": "Prove the known half: theorem : HodgeLadder.CycleClassesAreHodge",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "known-half-statement",
+        "cycle-class-pins"
+      ],
+      "contributors": [],
+      "note": "The known half of the conjecture. With it, the upstream HodgeConjecture is equivalent to the equality Hdg^p = span, and the statement cannot hold for a degenerate reason (span accidentally everything). Classical route: a Hodge-cohomology cycle class (El Zein; Voisin2002 ch. 11) comparing cohomology with support in Z of the truncated de Rham complex with the topological class. Large; p = 1 comes first through lefschetz-1-1-equality."
+    },
+    {
+      "id": "lefschetz-1-1-integral",
+      "title": "Integral Lefschetz (1,1): the image of c₁ : Pic(X) → H²(X(ℂ); ℤ) equals the integral classes whose rational image is a Hodge class",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-port",
+        "divisor-chern-exact"
+      ],
+      "contributors": [],
+      "note": "The literature's form of the theorem (Lefschetz1924, GriffithsHarris1978). Upstream's proof deliberately stops at the rational span. Both inclusions are needed; torsion classes are in the image because they lie in the kernel of H²(ℤ) → H²(𝒪). Integral HC fails in higher codimension (problem.md §2), so this is the one codimension where the integral equality holds."
+    },
+    {
+      "id": "projective-space-test",
+      "title": "Computed test case: for projective space ℙ^n over ℂ (n ≥ 1), Hdg^1 = algebraicCycleClassSpan 1, and both are one-dimensional over ℚ",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Needs H²(ℙ^n(ℂ); ℚ) ≅ ℚ on the upstream cohomology; upstream has Definitions/AlgebraicGeometry/ProjectiveSpace.lean to start from. The hyperplane-class sign is a conventions-register row."
+    },
+    {
+      "id": "clifford-exterior-spin",
+      "title": "The Clifford algebra of the split form on H ⊕ H^∨ acts on the exterior algebra ∧*H as its spin module, compatible with parity",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1-equality"
+      ],
+      "contributors": [],
+      "note": "Research note 2026-11-24 §1. For a torus A with H = H¹(A, ℚ), H*(A, ℚ) = ∧*H, so Spin(H ⊕ H^∨) acts on all of H*(A, ℚ) (Chevalley1954, Mukai1981); Markman's Weil-class construction uses this action through Orlov's equivalence. Pure linear algebra over Mathlib's CliffordAlgebra and ExteriorAlgebra; a Mathlib upstream candidate. Sequenced after the Lefschetz checkpoint."
+    },
+    {
+      "id": "elliptic-product-test",
+      "title": "Computed test: for elliptic curves E₁, E₂, dim Hdg^1(E₁ × E₂; ℚ) = 2 + rank Hom(E₁, E₂), while h^{1,1} = 4",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1-equality"
+      ],
+      "contributors": [],
+      "note": "Research note 2026-11-24 §3. Shows on upstream definitions that Hodge classes depend on the periods, not the Hodge diamond (dimension 2, 3 or 4). Also checks the Hodge numbers of products of elliptic curves against the refined Künneth count. Needs the cohomology of tori on upstream definitions."
+    },
+    {
+      "id": "hard-lefschetz",
+      "title": "Hard Lefschetz for the upstream rational cohomology of a smooth projective variety",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "Needs Kähler geometry and the Lefschetz decomposition on the upstream cohomology; large. Upstream and Tau Ceti have partial material; inventory before posting sub-rungs."
+    },
+    {
+      "id": "dimension-le-three",
+      "title": "The upstream HodgeConjectureInDimensionLE 3",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1",
+        "hard-lefschetz"
+      ],
+      "contributors": [],
+      "note": "Codimension 0, 1, n-1, n; the middle cases come from Lefschetz (1,1) and hard Lefschetz (Shioda1983, daSilva2021). Target the equality form as well (decision 0004): Hdg^p = span for every p when dim X ≤ 3. Equality target: Hdg^p = algebraicCycleClassSpan X p for every p when dim X ≤ 3."
+    },
+    {
+      "id": "markman-statement",
+      "title": "Markman's theorem as a solved-research statement on upstream definitions: Weil classes on abelian fourfolds of Weil type are algebraic",
+      "status": "open",
+      "kind": "front",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1-equality"
+      ],
+      "contributors": [],
+      "note": "Front abelian. Deferred until the Lefschetz checkpoint (decision 0003); the inventory of tools and gaps comes from that checkpoint. Source Markman2025 is a preprint; the statement records that. Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
+    },
+    {
       "id": "Z-cycles",
       "title": "Cycles of pure codimension p and the group Z^p(X)",
-      "status": "checked",
-      "module": "HodgeConjecture.Cycles.Codimension",
-      "declarations": [
-        "AlgebraicGeometry.AlgebraicCycle.IsCodim",
-        "AlgebraicGeometry.AlgebraicCycle.codimCycles",
-        "AlgebraicGeometry.AlgebraicCycle.isWeilDivisor_iff_isCodim_one",
-        "AlgebraicGeometry.AlgebraicCycle.codimCycles_one",
-        "AlgebraicGeometry.AlgebraicCycle.codimCycles_inf_eq_bot"
-      ],
+      "status": "dead",
+      "module": null,
+      "declarations": [],
       "depends_on": [],
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Generalizes Mathlib's Weil divisors (coheight one) to coheight p.",
+      "note": "Superseded (decision 0003) by upstream codimensionCycleSubgroup (Other/AlgebraicGeometry/Cycle/Codimension.lean). Module removed; two lemmas without an upstream counterpart (codimension one equals Mathlib weilDivisors; distinct codimensions meet in zero) are offered upstream.",
       "kind": "foundation"
     },
     {
       "id": "rational-equivalence",
       "title": "Rational equivalence of cycles and the Chow group CH^p(X)",
-      "status": "open",
+      "status": "dead",
       "module": null,
       "declarations": [],
       "depends_on": [
         "Z-cycles"
       ],
       "contributors": [],
-      "note": "Needs divisors of rational functions on subvarieties; Mathlib has orders of vanishing (AlgebraicGeometry/OrderOfVanishing) to build on.",
+      "note": "Not needed (decision 0003): the upstream statement uses the span of subvariety classes, not Chow groups. Covered elsewhere by Tau Ceti Chow.RatEquiv and Mathlib PR #38472.",
       "kind": "foundation"
     },
     {
       "id": "complex-analytic-space",
       "title": "Smooth projective complex variety as a compact complex manifold",
-      "status": "open",
+      "status": "dead",
       "module": null,
       "declarations": [],
       "depends_on": [],
       "contributors": [],
-      "note": "Mathlib has complex manifolds (Geometry/Manifold/Complex) and projective schemes; the analytification bridge between them does not exist.",
+      "note": "Superseded (decision 0003): upstream defines X(ℂ) with the analytic topology, constant-sheaf cohomology, holomorphic de Rham hypercohomology, the Hodge filtration and cycle classes with support.",
       "kind": "foundation"
     },
     {
       "id": "de-rham",
       "title": "De Rham cohomology of a smooth manifold",
-      "status": "open",
+      "status": "dead",
       "module": null,
       "declarations": [],
       "depends_on": [],
       "contributors": [],
-      "note": "Differential forms on manifolds and the exterior derivative are missing from Mathlib; this is the largest piece of foundations.",
+      "note": "Superseded (decision 0003): upstream defines X(ℂ) with the analytic topology, constant-sheaf cohomology, holomorphic de Rham hypercohomology, the Hodge filtration and cycle classes with support.",
       "kind": "foundation"
     },
     {
       "id": "hodge-decomposition",
       "title": "Hodge decomposition H^k(X, C) = ⊕ H^{p,q} on a compact Kähler manifold",
-      "status": "open",
+      "status": "dead",
       "module": null,
       "declarations": [],
       "depends_on": [
         "de-rham"
       ],
       "contributors": [],
-      "note": "Needs Kähler metrics, the Laplacian, and elliptic regularity (or a Dolbeault-theoretic route).",
+      "note": "Superseded (decision 0003): upstream defines X(ℂ) with the analytic topology, constant-sheaf cohomology, holomorphic de Rham hypercohomology, the Hodge filtration and cycle classes with support.",
       "kind": "foundation"
     },
     {
       "id": "cycle-class",
       "title": "The cycle class map cl : CH^p(X) → H^{2p}(X, Q) lands in H^{p,p}",
-      "status": "open",
+      "status": "dead",
       "module": null,
       "declarations": [],
       "depends_on": [
@@ -88,13 +389,13 @@
         "hodge-decomposition"
       ],
       "contributors": [],
-      "note": "",
+      "note": "Superseded (decision 0003): upstream defines X(ℂ) with the analytic topology, constant-sheaf cohomology, holomorphic de Rham hypercohomology, the Hodge filtration and cycle classes with support.",
       "kind": "foundation"
     },
     {
       "id": "hodge-interface",
       "title": "HodgeInterface: cohomology, Hodge decomposition and cycle class map as a structure with cited axioms",
-      "status": "open",
+      "status": "dead",
       "kind": "interface",
       "module": null,
       "declarations": [],
@@ -102,12 +403,12 @@
         "Z-cycles"
       ],
       "contributors": [],
-      "note": "Interface-first pattern (docs/harness.md). Axioms only as known theorems need them, each cited. Red team must show no axiom makes the statement trivial."
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture)."
     },
     {
       "id": "statement-interface",
       "title": "The Hodge conjecture stated against HodgeInterface, as a sorry-free Prop",
-      "status": "open",
+      "status": "dead",
       "kind": "statement",
       "module": null,
       "declarations": [],
@@ -115,12 +416,12 @@
         "hodge-interface"
       ],
       "contributors": [],
-      "note": "Milestone M1. Target status is stated, not checked."
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture)."
     },
     {
       "id": "case-trivial-degrees",
       "title": "The cases p = 0 and p = dim X against HodgeInterface",
-      "status": "open",
+      "status": "dead",
       "kind": "case",
       "module": null,
       "declarations": [],
@@ -128,12 +429,12 @@
         "statement-interface"
       ],
       "contributors": [],
-      "note": "Milestone M2, first case. Should follow from the interface axioms on H^0 and H^{2n}; if it does not, the interface is missing something and the rung says what."
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture)."
     },
     {
       "id": "case-lefschetz-1-1",
       "title": "Lefschetz (1,1): the case p = 1 against HodgeInterface",
-      "status": "open",
+      "status": "dead",
       "kind": "case",
       "module": null,
       "declarations": [],
@@ -141,12 +442,12 @@
         "statement-interface"
       ],
       "contributors": [],
-      "note": "Needs the exponential sequence as interface data (Lefschetz1924, Voisin2002 ch. 7). Red team: the axiom must not simply assert surjectivity onto Hodge classes."
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture). Replaced by lefschetz-1-1."
     },
     {
       "id": "reduce-hard-lefschetz",
       "title": "Hard Lefschetz as interface data and the reduction of the conjecture to 2p ≤ dim X",
-      "status": "open",
+      "status": "dead",
       "kind": "reduction",
       "module": null,
       "declarations": [],
@@ -154,12 +455,12 @@
         "statement-interface"
       ],
       "contributors": [],
-      "note": "Front reduce, first rung (Lewis1999)."
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture). Replaced by hard-lefschetz."
     },
     {
       "id": "case-dimension-three",
       "title": "HC holds in dimension at most three, against HodgeInterface",
-      "status": "open",
+      "status": "dead",
       "kind": "case",
       "module": null,
       "declarations": [],
@@ -168,12 +469,12 @@
         "reduce-hard-lefschetz"
       ],
       "contributors": [],
-      "note": "Only p = 1 and p = n - 1 are nontrivial for n <= 3 (daSilva2021, Shioda1983). Short once its two dependencies exist; a real theorem about every curve, surface and threefold."
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture). Replaced by dimension-le-three."
     },
     {
       "id": "statement",
       "title": "Statement: every rational (p,p)-class on a smooth projective complex variety is a rational combination of cycle classes",
-      "status": "open",
+      "status": "dead",
       "module": null,
       "declarations": [],
       "depends_on": [
@@ -181,7 +482,7 @@
         "statement-interface"
       ],
       "contributors": [],
-      "note": "The unconditional statement: statement-interface with HodgeInterface instantiated from the foundations (milestone M3). Known cases to carry over: p = 0, p = dim X, p = 1.",
+      "note": "Interface-first framing retired (decision 0003): a statement against an interface is vacuous or false (LeanDojo regression tests). Statements of record are upstream (Paul-Lez/HodgeConjecture). Replaced by upstream-statement.",
       "kind": "statement"
     }
   ]

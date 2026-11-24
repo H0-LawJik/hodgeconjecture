@@ -30,7 +30,7 @@ def module_for(r):
     if r.get("module"):
         return r["module"]
     words = [w for w in r["id"].replace("_", "-").split("-") if w]
-    return "HodgeConjecture." + ".".join(w.capitalize() for w in words)
+    return "HodgeLadder." + ".".join(w.capitalize() for w in words)
 
 
 def brief(r, by_id):
@@ -50,7 +50,7 @@ def brief(r, by_id):
         f"note:       {r.get('note') or '(none)'}",
         "",
         "Do: one file, the statement as posted, no sorry, standard axioms only, then",
-        "    python3 tools/check.py; update ledger/ladder.json; import from HodgeConjecture.lean;",
+        "    python3 tools/check.py; update ledger/ladder.json; import from HodgeLadder.lean;",
         "    branch rung/" + r["id"] + "; gh pr create; handoff in docs/handoffs/.",
         "If released: write the missing lemma as a Lean statement in the issue, then stop.",
     ]

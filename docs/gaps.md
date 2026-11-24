@@ -6,18 +6,29 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 
 | Local declaration | Module | Why local | Opened |
 |---|---|---|---|
-| `AlgebraicCycle.IsCodim`, `codimCycles` | `HodgeConjecture.Cycles.Codimension` | Mathlib has only the `p = 1` case (`IsWeilDivisor`). Candidate for a short Mathlib PR. | 2026-11-23 |
+| `codimCycles_one` (codimension one equals Mathlib `weilDivisors`), `codimCycles_inf_eq_bot` (distinct codimensions meet in zero) | removed from this repository (decision 0003); recoverable from git history at `ba3dbef` | Upstream `codimensionCycleSubgroup` lacks these two facts; offer them to `Paul-Lez/HodgeConjecture` as lemmas on its subgroup | 2026-11-24 |
 
 ## Known weaknesses
 
 | Gap | Impact | Opened |
 |---|---|---|
-| `IsCodim` is indexed by `ℕ∞` because `Order.coheight` is; the literature uses `ℕ`. Decide whether `Z^p` for finite `p` should be the primary object before `rational-equivalence` builds on it. | Possible churn in one module | 2026-11-23 |
-| Singular cohomology with coefficients is missing from Mathlib (only homology exists). Every analytic rung depends on a choice between building cohomology, or stating the conjecture against de Rham cohomology alone. | Shapes the `statement` rung | 2026-11-23 |
+| The upstream Lefschetz (1,1) proof sits on Lean and Mathlib v4.33.1, two releases behind upstream main, and was last updated 2026-10-01 | `lefschetz-1-1` waits on a port | 2026-11-24 |
+| Three Lean pins in play: upstream v4.35.0-rc4 (followed here), the Lefschetz stack v4.33.1, Tau Ceti v4.37.0-rc1 (Mathlib master) | Reuse of Tau Ceti material needs a backport or a wait | 2026-11-24 |
+| Building this repository compiles upstream's statement import closure; CI time grows | Watch CI duration | 2026-11-24 |
+
+## Process items to investigate
+
+| Item | Why | Opened |
+|---|---|---|
+| How the 2026-11-20 RH Lean proof was certified against its statement (statement-comparison tool, what it checks) | Adopt for `lefschetz-1-1` and the port; `docs/notes/2026-11-24-spinors-characters-tests.md` §4 | 2026-11-24 |
+| Candidate front `fermat` (character sieve on Fermat varieties) | Needs a decision record and a first rung; research note §2 | 2026-11-24 |
 
 ## Dead ends
 
-None yet.
+| Thread | Why it died | Date |
+|---|---|---|
+| Interface-first statement (`hodge-interface`, `statement-interface` and the cases built on it) | Interface statements of this conjecture are vacuous or false (LeanDojo regression tests); real definitions exist upstream (decision 0003) | 2026-11-24 |
+| Own foundations for stating the conjecture (`de-rham`, `complex-analytic-space`, `hodge-decomposition`, `cycle-class`) | Upstream already defines them on real objects (decision 0003) | 2026-11-24 |
 
 ## Dropped threads
 

@@ -1,33 +1,39 @@
 # Roadmap: the ladder
 
-Each row is a rung in `ledger/ladder.json`. Status words: `checked` (the checker accepts the declarations), `stated` (statement sorry-free, proof open), `open`, `refuted`, `dead`. Dependencies point downward; a rung can be worked before its dependencies are checked when its statement does not need them.
+Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the checker accepts the declarations), `stated` (statement sorry-free, proof open), `open`, `refuted`, `dead`. Dead rungs stay in the ledger with their reason; decision 0003 retired fifteen of them.
 
-| Rung | Status | Depends on | Mathlib already has | Missing |
+| Rung | Kind | Status | Depends on | What it needs |
 |---|---|---|---|---|
-| `Z-cycles` | checked | | `AlgebraicCycle`, `IsWeilDivisor`, `weilDivisors` | nothing; done in `HodgeConjecture.Cycles.Codimension` |
-| `rational-equivalence` | open | `Z-cycles` | `OrderOfVanishing`, residue fields, pushforward of cycles | divisor of a rational function on a subvariety; `CH^p(X)` as a quotient |
-| `complex-analytic-space` | open | | complex manifolds, holomorphic functions, projective spectrum | analytification of a projective scheme; `X(ℂ)` as a compact complex manifold |
-| `de-rham` | open | | smooth manifolds, tangent and vector bundles, partitions of unity, Stokes in Euclidean space | differential forms on manifolds, exterior derivative, de Rham cohomology, de Rham theorem |
-| `hodge-decomposition` | open | `de-rham` | inner product spaces, Hodge star on exterior powers (`HodgeStar.lean`), some elliptic theory for Euclidean domains | Kähler metrics, `(p,q)` forms, Dolbeault, Laplacian on a compact manifold, the decomposition |
-| `cycle-class` | open | `rational-equivalence`, `complex-analytic-space`, `hodge-decomposition` | | fundamental class of a subvariety, Poincaré duality, `cl` lands in `H^{p,p}` |
-| `hodge-interface` | open | `Z-cycles` | | `HodgeInterface` structure: cohomology, decomposition, cycle class, cited axioms (see `docs/harness.md`) |
-| `statement-interface` | open | `hodge-interface` | | the conjecture as a sorry-free `Prop` against the interface; milestone M1; target status `stated` |
-| `case-trivial-degrees` | open | `statement-interface` | | `p = 0` and `p = dim X` against the interface |
-| `case-lefschetz-1-1` | open | `statement-interface` | | exponential sequence as interface data; the `p = 1` case |
-| `reduce-hard-lefschetz` | open | `statement-interface` | | hard Lefschetz as interface data; reduction to `2p ≤ dim X` |
-| `case-dimension-three` | open | `case-lefschetz-1-1`, `reduce-hard-lefschetz` | | HC for every curve, surface and threefold, against the interface |
-| `statement` | open | `cycle-class`, `statement-interface` | | the unconditional statement once the interface is instantiated (M3) |
+| `upstream-statement` | statement | stated | | upstream `HodgeConjecture`, `LefschetzOneOne`, `HodgeConjectureInDimensionLE` at the pinned commit |
+| `statements-consistent` | reduction | checked | `upstream-statement` | done in `HodgeLadder.Upstream.Statements` |
+| `cycle-class-pins` | test | checked | `upstream-statement` | done in `HodgeLadder.CycleClass.Pins`; see `docs/cycle-class.md` |
+| `known-half-statement` | statement | stated | `upstream-statement` | `CycleClassesAreHodge`, `HodgeConjectureEquality`, `LefschetzOneOneEquality` |
+| `equality-reductions` | reduction | checked | `known-half-statement` | equality ↔ upstream inclusion ∧ known half |
+| `lefschetz-upstream-verify` | case | open | `upstream-statement` | reproduce the build of upstream PR #228 at `c7d5c94b`; axiom audit; red-team verdict |
+| `nonvacuity-tests` | test | open | `upstream-statement` | a variety meeting the hypotheses; a nonzero class in H^2; a nonzero cycle class; exact list from the red-team audit |
+| `divisor-chern-exact` | foundation | open | `lefschetz-upstream-verify` | the class of a Cartier divisor equals the rational image of c₁(𝒪(D)) exactly on the pinned cycle class, sign determined |
+| `lefschetz-port` | foundation | open | `lefschetz-upstream-verify`, `divisor-chern-exact` | port the upstream stack (PRs #217–#226, #9, #230, #228) from v4.33.1 to the current pin; coordinate with upstream first |
+| `lefschetz-1-1` | case | open | `lefschetz-port`, `nonvacuity-tests` | `theorem : LefschetzOneOne` checked here (the inclusion; a step) |
+| `lefschetz-1-1-equality` | case | open | `lefschetz-1-1`, `divisor-chern-exact`, `equality-reductions` | `theorem : LefschetzOneOneEquality`; the checkpoint's definition of done |
+| `cycle-classes-are-hodge` | foundation | open | `known-half-statement`, `cycle-class-pins` | `theorem : CycleClassesAreHodge` |
+| `lefschetz-1-1-integral` | case | open | `lefschetz-port`, `divisor-chern-exact` | image of c₁ on Pic equals the integral Hodge classes in H² |
+| `projective-space-test` | test | open | `upstream-statement` | Hdg^1(ℙ^n) = span, both one-dimensional |
+| `clifford-exterior-spin` | foundation | open | `lefschetz-1-1-equality` | Clifford algebra of the split form on H ⊕ H^∨ acting on ∧*H; for the Markman inventory (`docs/notes/2026-11-24-spinors-characters-tests.md`) |
+| `elliptic-product-test` | test | open | `lefschetz-1-1-equality` | dim Hdg^1(E₁ × E₂) = 2 + rank Hom(E₁, E₂) while h^{1,1} = 4 |
+| `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; inventory before sub-rungs |
+| `dimension-le-three` | case | open | `lefschetz-1-1`, `hard-lefschetz` | `HodgeConjectureInDimensionLE 3` |
+| `markman-statement` | front | open | `lefschetz-1-1-equality` | Markman's theorem on upstream definitions, after the checkpoint inventory |
 
 ## Order of attack
 
-Milestones and fronts are in `docs/strategy.md`; this table is the rung-level view.
-
-1. `rational-equivalence` is the cheapest next rung and builds directly on what is checked. It is also the most likely to be welcome upstream in Mathlib.
-2. `de-rham` is the largest block of foundations. It is independent of the algebraic side and can run in parallel. Smaller sub-rungs should be posted as issues: forms as sections of the exterior power of the cotangent bundle, `d` and `d ∘ d = 0`, cohomology as a quotient, pullback.
-3. A `stated` version of `statement` may be reachable earlier by assuming the Hodge decomposition as a structure (a `class` carrying the decomposition and the cycle class map) and proving the trivial cases against that interface. That keeps the proof side honest while foundations catch up, and the ledger marks it `stated`, not `checked`, until the interface is instantiated.
+1. `lefschetz-upstream-verify` and `nonvacuity-tests`, in parallel. Both read upstream source and build it; neither changes it.
+2. `lefschetz-port`, after a note to the upstream authors: they proposed taking Oka as a dependency instead of vendoring 372 modules, and a port should follow their choice.
+3. `divisor-chern-exact` as part of the port, then `lefschetz-1-1` and `lefschetz-1-1-equality` here. Then the Markman inventory (`docs/strategy.md` M2).
+4. `projective-space-test` and `cycle-classes-are-hodge` can start now; both read upstream definitions only.
+5. `hard-lefschetz` is the long pole for `dimension-le-three`; start its inventory once the checkpoint is in.
 
 ## Watch signals
 
+- The upstream pin moves: diff the definitions in `docs/conventions.md` between commits before bumping.
 - A rung sitting `open` with no issue for a month: post sub-rungs or mark it `dead` with a reason.
-- A local definition that duplicates something Mathlib gained in a newer tag: bump the pin and delete the local copy.
-- Any rung marked `checked` whose declarations no longer pass the axiom check after a Mathlib bump: CI fails, and the fix goes before any new work.
+- Any rung marked `checked` whose declarations no longer pass the axiom check after a bump: CI fails, and the fix goes before any new work.

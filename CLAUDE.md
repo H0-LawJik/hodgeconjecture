@@ -1,26 +1,31 @@
 # hodgeconjecture: project instructions
 
-Lean 4 formalization of the Hodge conjecture, built in public by humans and coding agents. Every result in this repository is a Lean declaration that the pinned toolchain accepts; nothing else counts as progress. This file is the operating manual for any agent or person working in the tree.
+A public ladder of Lean 4 proofs about the Hodge conjecture, built by humans and coding agents. The conjecture and its standard variants are stated upstream in `Paul-Lez/HodgeConjecture`, which this repository imports at a pinned commit; every result here is a Lean declaration about those statements that the pinned toolchain accepts. Nothing else counts as progress. This file is the operating manual for any agent or person working in the tree.
 
 ## What this repo is
 
-A proof repository with a thin Python harness around it. There is one library (`HodgeConjecture/`), one checker (`tools/check.py`), one ledger (`ledger/ladder.json`) and the documents that explain them. Quality is measured by the checker exiting 0 on `main` and by the ledger telling the truth about what is checked and what is open.
+A proof repository with a thin Python harness around it. There is one library (`HodgeLadder/`), one upstream dependency holding the statements of record (`HodgeConjecture`, from `Paul-Lez/HodgeConjecture`), one checker (`tools/check.py`), one ledger (`ledger/ladder.json`) and the documents that explain them. Quality is measured by the checker exiting 0 on `main` and by the ledger telling the truth about what is checked and what is open.
 
 ## Boundaries
 
 - **Public.** Everything in this repository is public. Do not add credentials, private paths, personal email addresses, or references to other private projects. Commit with the GitHub noreply address (set per-repo in `.git/config`).
-- **Lean first.** A claim becomes a result only when it is a sorry-free Lean declaration that `tools/check.py` accepts with the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`). Prose, sketches and Python never prove anything here; they organize the search.
-- **Mathlib is upstream.** Prefer Mathlib definitions over local ones. If a definition is missing, add the smallest local version, mark it in `docs/gaps.md` as a candidate for upstreaming, and do not fork Mathlib behavior silently.
+- **Lean first.** A claim becomes a result only when it is a sorry-free Lean declaration that `tools/check.py` accepts with the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`). Prose, sketches and Python prove nothing here; they organize the search.
+- **Statements of record are upstream.** Do not restate the conjecture or a variant that `Paul-Lez/HodgeConjecture` states; prove theorems whose types are those `Prop`s. No interface structures for missing objects (decision 0003). Do not add notation, instances or attributes that change how an upstream statement elaborates.
+- **Upstream-first.** General mathematics goes to Mathlib; statement-level definitions and sanity checks go to `Paul-Lez/HodgeConjecture`; this repository keeps proofs of variants, reductions, frontier statements, the ledger, falsification records and the literature map. Record anything kept locally that belongs upstream in `docs/gaps.md`.
+- **Equality first.** Aim at non-vacuous equalities (decision 0004). Inclusions are steps; identities between classes are proved exactly, with the sign in the docstring and in `docs/conventions.md`; "up to a nonzero scalar" does not discharge an identity rung.
+- **Falsification.** Every checked rung gets a red-team pass covering vacuity, sign and normalization conventions (`docs/conventions.md`), and upstream definition drift between pins. Keep the October 2026 sign-error withdrawals (arXiv:2610.30976) in sight.
 - **Harness-neutral corpus.** `AGENTS.md`, `CONTRIBUTING.md` and `docs/` are written for any agent or person. Claude-Code-specific detail stays in this file and in `.claude/` (per-developer settings are gitignored).
 - **Scope.** The target is the statement in `docs/statement.md`. Formalizing foundations that Mathlib lacks (differential forms, de Rham cohomology, Kähler geometry) is in scope when the roadmap names it. Unrelated Mathlib contributions are not.
 
 ## Status
 
-**2026-11-23, later.** `docs/problem.md` written from three sourced research passes (statement variants, known cases, obstructions); references expanded to 66 keys; `case-dimension-three` added. Strategy and harness written (`docs/strategy.md`, `docs/harness.md`). Ledger gained `kind` and five interface-first rungs (`hodge-interface`, `statement-interface`, `case-trivial-degrees`, `case-lefschetz-1-1`, `reduce-hard-lefschetz`); `statement` now also depends on `statement-interface`. Roles exist as `.claude/agents/`; entry points as `/prove-rung`, `/post-rungs`, `/red-team`; `tools/next.py` prints briefs. Nothing has gone through the lifecycle yet; the first target is five rungs by hand (harness.md, "What success looks like").
+**2026-11-24.** Conformance audit against the 2026 literature (`docs/audits/2026-11-24-conformance.md`) led to decision 0003: rebase on `Paul-Lez/HodgeConjecture` (pinned at `2ead713`, Lean and Mathlib v4.35.0-rc4), rename the library to `HodgeLadder`, retire the interface-first and foundation rungs, and make the Lefschetz checkpoint the first target. An upstream proof of rational Lefschetz (1,1) exists as an unmerged stack on v4.33.1 (PRs #217–#226, #9, #230, #228); this repository verifies it, red-teams it, ports it and checks `LefschetzOneOne` here. Markman follows the checkpoint. `docs/problem.md` corrected against the 2026 literature.
 
-**2026-11-23.** Scaffolded; Mathlib pinned at `v4.36.0`; checker and ledger live; CI configured. One rung checked (`Z-cycles`). Verdict: **open**.
+Cycle-class construction pinned (`cycle-class-pins`); known half and equality forms stated (`known-half-statement`); equality ↔ inclusion ∧ known half checked (`equality-reductions`). Decision 0004 (equality first): the checkpoint is done at `lefschetz-1-1-equality`; the port must prove the divisor–Chern identity exactly (`divisor-chern-exact`); new rungs `cycle-classes-are-hodge`, `lefschetz-1-1-integral`, `projective-space-test`.
 
-**Next planned work:** `rational-equivalence` (M0) and `hodge-interface` (M1) are both ready; run a thinker then a red team on `hodge-interface` before any prover touches it.
+**Next planned work:** `lefschetz-upstream-verify` and `nonvacuity-tests`; `projective-space-test` and `cycle-classes-are-hodge` can start in parallel; then `divisor-chern-exact` and `lefschetz-port`, coordinated with the upstream authors.
+
+**2026-11-23.** Scaffolded; strategy, harness, problem map written.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 
@@ -28,10 +33,14 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 
 | Path | Role |
 |---|---|
-| `lean-toolchain`, `lakefile.toml`, `lake-manifest.json` | Pins: Lean `v4.36.0`, Mathlib tag `v4.36.0`. Bump all three together in one commit. |
-| `HodgeConjecture.lean` | Library root. One `public import` per topic module, in ladder order. |
-| `HodgeConjecture/Basic.lean` | Namespace preamble and a toolchain smoke test. No content. |
-| `HodgeConjecture/Cycles/Codimension.lean` | Rung `Z-cycles`: `IsCodim`, `codimCycles`, relation to Mathlib's Weil divisors. |
+| `lean-toolchain`, `lakefile.toml`, `lake-manifest.json` | Pins: upstream `Paul-Lez/HodgeConjecture` at an exact commit, and the Lean and Mathlib versions it pins (`v4.35.0-rc4`). Bump all of them together in one commit, after a red-team drift check. |
+| `HodgeLadder.lean` | Library root. One `public import` per module. |
+| `HodgeLadder/Basic.lean` | Namespace preamble and a toolchain smoke test. No content. |
+| `HodgeLadder/Upstream/Statements.lean` | Rung `statements-consistent`: the upstream variants are instances of the upstream conjecture. |
+| `HodgeLadder/CycleClass/Pins.lean` | Rung `cycle-class-pins`: `rfl` pins of each step of the upstream cycle-class and Hodge-class constructions; a change upstream breaks the build here. |
+| `HodgeLadder/CycleClass/Statements.lean` | Rungs `known-half-statement`, `equality-reductions`: cycle classes are Hodge classes, the equality forms, and their equivalence with upstream inclusion plus known half. |
+| `docs/cycle-class.md` | How the cycle class is built at the pin, step by step, with the pins and upstream normalization theorems. |
+| `.lake/packages/HodgeConjecture/` | Upstream source at the pin (statements of record). Read it; do not edit it. |
 | `ledger/ladder.json` | Machine-readable status of every rung: `checked`, `stated`, `open`, `refuted`, `dead`. The website reads this file. |
 | `tools/check.py` | The checker: `lake build`, sorry scan, `#print axioms` for every declaration a `checked`/`stated` rung names, ledger validation (statuses and kinds). Standard library only. |
 | `tools/next.py` | Prints the prover brief for the next ready rung or a named one (`--all`, `--json`). The local equivalent of a "desk". |
@@ -47,8 +56,11 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `docs/handoffs/YYYY-MM-DD-<id>.md` | Five to fifteen lines per session: what moved, what failed, next move. |
 | `docs/statement.md` | The conjecture, informal statement and formalization targets. |
 | `docs/roadmap.md` | The ladder: what Mathlib has, what is missing, in what order. |
+| `docs/conventions.md` | Register of sign and normalization conventions every statement and proof depends on; maintained by the red team. |
+| `docs/audits/` | Dated conformance audits against the literature. |
+| `docs/notes/` | Dated research notes: ideas reviewed against the literature, kept in corrected form, with what was set aside and why. A note can propose rungs; it is not a result. |
 | `docs/gaps.md` | Acknowledged gaps: local definitions to upstream, known weaknesses, dropped threads. |
-| `docs/decisions/` | Architecture decision records, one decision per file, numbered and never renumbered. |
+| `docs/decisions/` | Architecture decision records, one decision per file, numbered; numbers are permanent. |
 | `.github/workflows/ci.yml` | Runs `tools/check.py` on every push and pull request. |
 | `.github/ISSUE_TEMPLATE/gap.md`, `.github/PULL_REQUEST_TEMPLATE.md` | Intake shapes for a new rung and for a proof. |
 
@@ -56,7 +68,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 
 | Command | Use |
 |---|---|
-| `lake build` | Build the library. Mathlib comes from the prebuilt cache; a build that starts compiling Mathlib means the pin moved, run `lake exe cache get`. |
+| `lake build` | Build the library. Mathlib comes from the prebuilt cache; upstream's statement closure compiles locally (several hundred files, first build only). A build that starts compiling Mathlib means the pin moved: run `lake exe cache get`. |
 | `lake env lean <file>` | Check one file. |
 | `python3 tools/check.py` | Full check (build, sorry, axioms, ledger). Run before every commit. |
 | `python3 tools/check.py --no-build` | Same, assuming the build is current. |
@@ -67,22 +79,22 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 ## Conventions
 
 - Every file starts with `module`. Use `public import` for anything a downstream file needs re-exported; plain `import` otherwise. Put `@[expose] public section` at the top of files that define things other modules unfold.
-- One topic per module under `HodgeConjecture/`, re-exported from `HodgeConjecture.lean`. Module names follow the ladder (`Cycles`, `Chow`, `Analytic`, `DeRham`, `Hodge`, `CycleClass`, `Statement`).
+- One topic per module under `HodgeLadder/`, re-exported from `HodgeLadder.lean`. Namespace `HodgeLadder`. Upstream declarations live in their own namespaces (`AlgebraicGeometry.ComplexPoint`, root-level `HodgeConjecture`, `LefschetzOneOne`); refer to them, do not shadow them.
 - Prefer `theorem` for propositions, `def` for data, `lemma` only inside a namespace where it reads naturally. Docstrings on every public declaration. Each file carries a module docstring with `Main definitions` and `Main results`.
 - `import Mathlib` is fine while exploring; narrow to specific modules before the pull request.
 - No `sorry` on `main`. A rung whose statement compiles with `sorry` in the proof goes in a branch, or in the ledger as `stated` once the statement itself is sorry-free and the proof is still open.
 - Variable binders: bind instance arguments per declaration (`[Zero R]` on the theorem, not on the section) when a section mixes `Zero`, `AddMonoid` and `AddGroup`; a section-level `[Zero R]` conflicts with a later `[AddGroup R]`.
-- Cross-reference by ledger rung id (for example `Z-cycles`) in prose, issues and commit messages. Ids are stable identifiers; never rename one, mark it `dead` and add a new rung instead.
+- Cross-reference by ledger rung id (for example `Z-cycles`) in prose, issues and commit messages. Ids are stable identifiers; to retire one, mark it `dead` and add a new rung instead.
 
 ## Change propagation map
 
 | Change | Files to touch, in order |
 |---|---|
-| **Prove a rung** | 1. Lean module under `HodgeConjecture/` 2. `HodgeConjecture.lean` import 3. `ledger/ladder.json`: status, module, declarations, contributors 4. `docs/roadmap.md` row 5. Status block above |
+| **Prove a rung** | 1. Lean module under `HodgeLadder/` 2. `HodgeLadder.lean` import 3. `ledger/ladder.json`: status, module, declarations, contributors 4. `docs/roadmap.md` row 5. Status block above |
 | **Add a rung** | 1. `ledger/ladder.json` entry with `depends_on` 2. `docs/roadmap.md` row 3. open a GitHub issue from the gap template so outside agents can find it |
-| **State the conjecture or a case** | 1. `HodgeConjecture/Statement.lean` (statement sorry-free; proof may be absent as a separate `open` rung) 2. ledger `stated` 3. `docs/statement.md` section "Formal statement" |
+| **Use a new upstream statement** | 1. confirm it exists at the pin 2. ledger rung with `kind` and the upstream declaration names 3. red-team pass 4. `docs/statement.md` if it is a new variant |
 | **Add a local definition Mathlib lacks** | 1. The module 2. `docs/gaps.md` "To upstream" table 3. Mathlib issue or Zulip thread link if one exists |
-| **Bump Lean or Mathlib** | 1. `lean-toolchain` 2. `lakefile.toml` rev 3. `lake update`, commit `lake-manifest.json` 4. `ledger/ladder.json` toolchain block 5. `README.md` version line 6. `.github/workflows/ci.yml` if the action pin changes |
+| **Bump the upstream pin (and with it Lean and Mathlib)** | 1. red-team drift check of the definitions in `docs/conventions.md` 2. `lakefile.toml` (upstream rev, Mathlib rev) and `lean-toolchain` 3. `lake update`, commit `lake-manifest.json` 4. `ledger/ladder.json` toolchain block 5. `README.md` version line 6. handoff noting the drift result |
 | **Add or change a role or prompt** | 1. `docs/harness.md` roles table 2. `.claude/agents/<role>.md` 3. `AGENTS.md` if the outside-agent path changed 4. the skill that invokes it |
 | **Open or kill a front** | 1. `docs/decisions/` record 2. `docs/strategy.md` fronts table 3. ledger rung with `kind: "front"` 4. issue |
 | **Change the checker rules** | 1. `tools/check.py` 2. `CONTRIBUTING.md` "What the checker requires" 3. `AGENTS.md` same list 4. `docs/decisions/` record |
@@ -118,3 +130,4 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 - Do not commit `.lake/`, build products, or per-developer `.claude/settings.local.json` and `.mcp*.json`.
 - Do not edit `ledger/ladder.json` to `checked` without the declarations named in it existing and passing `tools/check.py`.
 - Do not reference private repositories, local filesystem paths, or other projects of the maintainer.
+- Do not edit anything under `.lake/packages/`; propose upstream changes as upstream pull requests.
