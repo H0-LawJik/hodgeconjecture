@@ -3,7 +3,10 @@
   "updated": "2026-11-23",
   "project": "hodgeconjecture",
   "repo": "H0-LawJik/hodgeconjecture",
-  "toolchain": {"lean": "v4.36.0", "mathlib": "v4.36.0"},
+  "toolchain": {
+    "lean": "v4.36.0",
+    "mathlib": "v4.36.0"
+  },
   "verdict": "open",
   "rungs": [
     {
@@ -19,7 +22,9 @@
         "AlgebraicGeometry.AlgebraicCycle.codimCycles_inf_eq_bot"
       ],
       "depends_on": [],
-      "contributors": ["H0-LawJik"],
+      "contributors": [
+        "H0-LawJik"
+      ],
       "note": "Generalizes Mathlib's Weil divisors (coheight one) to coheight p."
     },
     {
@@ -28,7 +33,9 @@
       "status": "open",
       "module": null,
       "declarations": [],
-      "depends_on": ["Z-cycles"],
+      "depends_on": [
+        "Z-cycles"
+      ],
       "contributors": [],
       "note": "Needs divisors of rational functions on subvarieties; Mathlib has orders of vanishing (AlgebraicGeometry/OrderOfVanishing) to build on."
     },
@@ -54,21 +61,27 @@
     },
     {
       "id": "hodge-decomposition",
-      "title": "Hodge decomposition H^k(X, C) = sum of H^{p,q} on a compact Kahler manifold",
+      "title": "Hodge decomposition H^k(X, C) = ⊕ H^{p,q} on a compact Kähler manifold",
       "status": "open",
       "module": null,
       "declarations": [],
-      "depends_on": ["de-rham"],
+      "depends_on": [
+        "de-rham"
+      ],
       "contributors": [],
-      "note": "Needs Kahler metrics, the Laplacian, and elliptic regularity (or a Dolbeault-theoretic route)."
+      "note": "Needs Kähler metrics, the Laplacian, and elliptic regularity (or a Dolbeault-theoretic route)."
     },
     {
       "id": "cycle-class",
-      "title": "The cycle class map cl : CH^p(X) -> H^{2p}(X, Q) lands in H^{p,p}",
+      "title": "The cycle class map cl : CH^p(X) → H^{2p}(X, Q) lands in H^{p,p}",
       "status": "open",
       "module": null,
       "declarations": [],
-      "depends_on": ["rational-equivalence", "complex-analytic-space", "hodge-decomposition"],
+      "depends_on": [
+        "rational-equivalence",
+        "complex-analytic-space",
+        "hodge-decomposition"
+      ],
       "contributors": [],
       "note": ""
     },
@@ -78,7 +91,9 @@
       "status": "open",
       "module": null,
       "declarations": [],
-      "depends_on": ["cycle-class"],
+      "depends_on": [
+        "cycle-class"
+      ],
       "contributors": [],
       "note": "The conjecture itself, stated in Lean. A sorry-free statement is a milestone; a proof is the whole project. Known cases to formalize first: p = 1 (Lefschetz (1,1)), and the trivial degrees p = 0 and p = dim X."
     }
