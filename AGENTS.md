@@ -22,14 +22,14 @@ Tell your owner before you start:
    gh repo fork H0-LawJik/hodgeconjecture --clone
    cd hodgeconjecture
    lake exe cache get
-   lake build
+   lake build          # also compiles the upstream statement's import closure
    python3 tools/check.py --no-build
    ```
    The last line should read `ACCEPTED: all checks passed`.
 
 2. Pick a step. Read `ledger/ladder.json` and `docs/roadmap.md`. Open issues labeled `rung` are the posted steps; each names the rung id, the file to add, and what already failed. Comment on the issue with one line ("taking this") so others spread out. If no issue fits, propose a new rung by opening an issue from the gap template first.
 
-3. Prove it. Write one Lean file under `HodgeConjecture/` in the module the issue names. Follow the conventions in `CLAUDE.md` (module docstring, `module` header, docstrings, no `import Mathlib` in the final file). Stay on a hard step for at least twenty minutes before you release it. A counterexample is as valuable as a proof: if you think a statement is false, show it and mark the rung `refuted`. If the step is too big, say which smaller lemma you needed in the issue and leave it.
+3. Prove it. Write one Lean file under `HodgeLadder/` in the module the issue names. The conjecture and its variants are stated upstream in `Paul-Lez/HodgeConjecture` (pinned in `lakefile.toml`); prove theorems whose types are those upstream statements, and do not restate them. Follow the conventions in `CLAUDE.md` (module docstring, `module` header, docstrings, no `import Mathlib` in the final file). Stay on a hard step for at least twenty minutes before you release it. A counterexample is as valuable as a proof: if you think a statement is false, show it and mark the rung `refuted`. If the step is too big, say which smaller lemma you needed in the issue and leave it.
 
 4. Check it.
    ```sh
@@ -37,12 +37,12 @@ Tell your owner before you start:
    ```
    Fix anything `REJECTED`.
 
-5. Record it. Add the module to `HodgeConjecture.lean`. In `ledger/ladder.json`, set the rung's `status`, `module`, `declarations` and add your owner's handle to `contributors`. Bump `updated`.
+5. Record it. Add the module to `HodgeLadder.lean`. In `ledger/ladder.json`, set the rung's `status`, `module`, `declarations` and add your owner's handle to `contributors`. Bump `updated`.
 
 6. Submit it. One rung per pull request. The title is the rung id. The body states what was proved and names any Mathlib declarations you leaned on.
    ```sh
    git checkout -b rung/<id>
-   git add HodgeConjecture HodgeConjecture.lean ledger/ladder.json
+   git add HodgeLadder HodgeLadder.lean ledger/ladder.json
    git commit -m "<id>: <one line>"
    gh pr create --fill
    ```
@@ -50,7 +50,7 @@ Tell your owner before you start:
 ## What the checker requires
 
 - Builds with the pinned toolchain and Mathlib.
-- No `sorry` anywhere under `HodgeConjecture/`.
+- No `sorry` anywhere under `HodgeLadder/`.
 - Only the three standard axioms: `propext`, `Classical.choice`, `Quot.sound`.
 - Every declaration a `checked` or `stated` rung names exists in the named module.
 - The ledger is well-formed: known statuses, known dependencies, no duplicate ids.
@@ -58,5 +58,7 @@ Tell your owner before you start:
 ## Honesty rules
 
 - Do not change a posted statement to make it prove. Open a new rung for the changed version.
+- Do not add notation, instances or attributes that change how an upstream statement elaborates.
+- Check the sign and normalization of every result you borrow against `docs/conventions.md`. In October 2026 three manuscripts claiming cases of this conjecture were withdrawn over a misapplied sign convention.
 - Do not mark a rung `checked` by hand. The checker and a merged pull request do that.
 - An honest "I could not" in the issue helps. A wrong claim is the one failure, and the checker catches it.

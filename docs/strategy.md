@@ -1,23 +1,27 @@
 # Strategy: what we attack, in what order
 
-The Hodge conjecture is open, and the literature offers no route to a proof. This document says what the project can honestly aim at, in what order, and what it will say about each outcome. It is the "what we tell Claude" half; `docs/harness.md` is the "how". The mathematical picture it rests on, with sources, is `docs/problem.md`: read that first.
+The Hodge conjecture is open, and the literature offers no route to a proof. This document says what the project can honestly aim at, in what order, and what it will say about each outcome. It is the "what we tell Claude" half; `docs/harness.md` is the "how". The mathematical picture it rests on, with sources, is `docs/problem.md`: read that first. The reasons for the current shape are in `docs/decisions/0003-rebase-on-upstream-statement.md`.
 
 ## The one rule
 
 A claim is a result when the checker accepts it. Everything else in this document is a plan for producing claims the checker can judge.
 
+## Statements of record
+
+The conjecture and its standard variants are stated upstream, in `Paul-Lez/HodgeConjecture` (Lean library `HodgeConjecture`), on real definitions: X(ℂ) with the analytic topology, constant-sheaf rational cohomology, the Hodge filtration on holomorphic de Rham hypercohomology, and cycle classes from cohomology with support. This repository imports them at a pinned commit and proves things about them. It does not restate them, and it does not define the conjecture against an interface.
+
 ## Milestones
 
 | | Milestone | Done when | Why it is worth doing on its own |
 |---|---|---|---|
-| M0 | Cycles and Chow groups | `Z-cycles` and `rational-equivalence` checked | First Mathlib-grade algebraic cycle theory beyond divisors. Upstream candidate. |
-| M1 | The statement, interface-first | `statement` is `stated`: a `Prop` with no `sorry`, parameterized by a `HodgeInterface` structure that packages cohomology, the Hodge decomposition and the cycle class map as data with axioms | Lets the proof side start years before the analytic foundations exist. Every later proof against the interface is honest about being conditional. |
-| M2 | Known cases against the interface | `p = 0`, `p = dim X`, and `p = 1` (Lefschetz (1,1), from the exponential sequence axiomatized in the interface) checked; `p = dim X - 1` by hard Lefschetz, if hard Lefschetz is part of the interface | These are the theorems a textbook proves; they test whether the interface is the right shape. |
-| M3 | Foundations | `de-rham`, `complex-analytic-space`, `hodge-decomposition`, `cycle-class` checked and the interface instantiated for a smooth projective complex variety | Removes the conditional. Largest body of work; most of it is general-purpose mathematics Mathlib lacks. |
-| M4 | Known theorems and reductions | Reductions that are theorems (hard Lefschetz to `2p ≤ dim X`; hyperplane sections above the middle degree; projective bundles; dominant maps; blow-ups) and known cases (dimension ≤ 3; cellular varieties; generic abelian varieties; uniruled fourfolds; cubic fourfolds) stated and checked | Each one is a published theorem with a bounded formalization; `docs/problem.md` §3 and §4 list them with sources. Products are not on this list: HC(X) and HC(Y) do not give HC(X × Y). |
-| M5 | Fronts | At least one approach front with a stated conditional theorem of the form "if `A` then the Hodge conjecture for class `C`", where `A` is a precise open statement | This is where a new result could appear, and where most work will die. |
+| M0 | Adopt the statements of record | `upstream-statement` stated and `statements-consistent` checked at the pinned upstream commit | Every later result is about the same objects the wider community checks |
+| M1 | The Lefschetz checkpoint | `lefschetz-upstream-verify`, `nonvacuity-tests`, `lefschetz-port` done and `lefschetz-1-1` checked here, with a red-team `pass` and the conventions register filled | First proof of a case of the conjecture on these definitions at the current pin; the strongest available test that the definitions mean what the literature means |
+| M2 | Markman inventory | A written inventory of the tools and gaps between the Lefschetz checkpoint and Markman's theorem, and `markman-statement` stated | Sets the frontier target with the tools actually in hand |
+| M3 | Low dimension | `hard-lefschetz` and `dimension-le-three` checked | Completes the cases a textbook proves: every curve, surface and threefold |
+| M4 | Known cases and reductions | Published reductions (hyperplane sections above the middle degree, projective bundles, dominant maps, blow-ups) and known cases (cellular varieties, cubic and uniruled fourfolds, generic abelian varieties) checked on upstream definitions | Each is a published theorem with a bounded formalization; `docs/problem.md` §3 and §4 list them with sources. Products are not on this list: HC(X) and HC(Y) do not give HC(X × Y) |
+| M5 | Fronts | At least one front with a checked statement at the frontier, or a checked conditional "if A then HC for class C" with A precise | Where a new result could appear, and where most work will die |
 
-Milestones are not strictly sequential. M1 and M2 start now; M0 and M3 run in parallel; M4 and M5 open once M1 exists.
+M0 is done on the `rebase-paullez` branch. M1 is the current target. M2 opens only after M1.
 
 ## Fronts
 
@@ -25,17 +29,25 @@ A front is an approach with a named owner (a thinker agent or a person), a kill 
 
 | Front | Idea | What a win looks like | What kills it | First rung |
 |---|---|---|---|---|
-| `reduce` | Reductions that are theorems: hard Lefschetz, hyperplane sections, projective bundles, dominant maps, blow-ups (`docs/problem.md` §4) | Checked theorems that shrink the class of varieties and degrees that need to be handled; birational invariance in dimension ≤ 5 as the capstone | Nothing; these are known results, the front ends when they are formalized | hard Lefschetz as an interface axiom and the `2p ≤ dim X` reduction |
-| `abelian` | Abelian varieties: Mumford-Tate groups, Hodge rings generated by divisors, Weil classes; the richest proven class and the live frontier (`docs/problem.md` §3) | Checked statements of the known cases against the interface, starting with "Hodge ring generated by divisors implies HC" and the generic abelian variety | A statement that cannot be made precise without the full analytic stack | define the Hodge ring of an abelian variety from a polarized Hodge structure of weight one |
-| `variational` | Hodge loci are algebraic (Cattani, Deligne, Kaplan); the variational Hodge conjecture | A checked conditional: variational implies classical for a stated class | Formalizing variations of Hodge structure proves too large before any conditional is stated | define a variation of Hodge structure over a base and the Hodge locus of a class |
-| `absolute` | Absolute Hodge classes (Deligne); HC splits as Hodge ⇒ absolute Hodge and absolute Hodge ⇒ algebraic | A checked "absolute Hodge implies algebraic for class `C`" for a class `C` where it is known, or Deligne's theorem for abelian varieties | No formalizable notion of "absolute" without étale or de Rham comparison | state absolute Hodge against an interface carrying Galois conjugates of the variety |
-| `refute` | Red team: the stronger forms are false (integral, Kähler, Hodge's generalized form); the rational form has no known counterexample and the natural candidates are Weil classes and Künneth components (`docs/problem.md` §2, §6) | A checked statement that the integral version fails, or a checked counterexample to the rational version (the project then changes its verdict and its name stays) | The standing fact that no counterexample is known despite a century of search; this front is small and permanent | the Atiyah and Hirzebruch integral counterexample, as a checked statement that the integral version fails (needs torsion cohomology; far down the foundations ladder) |
+| `abelian` | Abelian varieties: Mumford-Tate groups, Hodge rings generated by divisors, Weil classes; the richest proven class and the live frontier (`docs/problem.md` §3); Markman's hyperkähler method | Markman's theorem stated on upstream definitions; known cases (generic abelian varieties; Hodge ring generated by divisors) checked | A statement that cannot be made on upstream definitions without new foundations larger than the checkpoint inventory can carry | `markman-statement`, after M1 |
+| `reduce` | Reductions that are theorems (`docs/problem.md` §4) | Checked reductions; birational invariance in dimension ≤ 5 as the capstone | Nothing; known results, the front ends when they are formalized | `hard-lefschetz` |
+| `variational` | Hodge loci are algebraic (Cattani, Deligne, Kaplan); the variational Hodge conjecture | A checked conditional: variational implies classical for a stated class | Formalizing variations of Hodge structure proves too large before any conditional is stated | define a variation of Hodge structure over a base on upstream definitions |
+| `absolute` | Absolute Hodge classes; HC splits as Hodge ⇒ absolute Hodge and absolute Hodge ⇒ algebraic | Deligne's theorem for abelian varieties, or a checked "absolute Hodge implies algebraic for class C" | No formalizable notion of "absolute" without étale or de Rham comparison (Mathlib now has ℓ-adic cohomology of schemes) | state absolute Hodge using Mathlib's ℓ-adic cohomology and upstream de Rham |
+| `refute` | Falsification: the stronger forms are false (integral, Kähler, Hodge's generalized form); test the definitions for vacuity and convention drift; keep the October 2026 sign-error withdrawals in sight | A checked statement that the integral version fails, a checked non-vacuity suite, or a checked counterexample to the rational version | The standing fact that no counterexample is known; this front is small and permanent | `nonvacuity-tests` |
 
 Fronts that are not in this table do not exist yet. Adding one is a decision record plus a ledger rung.
 
+## Upstream-first
+
+| Kind of result | Where it goes |
+|---|---|
+| General mathematics (homological algebra, sheaves, manifolds) | Mathlib |
+| Definitions and lemmas the statement needs, sanity checks of the statement | `Paul-Lez/HodgeConjecture` |
+| Proofs of the upstream variants, reductions, frontier statements, the ledger, falsification records, the literature map | this repository |
+
 ## What we will and will not say
 
-- "Checked" means the checker accepted it. "Stated" means the statement compiles and the proof is open. "Conditional on the interface" means proved against `HodgeInterface` before it is instantiated. Every public surface uses these words and no others.
+- "Checked" means the checker accepted it. "Stated" means the statement compiles and the proof is open. Every public surface uses these words and the ledger's other statuses, and no others.
 - We do not say "progress toward a proof". We say which rung moved.
 - If a front dies, the ledger says why and the dead rung stays visible.
 - If the verdict ever changes, the change is a checked declaration, a decision record, and a note on the site, in that order.

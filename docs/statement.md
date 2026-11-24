@@ -24,18 +24,21 @@ A rational class in `H^{2p}(X, Q)` whose image in `H^{2p}(X, C)` lies in `H^{p,p
 
 The integral version is false (Atiyah and Hirzebruch, 1961); the rational version above is the conjecture.
 
-## Formalization targets
-
-In order of appearance in Lean:
-
-1. `Z^p(X)` as a subgroup of `AlgebraicCycle X ℤ`. **Checked** (`HodgeConjecture.Cycles.Codimension`).
-2. Rational equivalence and `CH^p(X)`.
-3. The complex manifold underlying `X`, and its singular cohomology (Mathlib has singular homology; the cohomology side and the comparison with de Rham are both missing).
-4. Differential forms, `d`, de Rham cohomology, and the de Rham theorem.
-5. Kähler metrics, the `(p,q)` decomposition of forms, and the Hodge decomposition on cohomology.
-6. The cycle class map and the fact that it lands in `H^{p,p}`.
-7. The statement, as a `Prop` with no `sorry`, parameterized by `X` and `p`. Then the trivial cases, then `p = 1`.
-
 ## Formal statement
 
-Not yet written. When it exists, it lives in `HodgeConjecture/Statement.lean` and this section quotes it.
+The statement of record is upstream, in `Paul-Lez/HodgeConjecture`, file `HodgeConjecture/Statement.lean`, pinned in this repository's `lakefile.toml` (decision 0003):
+
+```lean
+def HodgeConjecture : Prop :=
+  ∀ (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom]
+    [IsProjective X.hom] (p : ℕ),
+    Hdg^p(X; ℚ) ≤ algebraicCycleClassSpan X p
+```
+
+Here `Hdg^p(X; ℚ)` is the space of rational classes in `H^{2p}(X(ℂ); ℚ)` (constant-sheaf cohomology on X(ℂ) with the analytic topology) whose de Rham image lies in `F^p ∩ conj F^p`, with `F^p` the image of the hypercohomology of holomorphic forms of degree at least p. `algebraicCycleClassSpan X p` is the ℚ-span of the fundamental classes of codimension-p integral closed subvarieties, built from cohomology with support and normalized by complex orientations of normal spaces.
+
+Upstream also states the variants this repository works on, in `HodgeConjecture/Variants.lean`: `LefschetzOneOne`, `HodgeConjectureInDimensionLE n`, `HodgeConjectureForAbelianVarieties`.
+
+## Targets on this ladder
+
+See `docs/roadmap.md`. The first is `lefschetz-1-1`: a checked proof of upstream `LefschetzOneOne` at this repository's pin.

@@ -12,7 +12,7 @@ Claude proposes; Lean disposes. No agent in this harness can mark anything check
 |---|---|---|---|
 | Orchestrator | `.claude/agents/hodge-orchestrator.md` | Reads ledger and roadmap, splits big rungs into small ones, posts issues, keeps `docs/roadmap.md` and the status block current | Writes proofs; edits a statement a prover has taken |
 | Thinker | `.claude/agents/hodge-thinker.md` | Writes a paper sketch for one rung into `docs/sketches/<id>.md` with citations from `docs/references.md`; proposes the Lean statement and the sub-lemmas | Claims a sketch is a proof; posts a statement without a red-team pass |
-| Red team | `.claude/agents/hodge-red-team.md` | Attacks a proposed statement before it is posted: is it the literature's statement, is it vacuous, is it provable for the wrong reason, is a hypothesis inconsistent; attacks a checked rung for the same | Softens a statement to make it pass |
+| Red team (falsification) | `.claude/agents/hodge-red-team.md` | Attacks a proposed statement before it is posted and a checked rung after: is it the literature's statement, is it vacuous, is it provable for the wrong reason, which sign and normalization conventions it depends on, whether upstream definitions drifted between pins | Softens a statement to make it pass |
 | Prover | `.claude/agents/hodge-prover.md` | Takes one posted rung, writes one Lean file, runs the checker, opens the pull request | Changes the statement; touches a second rung; adds axioms |
 | Librarian | `.claude/agents/hodge-librarian.md` | Finds what Mathlib already has for a rung, names the exact declarations, flags what should go upstream | Writes proofs |
 
@@ -51,25 +51,18 @@ proposed (issue, no ledger entry)
 
 Size rule: one rung is one Lean file under about 200 lines and one session for a prover. If a sketch needs more, it is a milestone, and the orchestrator splits it before a prover starts.
 
-## The interface-first pattern
+## Statements of record
 
-Foundations will take longest. To let the statement and the known cases exist now, the statement is written against a structure that packages what Hodge theory provides:
+Statements of record live upstream, in `Paul-Lez/HodgeConjecture`, pinned in `lakefile.toml` (decision 0003). Rules:
 
-```lean
-/-- What a Hodge theory of a variety provides. Instantiated later from real foundations. -/
-structure HodgeInterface (X : ...) where
-  H : ℕ → Type*             -- rational cohomology in each degree, as ℚ-modules
-  hodge : ...               -- the (p,q) decomposition after extending scalars to ℂ
-  cl : ∀ p, CH p X →+ H (2 * p)   -- cycle class
-  cl_mem_pp : ...           -- cl lands in H^{p,p}
-  -- axioms added only when a known theorem needs them, each one cited
-```
+- A rung's statement is read against upstream definitions and Mathlib only. A pull request may not add notation, instances or attributes that change how an upstream statement elaborates; the red team checks this.
+- Nothing in this repository restates the conjecture or a variant upstream already states. A proof of an upstream variant is a theorem whose type is that upstream `Prop`.
+- No interface structures stand in for missing objects. Interface statements of this conjecture have been shown vacuous or false elsewhere (LeanDojo regression tests). Assumed inputs, where a conditional theorem needs them, are hypotheses that are themselves statements on real definitions, each cited, each listed with its convention in `docs/conventions.md`.
+- Upstream pin bumps follow upstream's toolchain and are reviewed by the red team for definition drift.
 
-A theorem proved against `HodgeInterface` is checked and conditional. The ledger records it with `kind: "interface"`. When M3 instantiates the structure, the conditional disappears without touching the proofs. The red team's standing job on this pattern: make sure no axiom in the interface is strong enough to make the statement trivial.
+## Ledger kinds
 
-## Ledger schema additions
-
-Each rung gains `kind`: `foundation`, `interface`, `statement`, `case`, `reduction`, `front`. The checker validates the field. The site shows it.
+Each rung has a `kind`: `foundation`, `statement`, `case`, `reduction`, `front`, `test`, or `interface` (retired; kept for dead rungs). The checker validates the field. The site shows it.
 
 ## Gates
 
@@ -77,6 +70,8 @@ Each rung gains `kind`: `foundation`, `interface`, `statement`, `case`, `reducti
 |---|---|
 | No `sorry`, standard axioms only, declarations exist | `tools/check.py`, CI, branch protection |
 | Statement matches the literature | red-team pass before posting; human statement review on the pull request |
+| Statement is not vacuous; conventions recorded | `nonvacuity-tests` rung; `docs/conventions.md`; red-team items 6 to 8 |
+| Upstream definitions unchanged by a pin bump | red-team diff of the definitions in `docs/conventions.md` |
 | "Known" claims carry a citation key or "unverified" | red-team pass; `docs/references.md` |
 | One rung per pull request, no statement edits | pull request template; reviewer |
 | Public words: checked / stated / open / refuted / dead | `CLAUDE.md` writing conventions; the site reads the ledger and nothing else |
@@ -100,6 +95,6 @@ Each rung gains `kind`: `foundation`, `interface`, `statement`, `case`, `reducti
 | Stage | Visible signal |
 |---|---|
 | Harness works | Five rungs through the full lifecycle by hand, each with a handoff and a clean pull request |
-| M1 | `statement` is `stated`; the site shows it; a red-team record says why it is not trivial |
-| M2 | three `case` rungs checked against the interface |
+| M1 | `lefschetz-1-1` checked; red-team `pass`; non-vacuity suite checked; conventions register filled |
+| M2 | Markman inventory written; `markman-statement` stated |
 | Unattended | a week of loop runs with no closed-as-duplicate pull requests and no statement edits |

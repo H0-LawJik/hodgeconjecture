@@ -14,6 +14,6 @@
 **Checklist**
 - [ ] `python3 tools/check.py` exits 0 locally
 - [ ] `ledger/ladder.json` updated (status, module, declarations, contributors, `updated`)
-- [ ] Module imported from `HodgeConjecture.lean`
+- [ ] Module imported from `HodgeLadder.lean`; no restated upstream statement; no notation or instances that change upstream elaboration
 - [ ] No `import Mathlib`; no `sorry`; no new axioms
 - [ ] Statement matches the posted rung (a changed statement is a new rung)
