@@ -58,6 +58,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `docs/roadmap.md` | The ladder: what Mathlib has, what is missing, in what order. |
 | `docs/conventions.md` | Register of sign and normalization conventions every statement and proof depends on; maintained by the red team. |
 | `docs/audits/` | Dated conformance audits against the literature. |
+| `docs/notes/` | Dated research notes: ideas reviewed against the literature, kept in corrected form, with what was set aside and why. A note can propose rungs; it is not a result. |
 | `docs/gaps.md` | Acknowledged gaps: local definitions to upstream, known weaknesses, dropped threads. |
 | `docs/decisions/` | Architecture decision records, one decision per file, numbered; numbers are permanent. |
 | `.github/workflows/ci.yml` | Runs `tools/check.py` on every push and pull request. |

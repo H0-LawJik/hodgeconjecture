@@ -251,6 +251,32 @@
       "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Needs H²(ℙ^n(ℂ); ℚ) ≅ ℚ on the upstream cohomology; upstream has Definitions/AlgebraicGeometry/ProjectiveSpace.lean to start from. The hyperplane-class sign is a conventions-register row."
     },
     {
+      "id": "clifford-exterior-spin",
+      "title": "The Clifford algebra of the split form on H ⊕ H^∨ acts on the exterior algebra ∧*H as its spin module, compatible with parity",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1-equality"
+      ],
+      "contributors": [],
+      "note": "Research note 2026-11-24 §1. For a torus A with H = H¹(A, ℚ), H*(A, ℚ) = ∧*H, so Spin(H ⊕ H^∨) acts on all of H*(A, ℚ) (Chevalley1954, Mukai1981); Markman's Weil-class construction uses this action through Orlov's equivalence. Pure linear algebra over Mathlib's CliffordAlgebra and ExteriorAlgebra; a Mathlib upstream candidate. Sequenced after the Lefschetz checkpoint."
+    },
+    {
+      "id": "elliptic-product-test",
+      "title": "Computed test: for elliptic curves E₁, E₂, dim Hdg^1(E₁ × E₂; ℚ) = 2 + rank Hom(E₁, E₂), while h^{1,1} = 4",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1-equality"
+      ],
+      "contributors": [],
+      "note": "Research note 2026-11-24 §3. Shows on upstream definitions that Hodge classes depend on the periods, not the Hodge diamond (dimension 2, 3 or 4). Also checks the Hodge numbers of products of elliptic curves against the refined Künneth count. Needs the cohomology of tori on upstream definitions."
+    },
+    {
       "id": "hard-lefschetz",
       "title": "Hard Lefschetz for the upstream rational cohomology of a smooth projective variety",
       "status": "open",

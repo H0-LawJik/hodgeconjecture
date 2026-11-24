@@ -5,6 +5,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | Key | Reference | Used for |
 |---|---|---|
 | `Abdulali2005` | S. Abdulali, Hodge structures of CM-type, J. Ramanujan Math. Soc. 20 (2005) 155–162, arXiv:math/0601052 | Hazama's theorem: HC for all CM abelian varieties implies GHC for them |
+| `AlpogeRH2026` | L. Alpöge, announcement of a Lean proof, found with Claude, of the Riemann hypothesis and of GRH for Dirichlet L-functions, 2026-11-20; summary page math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/ | process precedent for certifying a large agent-assisted Lean proof; under human review |
 | `Andre1996` | Y. André, Pour une théorie inconditionnelle des motifs, Publ. Math. IHES 83 (1996) | motivated cycles |
 | `Aoki1987` | N. Aoki, Some new algebraic cycles on Fermat varieties, J. Math. Soc. Japan 39 (1987) | Fermat, m = p² |
 | `Arapura2002` | D. Arapura, Hodge cycles on some moduli spaces, arXiv:math/0102070 | blow-ups, birational invariance in dimension ≤ 5, Hilbert schemes |
@@ -21,6 +22,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `CDK1995` | E. Cattani, P. Deligne, A. Kaplan, On the locus of Hodge classes, J. AMS 8 (1995) 483–506 | Hodge loci are algebraic |
 | `CharlesMarkman2013` | F. Charles, E. Markman, The standard conjectures for holomorphic symplectic varieties deformation equivalent to Hilbert schemes of K3 surfaces, Compositio 149 (2013) | Lefschetz standard conjecture for K3^[n]-type |
 | `CharlesSchnell2011` | F. Charles, C. Schnell, Notes on absolute Hodge classes, arXiv:1101.3647 | absolute Hodge classes, variational HC |
+| `Chevalley1954` | C. Chevalley, The Algebraic Theory of Spinors, Columbia University Press 1954 | spin module as exterior algebra; S ⊗ S ≅ ∧*V |
 | `ClayDeligne` | P. Deligne, The Hodge conjecture, Clay Mathematics Institute official problem description | official statement; obstructions; reformulations |
 | `Clemens1983` | H. Clemens, Homological equivalence, modulo algebraic equivalence, is not finitely generated, Publ. Math. IHES 58 (1983) | Griffiths group of infinite rank |
 | `ConteMurre1978` | A. Conte, J. P. Murre, The Hodge conjecture for fourfolds admitting a covering by rational curves, Math. Ann. 238 (1978) | uniruled fourfolds |
@@ -36,6 +38,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Foster2025` | Foster, The Lefschetz standard conjectures for 4d-dimensional Kummer-type hyper-Kähler varieties, arXiv:2512.04114 (preprint) | Lefschetz standard conjecture, Kummer type |
 | `Fulton1998` | W. Fulton, Intersection Theory, 2nd ed., Springer 1998 | cycles, rational equivalence, Chow groups |
 | `FuMoonen2022` | L. Fu, B. Moonen, Algebraic cycles on Gushel-Mukai varieties, arXiv:2207.01118 | Gushel-Mukai varieties |
+| `GolyshevLuntsOrlov2001` | V. Golyshev, V. Lunts, D. Orlov, Mirror symmetry for abelian varieties, J. Algebraic Geom. 10 (2001) | Spin(H ⊕ H^∨) acting on the cohomology of abelian varieties |
 | `Gordon1999` | B. B. Gordon, A survey of the Hodge conjecture for abelian varieties, Appendix B of `Lewis1999`, arXiv:alg-geom/9709030 | abelian varieties catalogue |
 | `GreenGriffiths2007` | M. Green, P. Griffiths, Algebraic cycles and singularities of normal functions, LMS Lecture Notes 343 (2007) | normal-function reformulation |
 | `Griffiths1969` | P. Griffiths, On the periods of certain rational integrals I, II, Ann. Math. 90 (1969) | homologically trivial cycles not algebraically trivial |
@@ -65,8 +68,10 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `MoonenZarhin1995` | B. Moonen, Yu. Zarhin, Hodge classes and Tate classes on simple abelian fourfolds, Duke Math. J. 77 (1995) | abelian fourfolds |
 | `MoonenZarhin1999` | B. Moonen, Yu. Zarhin, Hodge classes on abelian varieties of low dimension, Math. Ann. 315 (1999) | abelian varieties of dimension ≤ 5 |
 | `Mostaed2026` | A. Mostaed, McMullen's curve, the Weil locus, and the Hodge conjecture for abelian sixfolds, arXiv:2603.20268 (preprint) | research program toward abelian sixfolds; proves no case |
+| `Mukai1981` | S. Mukai, Duality between D(X) and D(X̂) with its application to Picard sheaves, Nagoya Math. J. 81 (1981) | Fourier–Mukai transform on abelian varieties |
 | `Mumford1968` | D. Mumford, Rational equivalence of 0-cycles on surfaces, J. Math. Kyoto Univ. 9 (1968) | CH_0 infinite dimensional |
 | `Murre1977` | J. P. Murre, On the Hodge conjecture for unirational fourfolds, Indag. Math. 80 (1977) | unirational fourfolds |
+| `Orlov2002` | D. Orlov, Derived categories of coherent sheaves on abelian varieties and equivalences between them, Izv. Math. 66 (2002) | derived equivalences of abelian varieties; Spin(V)-equivariance |
 | `PaulLez2026` | P. Lezeau et al., Statement of the Hodge Conjecture, github.com/Paul-Lez/HodgeConjecture (formal statement, Lean 4) | statements of record |
 | `Pohlmann1968` | H. Pohlmann, Algebraic cycles on abelian varieties of complex multiplication type, Ann. Math. 88 (1968) | CM abelian varieties |
 | `RamonMari2008` | J. Ramón Marí, On the Hodge conjecture for products of certain surfaces, arXiv:math/0505357 | products of surfaces |
@@ -80,6 +85,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Stacks` | The Stacks Project, stacks.math.columbia.edu, cited by tag | scheme-theoretic definitions matching Mathlib |
 | `Tankeev1982` | S. Tankeev, Cycles on simple abelian varieties of prime dimension, Izv. 46 (1982); Math. USSR-Izv. 20 (1983) | prime dimension |
 | `Totaro1997` | B. Totaro, Torsion algebraic cycles and complex cobordism, J. AMS 10 (1997) | cobordism obstruction to integral HC |
+| `vanGeemen2022` | B. van Geemen, Fourfolds of Weil type and the spinor map, SIGMA 18 (2022) 097, arXiv:2205.00483 | spinors and Weil-type fourfolds |
 | `vanGeemenRapagnetta2026` | B. van Geemen, A. Rapagnetta, Hyperkähler sixfolds, abelian fourfolds of Weil type and a Hodge class, arXiv:2607.18341 (preprint) | Weil fourfolds, discriminant 1 |
 | `Voisin2000` | C. Voisin, The Griffiths group of a general Calabi-Yau threefold is not finitely generated, Duke Math. J. 102 (2000) | Griffiths group |
 | `Voisin2002` | C. Voisin, Hodge Theory and Complex Algebraic Geometry I and II, Cambridge 2002, 2003 | Hodge decomposition, Lefschetz theorems, cycle class map |

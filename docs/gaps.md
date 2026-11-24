@@ -16,6 +16,13 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Three Lean pins in play: upstream v4.35.0-rc4 (followed here), the Lefschetz stack v4.33.1, Tau Ceti v4.37.0-rc1 (Mathlib master) | Reuse of Tau Ceti material needs a backport or a wait | 2026-11-24 |
 | Building this repository compiles upstream's statement import closure; CI time grows | Watch CI duration | 2026-11-24 |
 
+## Process items to investigate
+
+| Item | Why | Opened |
+|---|---|---|
+| How the 2026-11-20 RH Lean proof was certified against its statement (statement-comparison tool, what it checks) | Adopt for `lefschetz-1-1` and the port; `docs/notes/2026-11-24-spinors-characters-tests.md` §4 | 2026-11-24 |
+| Candidate front `fermat` (character sieve on Fermat varieties) | Needs a decision record and a first rung; research note §2 | 2026-11-24 |
+
 ## Dead ends
 
 | Thread | Why it died | Date |
