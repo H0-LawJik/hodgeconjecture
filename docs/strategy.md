@@ -6,6 +6,10 @@ The Hodge conjecture is open, and the literature offers no route to a proof. Thi
 
 A claim is a result when the checker accepts it. Everything else in this document is a plan for producing claims the checker can judge.
 
+## Equality first
+
+The ladder aims at non-vacuous equalities (decision 0004). The conjecture's target form here is Hdg^p(X; ℚ) = algebraicCycleClassSpan X p; the upstream inclusion is a step toward it. Identities between classes are proved exactly, with signs and normalizations recorded in `docs/conventions.md`; "equal up to a nonzero scalar" does not discharge one. Cases where only an inclusion is known, or where an equality fails, are study points.
+
 ## Statements of record
 
 The conjecture and its standard variants are stated upstream, in `Paul-Lez/HodgeConjecture` (Lean library `HodgeConjecture`), on real definitions: X(ℂ) with the analytic topology, constant-sheaf rational cohomology, the Hodge filtration on holomorphic de Rham hypercohomology, and cycle classes from cohomology with support. This repository imports them at a pinned commit and proves things about them. It does not restate them, and it does not define the conjecture against an interface.
@@ -15,9 +19,10 @@ The conjecture and its standard variants are stated upstream, in `Paul-Lez/Hodge
 | | Milestone | Done when | Why it is worth doing on its own |
 |---|---|---|---|
 | M0 | Adopt the statements of record | `upstream-statement` stated and `statements-consistent` checked at the pinned upstream commit | Every later result is about the same objects the wider community checks |
-| M1 | The Lefschetz checkpoint | `lefschetz-upstream-verify`, `nonvacuity-tests`, `lefschetz-port` done and `lefschetz-1-1` checked here, with a red-team `pass` and the conventions register filled | First proof of a case of the conjecture on these definitions at the current pin; the strongest available test that the definitions mean what the literature means |
+| M1 | The Lefschetz checkpoint | `lefschetz-upstream-verify`, `nonvacuity-tests`, `divisor-chern-exact`, `lefschetz-port` done; `lefschetz-1-1` and `lefschetz-1-1-equality` checked here; red-team `pass`; conventions register filled with the exact divisor–Chern sign | First equality-level case of the conjecture on these definitions at the current pin; the strongest available test that the definitions mean what the literature means |
+| M1+ | The Lefschetz extras | `lefschetz-1-1-integral` and `projective-space-test` checked | The literature's integral form, and a computed example that pins the definitions from both sides |
 | M2 | Markman inventory | A written inventory of the tools and gaps between the Lefschetz checkpoint and Markman's theorem, and `markman-statement` stated | Sets the frontier target with the tools actually in hand |
-| M3 | Low dimension | `hard-lefschetz` and `dimension-le-three` checked | Completes the cases a textbook proves: every curve, surface and threefold |
+| M3 | Low dimension and the known half | `hard-lefschetz`, `dimension-le-three` (equality form) and `cycle-classes-are-hodge` checked | Completes the cases a textbook proves, and makes the general statement an equality |
 | M4 | Known cases and reductions | Published reductions (hyperplane sections above the middle degree, projective bundles, dominant maps, blow-ups) and known cases (cellular varieties, cubic and uniruled fourfolds, generic abelian varieties) checked on upstream definitions | Each is a published theorem with a bounded formalization; `docs/problem.md` §3 and §4 list them with sources. Products are not on this list: HC(X) and HC(Y) do not give HC(X × Y) |
 | M5 | Fronts | At least one front with a checked statement at the frontier, or a checked conditional "if A then HC for class C" with A precise | Where a new result could appear, and where most work will die |
 

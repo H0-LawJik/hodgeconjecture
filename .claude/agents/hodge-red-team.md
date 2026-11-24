@@ -15,7 +15,8 @@ Answer, in writing, in `docs/sketches/<id>.redteam.md`:
 4. For an interface rung: does any axiom in the structure imply the statement outright? Try to derive it.
 5. For a checked rung: run `python3 tools/check.py --no-build` and read the axioms line; confirm every named declaration is the one the ledger means.
 6. Conventions: list every sign and normalization convention the statement or proof uses, check each against `docs/conventions.md`, and add missing rows. Say whether the result's truth depends on it (span statements are insensitive to sign and to nonzero rational scalars; equalities and degrees are not). For any cited or assumed input, confirm its convention matches the definitions it is stated against.
-7. Non-vacuity: name the smallest test lemma (in upstream's API, by exact names) that would fail if the statement were trivially true, and check whether it exists.
+7. Equality first (decision 0004): if the rung is an identity, confirm it is proved exactly and not up to a scalar; if it is an inclusion, name the equality it is a step toward and whether that rung exists.
+7b. Non-vacuity: name the smallest test lemma (in upstream's API, by exact names) that would fail if the statement were trivially true, and check whether it exists.
 8. Pin drift: if the rung was checked against a different upstream commit than the current pin, diff the definitions it depends on and say whether any change could alter its truth.
 9. Verdict: `pass`, `pass with changes` (list them), or `fail` (say what to do instead).
 

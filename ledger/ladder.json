@@ -69,7 +69,7 @@
         "upstream-statement"
       ],
       "contributors": [],
-      "note": "Rules out a definitional accident that would make Lefschetz (1,1) or the conjecture trivially true. Exact list from the red-team audit of the upstream proof; contributed upstream to Other/ where upstream wants it."
+      "note": "Rules out a definitional accident that would make Lefschetz (1,1) or the conjecture trivially true. Exact list from the red-team audit of the upstream proof; contributed upstream to Other/ where upstream wants it. The equality rungs (lefschetz-1-1-equality, cycle-classes-are-hodge, projective-space-test) are the strongest non-vacuity tests; this rung keeps the cheap ones (a variety meeting the hypotheses; a nonzero point class)."
     },
     {
       "id": "lefschetz-port",
@@ -79,10 +79,11 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "lefschetz-upstream-verify"
+        "lefschetz-upstream-verify",
+        "divisor-chern-exact"
       ],
       "contributors": [],
-      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it."
+      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it."
     },
     {
       "id": "lefschetz-1-1",
@@ -96,7 +97,74 @@
         "nonvacuity-tests"
       ],
       "contributors": [],
-      "note": "The checkpoint. Done when `theorem : LefschetzOneOne` passes tools/check.py here, the red-team verdict is pass, and the conventions register is filled. Then take the Markman inventory."
+      "note": "Upstream's LefschetzOneOne (the inclusion Hdg^1 ≤ span), checked here. A step: the checkpoint is done only with lefschetz-1-1-equality (decision 0004), a red-team pass, and the conventions register filled. Then take the Markman inventory."
+    },
+    {
+      "id": "divisor-chern-exact",
+      "title": "Divisor–Chern identity as an exact equality on the pinned cycle class: the class of a Cartier divisor D equals the rational image of c₁(𝒪(D)), sign determined",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-upstream-verify"
+      ],
+      "contributors": [],
+      "note": "Port requirement (decision 0004). The upstream branch proves this on its older cycle-class model; on the pinned model the two agree only up to a nonzero rational scalar, possibly −1 (red-team record). Prove it exactly on the pinned definitions, state the sign in the docstring, and record it in docs/conventions.md. No 'up to scalar' version counts."
+    },
+    {
+      "id": "lefschetz-1-1-equality",
+      "title": "Lefschetz (1,1) as an equality: Hdg^1(X; ℚ) = algebraicCycleClassSpan X 1",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-1-1",
+        "divisor-chern-exact"
+      ],
+      "contributors": [],
+      "note": "The checkpoint's definition of done (decision 0004). The reverse inclusion for p = 1: by divisor-chern-exact each divisor class is a first Chern class; c₁ is a d log class, so it lies in F^1; a rational class is fixed by conjugation, so it also lies in conj F^1."
+    },
+    {
+      "id": "cycle-classes-are-hodge",
+      "title": "Cycle classes are Hodge classes in every codimension: algebraicCycleClassSpan X p ≤ Hdg^p(X; ℚ)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "The known half of the conjecture. With it, the upstream HodgeConjecture is equivalent to the equality Hdg^p = span, and the statement cannot hold for a degenerate reason (span accidentally everything). Classical route: a Hodge-cohomology cycle class (El Zein; Voisin2002 ch. 11) comparing cohomology with support in Z of the truncated de Rham complex with the topological class. Large; p = 1 comes first through lefschetz-1-1-equality."
+    },
+    {
+      "id": "lefschetz-1-1-integral",
+      "title": "Integral Lefschetz (1,1): the image of c₁ : Pic(X) → H²(X(ℂ); ℤ) equals the integral classes whose rational image is a Hodge class",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-port",
+        "divisor-chern-exact"
+      ],
+      "contributors": [],
+      "note": "The literature's form of the theorem (Lefschetz1924, GriffithsHarris1978). Upstream's proof deliberately stops at the rational span. Both inclusions are needed; torsion classes are in the image because they lie in the kernel of H²(ℤ) → H²(𝒪). Integral HC fails in higher codimension (problem.md §2), so this is the one codimension where the integral equality holds."
+    },
+    {
+      "id": "projective-space-test",
+      "title": "Computed test case: for projective space ℙ^n over ℂ (n ≥ 1), Hdg^1 = algebraicCycleClassSpan 1, and both are one-dimensional over ℚ",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Needs H²(ℙ^n(ℂ); ℚ) ≅ ℚ on the upstream cohomology; upstream has Definitions/AlgebraicGeometry/ProjectiveSpace.lean to start from. The hyperplane-class sign is a conventions-register row."
     },
     {
       "id": "hard-lefschetz",
@@ -123,7 +191,7 @@
         "hard-lefschetz"
       ],
       "contributors": [],
-      "note": "Codimension 0, 1, n-1, n; the middle cases come from Lefschetz (1,1) and hard Lefschetz (Shioda1983, daSilva2021)."
+      "note": "Codimension 0, 1, n-1, n; the middle cases come from Lefschetz (1,1) and hard Lefschetz (Shioda1983, daSilva2021). Target the equality form as well (decision 0004): Hdg^p = span for every p when dim X ≤ 3."
     },
     {
       "id": "markman-statement",
@@ -133,10 +201,10 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "lefschetz-1-1"
+        "lefschetz-1-1-equality"
       ],
       "contributors": [],
-      "note": "Front abelian. Deferred until the Lefschetz checkpoint (decision 0003); the inventory of tools and gaps comes from that checkpoint. Source Markman2025 is a preprint; the statement records that."
+      "note": "Front abelian. Deferred until the Lefschetz checkpoint (decision 0003); the inventory of tools and gaps comes from that checkpoint. Source Markman2025 is a preprint; the statement records that. Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
     },
     {
       "id": "Z-cycles",

@@ -12,6 +12,7 @@ A proof repository with a thin Python harness around it. There is one library (`
 - **Lean first.** A claim becomes a result only when it is a sorry-free Lean declaration that `tools/check.py` accepts with the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`). Prose, sketches and Python never prove anything here; they organize the search.
 - **Statements of record are upstream.** Never restate the conjecture or a variant that `Paul-Lez/HodgeConjecture` states; prove theorems whose types are those `Prop`s. No interface structures for missing objects (decision 0003). Do not add notation, instances or attributes that change how an upstream statement elaborates.
 - **Upstream-first.** General mathematics goes to Mathlib; statement-level definitions and sanity checks go to `Paul-Lez/HodgeConjecture`; this repository keeps proofs of variants, reductions, frontier statements, the ledger, falsification records and the literature map. Record anything kept locally that belongs upstream in `docs/gaps.md`.
+- **Equality first.** Aim at non-vacuous equalities (decision 0004). Inclusions are steps; identities between classes are proved exactly, with the sign in the docstring and in `docs/conventions.md`; "up to a nonzero scalar" does not discharge an identity rung.
 - **Falsification.** Every checked rung gets a red-team pass covering vacuity, sign and normalization conventions (`docs/conventions.md`), and upstream definition drift between pins. Keep the October 2026 sign-error withdrawals (arXiv:2610.30976) in sight.
 - **Harness-neutral corpus.** `AGENTS.md`, `CONTRIBUTING.md` and `docs/` are written for any agent or person. Claude-Code-specific detail stays in this file and in `.claude/` (per-developer settings are gitignored).
 - **Scope.** The target is the statement in `docs/statement.md`. Formalizing foundations that Mathlib lacks (differential forms, de Rham cohomology, Kähler geometry) is in scope when the roadmap names it. Unrelated Mathlib contributions are not.
@@ -20,7 +21,9 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 **2026-11-24.** Conformance audit against the 2026 literature (`docs/audits/2026-11-24-conformance.md`) led to decision 0003: rebase on `Paul-Lez/HodgeConjecture` (pinned at `2ead713`, Lean and Mathlib v4.35.0-rc4), rename the library to `HodgeLadder`, retire the interface-first and foundation rungs, and make the Lefschetz checkpoint the first target. An upstream proof of rational Lefschetz (1,1) exists as an unmerged stack on v4.33.1 (PRs #217–#226, #9, #230, #228); this repository verifies it, red-teams it, ports it and checks `LefschetzOneOne` here. Markman follows the checkpoint. `docs/problem.md` corrected against the 2026 literature.
 
-**Next planned work:** `lefschetz-upstream-verify` and `nonvacuity-tests`; then `lefschetz-port`, coordinated with the upstream authors.
+Decision 0004 (equality first): the checkpoint is done at `lefschetz-1-1-equality`; the port must prove the divisor–Chern identity exactly (`divisor-chern-exact`); new rungs `cycle-classes-are-hodge`, `lefschetz-1-1-integral`, `projective-space-test`.
+
+**Next planned work:** `lefschetz-upstream-verify` and `nonvacuity-tests`; `projective-space-test` and `cycle-classes-are-hodge` can start in parallel; then `divisor-chern-exact` and `lefschetz-port`, coordinated with the upstream authors.
 
 **2026-11-23.** Scaffolded; strategy, harness, problem map written.
 

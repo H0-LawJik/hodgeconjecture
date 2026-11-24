@@ -18,13 +18,15 @@ In October 2026 three manuscripts claiming cases of the Hodge conjecture were wi
 | Connecting homomorphism sign | Mathlib `CategoryTheory.Sheaf.H.δ` (`ExactSequences.lean`) | c₁ is `δ` with no extra sign | same as above | read from source |
 | Complex orientation of ℂ^p | upstream `Definitions/AlgebraicTopology/LocalHomology/ComplexClass.lean` | consecutive real and imaginary coordinates; the reference simplex carries sign (−1)^d, positive for d = 2p | fundamental-class equalities and degrees | read from source |
 | Fundamental-class normalization | upstream `Definitions/AlgebraicGeometry/Cycle/FundamentalClass.lean` | local classes evaluate to 1 on complex orientation classes of normal spaces | equalities and degrees | recorded |
-| Cycle-class model | upstream main `2ead713` (Ext and `relH`) versus Lefschetz branch `c7d5c94b` (injective-resolution model) | the two `cycleComponentSheafClass` constructions agree up to a nonzero rational scalar, by an argument not yet formalized; the branch itself proves a −1 between two support models (`BettiSupportedOrdinarySign.lean:35`) | none for `LefschetzOneOne` (a span); every equality on the branch that mentions the cycle class, including [D] = c₁, must be re-proved or bridged in the port | **open hazard; port must resolve** |
+| Cycle-class model | upstream main `2ead713` (Ext and `relH`) versus Lefschetz branch `c7d5c94b` (injective-resolution model) | the two `cycleComponentSheafClass` constructions agree up to a nonzero rational scalar, by an argument not yet formalized; the branch itself proves a −1 between two support models (`BettiSupportedOrdinarySign.lean:35`) | none for the inclusion `LefschetzOneOne`; every identity that mentions the cycle class, including [D] = c₁, must be re-proved exactly on the pinned model (rung `divisor-chern-exact`); a bridge up to scalar does not satisfy decision 0004 | **open hazard; the port resolves it** |
 | Winding number | upstream Lefschetz stack, PR [6/11] | (1/2πi)∮ d log g | the divisor–Chern identity | read from source |
 | Divisor–Chern identity | upstream Lefschetz stack, PR [9/11] | for every Cartier datum c representing L (L ≅ 𝒪(D)) with L^an matching the extension: cycle class of `c.divisor` equals the rational image of `firstChernClass`, sign + | an equality; holds on the branch's cycle-class model only until re-proved on main's | read from source |
 | Hodge filtration | upstream `Definitions/AlgebraicGeometry/Hodge/Filtration.lean` | `F^p` is the image of hypercohomology of holomorphic forms of degree ≥ p (stupid truncation) | which classes are Hodge classes | recorded |
 | Hodge classes | same file, `hodgeClasses` | rational classes whose de Rham image lies in `F^p ∩ conj F^p` | the statement | recorded |
 
 ## Rules
+
+- Identities between classes are proved exactly (decision 0004). A rung whose statement is an identity is not discharged by "equal up to a nonzero scalar"; the sign and the normalization go in its docstring and in a row here.
 
 - A rung statement that is an equality of classes names its sign convention in the docstring and cites the row here.
 - A conditional theorem lists every assumed input and the convention each input uses.

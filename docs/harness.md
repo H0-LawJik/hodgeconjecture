@@ -70,6 +70,7 @@ Each rung has a `kind`: `foundation`, `statement`, `case`, `reduction`, `front`,
 |---|---|
 | No `sorry`, standard axioms only, declarations exist | `tools/check.py`, CI, branch protection |
 | Statement matches the literature | red-team pass before posting; human statement review on the pull request |
+| Identities proved exactly; inclusions not presented as endpoints (decision 0004) | red-team pass; reviewer |
 | Statement is not vacuous; conventions recorded | `nonvacuity-tests` rung; `docs/conventions.md`; red-team items 6 to 8 |
 | Upstream definitions unchanged by a pin bump | red-team diff of the definitions in `docs/conventions.md` |
 | "Known" claims carry a citation key or "unverified" | red-team pass; `docs/references.md` |
@@ -95,6 +96,6 @@ Each rung has a `kind`: `foundation`, `statement`, `case`, `reduction`, `front`,
 | Stage | Visible signal |
 |---|---|
 | Harness works | Five rungs through the full lifecycle by hand, each with a handoff and a clean pull request |
-| M1 | `lefschetz-1-1` checked; red-team `pass`; non-vacuity suite checked; conventions register filled |
+| M1 | `lefschetz-1-1-equality` checked; red-team `pass`; non-vacuity suite checked; exact divisor–Chern sign in the conventions register |
 | M2 | Markman inventory written; `markman-statement` stated |
 | Unattended | a week of loop runs with no closed-as-duplicate pull requests and no statement edits |
