@@ -16,9 +16,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
-**2026-11-23.** Scaffolded; Mathlib pinned at `v4.36.0`; checker and ledger live; CI configured. One rung checked (`Z-cycles`: cycles of pure codimension `p` and the group `Z^p(X)`, generalizing Mathlib's Weil divisors). Verdict: **open**. Six rungs open; see `ledger/ladder.json` and `docs/roadmap.md`.
+**2026-11-23, later.** Strategy and harness written (`docs/strategy.md`, `docs/harness.md`). Ledger gained `kind` and five interface-first rungs (`hodge-interface`, `statement-interface`, `case-trivial-degrees`, `case-lefschetz-1-1`, `reduce-hard-lefschetz`); `statement` now also depends on `statement-interface`. Roles exist as `.claude/agents/`; entry points as `/prove-rung`, `/post-rungs`, `/red-team`; `tools/next.py` prints briefs. Nothing has gone through the lifecycle yet; the first target is five rungs by hand (harness.md, "What success looks like").
 
-**Next planned work:** rational equivalence and Chow groups (`rational-equivalence`), then a Lean statement of the conjecture at the `stated` level, with the `p = 0` and `p = dim X` cases as the first proofs.
+**2026-11-23.** Scaffolded; Mathlib pinned at `v4.36.0`; checker and ledger live; CI configured. One rung checked (`Z-cycles`). Verdict: **open**.
+
+**Next planned work:** `rational-equivalence` (M0) and `hodge-interface` (M1) are both ready; run a thinker then a red team on `hodge-interface` before any prover touches it.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 
@@ -31,9 +33,17 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `HodgeConjecture/Basic.lean` | Namespace preamble and a toolchain smoke test. No content. |
 | `HodgeConjecture/Cycles/Codimension.lean` | Rung `Z-cycles`: `IsCodim`, `codimCycles`, relation to Mathlib's Weil divisors. |
 | `ledger/ladder.json` | Machine-readable status of every rung: `checked`, `stated`, `open`, `refuted`, `dead`. The website reads this file. |
-| `tools/check.py` | The checker: `lake build`, sorry scan, `#print axioms` for every declaration a `checked`/`stated` rung names, ledger validation. Standard library only. |
+| `tools/check.py` | The checker: `lake build`, sorry scan, `#print axioms` for every declaration a `checked`/`stated` rung names, ledger validation (statuses and kinds). Standard library only. |
+| `tools/next.py` | Prints the prover brief for the next ready rung or a named one (`--all`, `--json`). The local equivalent of a "desk". |
+| `.claude/agents/hodge-{orchestrator,thinker,red-team,prover,librarian}.md` | Claude Code subagent definitions, one per role in `docs/harness.md`. Convenience layer over `AGENTS.md`; the neutral file wins on conflict. |
+| `.claude/skills/{prove-rung,post-rungs,red-team}/SKILL.md` | Session entry points: `/prove-rung <id>`, `/post-rungs`, `/red-team <id>`. |
 | `AGENTS.md` | Instruction sheet for an outside coding agent: how to pick a rung, prove it, and submit it. |
 | `CONTRIBUTING.md` | Rules for pull requests, human or agent. |
+| `docs/strategy.md` | What we attack and in what order: milestones M0 to M5, fronts with kill criteria, the words we use in public. |
+| `docs/harness.md` | How a session runs: roles, where prompts live, rung lifecycle, interface-first pattern, gates, budgets. |
+| `docs/references.md` | Citation keys. A "known" claim anywhere carries a key or the word "unverified". |
+| `docs/sketches/<id>.md`, `docs/sketches/<id>.redteam.md` | Thinker sketch and red-team verdict per rung. A statement rung is posted only with a `pass`. |
+| `docs/handoffs/YYYY-MM-DD-<id>.md` | Five to fifteen lines per session: what moved, what failed, next move. |
 | `docs/statement.md` | The conjecture, informal statement and formalization targets. |
 | `docs/roadmap.md` | The ladder: what Mathlib has, what is missing, in what order. |
 | `docs/gaps.md` | Acknowledged gaps: local definitions to upstream, known weaknesses, dropped threads. |
@@ -49,6 +59,8 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `lake env lean <file>` | Check one file. |
 | `python3 tools/check.py` | Full check (build, sorry, axioms, ledger). Run before every commit. |
 | `python3 tools/check.py --no-build` | Same, assuming the build is current. |
+| `python3 tools/next.py [id]` | Brief for the next ready rung, or the named one. Start of every prover session. |
+| `/prove-rung <id>`, `/post-rungs`, `/red-team <id>` | The three session modes, as skills. |
 | `lake update` | Only after editing `lakefile.toml`; commit `lake-manifest.json`. |
 
 ## Conventions
@@ -70,6 +82,8 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | **State the conjecture or a case** | 1. `HodgeConjecture/Statement.lean` (statement sorry-free; proof may be absent as a separate `open` rung) 2. ledger `stated` 3. `docs/statement.md` section "Formal statement" |
 | **Add a local definition Mathlib lacks** | 1. The module 2. `docs/gaps.md` "To upstream" table 3. Mathlib issue or Zulip thread link if one exists |
 | **Bump Lean or Mathlib** | 1. `lean-toolchain` 2. `lakefile.toml` rev 3. `lake update`, commit `lake-manifest.json` 4. `ledger/ladder.json` toolchain block 5. `README.md` version line 6. `.github/workflows/ci.yml` if the action pin changes |
+| **Add or change a role or prompt** | 1. `docs/harness.md` roles table 2. `.claude/agents/<role>.md` 3. `AGENTS.md` if the outside-agent path changed 4. the skill that invokes it |
+| **Open or kill a front** | 1. `docs/decisions/` record 2. `docs/strategy.md` fronts table 3. ledger rung with `kind: "front"` 4. issue |
 | **Change the checker rules** | 1. `tools/check.py` 2. `CONTRIBUTING.md` "What the checker requires" 3. `AGENTS.md` same list 4. `docs/decisions/` record |
 | **Mark a rung refuted or dead** | 1. Ledger status plus `note` naming what failed 2. `docs/gaps.md` "Dead ends" 3. Keep the Lean file if it holds a checked counterexample, delete it otherwise |
 

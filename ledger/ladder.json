@@ -25,7 +25,8 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Generalizes Mathlib's Weil divisors (coheight one) to coheight p."
+      "note": "Generalizes Mathlib's Weil divisors (coheight one) to coheight p.",
+      "kind": "foundation"
     },
     {
       "id": "rational-equivalence",
@@ -37,7 +38,8 @@
         "Z-cycles"
       ],
       "contributors": [],
-      "note": "Needs divisors of rational functions on subvarieties; Mathlib has orders of vanishing (AlgebraicGeometry/OrderOfVanishing) to build on."
+      "note": "Needs divisors of rational functions on subvarieties; Mathlib has orders of vanishing (AlgebraicGeometry/OrderOfVanishing) to build on.",
+      "kind": "foundation"
     },
     {
       "id": "complex-analytic-space",
@@ -47,7 +49,8 @@
       "declarations": [],
       "depends_on": [],
       "contributors": [],
-      "note": "Mathlib has complex manifolds (Geometry/Manifold/Complex) and projective schemes; the analytification bridge between them does not exist."
+      "note": "Mathlib has complex manifolds (Geometry/Manifold/Complex) and projective schemes; the analytification bridge between them does not exist.",
+      "kind": "foundation"
     },
     {
       "id": "de-rham",
@@ -57,7 +60,8 @@
       "declarations": [],
       "depends_on": [],
       "contributors": [],
-      "note": "Differential forms on manifolds and the exterior derivative are missing from Mathlib; this is the largest piece of foundations."
+      "note": "Differential forms on manifolds and the exterior derivative are missing from Mathlib; this is the largest piece of foundations.",
+      "kind": "foundation"
     },
     {
       "id": "hodge-decomposition",
@@ -69,7 +73,8 @@
         "de-rham"
       ],
       "contributors": [],
-      "note": "Needs Kähler metrics, the Laplacian, and elliptic regularity (or a Dolbeault-theoretic route)."
+      "note": "Needs Kähler metrics, the Laplacian, and elliptic regularity (or a Dolbeault-theoretic route).",
+      "kind": "foundation"
     },
     {
       "id": "cycle-class",
@@ -83,7 +88,73 @@
         "hodge-decomposition"
       ],
       "contributors": [],
-      "note": ""
+      "note": "",
+      "kind": "foundation"
+    },
+    {
+      "id": "hodge-interface",
+      "title": "HodgeInterface: cohomology, Hodge decomposition and cycle class map as a structure with cited axioms",
+      "status": "open",
+      "kind": "interface",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "Z-cycles"
+      ],
+      "contributors": [],
+      "note": "Interface-first pattern (docs/harness.md). Axioms only as known theorems need them, each cited. Red team must show no axiom makes the statement trivial."
+    },
+    {
+      "id": "statement-interface",
+      "title": "The Hodge conjecture stated against HodgeInterface, as a sorry-free Prop",
+      "status": "open",
+      "kind": "statement",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "hodge-interface"
+      ],
+      "contributors": [],
+      "note": "Milestone M1. Target status is stated, not checked."
+    },
+    {
+      "id": "case-trivial-degrees",
+      "title": "The cases p = 0 and p = dim X against HodgeInterface",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "statement-interface"
+      ],
+      "contributors": [],
+      "note": "Milestone M2, first case. Should follow from the interface axioms on H^0 and H^{2n}; if it does not, the interface is missing something and the rung says what."
+    },
+    {
+      "id": "case-lefschetz-1-1",
+      "title": "Lefschetz (1,1): the case p = 1 against HodgeInterface",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "statement-interface"
+      ],
+      "contributors": [],
+      "note": "Needs the exponential sequence as interface data (Lefschetz1924, Voisin2002 ch. 7). Red team: the axiom must not simply assert surjectivity onto Hodge classes."
+    },
+    {
+      "id": "reduce-hard-lefschetz",
+      "title": "Hard Lefschetz as interface data and the reduction of the conjecture to 2p ≤ dim X",
+      "status": "open",
+      "kind": "reduction",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "statement-interface"
+      ],
+      "contributors": [],
+      "note": "Front reduce, first rung (Lewis1999)."
     },
     {
       "id": "statement",
@@ -92,10 +163,12 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cycle-class"
+        "cycle-class",
+        "statement-interface"
       ],
       "contributors": [],
-      "note": "The conjecture itself, stated in Lean. A sorry-free statement is a milestone; a proof is the whole project. Known cases to formalize first: p = 1 (Lefschetz (1,1)), and the trivial degrees p = 0 and p = dim X."
+      "note": "The unconditional statement: statement-interface with HodgeInterface instantiated from the foundations (milestone M3). Known cases to carry over: p = 0, p = dim X, p = 1.",
+      "kind": "statement"
     }
   ]
 }

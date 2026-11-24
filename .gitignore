@@ -8,3 +8,7 @@ __pycache__/
 .claude/settings.local.json
 .mcp.json
 .mcp.local.json
+*.env
+.env*
+*.token
+*.secret

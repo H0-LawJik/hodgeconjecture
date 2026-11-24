@@ -21,6 +21,7 @@ LIB = ROOT / "HodgeConjecture"
 LEDGER = ROOT / "ledger" / "ladder.json"
 ALLOWED_AXIOMS = {"propext", "Classical.choice", "Quot.sound"}
 STATUSES = {"checked", "stated", "open", "refuted", "dead"}
+KINDS = {"foundation", "interface", "statement", "case", "reduction", "front"}
 
 failures: list[str] = []
 
@@ -75,6 +76,8 @@ def load_ledger() -> dict | None:
         if not rid or rid in ids:
             reject(f"ledger: missing or duplicate rung id {rid!r}")
         ids.add(rid)
+        if r.get("kind") not in KINDS:
+            reject(f"ledger: rung {rid} has kind {r.get('kind')!r}; allowed {sorted(KINDS)}")
         if r.get("status") not in STATUSES:
             reject(f"ledger: rung {rid} has status {r.get('status')!r}; allowed {sorted(STATUSES)}")
         if r.get("status") in {"checked", "stated"} and not (r.get("module") and r.get("declarations")):
