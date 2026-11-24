@@ -1,0 +1,11 @@
+name = "hodgeconjecture"
+version = "0.1.0"
+defaultTargets = ["HodgeConjecture"]
+
+[[lean_lib]]
+name = "HodgeConjecture"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.36.0"

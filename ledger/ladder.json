@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "updated": "2026-11-23",
+  "project": "hodgeconjecture",
+  "repo": "H0-LawJik/hodgeconjecture",
+  "toolchain": {"lean": "v4.36.0", "mathlib": "v4.36.0"},
+  "verdict": "open",
+  "rungs": [
+    {
+      "id": "Z-cycles",
+      "title": "Cycles of pure codimension p and the group Z^p(X)",
+      "status": "checked",
+      "module": "HodgeConjecture.Cycles.Codimension",
+      "declarations": [
+        "AlgebraicGeometry.AlgebraicCycle.IsCodim",
+        "AlgebraicGeometry.AlgebraicCycle.codimCycles",
+        "AlgebraicGeometry.AlgebraicCycle.isWeilDivisor_iff_isCodim_one",
+        "AlgebraicGeometry.AlgebraicCycle.codimCycles_one",
+        "AlgebraicGeometry.AlgebraicCycle.codimCycles_inf_eq_bot"
+      ],
+      "depends_on": [],
+      "contributors": ["H0-LawJik"],
+      "note": "Generalizes Mathlib's Weil divisors (coheight one) to coheight p."
+    },
+    {
+      "id": "rational-equivalence",
+      "title": "Rational equivalence of cycles and the Chow group CH^p(X)",
+      "status": "open",
+      "module": null,
+      "declarations": [],
+      "depends_on": ["Z-cycles"],
+      "contributors": [],
+      "note": "Needs divisors of rational functions on subvarieties; Mathlib has orders of vanishing (AlgebraicGeometry/OrderOfVanishing) to build on."
+    },
+    {
+      "id": "complex-analytic-space",
+      "title": "Smooth projective complex variety as a compact complex manifold",
+      "status": "open",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Mathlib has complex manifolds (Geometry/Manifold/Complex) and projective schemes; the analytification bridge between them does not exist."
+    },
+    {
+      "id": "de-rham",
+      "title": "De Rham cohomology of a smooth manifold",
+      "status": "open",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Differential forms on manifolds and the exterior derivative are missing from Mathlib; this is the largest piece of foundations."
+    },
+    {
+      "id": "hodge-decomposition",
+      "title": "Hodge decomposition H^k(X, C) = sum of H^{p,q} on a compact Kahler manifold",
+      "status": "open",
+      "module": null,
+      "declarations": [],
+      "depends_on": ["de-rham"],
+      "contributors": [],
+      "note": "Needs Kahler metrics, the Laplacian, and elliptic regularity (or a Dolbeault-theoretic route)."
+    },
+    {
+      "id": "cycle-class",
+      "title": "The cycle class map cl : CH^p(X) -> H^{2p}(X, Q) lands in H^{p,p}",
+      "status": "open",
+      "module": null,
+      "declarations": [],
+      "depends_on": ["rational-equivalence", "complex-analytic-space", "hodge-decomposition"],
+      "contributors": [],
+      "note": ""
+    },
+    {
+      "id": "statement",
+      "title": "Statement: every rational (p,p)-class on a smooth projective complex variety is a rational combination of cycle classes",
+      "status": "open",
+      "module": null,
+      "declarations": [],
+      "depends_on": ["cycle-class"],
+      "contributors": [],
+      "note": "The conjecture itself, stated in Lean. A sorry-free statement is a milestone; a proof is the whole project. Known cases to formalize first: p = 1 (Lefschetz (1,1)), and the trivial degrees p = 0 and p = dim X."
+    }
+  ]
+}

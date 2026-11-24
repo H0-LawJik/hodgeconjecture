@@ -1,0 +1,29 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build with the pinned toolchain and Mathlib cache
+        uses: leanprover/lean-action@v1
+        with:
+          use-mathlib-cache: true
+          build: true
+          test: false
+          lint: false
+
+      - name: Checker
+        run: python3 tools/check.py --no-build
