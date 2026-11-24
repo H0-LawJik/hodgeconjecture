@@ -1,0 +1,29 @@
+module
+
+-- Staging root for the port of the upstream Lefschetz (1,1) stack (rung `lefschetz-port`).
+-- Imports every staged module so that none goes unbuilt. Parts staged: see docs/port-lefschetz.md.
+public import LefschetzPort.AlgebraicGeometry.AnalytificationModules
+public import LefschetzPort.AlgebraicGeometry.CartierDataRepresents
+public import LefschetzPort.AlgebraicGeometry.DivisorClassCompatibility
+public import LefschetzPort.AlgebraicGeometry.DivisorOfRationalSection
+public import LefschetzPort.AlgebraicGeometry.HolomorphicExponential
+public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSequence
+public import LefschetzPort.AlgebraicGeometry.HolomorphicFirstChernClass
+public import LefschetzPort.AlgebraicGeometry.HolomorphicLineBundleModule
+public import LefschetzPort.AlgebraicGeometry.HolomorphicLineBundleOfExtension
+public import LefschetzPort.AlgebraicGeometry.HolomorphicLineBundleSections
+public import LefschetzPort.AlgebraicGeometry.HolomorphicRingSheaf
+public import LefschetzPort.AlgebraicGeometry.HolomorphicUnitExtension
+public import LefschetzPort.AlgebraicGeometry.HolomorphicUnitTransition
+public import LefschetzPort.AlgebraicGeometry.IntegralCohomology
+public import LefschetzPort.AlgebraicGeometry.InvertibleSheafRationalSection
+public import LefschetzPort.AlgebraicGeometry.OrderOfVanishing
+public import LefschetzPort.AlgebraicGeometry.RegularFunctionsHolomorphic
+public import LefschetzPort.AlgebraicTopology.SheafExtensionCocycle
+public import LefschetzPort.AlgebraicTopology.SheafExtensionLocalLifts
+public import LefschetzPort.CategoryTheory.Sites.Forget
+public import LefschetzPort.CategoryTheory.Sites.SheafCohomology.Connecting
+public import LefschetzPort.Geometry.Manifold.HolomorphicLogarithm
+public import LefschetzPort.TauCeti.SheafOfModules.Free
+public import LefschetzPort.TauCeti.SheafOfModules.Invertible
+public import LefschetzPort.TauCeti.SheafOfModules.LocalTriviality
