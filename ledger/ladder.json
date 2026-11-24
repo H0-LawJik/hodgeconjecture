@@ -142,16 +142,23 @@
     },
     {
       "id": "nonvacuity-tests",
-      "title": "Non-vacuity tests for the upstream definitions: a variety satisfying the hypotheses, a nonzero class in H^2, a nonzero cycle class",
-      "status": "open",
+      "title": "Non-vacuity tests: a variety satisfying the hypotheses, and the equality form holding non-vacuously in codimension zero",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests",
+      "declarations": [
+        "HodgeLadder.Tests.exists_smooth_projective_integral",
+        "HodgeLadder.Tests.hodge_eq_span_zero",
+        "HodgeLadder.Tests.span_zero_ne_bot",
+        "HodgeLadder.Tests.hodge_zero_ne_bot"
+      ],
       "depends_on": [
         "upstream-statement"
       ],
-      "contributors": [],
-      "note": "Rules out a definitional accident that would make Lefschetz (1,1) or the conjecture trivially true. Exact list from the red-team audit of the upstream proof; contributed upstream to Other/ where upstream wants it. The equality rungs (lefschetz-1-1-equality, cycle-classes-are-hodge, projective-space-test) are the strongest non-vacuity tests; this rung keeps the cheap ones (a variety meeting the hypotheses; a nonzero point class)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Spec ℂ over itself is integral, smooth and projective in upstream's sense, through an explicit section of ℙ⁰ → Spec ℂ built from the chart x₀ = 1 (HodgeLadder.Tests.Witness). For every X, Hdg^0 = algebraicCycleClassSpan X 0 and both are nonzero, using upstream's Other theorems (HodgeLadder.Tests.CodimensionZero). A nonzero class in degree two needs a variety of positive dimension and is covered by projective-space-test."
     },
     {
       "id": "lefschetz-port",
