@@ -24,12 +24,12 @@ Hodge's 1950 formulation asked the integral question; Deligne notes he had not r
 | Integral HC | every (p,p) class in H^{2p}(X, ℤ) is a ℤ-combination of cycle classes | **false**; true for p = 0, 1, n | torsion counterexample [AtiyahHirzebruch1962]; non-torsion [Kollar1992]; cobordism obstruction [Totaro1997]; later failures in Kodaira dimension 0 [BenoistOttem2020] |
 | HC for compact Kähler manifolds | same statement, Kähler instead of projective; or with Chern classes of coherent sheaves in place of cycles | **false** in both forms | complex tori with no hypersurfaces [Zucker1977]; Weil torus where every coherent sheaf has trivial c_2 [Voisin2002K] |
 | Generalized HC, Hodge's form | classes with Hodge coniveau ≥ c are supported in codimension c | **false** | [Grothendieck1969] |
-| Generalized HC, Grothendieck's form | every sub-Hodge structure of coniveau ≥ c is supported on a closed algebraic subset of codimension ≥ c | **open**; HC is the case k = 2c; HC alone is not known to imply it | [Grothendieck1969] [Voisin2025] |
+| Generalized HC, Grothendieck's form | every sub-Hodge structure of coniveau ≥ c is supported on a closed algebraic subset of codimension ≥ c | **open**; HC is the case k = 2c; HC alone is not known to imply it; HC together with Voisin's Conjecture 4.7 implies it [Voisin2025, Prop. 4.8]; for the class of CM abelian varieties HC implies GHC (Hazama; [Abdulali2005]) | [Grothendieck1969] [Voisin2025] |
 | Variational HC | an algebraic class in a family that stays Hodge stays algebraic | **open**; implied by HC and by the Lefschetz standard conjecture | [Grothendieck1966] [CharlesSchnell2011] [Voisin2007] |
 | Hodge loci are algebraic | the locus in a family where a class is Hodge is a countable union of algebraic subvarieties | **theorem** | [CDK1995]; o-minimal proof [BKT2020] |
 | Hodge classes are absolute Hodge | Galois conjugates of a Hodge class are Hodge | **open**; implied by HC; **theorem** for abelian varieties | [Deligne1982] [CharlesSchnell2011] |
 | Tate conjecture | Galois-invariant ℓ-adic classes are algebraic (over finitely generated fields) | **open**; for abelian varieties Tate implies Hodge; equivalence under Mumford-Tate | [CantoralFarfan2016] [Milne1999] |
-| Lefschetz standard conjecture B(X) | the inverse of hard Lefschetz is algebraic | **open**; implied by HC; known for abelian varieties, curves, surfaces, K3^[n]-type | [Kleiman1994] [Lieberman1968] [CharlesMarkman2013] |
+| Lefschetz standard conjecture B(X) | the inverse of hard Lefschetz is algebraic | **open**; implied by HC; known for abelian varieties, curves, surfaces, K3^[n]-type; Kummer type of dimension 4d [Foster2025] (preprint) | [Kleiman1994] [Lieberman1968] [CharlesMarkman2013] |
 
 What a proof must therefore use: rational coefficients (the integral statement fails), and projectivity through GAGA, ample bundles or Chow's theorem (the Kähler statement fails). A statement about single classes of a given coniveau is wrong; statements must be about sub-Hodge structures. [Voisin2025]
 
@@ -55,26 +55,28 @@ So HC holds for every curve, surface and threefold. [daSilva2021]
 | Powers of one elliptic curve; products of non-isogenous elliptic curves | all Hodge classes from divisors | Tate, Murasaki, Imai; see [Gordon1999] |
 | Simple abelian varieties of prime dimension | all Hodge classes from divisors | [Tankeev1982] [Ribet1983] |
 | Abelian varieties of dimension ≤ 3 | HC holds | [MoonenZarhin1999] |
-| Abelian fourfolds | HC holds: the only exceptional classes are Weil classes [MoonenZarhin1995], and Weil classes are algebraic for all fourfolds of Weil type | discriminant 1: [Markman2023], also [FloccariFu2025] [vanGeemenRapagnetta2026]; all discriminants: [Markman2025] (preprint), via sixfolds of discriminant −1 and Schoen's degeneration [Schoen1988] |
+| Abelian fourfolds | HC holds: the only exceptional classes are Weil classes [MoonenZarhin1995]. Weil classes of discriminant 1 are algebraic (refereed) [Markman2023] [FloccariFu2025] [Floccari2026GT]; all discriminants rest on a preprint | [Markman2025] (preprint), via sixfolds of discriminant −1 and Schoen's degeneration [Schoen1988]; another proof for the general discriminant-1 fourfold [vanGeemenRapagnetta2026] (preprint) |
 | Abelian varieties of dimension 5 | HC stated to follow from Markman 2025 and [MoonenZarhin1999] | [Markman2026ICM] (preprint) |
-| Abelian sixfolds | open in general | [Mostaed2026] (preprint) |
+| Abelian sixfolds | open in general | [Markman2026ICM]; [Mostaed2026] is a research program toward this case and proves no case |
 | CM abelian varieties | all Hodge classes described [Pohlmann1968]; HC known when the CM type is nondegenerate; degenerate types open | [Gordon1999] |
-| Fermat hypersurfaces X^n_m | HC for m prime or m = 4 (all n), m ≤ 20; m = p^2 | [Shioda1979] [Ran1980] [Aoki1987]; fourfolds with gcd(m, 6) = 1 [daSilva2021F] (preprint) |
+| Fermat hypersurfaces X^n_m | HC for m prime or m = 4 (all n), m ≤ 20; m = p^2; fourfolds with m ≤ 100 coprime to 6, and X^n_21, X^n_27 for all n | [Shioda1979] [Ran1980] [Aoki1987] [daSilva2021F] (published version); preprints: degree < 65 except 44, 51, 52, all n [MMRV2026]; the degree-33 fourfold [FaveroKelly2026]; odd degree ≤ 199 fourfolds, computer-assisted [Jumagulov2026]. A 2016 claim for all Fermat fourfolds [Kang2016] is cited by some later papers and ignored by others; unresolved here |
 | Cubic fourfolds | HC holds | [Zucker1977]; also unirational [Murre1977] |
 | Unirational and uniruled fourfolds (so quartic and quintic fourfolds) | HC holds | [Murre1977] [ConteMurre1978] |
 | Varieties with CH_0 supported on a threefold (all rationally connected varieties in codimension 2; Fano fourfolds) | HC_2 holds | [BlochSrinivas1983] |
 | Fano complete-intersection fourfolds, Gushel-Mukai varieties | HC holds | [daSilva2021] [FuMoonen2022] |
 | Products of two K3 surfaces | reduces to Hom of transcendental lattices; all rational Hodge isometries are algebraic [Buskin2019]; HC for S × S when End of T(S) is a CM field | [Huybrechts2019] [RamonMari2008] |
-| Hyperkähler of generalized Kummer type | HC and Tate for all projective fourfolds; sixfolds (preprint) | [FloccariVaresco2024] [Floccari2023] |
+| Hyperkähler of generalized Kummer type | HC and Tate for all projective fourfolds; sixfolds (preprint); all Kum^n with n + 1 prime and their powers (preprint); for dimension divisible by 4, the Lefschetz standard conjecture implies HC (preprint) | [FloccariVaresco2024] [Floccari2023] [FloccariFu2026] |
+| OG6 type, in part | HC and Tate for crepant resolutions arising from locally trivial deformations of singular moduli spaces on abelian surfaces, and their powers; not the full OG6 type | [FloccariFu2025] |
+| K3 surfaces attached to Kummer-type varieties | HC for all their powers, and for discriminant-1 Weil fourfolds and their powers | [Floccari2026GT] |
 | K3^[n]-type | rational Hodge isometries of H^2 algebraic; Lefschetz standard conjecture; full HC open | [Markman2024] [CharlesMarkman2013] |
-| Compact unitary Shimura varieties | HC in degrees outside the middle third | [BMM2016] |
+| Compact Shimura varieties uniformized by the complex n-ball | HC in degrees k outside ]n/3, 2n/3[, partly extended to other signatures; at publication conditional on stabilization of the twisted trace formula (whether that condition has since been removed is unverified here) | [BMM2016] |
 | Hilbert schemes S^[n] | follows from HC for all powers of S | [Arapura2002] |
 
 ### The frontier in codimension 2 on fourfolds
 
-Done: cubic, quartic, quintic hypersurfaces; uniruled and rationally connected fourfolds; Fermat fourfolds in the degrees above; all abelian fourfolds (preprint for the last step); generalized Kummer fourfolds; generic K3^[2]-type [Shen2012]; products of K3s under the CM condition.
+Done: cubic, quartic, quintic hypersurfaces; uniruled and rationally connected fourfolds; Fermat fourfolds in the degrees above; all abelian fourfolds (preprint for discriminants other than 1); generalized Kummer fourfolds; generic K3^[2]-type [Shen2012]; products of K3s under the CM condition. Special families: very general hypersurfaces of a specific separated form of degree ≥ 7 in ℙ^5 [LinZhang2026] (preprint).
 
-Open: hypersurfaces of degree ≥ 6 in ℙ^5 (the sextic is Calabi-Yau); the general K3^[2]-type fourfold; the product of two general K3 surfaces; general products of surfaces with p_g > 0; abelian sixfolds beyond the known discriminants. [daSilva2021] [Voisin2025]
+Open: an arbitrary smooth hypersurface of degree ≥ 6 in ℙ^5, that is, special members on Noether-Lefschetz loci (a very general member has no exceptional Hodge classes); an arbitrary projective K3^[2]-type fourfold; S × S′ for arbitrary K3 surfaces, where Hodge morphisms T(S) → T(S′) that are not isometries remain (for example when End_Hdg T(S) is totally real); arbitrary products of surfaces with p_g > 0; abelian sixfolds beyond the known discriminants. [daSilva2021] [Voisin2025] [Markman2026ICM]
 
 ## 4. Reductions and equivalences
 
@@ -88,7 +90,8 @@ Open: hypersurfaces of degree ≥ 6 in ℙ^5 (the sextic is Calabi-Yau); the gen
 | Blow-ups: HC(X) and HC(V) imply HC(Bl_V X); hence HC is birationally invariant in dimension ≤ 5 | theorem | [Arapura2002] |
 | Products: HC(X) and HC(Y) imply HC(X × Y) | **not known**; the Künneth components of the diagonal are the basic unknown case | [ClayDeligne] |
 | Reduction of HC to one special class of varieties | none known in general | [Voisin2007] |
-| HC for all abelian varieties follows from HC for CM abelian varieties | stated in the literature; unverified here | [Abdulali2005] |
+| HC for all CM abelian varieties implies GHC for all CM abelian varieties | theorem (Hazama); the earlier row here claimed a reduction of HC for all abelian varieties to the CM case, for which no source was found | [Abdulali2005] |
+| The Lefschetz standard conjecture for all varieties implies HC for abelian varieties | theorem | André; Abdulali; [Milne2022] |
 | HC ⟺ cl surjects onto Hodge classes ⟺ every morphism of Hodge structures between cohomologies is induced by a correspondence | theorem (reformulations) | [Voisin2007] |
 | HC ⟺ the realization functor from motives to Hodge structures is fully faithful, granting the Künneth and Lefschetz-inverse classes | theorem (reformulation) | [ClayDeligne] |
 | HC implies the Lefschetz and Künneth standard conjectures over ℂ | theorem | [ClayDeligne] [Kleiman1994] |
@@ -101,7 +104,7 @@ Open: hypersurfaces of degree ≥ 6 in ℙ^5 (the sextic is Calabi-Yau); the gen
 - **Codimension one is transcendental and does not generalize.** Lefschetz (1,1) uses the exponential sequence, which has no analogue in algebraic geometry and no analogue in higher codimension. [Voisin2007]
 - **Intermediate Jacobians do not help.** The natural lift of a cycle class lives in Griffiths' intermediate Jacobian, but the subgroup coming from cycles has no conjectural description and can have infinite rank; this blocks Lefschetz-pencil induction. [Griffiths1969] [Clemens1983] [Voisin2000] [ClayDeligne]
 - **The cycle class map loses information.** CH_0 of a surface with p_g > 0 is infinite dimensional [Mumford1968]; the decomposition of the diagonal relates this to coniveau [BlochSrinivas1983]; the Bloch conjecture is the open converse.
-- **Hodge classes are transcendental data.** No algorithm decides whether a given integral class is somewhere of type (p,p) in a family, although the locus where it is turns out to be algebraic. [ClayDeligne] [CDK1995]
+- **Hodge classes are transcendental data.** No algorithm is known to decide, for a family defined over ℚ̄, whether a given integral class is somewhere of type (p,p), although the locus where it is turns out to be algebraic; whether those loci are defined over ℚ̄ is unknown. [ClayDeligne] [CDK1995]
 - **Every stronger statement is false** (section 2), so a proof cannot proceed by proving something cleaner and specializing.
 
 ## 6. Approaches and where each stalls
@@ -112,11 +115,11 @@ Open: hypersurfaces of degree ≥ 6 in ℙ^5 (the sextic is Calabi-Yau); the gen
 | Hodge loci and the variational conjecture | CDK algebraicity; components defined over number fields under hypotheses | characterizes Hodge classes without producing cycles [CDK1995] [Voisin2007H] |
 | Abelian varieties through Mumford-Tate groups | exceptional classes reduce to Weil classes in low dimension; Weil classes attacked through hyperkähler geometry (monodromy of generalized Kummer varieties, hyperholomorphic sheaves along twistor lines, secant sheaves) | discriminant restrictions in dimension 6 and above; CM isolation [Markman2023] [Markman2025] [Mostaed2026] |
 | Motives and absolute Hodge classes | Deligne's theorem for abelian varieties; André's motivated cycles give an unconditional weak form | Deligne calls these substitutes; they do not allow reduction mod p [Deligne1982] [Andre1996] [ClayDeligne] |
-| Standard conjectures | Lefschetz type known for abelian varieties and K3^[n]-type | not known to imply HC in general [Kleiman1994] |
-| Tate conjecture bridge | Tate implies Hodge for abelian varieties; no implication for general varieties | gives no new HC cases beyond divisors [CantoralFarfan2016] |
-| Counterexample search | the natural candidates are Weil classes and Künneth components | no counterexample to the rational conjecture is known; a public 2023 remark by Kontsevich expressed doubt without a candidate [Woit2023] |
+| Standard conjectures | Lefschetz type known for abelian varieties and K3^[n]-type | not known to imply HC in general [Kleiman1994]; B for all varieties implies HC for abelian varieties; B(X) implies HC(X) for Kummer type of dimension divisible by 4 [FloccariFu2026] (preprint) |
+| Tate conjecture bridge | Tate implies Hodge for abelian varieties; no implication for general varieties | gave no new HC cases beyond divisors [CantoralFarfan2016]; in 2026 the direction reversed: Markman's HC results were used to prove Tate for abelian fourfolds [Broe2026] [BroeJiang2026] (preprints) |
+| Counterexample search | the natural candidates are Weil classes and Künneth components | no counterexample to the rational conjecture is known; a public 2023 remark by Kontsevich expressed doubt without a candidate [Woit2023]; Kontsevich's proposed tropical or degeneration route is analysed in [Brosnan2026] (preprint) |
 
-No serious attempt at the full conjecture is recorded as retracted. Claimed proofs on arXiv without refereed status are not cited here as results.
+Unrefereed claimed proofs of the full conjecture exist on arXiv (for example arXiv:2312.09268 and arXiv:2401.03465); none is cited here as a result. In October 2026 three released manuscripts claiming cases through homological mirror symmetry (split abelian eightfolds, Kuga-Satake correspondences for K3 surfaces, products of K3 surfaces) were withdrawn after a sign-convention error in a cited result was found [LekiliSheridan2026], and a claim for powers of CM abelian fourfolds was withdrawn by its author [Li2026]. This ladder keeps that failure mode in front of its falsification agents (`docs/conventions.md`).
 
 ## 7. What this means for the ladder
 
@@ -130,4 +133,4 @@ No serious attempt at the full conjecture is recorded as retracted. Claimed proo
 | Hodge loci are algebraic (CDK) | a long-range foundations target behind front `variational`; nothing on the ladder depends on it yet |
 | Deligne's theorem on abelian varieties | the first concrete target of front `absolute`, far behind foundations |
 
-The honest summary for the site: the conjecture is a theorem for curves, surfaces, threefolds, abelian varieties up to dimension four (five, on a preprint), many special fourfolds, and a scattering of other classes; it is open for a sextic fourfold in ℙ^5. This project formalizes the floor under those facts first.
+The honest summary for the site: the conjecture is a theorem for curves, surfaces, threefolds, abelian varieties of dimension three or less unconditionally (four and five through the Markman 2025 preprint), many special fourfolds, and a scattering of other classes; it is open for an arbitrary (special) sextic fourfold in ℙ^5. This project formalizes the floor under those facts first.

@@ -1,11 +1,23 @@
-name = "hodgeconjecture"
-version = "0.1.0"
-defaultTargets = ["HodgeConjecture"]
+name = "hodgeladder"
+version = "0.2.0"
+defaultTargets = ["HodgeLadder"]
 
-[[lean_lib]]
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
+# The statement of record is Paul-Lez/HodgeConjecture (library `HodgeConjecture`), pinned to an
+# exact commit. Mathlib, Lean and verso follow its pin. Bump all of them together; see
+# docs/decisions/0003-rebase-on-upstream-statement.md.
+[[require]]
 name = "HodgeConjecture"
+git = "https://github.com/Paul-Lez/HodgeConjecture"
+rev = "2ead713179628a3c738197d5996f51c8a9c886ac"
 
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.36.0"
+rev = "v4.35.0-rc4"
+
+[[lean_lib]]
+name = "HodgeLadder"
