@@ -60,6 +60,10 @@ Statements of record live upstream, in `Paul-Lez/HodgeConjecture`, pinned in `la
 - No interface structures stand in for missing objects. Interface statements of this conjecture have been shown vacuous or false elsewhere (LeanDojo regression tests). Assumed inputs, where a conditional theorem needs them, are hypotheses that are themselves statements on real definitions, each cited, each listed with its convention in `docs/conventions.md`.
 - Upstream pin bumps follow upstream's toolchain and are reviewed by the red team for definition drift.
 
+## External checks
+
+A rung may be `checked` by a reproduced build of another repository at another pin, when this repository cannot import that pin. The rung then carries an `external` record (repository, commit, toolchain, declarations, axioms, and a record file under `docs/sketches/` with the build output and a positive control for the axiom gate). The checker validates the record's shape and that its axioms are the standard three; it does not rebuild. The site shows such a rung as checked at the named commit. A rung whose statement is about this repository's pin needs a check here; an external record does not discharge it.
+
 ## Ledger kinds
 
 Each rung has a `kind`: `foundation`, `statement`, `case`, `reduction`, `front`, `test`, or `interface` (retired; kept for dead rungs). The checker validates the field. The site shows it.

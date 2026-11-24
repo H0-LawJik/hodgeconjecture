@@ -48,15 +48,32 @@
     {
       "id": "lefschetz-upstream-verify",
       "title": "Independent build and axiom audit of the upstream Lefschetz (1,1) proof (PR #228 head c7d5c94b)",
-      "status": "open",
+      "status": "checked",
       "kind": "case",
       "module": null,
       "declarations": [],
       "depends_on": [
         "upstream-statement"
       ],
-      "contributors": [],
-      "note": "Upstream claims a green build of 5,814 jobs and only the three standard axioms, on Lean and Mathlib v4.33.1. Done when reproduced here and recorded in docs/sketches/lefschetz-1-1-upstream.md together with the red-team verdict."
+      "contributors": [
+        "Paul-Lez/HodgeConjecture (upstream proof)",
+        "H0-LawJik (reproduction)"
+      ],
+      "note": "Reproduced 2026-11-24: builds (5,519 jobs), upstream axiom gate passes, direct axiom print shows only the standard three, and a positive control confirms a hidden sorry would be reported. Checked at the upstream commit, not at this repository's pin; the pinned cycle class differs by a nonzero scalar (red-team record), so the identities need divisor-chern-exact.",
+      "external": {
+        "repo": "Paul-Lez/HodgeConjecture",
+        "commit": "c7d5c94b44882a3b58e598a0bd22741e3b11eb8c",
+        "toolchain": "v4.33.1",
+        "declarations": [
+          "lefschetzOneOne"
+        ],
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "record": "docs/sketches/lefschetz-1-1-upstream.md"
+      }
     },
     {
       "id": "nonvacuity-tests",

@@ -80,7 +80,17 @@ def load_ledger() -> dict | None:
             reject(f"ledger: rung {rid} has kind {r.get('kind')!r}; allowed {sorted(KINDS)}")
         if r.get("status") not in STATUSES:
             reject(f"ledger: rung {rid} has status {r.get('status')!r}; allowed {sorted(STATUSES)}")
-        if r.get("status") in {"checked", "stated"} and not (r.get("module") and r.get("declarations")):
+        ext = r.get("external")
+        if ext is not None:
+            # Checked by a reproduced build at another pin; recorded, not re-run here.
+            need = {"repo", "commit", "toolchain", "declarations", "axioms", "record"}
+            if not isinstance(ext, dict) or not need <= set(ext):
+                reject(f"ledger: rung {rid} external record needs {sorted(need)}")
+            elif not set(ext["axioms"]) <= ALLOWED_AXIOMS:
+                reject(f"ledger: rung {rid} external axioms {ext['axioms']} outside the standard three")
+            elif not (ROOT / ext["record"]).exists():
+                reject(f"ledger: rung {rid} external record file {ext['record']} missing")
+        elif r.get("status") in {"checked", "stated"} and not (r.get("module") and r.get("declarations")):
             reject(f"ledger: rung {rid} is {r['status']} but names no module/declarations")
     for r in data.get("rungs", []):
         for d in r.get("depends_on", []):
@@ -94,7 +104,7 @@ def load_ledger() -> dict | None:
 def check_axioms(data: dict) -> None:
     decls = []
     for r in data.get("rungs", []):
-        if r.get("status") in {"checked", "stated"}:
+        if r.get("status") in {"checked", "stated"} and r.get("external") is None:
             for d in r.get("declarations", []):
                 decls.append((r["module"], d))
     if not decls:
