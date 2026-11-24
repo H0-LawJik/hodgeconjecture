@@ -157,6 +157,20 @@
       "note": "Front reduce, first rung (Lewis1999)."
     },
     {
+      "id": "case-dimension-three",
+      "title": "HC holds in dimension at most three, against HodgeInterface",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "case-lefschetz-1-1",
+        "reduce-hard-lefschetz"
+      ],
+      "contributors": [],
+      "note": "Only p = 1 and p = n - 1 are nontrivial for n <= 3 (daSilva2021, Shioda1983). Short once its two dependencies exist; a real theorem about every curve, surface and threefold."
+    },
+    {
       "id": "statement",
       "title": "Statement: every rational (p,p)-class on a smooth projective complex variety is a rational combination of cycle classes",
       "status": "open",

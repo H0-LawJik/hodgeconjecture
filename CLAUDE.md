@@ -16,7 +16,7 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
-**2026-11-23, later.** Strategy and harness written (`docs/strategy.md`, `docs/harness.md`). Ledger gained `kind` and five interface-first rungs (`hodge-interface`, `statement-interface`, `case-trivial-degrees`, `case-lefschetz-1-1`, `reduce-hard-lefschetz`); `statement` now also depends on `statement-interface`. Roles exist as `.claude/agents/`; entry points as `/prove-rung`, `/post-rungs`, `/red-team`; `tools/next.py` prints briefs. Nothing has gone through the lifecycle yet; the first target is five rungs by hand (harness.md, "What success looks like").
+**2026-11-23, later.** `docs/problem.md` written from three sourced research passes (statement variants, known cases, obstructions); references expanded to 66 keys; `case-dimension-three` added. Strategy and harness written (`docs/strategy.md`, `docs/harness.md`). Ledger gained `kind` and five interface-first rungs (`hodge-interface`, `statement-interface`, `case-trivial-degrees`, `case-lefschetz-1-1`, `reduce-hard-lefschetz`); `statement` now also depends on `statement-interface`. Roles exist as `.claude/agents/`; entry points as `/prove-rung`, `/post-rungs`, `/red-team`; `tools/next.py` prints briefs. Nothing has gone through the lifecycle yet; the first target is five rungs by hand (harness.md, "What success looks like").
 
 **2026-11-23.** Scaffolded; Mathlib pinned at `v4.36.0`; checker and ledger live; CI configured. One rung checked (`Z-cycles`). Verdict: **open**.
 
@@ -39,6 +39,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `.claude/skills/{prove-rung,post-rungs,red-team}/SKILL.md` | Session entry points: `/prove-rung <id>`, `/post-rungs`, `/red-team <id>`. |
 | `AGENTS.md` | Instruction sheet for an outside coding agent: how to pick a rung, prove it, and submit it. |
 | `CONTRIBUTING.md` | Rules for pull requests, human or agent. |
+| `docs/problem.md` | The complete picture: statement, variants and their status, known cases by degree and class, reductions, obstructions, approaches, what it means for the ladder. Every claim keyed to `docs/references.md`. |
 | `docs/strategy.md` | What we attack and in what order: milestones M0 to M5, fronts with kill criteria, the words we use in public. |
 | `docs/harness.md` | How a session runs: roles, where prompts live, rung lifecycle, interface-first pattern, gates, budgets. |
 | `docs/references.md` | Citation keys. A "known" claim anywhere carries a key or the word "unverified". |

@@ -15,6 +15,7 @@ Each row is a rung in `ledger/ladder.json`. Status words: `checked` (the checker
 | `case-trivial-degrees` | open | `statement-interface` | | `p = 0` and `p = dim X` against the interface |
 | `case-lefschetz-1-1` | open | `statement-interface` | | exponential sequence as interface data; the `p = 1` case |
 | `reduce-hard-lefschetz` | open | `statement-interface` | | hard Lefschetz as interface data; reduction to `2p ≤ dim X` |
+| `case-dimension-three` | open | `case-lefschetz-1-1`, `reduce-hard-lefschetz` | | HC for every curve, surface and threefold, against the interface |
 | `statement` | open | `cycle-class`, `statement-interface` | | the unconditional statement once the interface is instantiated (M3) |
 
 ## Order of attack
