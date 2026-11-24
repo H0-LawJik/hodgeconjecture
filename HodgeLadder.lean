@@ -4,3 +4,5 @@ module
 -- `HodgeConjecture` library; this library holds proofs about them and checks on them.
 public import HodgeLadder.Basic
 public import HodgeLadder.Upstream.Statements
+public import HodgeLadder.CycleClass.Pins
+public import HodgeLadder.CycleClass.Statements

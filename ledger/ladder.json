@@ -46,6 +46,71 @@
       "note": "Definitional consistency check: the variants use the same objects as the main statement, with no cast or reindexing."
     },
     {
+      "id": "cycle-class-pins",
+      "title": "The cycle-class and Hodge-class constructions pinned at the upstream commit, with the upstream normalization theorems",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.CycleClass.Pins",
+      "declarations": [
+        "HodgeLadder.Pins.algebraicCycleClassSpan_eq",
+        "HodgeLadder.Pins.cycleComponentSheafClass_eq",
+        "HodgeLadder.Pins.cycleComponentSupportedInjectiveClass_eq",
+        "HodgeLadder.Pins.hodgeClasses_eq",
+        "HodgeLadder.Pins.hodgePiece_eq",
+        "HodgeLadder.Pins.complexRealHomeomorph_eq",
+        "AlgebraicTopology.Singular.normalizedRelativeCoclass_pairing_self",
+        "AlgebraicTopology.Singular.standardComplexLocalClass_ne_zero",
+        "AlgebraicTopology.Singular.relativeHomologyMap_complexDifferentiable_standardComplexLocalClass"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik",
+        "Paul-Lez/HodgeConjecture (upstream normalization theorems)"
+      ],
+      "note": "Definitional pins (rfl) for each step of the upstream construction: local class normalized to pair to 1 with the complex orientation, glued on the smooth locus, extended by purity, support forgotten, ℚ-span over points of coheight p; and the Hodge side F^p ∩ conj F^p. A change upstream breaks the build here. The three upstream theorems encode the normalization (pairs to 1), non-degeneracy of the oriented local class, and chart independence under holomorphic germs. Documented in docs/cycle-class.md."
+    },
+    {
+      "id": "known-half-statement",
+      "title": "The known half and the equality forms, stated on upstream definitions: cycle classes are Hodge classes; Hdg^p = span; Hdg^1 = span",
+      "status": "stated",
+      "kind": "statement",
+      "module": "HodgeLadder.CycleClass.Statements",
+      "declarations": [
+        "HodgeLadder.CycleClassesAreHodge",
+        "HodgeLadder.CycleClassesAreHodgeOne",
+        "HodgeLadder.HodgeConjectureEquality",
+        "HodgeLadder.LefschetzOneOneEquality"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Upstream states only the inclusions. These are the targets of decision 0004; they are statements on upstream definitions, not restatements of the upstream conjecture."
+    },
+    {
+      "id": "equality-reductions",
+      "title": "Each equality form is the upstream inclusion together with the known half",
+      "status": "checked",
+      "kind": "reduction",
+      "module": "HodgeLadder.CycleClass.Statements",
+      "declarations": [
+        "HodgeLadder.hodgeConjectureEquality_iff",
+        "HodgeLadder.lefschetzOneOneEquality_iff",
+        "HodgeLadder.cycleClassesAreHodgeOne_of"
+      ],
+      "depends_on": [
+        "known-half-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "HodgeConjectureEquality ↔ HodgeConjecture ∧ CycleClassesAreHodge; LefschetzOneOneEquality ↔ LefschetzOneOne ∧ CycleClassesAreHodgeOne."
+    },
+    {
       "id": "lefschetz-upstream-verify",
       "title": "Independent build and axiom audit of the upstream Lefschetz (1,1) proof (PR #228 head c7d5c94b)",
       "status": "checked",
@@ -131,27 +196,29 @@
     },
     {
       "id": "lefschetz-1-1-equality",
-      "title": "Lefschetz (1,1) as an equality: Hdg^1(X; ℚ) = algebraicCycleClassSpan X 1",
+      "title": "Lefschetz (1,1) as an equality: theorem : HodgeLadder.LefschetzOneOneEquality",
       "status": "open",
       "kind": "case",
       "module": null,
       "declarations": [],
       "depends_on": [
         "lefschetz-1-1",
-        "divisor-chern-exact"
+        "divisor-chern-exact",
+        "equality-reductions"
       ],
       "contributors": [],
-      "note": "The checkpoint's definition of done (decision 0004). The reverse inclusion for p = 1: by divisor-chern-exact each divisor class is a first Chern class; c₁ is a d log class, so it lies in F^1; a rational class is fixed by conjugation, so it also lies in conj F^1."
+      "note": "The checkpoint's definition of done (decision 0004). By lefschetzOneOneEquality_iff it is LefschetzOneOne plus CycleClassesAreHodgeOne. The latter: by divisor-chern-exact each divisor class is a first Chern class; c₁ is a d log class, so it lies in F^1; a rational class is fixed by conjugation, so it lies in conj F^1."
     },
     {
       "id": "cycle-classes-are-hodge",
-      "title": "Cycle classes are Hodge classes in every codimension: algebraicCycleClassSpan X p ≤ Hdg^p(X; ℚ)",
+      "title": "Prove the known half: theorem : HodgeLadder.CycleClassesAreHodge",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "upstream-statement"
+        "known-half-statement",
+        "cycle-class-pins"
       ],
       "contributors": [],
       "note": "The known half of the conjecture. With it, the upstream HodgeConjecture is equivalent to the equality Hdg^p = span, and the statement cannot hold for a degenerate reason (span accidentally everything). Classical route: a Hodge-cohomology cycle class (El Zein; Voisin2002 ch. 11) comparing cohomology with support in Z of the truncated de Rham complex with the topological class. Large; p = 1 comes first through lefschetz-1-1-equality."
@@ -208,7 +275,7 @@
         "hard-lefschetz"
       ],
       "contributors": [],
-      "note": "Codimension 0, 1, n-1, n; the middle cases come from Lefschetz (1,1) and hard Lefschetz (Shioda1983, daSilva2021). Target the equality form as well (decision 0004): Hdg^p = span for every p when dim X ≤ 3."
+      "note": "Codimension 0, 1, n-1, n; the middle cases come from Lefschetz (1,1) and hard Lefschetz (Shioda1983, daSilva2021). Target the equality form as well (decision 0004): Hdg^p = span for every p when dim X ≤ 3. Equality target: Hdg^p = algebraicCycleClassSpan X p for every p when dim X ≤ 3."
     },
     {
       "id": "markman-statement",

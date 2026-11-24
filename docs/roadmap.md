@@ -6,13 +6,16 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 |---|---|---|---|---|
 | `upstream-statement` | statement | stated | | upstream `HodgeConjecture`, `LefschetzOneOne`, `HodgeConjectureInDimensionLE` at the pinned commit |
 | `statements-consistent` | reduction | checked | `upstream-statement` | done in `HodgeLadder.Upstream.Statements` |
+| `cycle-class-pins` | test | checked | `upstream-statement` | done in `HodgeLadder.CycleClass.Pins`; see `docs/cycle-class.md` |
+| `known-half-statement` | statement | stated | `upstream-statement` | `CycleClassesAreHodge`, `HodgeConjectureEquality`, `LefschetzOneOneEquality` |
+| `equality-reductions` | reduction | checked | `known-half-statement` | equality ↔ upstream inclusion ∧ known half |
 | `lefschetz-upstream-verify` | case | open | `upstream-statement` | reproduce the build of upstream PR #228 at `c7d5c94b`; axiom audit; red-team verdict |
 | `nonvacuity-tests` | test | open | `upstream-statement` | a variety meeting the hypotheses; a nonzero class in H^2; a nonzero cycle class; exact list from the red-team audit |
 | `divisor-chern-exact` | foundation | open | `lefschetz-upstream-verify` | the class of a Cartier divisor equals the rational image of c₁(𝒪(D)) exactly on the pinned cycle class, sign determined |
 | `lefschetz-port` | foundation | open | `lefschetz-upstream-verify`, `divisor-chern-exact` | port the upstream stack (PRs #217–#226, #9, #230, #228) from v4.33.1 to the current pin; coordinate with upstream first |
 | `lefschetz-1-1` | case | open | `lefschetz-port`, `nonvacuity-tests` | `theorem : LefschetzOneOne` checked here (the inclusion; a step) |
-| `lefschetz-1-1-equality` | case | open | `lefschetz-1-1`, `divisor-chern-exact` | Hdg^1 = span; the checkpoint's definition of done |
-| `cycle-classes-are-hodge` | foundation | open | `upstream-statement` | span ≤ Hdg^p in every codimension; the known half of the conjecture |
+| `lefschetz-1-1-equality` | case | open | `lefschetz-1-1`, `divisor-chern-exact`, `equality-reductions` | `theorem : LefschetzOneOneEquality`; the checkpoint's definition of done |
+| `cycle-classes-are-hodge` | foundation | open | `known-half-statement`, `cycle-class-pins` | `theorem : CycleClassesAreHodge` |
 | `lefschetz-1-1-integral` | case | open | `lefschetz-port`, `divisor-chern-exact` | image of c₁ on Pic equals the integral Hodge classes in H² |
 | `projective-space-test` | test | open | `upstream-statement` | Hdg^1(ℙ^n) = span, both one-dimensional |
 | `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; inventory before sub-rungs |
