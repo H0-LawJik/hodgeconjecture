@@ -715,6 +715,58 @@
       "note": "Checked 2026-11-25. α ∪ β := α ≫ lift β, where lift β ∈ Ext^q(ℚ_X, ℚ_X) of abelian sheaves is the image of β under the exact forgetful functor, conjugated by forget ℚ_X ≅ ℚ_X. Composition with lift matches the cup product (rationalExtEquiv_comp_lift, from Mathlib's extEquiv_symm_naturality_right), so the product is associative with cup, unital, biadditive, natural in the source, and commutes with forgetting the support. The tensor product (sheaf-tensor-exact) is not needed here; it enters for products of two supported classes."
     },
     {
+      "id": "tauceti-cup-backport",
+      "title": "Tau Ceti's singular cup product and its graded commutativity, vendored into port/ at the pin",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-front"
+      ],
+      "contributors": [],
+      "note": "Batch H2 of docs/port-tauceti.md: import closure of Cup/Basic and Cup/GradedCommutativity (about 41 modules), provenance and axioms verified locally."
+    },
+    {
+      "id": "cochain-cup-upstream",
+      "title": "The cup product on upstream's singular cochains, through a cochain isomorphism with Tau Ceti's model",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "tauceti-cup-backport"
+      ],
+      "contributors": [],
+      "note": "Upstream linearDualCochainComplex versus Tau Ceti linearYonedaObj; short isomorphism (red team on front cup)."
+    },
+    {
+      "id": "cochain-sheaf-right-mult",
+      "title": "Right multiplication by a global cocycle as a morphism of complexes of sheaves on the sheafified singular cochains",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cochain-cup-upstream"
+      ],
+      "contributors": [],
+      "note": "Cochain cup natural under restriction, passed through sheafification. docs/sketches/cup-singular-comparison.md."
+    },
+    {
+      "id": "ext-class-right-mult",
+      "title": "r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cochain-sheaf-right-mult"
+      ],
+      "contributors": [],
+      "note": "Step 1 of upstream's equivalence unfolded at degree q. docs/sketches/cup-singular-comparison.md."
+    },
+    {
       "id": "cup-singular-comparison",
       "title": "Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly",
       "status": "open",
@@ -722,11 +774,11 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-product",
+        "ext-class-right-mult",
         "supported-cup"
       ],
       "contributors": [],
-      "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a)."
+      "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a). Sketch and sub-rungs: docs/sketches/cup-singular-comparison.md (right multiplication by a global cocycle; supported version as a later sub-rung)."
     },
     {
       "id": "local-class-product",
