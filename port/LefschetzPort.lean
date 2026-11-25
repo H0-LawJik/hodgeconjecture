@@ -93,7 +93,6 @@ public import LefschetzPort.AlgebraicGeometry.ChernWindingNormalChartValue
 public import LefschetzPort.AlgebraicGeometry.ChernWindingNormalizedCharts
 public import LefschetzPort.AlgebraicGeometry.ChernWindingRational
 public import LefschetzPort.AlgebraicGeometry.ChernWindingRationalCochain
-public import LefschetzPort.AlgebraicGeometry.ChernWindingRawBoundary
 public import LefschetzPort.AlgebraicGeometry.ChernWindingRawRepresentative
 public import LefschetzPort.AlgebraicGeometry.ChernWindingStandardTriangle
 public import LefschetzPort.AlgebraicGeometry.ChernWindingSupportedBoundary
@@ -157,7 +156,6 @@ public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSingularCoch
 public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSingularRestriction
 public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSingularSectionClass
 public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSingularSections
-public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSupportWinding
 public import LefschetzPort.AlgebraicGeometry.HolomorphicFirstChernClass
 public import LefschetzPort.AlgebraicGeometry.HolomorphicFirstChernClassExactness
 public import LefschetzPort.AlgebraicGeometry.HolomorphicFrameLift
@@ -285,7 +283,6 @@ public import LefschetzPort.Analysis.Complex.NormalDivisionChart
 public import LefschetzPort.Analysis.Complex.NormalDivisionFinOne
 public import LefschetzPort.CategoryTheory.Abelian.ExtOneRepresentative
 public import LefschetzPort.CategoryTheory.Sites.Forget
-public import LefschetzPort.CategoryTheory.Sites.SheafCohomology.Connecting
 public import LefschetzPort.Geometry.Manifold.ChartDifferential
 public import LefschetzPort.Geometry.Manifold.CompactManifoldFiniteHomology
 public import LefschetzPort.Geometry.Manifold.HolomorphicLogarithm
