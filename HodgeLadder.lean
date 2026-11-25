@@ -23,3 +23,11 @@ public import HodgeLadder.Divisor.Order
 public import HodgeLadder.Divisor.PrimeDivisorCartier
 public import HodgeLadder.Divisor.PrimeDivisorSmooth
 public import HodgeLadder.Divisor.AnalyticInvertible
+public import HodgeLadder.Line.FrameComparison
+public import HodgeLadder.Line.Transitions
+public import HodgeLadder.Line.LocallyConstant
+public import HodgeLadder.Line.MiddleSheaf
+public import HodgeLadder.Line.UnitExtension
+public import HodgeLadder.Line.OfInvertible
+public import HodgeLadder.Divisor.UnitExtensionOfInvertible
+public import HodgeLadder.Divisor.LefschetzEquality

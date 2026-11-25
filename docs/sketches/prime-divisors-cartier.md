@@ -26,7 +26,7 @@ Date: 2026-11-25. Target: close `lefschetz-1-1-equality` (decision 0004) by prov
 
 ## Progress (2026-11-25)
 
-`ufd-descent`, `analytic-stalk-ufd`, `local-factoriality` and `prime-divisor-ideal-sheaf` are checked (standard axioms). Open: `unit-extension-of-invertible` (it needs the stack's unproved `AnalytificationGenerates`: analytification preserves local generators); then the assembly.
+All sub-rungs and the assembly are checked (standard axioms): `ufd-descent`, `analytic-stalk-ufd`, `local-factoriality`, `prime-divisor-ideal-sheaf`, `unit-extension-of-invertible`, and `prime-divisors-cartier` with `lefschetz-1-1-equality` (`HodgeLadder.lefschetzOneOneEquality_holds`). `unit-extension-of-invertible` did not need the stack's `AnalytificationGenerates`: invertibility of L^an comes from coherence and rank-one stalks, and E is built from the frames of L^an directly (middle sheaf of pairs (n, v)), not from `exists_cohomologyClass`.
 
 ## Order
 
