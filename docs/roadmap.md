@@ -10,7 +10,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `known-half-statement` | statement | stated | `upstream-statement` | `CycleClassesAreHodge`, `HodgeConjectureEquality`, `LefschetzOneOneEquality` |
 | `equality-reductions` | reduction | checked | `known-half-statement` | equality ↔ upstream inclusion ∧ known half |
 | `lefschetz-upstream-verify` | case | open | `upstream-statement` | reproduce the build of upstream PR #228 at `c7d5c94b`; axiom audit; red-team verdict |
-| `nonvacuity-tests` | test | open | `upstream-statement` | a variety meeting the hypotheses; a nonzero class in H^2; a nonzero cycle class; exact list from the red-team audit |
+| `nonvacuity-tests` | test | checked | `upstream-statement` | done in `HodgeLadder.Tests`: Spec ℂ meets the hypotheses; Hdg^0 = span ≠ 0 for every X |
 | `divisor-chern-exact` | foundation | open | `lefschetz-upstream-verify` | the class of a Cartier divisor equals the rational image of c₁(𝒪(D)) exactly on the pinned cycle class, sign determined |
 | `lefschetz-port` | foundation | open | `lefschetz-upstream-verify`, `divisor-chern-exact` | port the upstream stack (PRs #217–#226, #9, #230, #228) from v4.33.1 to the current pin; coordinate with upstream first |
 | `lefschetz-1-1` | case | open | `lefschetz-port`, `nonvacuity-tests` | `theorem : LefschetzOneOne` checked here (the inclusion; a step) |
