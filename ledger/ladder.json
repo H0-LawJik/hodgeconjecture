@@ -658,15 +658,28 @@
     {
       "id": "sheaf-tensor-exact",
       "title": "The tensor product of sheaves of ℚ-vector spaces on X(ℂ) is exact in each variable",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SheafTensor",
+      "declarations": [
+        "HodgeLadder.Cup.tensor_exact",
+        "HodgeLadder.Cup.tensorLeft_preservesFiniteLimits",
+        "HodgeLadder.Cup.tensorLeft_preservesFiniteColimits",
+        "HodgeLadder.Cup.tensorLeft_additive",
+        "HodgeLadder.Cup.tensorRight_preservesFiniteLimits",
+        "HodgeLadder.Cup.tensorRight_preservesFiniteColimits",
+        "HodgeLadder.Cup.tensorRight_additive",
+        "HodgeLadder.Cup.tensorLeft_preservesColimits",
+        "HodgeLadder.Cup.tensorRight_preservesColimits",
+        "HodgeLadder.Cup.unitIsoQX"
+      ],
       "depends_on": [
         "cup-front"
       ],
-      "contributors": [],
-      "note": "Sheaf.monoidalCategory on ModuleCat ℚ sheaves elaborates at the pin; exactness via stalks (Sites/Point/Monoidal). Mathlib candidate (decision 0009)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Monoidal structure: Mathlib Sheaf.monoidalCategory (localization of the pointwise presheaf tensor along sheafification) as the local instance HodgeLadder.Cup.sheafMonoidal, braiding Sheaf.braidedCategory. Stated for any Y : TopCat.{0} with J Y = Opens.grothendieckTopology Y, so it applies to X(ℂ). For every sheaf F, tensorLeft F and tensorRight F preserve finite limits, finite colimits (indeed small colimits) and are additive (HodgeLadder.Cup.tensor_exact). Route: tensorLeft F ≅ forget ⋙ tensorLeft F.obj ⋙ sheafify; pointwise tensor over ℚ is flat; colimits via sheafification of the underlying presheaf diagram; tensorRight by the braiding. Unit: 𝟙_ ≅ ℚ_Y by Iso.refl (HodgeLadder.Cup.unitIsoQX). Mathlib candidate (decision 0009)."
     },
     {
       "id": "supported-cup",
