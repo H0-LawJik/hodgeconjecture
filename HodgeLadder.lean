@@ -7,3 +7,4 @@ public import HodgeLadder.Upstream.Statements
 public import HodgeLadder.CycleClass.Pins
 public import HodgeLadder.CycleClass.Statements
 public import HodgeLadder.Tests
+public import HodgeLadder.Lefschetz.OneOne
