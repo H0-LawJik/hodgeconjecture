@@ -36,3 +36,8 @@ public import HodgeLadder.Tests.ProjectiveLinePoint
 public import HodgeLadder.Tests.ClassNonzero
 public import HodgeLadder.Tests.CurveH2
 public import HodgeLadder.Tests.ProjectiveLineTest
+public import HodgeLadder.Cup.SheafExact
+public import HodgeLadder.Cup.RationalExt
+public import HodgeLadder.Cup.Yoneda
+public import HodgeLadder.Cup.Product
+public import HodgeLadder.Tests.CupNonvanishing
