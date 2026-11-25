@@ -10,6 +10,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Regular local rings are UFDs (Auslander–Buchsbaum); planned for `prime-divisors-cartier`, not used: `local-factoriality` descends factoriality from the analytic stalks | not yet written | Mathlib has `IsRegularLocalRing`; factoriality is missing there and is general commutative algebra | 2026-11-24 |
 | `lcSheaf`, `constIsoLC` (the constant sheaf ℤ is the sheaf of locally constant functions), `Frames.isoOfSameTransitions` (line bundles with equal transitions are isomorphic) | `HodgeLadder.Line.LocallyConstant`, `HodgeLadder.Line.FrameComparison` | general sheaf theory; written against the upstream statement of the constant sheaf | 2026-11-25 |
 | `Acyclic.subsingleton_H_of_isFlasque` (flasque sheaves are acyclic), `Acyclic.subsingleton_H_cycles` (cycle sheaves of a flasque resolution with exact global sections are acyclic), `Acyclic.subsingleton_H_const_of_contractible` | `HodgeLadder.Tests.ContractibleAcyclic` | general sheaf theory; upstream's `FlasqueAcyclic.lean` carries the docstring of the first and no theorem at the pin | 2026-11-25 |
+| Exactness of `sheafCompose (forget₂ (ModuleCat ℚ) AddCommGrpCat)` and of sheafified `ℚ ⊗ −`; `Ext` transport along isomorphisms (`extPrecompEquiv`, `extPostcompEquiv`); `Hⁿ(Y; ℚ) ≃+ Extⁿ(ℚ_Y, ℚ_Y)` | `HodgeLadder.Cup.SheafExact` | general sheaf theory, not in Mathlib at the pin | 2026-11-25 |
 
 ## Known weaknesses
 

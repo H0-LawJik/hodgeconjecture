@@ -35,8 +35,8 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `clifford-exterior-spin` | foundation | open | `lefschetz-1-1-equality` | Clifford algebra of the split form on H ⊕ H^∨ acting on ∧*H; for the Markman inventory (`docs/notes/2026-11-24-spinors-characters-tests.md`) |
 | `elliptic-product-test` | test | open | `lefschetz-1-1-equality` | dim Hdg^1(E₁ × E₂) = 2 + rank Hom(E₁, E₂) while h^{1,1} = 4 |
 | `cup-front` | front | open | `upstream-statement` | ring structure on H^*(X; ℚ), decision 0008 |
-| `rational-ext-equiv` | foundation | open | `cup-front` | H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces |
-| `cup-product` | foundation | open | `rational-ext-equiv` | cup product: associative, unital, bilinear |
+| `rational-ext-equiv` | foundation | checked | `cup-front` | H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces |
+| `cup-product` | foundation | checked | `rational-ext-equiv` | cup product: associative, unital, bilinear |
 | `cup-graded-commutative` | foundation | open | `cup-product` | α ∪ β = (−1)^{pq} β ∪ α |
 | `cycle-class-multiplicative` | foundation | open | `cup-product` | class of an intersection is the cup product of classes |
 | `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; inventory before sub-rungs |

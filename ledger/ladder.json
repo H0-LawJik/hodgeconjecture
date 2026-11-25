@@ -600,28 +600,47 @@
     {
       "id": "rational-ext-equiv",
       "title": "H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces on X(ℂ)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.RationalExt",
+      "declarations": [
+        "HodgeLadder.Cup.rationalCohomologyEquivExt",
+        "HodgeLadder.Cup.rationalExtEquiv",
+        "HodgeLadder.Cup.forgetSheaf_preservesFiniteColimits",
+        "HodgeLadder.Cup.tensorQSheaf_preservesFiniteLimits",
+        "HodgeLadder.Cup.tensorQSheafInt"
+      ],
       "depends_on": [
         "cup-front"
       ],
-      "contributors": [],
-      "note": "Adjunction.extEquiv for ℚ ⊗ − ⊣ forget on sheaves (Sheaf.adjunction; ℚ flat over ℤ; forget₂ exact), and the left adjoint sends ℤ_X to ℚ_X (constant sheaves commute with left adjoints). General in the space; X(ℂ) only enters through upstream's notation."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. For any topological space Y: forgetting the ℚ-structure of sheaves is exact (left exact as a right adjoint; preserves epimorphisms since they are the locally surjective maps), sheafified ℚ ⊗ − is exact (ℚ flat over ℤ; whiskering and sheafification left exact), so Adjunction.extEquiv applies; sheafified ℚ ⊗ − sends ℤ_Y to ℚ_Y (uniqueness of left adjoints to global sections) and forgetting sends ℚ_Y to ℚ_Y (constantCommuteCompose). Hence Hⁿ(Y; ℚ) ≃+ Extⁿ(ℚ_Y, ℚ_Y) in sheaves of ℚ-vector spaces."
     },
     {
       "id": "cup-product",
       "title": "Cup product on H^*(X; ℚ): definition, associativity, unit, bilinearity",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.Product",
+      "declarations": [
+        "HodgeLadder.Cup.cup",
+        "HodgeLadder.Cup.one",
+        "HodgeLadder.Cup.cup_assoc",
+        "HodgeLadder.Cup.one_cup",
+        "HodgeLadder.Cup.cup_one",
+        "HodgeLadder.Cup.add_cup",
+        "HodgeLadder.Cup.cup_add",
+        "HodgeLadder.Cup.rationalCohomologyEquivExt_cup"
+      ],
       "depends_on": [
         "rational-ext-equiv"
       ],
-      "contributors": [],
-      "note": "Transport of Ext.comp through rational-ext-equiv. Factor order and sign registered in docs/conventions.md. Non-vacuity: the unit is the nonzero class of H^0 (codimension-zero tests)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. α ∪ β is the Yoneda composition of α followed by β in Ext^*(ℚ_X, ℚ_X) (convention row 'Cup product'); the target degree carries a proof of p + q = n. Associative, unital, biadditive. Non-vacuity: on ℙ¹, 1 ∪ [pt] = [pt] ≠ 0 (HodgeLadder.Tests.projectiveLine_one_cup_ne_zero, module HodgeLadder.Tests.CupNonvanishing). Graded commutativity and comparison with the topological cup product are open (cup-graded-commutative)."
     },
     {
       "id": "cup-graded-commutative",
