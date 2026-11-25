@@ -156,30 +156,40 @@
     {
       "id": "lefschetz-port",
       "title": "Port the upstream Lefschetz (1,1) stack from v4.33.1 to the current upstream pin",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "LefschetzPort.AlgebraicGeometry.LefschetzOneOne",
+      "declarations": [
+        "lefschetzOneOne"
+      ],
       "depends_on": [
         "lefschetz-upstream-verify",
         "divisor-chern-exact"
       ],
-      "contributors": [],
-      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it. Progress 2026-11-24: parts 1–10 of 11 (280 modules); the divisor–Chern identity is checked at the pin (rung divisor-chern-exact) build at the current pin in the staging library port/LefschetzPort; log in docs/port-lefschetz.md."
+      "contributors": [
+        "Paul-Lez/HodgeConjecture (upstream stack: PRs #217–#226, #9, #230, #228)",
+        "H0-LawJik (port to the pin)"
+      ],
+      "note": "All eleven parts, Oka's proper GAGA (372 modules) and the final theorem build at this repository's pin (680 modules, 0 sorry, 2026-11-24) on branch port/lefschetz. The port changes proofs only, for Mathlib drift; every change is logged in docs/port-lefschetz.md. The divisor–Chern identity is exact with sign + on main's cycle class (rung divisor-chern-exact). Contributing the port upstream is optional."
     },
     {
       "id": "lefschetz-1-1",
       "title": "Lefschetz (1,1): the upstream LefschetzOneOne, checked at this repository's pin",
-      "status": "open",
+      "status": "checked",
       "kind": "case",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Lefschetz.OneOne",
+      "declarations": [
+        "HodgeLadder.lefschetzOneOne_holds"
+      ],
       "depends_on": [
         "lefschetz-port",
         "nonvacuity-tests"
       ],
-      "contributors": [],
-      "note": "Upstream's LefschetzOneOne (the inclusion Hdg^1 ≤ span), checked here. A step: the checkpoint is done only with lefschetz-1-1-equality (decision 0004), a red-team pass, and the conventions register filled. Then take the Markman inventory."
+      "contributors": [
+        "Paul-Lez/HodgeConjecture (upstream proof)",
+        "H0-LawJik (port to the pin)"
+      ],
+      "note": "Checked 2026-11-24: HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne, upstream's Prop unchanged (Hdg^1(X; ℚ) ≤ algebraicCycleClassSpan X 1), standard axioms only. The inclusion, a step: the checkpoint is done with lefschetz-1-1-equality (decision 0004), after a red-team pass on the port's changes. nonvacuity-tests is checked on its branch (PR 27)."
     },
     {
       "id": "divisor-chern-exact",

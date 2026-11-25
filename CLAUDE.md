@@ -19,6 +19,8 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
+**2026-11-24 (port).** The upstream Lefschetz (1,1) stack builds at the pin on branch `port/lefschetz` (680 modules including Oka's proper GAGA, 0 `sorry`): rungs `lefschetz-port` and `lefschetz-1-1` are checked, with `HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne` (upstream's `Prop`, standard axioms). The port changes proofs only; `docs/port-lefschetz.md` logs every change. **Next planned work:** red-team the port's changes, then `lefschetz-1-1-equality` (the known half in codimension one), then the Markman inventory.
+
 **2026-11-24.** Conformance audit against the 2026 literature (`docs/audits/2026-11-24-conformance.md`) led to decision 0003: rebase on `Paul-Lez/HodgeConjecture` (pinned at `2ead713`, Lean and Mathlib v4.35.0-rc4), rename the library to `HodgeLadder`, retire the interface-first and foundation rungs, and make the Lefschetz checkpoint the first target. An upstream proof of rational Lefschetz (1,1) exists as an unmerged stack on v4.33.1 (PRs #217–#226, #9, #230, #228); this repository verifies it, red-teams it, ports it and checks `LefschetzOneOne` here. Markman follows the checkpoint. `docs/problem.md` corrected against the 2026 literature.
 
 Cycle-class construction pinned (`cycle-class-pins`); known half and equality forms stated (`known-half-statement`); equality ↔ inclusion ∧ known half checked (`equality-reductions`). Decision 0004 (equality first): the checkpoint is done at `lefschetz-1-1-equality`; the port must prove the divisor–Chern identity exactly (`divisor-chern-exact`); new rungs `cycle-classes-are-hodge`, `lefschetz-1-1-integral`, `projective-space-test`.
