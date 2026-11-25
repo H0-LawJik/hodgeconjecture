@@ -16,6 +16,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 
 | Gap | Impact | Opened |
 |---|---|---|
+| `cup-product` is checked for associativity, unit and biadditivity, which the square-zero product also satisfies; the ℙ¹ test uses only the unit law | a positive-degree product could be zero unnoticed; `cup-positive-degree-test` closes it | 2026-11-25 |
 | Three Lean pins in play: upstream v4.35.0-rc4 (followed here), the Lefschetz stack v4.33.1, Tau Ceti v4.37.0-rc1 (Mathlib master) | Reuse of Tau Ceti material needs a backport or a wait | 2026-11-24 |
 | Tau Ceti Hodge-structure files are vendored under `port/LefschetzPort/TauCeti/` (`docs/port-tauceti.md`); they belong upstream in Mathlib or stay in Tau Ceti | Drop the copies when the pin reaches a Mathlib or Tau Ceti that provides them | 2026-11-25 |
 | Building this repository compiles upstream's statement import closure; CI time grows | Watch CI duration | 2026-11-24 |
