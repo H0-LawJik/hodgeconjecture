@@ -717,15 +717,24 @@
     {
       "id": "tauceti-cup-backport",
       "title": "Tau Ceti's singular cup product and its graded commutativity, vendored into port/ at the pin",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "LefschetzPort.TauCeti.AlgebraicTopology.Cohomology.GradedCommutativity",
+      "declarations": [
+        "TopCat.singularCup",
+        "TopCat.singularCup_assoc",
+        "TopCat.singularCup_naturality",
+        "TopCat.singularCup_gradedComm",
+        "TopCat.singularCup_gradedComm_tensorUnit"
+      ],
       "depends_on": [
         "cup-front"
       ],
-      "contributors": [],
-      "note": "Batch H2 of docs/port-tauceti.md: import closure of Cup/Basic and Cup/GradedCommutativity (about 41 modules), provenance and axioms verified locally."
+      "contributors": [
+        "H0-LawJik",
+        "TauCetiProject (vendored)"
+      ],
+      "note": "Checked 2026-11-25: batch H2 of docs/port-tauceti.md, 41 modules vendored from Tau Ceti 7433fc3 (Apache-2.0, AI-written, no human review upstream). Verified locally: every file equals the source except provenance lines and the proof-only backport edits listed in docs/port-tauceti.md; two files compared with GitHub at that commit; no sorry, axiom, unsafe or initialize; standard axioms; no name clash with Mathlib."
     },
     {
       "id": "cochain-cup-upstream",
