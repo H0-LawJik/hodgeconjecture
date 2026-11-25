@@ -12,3 +12,4 @@ __pycache__/
 .env*
 *.token
 *.secret
+.claude/worktrees/

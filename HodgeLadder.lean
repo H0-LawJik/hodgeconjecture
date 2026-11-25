@@ -12,3 +12,6 @@ public import HodgeLadder.Hodge.Conjugation
 public import HodgeLadder.Hodge.ZeroForms
 public import HodgeLadder.Hodge.FirstFiltration
 public import HodgeLadder.Hodge.ChernClasses
+public import HodgeLadder.Algebra.UFDDescent
+public import HodgeLadder.Divisor.AnalyticStalk
+public import HodgeLadder.Divisor.LocalFactoriality
