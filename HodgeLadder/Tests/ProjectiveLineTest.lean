@@ -4,6 +4,7 @@ public import HodgeLadder.Tests.ProjectiveLinePoint
 public import HodgeLadder.Tests.ClassNonzero
 public import HodgeLadder.Tests.CurveH2
 public import HodgeLadder.Divisor.LefschetzEquality
+public import HodgeLadder.Tests.ContractibleAcyclic
 
 /-!
 # The ℙ¹ test case
@@ -61,5 +62,41 @@ lemma hdg_eq_span : Hdg^1(projectiveLine; ℚ) = algebraicCycleClassSpan project
 lemma finrank_hdg_of : Module.finrank ℚ (Hdg^1(projectiveLine; ℚ)) = 1 := by
   rw [hdg_eq_span, span_eq_top_of hacyc, finrank_top]
   exact finrank_h2_of hacyc
+
+omit hacyc in
+/-- The complement of `[1 : 0]` has no rational cohomology in positive degrees. -/
+theorem acyclic_compl_infty (q : ℕ) (hq : 0 < q) :
+    Subsingleton (Sheaf.H' ((TopCat.Sheaf.constantFunctor
+      (TopCat.of (ComplexPoint projectiveLine))).obj (AddCommGrpCat.of ℚ)) q
+      (cycleComponentAnalyticClosedSupport projectiveLine infty).compl) := by
+  have : ContractibleSpace ↥(cycleComponentAnalyticClosedSupport projectiveLine infty).compl :=
+    complInftyHomeomorph.toHomotopyEquiv.contractibleSpace
+  exact contractibleOpen_subsingleton_H' projectiveLine _ q hq
+
+omit hacyc in
+/-- **`projective-line-class-nonzero`**: the class of a point of ℙ¹ is nonzero in degree two. -/
+theorem projectiveLine_class_ne_zero :
+    ∃ (x : projectiveLine.left) (hx : coheight x = ((1 : ℕ) : ℕ∞)),
+      cycleComponentSheafClass projectiveLine x hx ≠ 0 ∧
+        algebraicCycleClassSpan projectiveLine 1 ≠ ⊥ := by
+  refine ⟨infty, coheight_infty', class_infty_ne_zero_of acyclic_compl_infty, fun h => ?_⟩
+  have h1 := finrank_h2_of acyclic_compl_infty
+  rw [← finrank_top, ← span_eq_top_of acyclic_compl_infty, h, finrank_bot] at h1
+  exact zero_ne_one h1
+
+omit hacyc in
+/-- **`projective-line-h2`**: `H²(ℙ¹; ℚ)` is one-dimensional and spanned by divisor classes. -/
+theorem projectiveLine_h2 :
+    Module.finrank ℚ (H^(2 * 1)(projectiveLine; ℚ)) = 1 ∧
+      algebraicCycleClassSpan projectiveLine 1 = ⊤ :=
+  ⟨finrank_h2_of acyclic_compl_infty, span_eq_top_of acyclic_compl_infty⟩
+
+omit hacyc in
+/-- **`projective-line-test`**: on ℙ¹, `Hdg^1 = algebraicCycleClassSpan 1`, and both are
+one-dimensional over `ℚ`. -/
+theorem projectiveLine_test :
+    Hdg^1(projectiveLine; ℚ) = algebraicCycleClassSpan projectiveLine 1 ∧
+      Module.finrank ℚ (Hdg^1(projectiveLine; ℚ)) = 1 :=
+  ⟨hdg_eq_span, finrank_hdg_of acyclic_compl_infty⟩
 
 end HodgeLadder.Tests

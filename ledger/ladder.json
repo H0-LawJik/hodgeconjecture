@@ -378,7 +378,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-25: theorem lefschetzOneOneEquality_holds : HodgeLadder.LefschetzOneOneEquality, from lefschetzOneOneEquality_iff with lefschetzOneOne_holds (upstream inclusion, ported) and cycleClassesAreHodgeOne_holds (prime-divisors-cartier). The checkpoint's definition of done (decision 0004). Red team: pass with changes (docs/sketches/lefschetz-1-1-equality.redteam.md). Non-vacuity in degree two is pending projective-line-class-nonzero; Spec ℂ satisfies the hypotheses but has both sides ⊥."
+      "note": "Checked 2026-11-25: theorem lefschetzOneOneEquality_holds : HodgeLadder.LefschetzOneOneEquality, from lefschetzOneOneEquality_iff with lefschetzOneOne_holds (upstream inclusion, ported) and cycleClassesAreHodgeOne_holds (prime-divisors-cartier). The checkpoint's definition of done (decision 0004). Red team: pass with changes (docs/sketches/lefschetz-1-1-equality.redteam.md). Non-vacuity in degree two: projective-line-test (checked), where both sides are one-dimensional."
     },
     {
       "id": "cycle-classes-are-hodge",
@@ -420,33 +420,46 @@
         "projective-line-test"
       ],
       "contributors": [],
-      "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Inventory 2026-11-25 (docs/sketches/projective-space-test.md): nothing at the pin computes H² of a positive-dimensional X, and Mathlib has no smoothness or integrality of Proj. Split into sub-rungs on ℙ¹: projective-line-witness, projective-line-point, forget-support-exact (checked), contractible-open-acyclic, projective-line-class-nonzero, projective-line-h2, projective-line-test. This rung keeps the ℙⁿ statement (n ≥ 1); the ℙ¹ case is posted separately as projective-line-test. The hyperplane-class sign is a conventions-register row."
+      "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Inventory 2026-11-25 (docs/sketches/projective-space-test.md): nothing at the pin computes H² of a positive-dimensional X, and Mathlib has no smoothness or integrality of Proj. Split into sub-rungs on ℙ¹: projective-line-witness, projective-line-point, forget-support-exact (checked), contractible-open-acyclic, projective-line-class-nonzero, projective-line-h2, projective-line-test. This rung keeps the ℙⁿ statement (n ≥ 1); the ℙ¹ case is posted separately as projective-line-test. The hyperplane-class sign is a conventions-register row. The ℙ¹ case (projective-line-test) is checked 2026-11-25; the ℙⁿ statement for n ≥ 2 stays open."
     },
     {
       "id": "projective-line-witness",
       "title": "ℙ¹ over ℂ in upstream's sense (ProjectiveSpace.toBase (Fin 2) (Spec ℂ) as X : Over (Spec ↧ℂ)) is integral, smooth of relative dimension one and projective",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectiveLine",
+      "declarations": [
+        "HodgeLadder.Tests.smoothOfRelativeDimension_toSpec",
+        "HodgeLadder.Tests.smooth_terminal",
+        "HodgeLadder.Tests.isIntegral_okaProjectiveLine",
+        "HodgeLadder.Tests.isPullback_projectiveLine"
+      ],
       "depends_on": [
         "upstream-statement"
       ],
-      "contributors": [],
-      "note": "Mathlib has no smoothness or integrality of Proj. Route: the staged Oka charts of ℙₒ(1; R) (chart, iSup_U, UIIsoSpec; open immersions from 𝔸¹) and Oka's base change (isPullback_map, baseChangeIso) identify upstream's ℙ(Fin 2; Spec ℂ) with ℙₒ(1; ℂ); smoothness of relative dimension one is local on the source; integrality from two integral charts that meet. IsProjective is the identity presentation."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Smooth of relative dimension one: Oka's standard charts of ℙₒ(n; R) are Spec R[Y₁..Yₙ], standard smooth of relative dimension n (Mathlib), and upstream's structure morphism is a base change of ℙₒ(1; ULift ℤ) → Spec (ULift ℤ). Integral: ℙₒ(1; ℂ) is reduced (charts) and irreducible (two irreducible charts that cover and meet), and Oka's base change gives ℙₒ(1; ℂ) ≅ upstream's object (okaIso). Projective: the identity presentation. The instances are on upstream's ProjectiveSpace.toBase (Fin 2) (Spec ℂ)."
     },
     {
       "id": "projective-line-point",
       "title": "ℙ¹ has a point x of coheight one whose analytic support has contractible complement (homeomorphic to ℂ)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectiveLinePoint",
+      "declarations": [
+        "HodgeLadder.Tests.exists_point_contractible_compl",
+        "HodgeLadder.Tests.coheight_infty",
+        "HodgeLadder.Tests.not_mem_openOne_iff"
+      ],
       "depends_on": [
         "projective-line-witness"
       ],
-      "contributors": [],
-      "note": "Coheight at most 1 from SmoothOfRelativeDimension.coheight_ne_of_lt, at least 1 from the generic point. Upstream: cycleComponentSupport_eq_singleton_of_coheight_eq_dimension, openHomeomorph (complex points of an open subscheme), affineSpaceHomeomorph or affineSpecHomeomorph. Scheme side: X ∖ D₊(x₀) is one point, read off the chart x₁ = 1 with UIIsoSpec."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. The point [1 : 0] is the complement of the chart X₁ ≠ 0 (in the chart X₀ ≠ 0 it is the only prime of ℂ[Y] containing Y), so it is closed of coheight one; the chart is affine space over Spec ℂ, and upstream's affineSpaceHomeomorph gives a homeomorphism of the support complement with ℂ."
     },
     {
       "id": "forget-support-exact",
@@ -489,45 +502,61 @@
     {
       "id": "projective-line-class-nonzero",
       "title": "The class of a point of ℙ¹ is nonzero in H²(ℙ¹; ℚ), so algebraicCycleClassSpan ℙ¹ 1 ≠ ⊥",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectiveLineTest",
+      "declarations": [
+        "HodgeLadder.Tests.projectiveLine_class_ne_zero",
+        "HodgeLadder.Tests.cycleComponentSheafClass_ne_zero_of_subsingleton",
+        "HodgeLadder.Tests.acyclic_compl_infty"
+      ],
       "depends_on": [
         "projective-line-point",
         "forget-support-exact",
         "contractible-open-acyclic"
       ],
-      "contributors": [],
-      "note": "The degree-two non-vacuity test (red-team finding I1 on lefschetz-port). cycleComponentSheafClass is forgetSupport of the supported class (upstream cycleComponentSheafClass_eq_forgetSupport); the supported class is nonzero by cycleComponentSmoothSupportCoclassSection_ne_zero and the normalization isomorphism, the pattern of upstream's codimension-zero proof; forgetSupport is injective in degree 2 by forget-support-exact with H'^1(ℙ¹(ℂ) ∖ pt) = 0."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. General criterion (any smooth projective X, codimension one): the class is nonzero when H¹ of the support complement vanishes, from upstream's nonzero supported class (normalization isomorphism) and forget-support-exact. On ℙ¹ the complement of [1 : 0] is contractible (projective-line-point), hence acyclic (contractible-open-acyclic)."
     },
     {
       "id": "projective-line-h2",
       "title": "H²(ℙ¹; ℚ) is one-dimensional and equals algebraicCycleClassSpan ℙ¹ 1",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectiveLineTest",
+      "declarations": [
+        "HodgeLadder.Tests.projectiveLine_h2",
+        "HodgeLadder.Tests.finrank_H2_of_subsingleton",
+        "HodgeLadder.Tests.finrank_cohomologyWithSupport_point"
+      ],
       "depends_on": [
         "projective-line-class-nonzero"
       ],
-      "contributors": [],
-      "note": "forgetSupport is bijective in degree 2 (forget-support-exact with H'^1 = H'^2 = 0 on the complement). Still needed: H_[pt]^2(ℙ¹; ℚ) is one-dimensional on the sheaf side, from point purity (span_analyticPointLocalCoclass_eq_top on the singular side, transported by cycleComponentSupportedInjectiveClass_point_normalization) or from the normalization isomorphism onto sections of the local cohomology sheaf."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. For a curve and a point with acyclic complement, forgetting support is bijective in degree two; upstream identifies H_[Z]²(X; ℚ) with relative singular cohomology H²(X(ℂ), X(ℂ) ∖ {p}; ℚ), which is spanned by the nonzero local coclass (span_analyticPointLocalCoclass_eq_top), so H² has rank one; the nonzero point class then spans it."
     },
     {
       "id": "projective-line-test",
       "title": "Computed test case on ℙ¹: Hdg^1(ℙ¹; ℚ) = algebraicCycleClassSpan ℙ¹ 1, and both are one-dimensional over ℚ",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectiveLineTest",
+      "declarations": [
+        "HodgeLadder.Tests.projectiveLine_test"
+      ],
       "depends_on": [
         "projective-line-h2",
         "lefschetz-1-1",
         "chern-classes-are-hodge"
       ],
-      "contributors": [],
-      "note": "The ℙ¹ case of projective-space-test. Hdg^1 ≤ span is lefschetzOneOne_holds; span = H² is projective-line-h2; the reverse inclusion needs the point class to be Hodge. Routes: integralToRational_mem_hodgeClasses_iff with H²(ℙ¹(ℂ), 𝒪) = 0 and the point class as the rational image of an integral class; or the Cartier route (sheafCycleClassOnCycles_divisor_mem_hodgeClasses) for the divisor of x₀ in Γ(𝒪(1)), which needs a unit extension for 𝒪(1) (part (b) of prime-divisors-cartier) and multiplicity one."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Hdg^1(ℙ¹; ℚ) = algebraicCycleClassSpan ℙ¹ 1 is lefschetzOneOneEquality_holds at ℙ¹; both are H²(ℙ¹; ℚ), of rank one (projective-line-h2). This is the degree-two non-vacuity test for lefschetz-1-1-equality (red-team finding on that rung)."
     },
     {
       "id": "clifford-exterior-spin",

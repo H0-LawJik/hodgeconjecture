@@ -35,3 +35,4 @@ public import HodgeLadder.Tests.ProjectiveLine
 public import HodgeLadder.Tests.ProjectiveLinePoint
 public import HodgeLadder.Tests.ClassNonzero
 public import HodgeLadder.Tests.CurveH2
+public import HodgeLadder.Tests.ProjectiveLineTest
