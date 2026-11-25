@@ -10,6 +10,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Regular local rings are UFDs (Auslander–Buchsbaum); planned for `prime-divisors-cartier`, not used: `local-factoriality` descends factoriality from the analytic stalks | not yet written | Mathlib has `IsRegularLocalRing`; factoriality is missing there and is general commutative algebra | 2026-11-24 |
 | `lcSheaf`, `constIsoLC` (the constant sheaf ℤ is the sheaf of locally constant functions), `Frames.isoOfSameTransitions` (line bundles with equal transitions are isomorphic) | `HodgeLadder.Line.LocallyConstant`, `HodgeLadder.Line.FrameComparison` | general sheaf theory; written against the upstream statement of the constant sheaf | 2026-11-25 |
 | `Acyclic.subsingleton_H_of_isFlasque` (flasque sheaves are acyclic), `Acyclic.subsingleton_H_cycles` (cycle sheaves of a flasque resolution with exact global sections are acyclic), `Acyclic.subsingleton_H_const_of_contractible` | `HodgeLadder.Tests.ContractibleAcyclic` | general sheaf theory; upstream's `FlasqueAcyclic.lean` carries the docstring of the first and no theorem at the pin | 2026-11-25 |
+| Exactness of `sheafCompose (forget₂ (ModuleCat ℚ) AddCommGrpCat)`; the `Ext` comparison between sheaves of ℚ-vector spaces and sheaves of abelian groups (decision 0008) | not yet written; planned for `rational-ext-equiv` | general sheaf theory, needed for the cup product on upstream's H^*(X; ℚ) | 2026-11-25 |
 
 ## Known weaknesses
 
@@ -18,6 +19,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Three Lean pins in play: upstream v4.35.0-rc4 (followed here), the Lefschetz stack v4.33.1, Tau Ceti v4.37.0-rc1 (Mathlib master) | Reuse of Tau Ceti material needs a backport or a wait | 2026-11-24 |
 | Building this repository compiles upstream's statement import closure; CI time grows | Watch CI duration | 2026-11-24 |
 | The port's global data instances on Mathlib's `Sheaf` (`port/LefschetzPort/CategoryTheory/Sites/Forget.lean`: `Sheaf.homFunLike`, `Sheaf.concreteCategory`, `Sheaf.hasForget₂`) could clash with a future Mathlib (red team L7). They are load-bearing: `holomorphicAdditiveSheaf` uses `forget₂` on sheaves. No clash at the pin; the checker's import-clash step (decision 0006) catches one on the change that introduces it | Handle at the next pin bump if the step fails | 2026-11-24 |
+| Upstream's docstring for `HodgeConjectureForAbelianVarietiesInDimensionLE` (`HodgeConjecture/Variants.lean`, and the module docstring) calls the case n ≤ 5 a theorem. For Weil classes of discriminant other than 1 on abelian fourfolds, and so for dimension 5, that rests on [Markman2025], an unrefereed preprint (latest arXiv version v2, 2025-06-08) whose proof passes through Weil classes on sixfolds. Only the discriminant-1 route [Markman2023] is refereed. Red-team item | Any rung or public copy that cites the upstream docstring for n = 4 or 5 says "preprint"; offer a docstring note upstream | 2026-11-25 |
 
 ## Process items to investigate
 
