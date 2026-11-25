@@ -40,7 +40,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-pullback` | foundation | checked | `cup-product` | Pullback along a morphism of complex schemes on H^*(X; ℚ) is multiplicative for the cup product |
 | `sheaf-tensor-exact` | foundation | checked | `cup-front` | The tensor product of sheaves of ℚ-vector spaces on X(ℂ) is exact in each variable; the unit is ℚ_X |
 | `supported-cup` | foundation | checked | `cup-product`, `cup-pullback` | Product of a supported class in H_[Z]^p(X; ℚ) with an absolute class |
-| `tauceti-cup-backport` | foundation | open | `cup-front` | Tau Ceti's singular cup product and its graded commutativity, vendored into port/ at the pin |
+| `tauceti-cup-backport` | foundation | checked | `cup-front` | Tau Ceti's singular cup product and its graded commutativity, vendored into port/ at the pin |
 | `cochain-cup-upstream` | foundation | open | `tauceti-cup-backport` | The cup product on upstream's singular cochains, through a cochain isomorphism with Tau Ceti's model |
 | `cochain-sheaf-right-mult` | foundation | open | `cochain-cup-upstream` | Right multiplication by a global cocycle as a morphism of complexes of sheaves on the sheafified singular cochains |
 | `ext-class-right-mult` | foundation | open | `cochain-sheaf-right-mult` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
