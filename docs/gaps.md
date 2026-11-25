@@ -15,9 +15,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 |---|---|---|
 | Three Lean pins in play: upstream v4.35.0-rc4 (followed here), the Lefschetz stack v4.33.1, Tau Ceti v4.37.0-rc1 (Mathlib master) | Reuse of Tau Ceti material needs a backport or a wait | 2026-11-24 |
 | Building this repository compiles upstream's statement import closure; CI time grows | Watch CI duration | 2026-11-24 |
-| The upstream Lefschetz stack is resolved: it builds at the pin in `port/LefschetzPort` (`lefschetz-port` checked). Kept for the record | none now | 2026-11-24 |
-| The port declares `CategoryTheory.Sheaf.H.δ` (`port/LefschetzPort/CategoryTheory/Sites/SheafCohomology/Connecting.lean:24`), a name Mathlib also declares at the pin (`Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean`); importing both fails. Bodies agree, no sign differs (red team M1). Global data instances on Mathlib's `Sheaf` in `CategoryTheory/Sites/Forget.lean` carry the same risk (L7) | A future pin or import that reaches the Mathlib module breaks the port build; rename the port's copy or switch to Mathlib's `H.δ hS 1 2 rfl` before the next pin bump | 2026-11-24 |
-| Two staged modules have no counterpart at the verified head (`ChernWindingRawBoundary.lean`, `HolomorphicExponentialSupportWinding.lean`), and `relBaseSubmoduleAddSubgroupClass` is a global `Prop` instance, not a local one (red team L2, L3) | none for truth; hygiene | 2026-11-24 |
+| The port's global data instances on Mathlib's `Sheaf` (`port/LefschetzPort/CategoryTheory/Sites/Forget.lean`: `Sheaf.homFunLike`, `Sheaf.concreteCategory`, `Sheaf.hasForget₂`) could clash with a future Mathlib (red team L7). They are load-bearing: `holomorphicAdditiveSheaf` uses `forget₂` on sheaves. No clash at the pin; the checker's import-clash step (decision 0006) catches one on the change that introduces it | Handle at the next pin bump if the step fails | 2026-11-24 |
 
 ## Process items to investigate
 
@@ -32,6 +30,8 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 |---|---|---|
 | Interface-first statement (`hodge-interface`, `statement-interface` and the cases built on it) | Interface statements of this conjecture are vacuous or false (LeanDojo regression tests); real definitions exist upstream (decision 0003) | 2026-11-24 |
 | Own foundations for stating the conjecture (`de-rham`, `complex-analytic-space`, `hodge-decomposition`, `cycle-class`) | Upstream already defines them on real objects (decision 0003) | 2026-11-24 |
+| Port duplicate of `CategoryTheory.Sheaf.H.δ` (red team M1) | Removed; `holomorphicFirstChernClass` uses Mathlib's `Sheaf.H.δ hS 1 2 rfl`, same body | 2026-11-24 |
+| Staged modules `ChernWindingRawBoundary`, `HolomorphicExponentialSupportWinding` (red team L3) | No counterpart at the verified head and no importer; deleted | 2026-11-24 |
 
 ## Dropped threads
 

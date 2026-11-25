@@ -51,6 +51,7 @@ Tell your owner before you start:
 
 - Builds with the pinned toolchain and Mathlib.
 - No `sorry` anywhere under `HodgeLadder/` or `port/`.
+- `HodgeLadder` and `LefschetzPort` import together with all of Mathlib (no clashing declaration names).
 - Only the three standard axioms: `propext`, `Classical.choice`, `Quot.sound`.
 - Every declaration a `checked` or `stated` rung names exists in the named module.
 - The ledger is well-formed: known statuses, known dependencies, no duplicate ids.

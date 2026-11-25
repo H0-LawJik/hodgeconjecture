@@ -6,7 +6,7 @@ module
 
 public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSequence
 public import LefschetzPort.AlgebraicGeometry.IntegralCohomology
-public import LefschetzPort.CategoryTheory.Sites.SheafCohomology.Connecting
+public import Mathlib.CategoryTheory.Sites.SheafCohomology.ExactSequences
 public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
@@ -29,7 +29,8 @@ variable (X : Over (Spec ↧ℂ)) (d : ℕ)
 /-- The analytic first Chern-class connecting map of the holomorphic exponential sequence. -/
 def holomorphicFirstChernClass :
     Sheaf.H.{0} (holomorphicUnitSheaf X d) 1 →+ H^2(X; ℤ) :=
-  Sheaf.H.δ (holomorphicExponentialSequence_shortExact X d) 1
+  -- Port change: Mathlib's connecting map (the port's same-named copy is removed; same body).
+  Sheaf.H.δ (holomorphicExponentialSequence_shortExact X d) 1 2 rfl
 
 /-- The map on second cohomology induced by the inclusion of integers into holomorphic functions. -/
 def integerToHolomorphicSecondCohomology :

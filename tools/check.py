@@ -144,6 +144,24 @@ def check_axioms(data: dict) -> None:
             accept(f"axioms: {d} [{', '.join(sorted(seen[d])) or 'none'}]")
 
 
+def check_import_clash() -> None:
+    """Import all of Mathlib together with both libraries. A declaration name that Mathlib also
+    declares (red team on the port, finding M1) fails here instead of at the next pin bump."""
+    src = "import Mathlib\nimport HodgeLadder\nimport LefschetzPort\n"
+    with tempfile.NamedTemporaryFile("w", suffix=".lean", dir=ROOT, delete=False) as tmp:
+        tmp.write(src)
+        tmp_path = Path(tmp.name)
+    try:
+        r = run(["lake", "env", "lean", str(tmp_path)])
+    finally:
+        tmp_path.unlink(missing_ok=True)
+    if r.returncode != 0:
+        reject("import clash: Mathlib + HodgeLadder + LefschetzPort do not import together")
+        sys.stdout.write(r.stdout[-4000:])
+        return
+    accept("import clash: none with Mathlib")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-build", action="store_true", help="skip lake build (assume built)")
@@ -151,6 +169,7 @@ def main() -> int:
     if not args.no_build and not check_build():
         return 1
     check_no_sorry()
+    check_import_clash()
     data = load_ledger()
     if data is not None:
         check_axioms(data)
