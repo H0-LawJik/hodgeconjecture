@@ -128,12 +128,6 @@ section Generators
 
 variable {Z}
 
-/-- `π ∈ Γ(S, U)` generates the vanishing ideal of `Z` on `W ⊆ U` when every vanishing section
-over an open `V ⊆ W` is a multiple of `π`. -/
-def GeneratesVanishingOn {U : S.Opens} (π : Γ(S, U)) (W : S.Opens) (hW : W ≤ U) : Prop :=
-  ∀ (V : S.Opens) (hV : V ≤ W) (s : Γ(S, V)), s ∈ vanishingIdealSections Z V →
-    ∃ r : Γ(S, V), s = r * S.presheaf.map (homOfLE (hV.trans hW)).op π
-
 /-- Restrictions compose. -/
 lemma res_res {U V W : S.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V) (a : Γ(S, U)) :
     S.presheaf.map (homOfLE h₂).op (S.presheaf.map (homOfLE h₁).op a) =
@@ -165,46 +159,62 @@ lemma mul_res_injective {U V : S.Opens} (hVU : V ≤ U) {π : Γ(S, U)} (hπ : �
     intro a b _
     exact Subsingleton.elim a b
 
+/-- `π ∈ Γ(S, U)` *divides the vanishing ideal at `x`*: the germ at `x` of every section that
+vanishes on `Z`, over any open `V ⊆ U` containing `x`, is a multiple of the germ of `π`. -/
+def DividesVanishingAt {U : S.Opens} (π : Γ(S, U)) (x : S) (hxU : x ∈ U) : Prop :=
+  ∀ (V : S.Opens) (_ : V ≤ U) (s : Γ(S, V)) (hxV : x ∈ V), s ∈ vanishingIdealSections Z V →
+    ∃ r : S.presheaf.stalk x, S.presheaf.germ V x hxV s = r * S.presheaf.germ U x hxU π
+
 /-- **Local generation gives a generating section.** If `π` vanishes on `Z`, is nonzero, and
-generates the vanishing ideal near every point of `U`, then `π` generates the vanishing ideal
-sheaf on `U`. -/
-theorem generates_of_locally {U : S.Opens} (π : Γ(S, U))
+divides the vanishing ideal at every point of `U`, then `π` generates the vanishing ideal sheaf
+on `U`. -/
+theorem generates_of_dividesVanishingAt {U : S.Opens} (π : Γ(S, U))
     (hπ : π ∈ vanishingIdealSections Z U) (hπ0 : π ≠ 0)
-    (hloc : ∀ x ∈ U, ∃ (W : S.Opens) (hW : W ≤ U), x ∈ W ∧ GeneratesVanishingOn (Z := Z) π W hW) :
+    (hloc : ∀ x (hx : x ∈ U), DividesVanishingAt (Z := Z) π x hx) :
     Scheme.Modules.Generates (L := vanishingIdealSheaf Z)
       (show Γ(vanishingIdealSheaf Z, U) from ⟨π, hπ⟩) := by
   intro V hVU
   refine ⟨fun a b hab => mul_res_injective hVU hπ0 (congrArg Subtype.val hab), ?_⟩
   rintro ⟨t, ht⟩
-  -- local quotients
-  have hpt : ∀ x : V, ∃ (W : S.Opens) (hW : W ≤ U), (x : S) ∈ W ∧
-      GeneratesVanishingOn (Z := Z) π W hW := fun x => hloc x (hVU x.2)
-  choose W hW hxW hgen using hpt
-  let Vx : V → S.Opens := fun x => V ⊓ W x
-  have hq : ∀ x : V, ∃ r : Γ(S, Vx x),
-      S.presheaf.map (homOfLE inf_le_left).op t =
-        r * S.presheaf.map (homOfLE (inf_le_right.trans (hW x))).op π := fun x =>
-    hgen x (Vx x) inf_le_right _ (res_mem_vanishingIdealSections (homOfLE inf_le_left) ht)
-  choose r hr using hq
-  have hcover : V ≤ iSup Vx := fun y hy => Opens.mem_iSup.2 ⟨⟨y, hy⟩, ⟨hy, hxW ⟨y, hy⟩⟩⟩
-  have hcomp : TopCat.Presheaf.IsCompatible S.sheaf.1 Vx r := by
+  -- a local quotient near every point
+  have hpt : ∀ x : V, ∃ (W : S.Opens) (hWV : W ≤ V), (x : S) ∈ W ∧ ∃ r : Γ(S, W),
+      S.presheaf.map (homOfLE hWV).op t =
+        r * S.presheaf.map (homOfLE (hWV.trans hVU)).op π := by
+    intro x
+    obtain ⟨r, hr⟩ := hloc x (hVU x.2) V hVU t x.2 ht
+    obtain ⟨W₁, hxW₁, r₁, rfl⟩ := S.presheaf.exists_germ_eq r
+    have hgerm : S.presheaf.germ V x x.2 t =
+        S.presheaf.germ (V ⊓ W₁) x ⟨x.2, hxW₁⟩
+          (S.presheaf.map (homOfLE inf_le_right).op r₁ *
+            S.presheaf.map (homOfLE (inf_le_left.trans hVU)).op π) := by
+      rw [hr, map_mul]
+      congr 1
+      · exact (S.presheaf.germ_res_apply (homOfLE inf_le_right) (x : S) ⟨x.2, hxW₁⟩ r₁).symm
+      · exact (S.presheaf.germ_res_apply (homOfLE (inf_le_left.trans hVU)) (x : S)
+          ⟨x.2, hxW₁⟩ π).symm
+    obtain ⟨W, hxW, iV, iVW, heq⟩ := S.presheaf.germ_eq (x : S) x.2 (show (x : S) ∈ V ⊓ W₁ from ⟨x.2, hxW₁⟩) t _ hgerm
+    refine ⟨W, iV.le, hxW, S.presheaf.map (homOfLE (iVW.le.trans inf_le_right)).op r₁, ?_⟩
+    rw [show (homOfLE iV.le) = iV from rfl, heq, map_mul, show iVW = homOfLE iVW.le from rfl,
+      res_res, res_res]
+  choose W hWV hxW r hr using hpt
+  have hcover : V ≤ iSup W := fun y hy => Opens.mem_iSup.2 ⟨⟨y, hy⟩, hxW ⟨y, hy⟩⟩
+  have hcomp : TopCat.Presheaf.IsCompatible S.sheaf.1 W r := by
     intro x y
-    apply mul_res_injective ((inf_le_left : Vx x ⊓ Vx y ≤ Vx x).trans
-      (inf_le_right.trans (hW x))) hπ0
-    have h1 := congrArg (S.presheaf.map (homOfLE (inf_le_left : Vx x ⊓ Vx y ≤ Vx x)).op) (hr x)
-    have h2 := congrArg (S.presheaf.map (homOfLE (inf_le_right : Vx x ⊓ Vx y ≤ Vx y)).op) (hr y)
+    apply mul_res_injective ((inf_le_left : W x ⊓ W y ≤ W x).trans ((hWV x).trans hVU)) hπ0
+    have h1 := congrArg (S.presheaf.map (homOfLE (inf_le_left : W x ⊓ W y ≤ W x)).op) (hr x)
+    have h2 := congrArg (S.presheaf.map (homOfLE (inf_le_right : W x ⊓ W y ≤ W y)).op) (hr y)
     rw [map_mul, res_res, res_res] at h1 h2
     change S.presheaf.map (homOfLE inf_le_left).op (r x) * _ =
       S.presheaf.map (homOfLE inf_le_right).op (r y) * _
     rw [← h1, h2]
-  obtain ⟨g, hg, -⟩ := S.sheaf.existsUnique_gluing' Vx V (fun x => homOfLE inf_le_left) hcover r hcomp
+  obtain ⟨g, hg, -⟩ := S.sheaf.existsUnique_gluing' W V (fun x => homOfLE (hWV x)) hcover r hcomp
   refine ⟨(show Γ(S, V) from g), Subtype.ext ?_⟩
   change (show Γ(S, V) from g) * S.presheaf.map (homOfLE hVU).op π = t
-  apply TopCat.Sheaf.eq_of_locally_eq' S.sheaf Vx V (fun x => homOfLE inf_le_left) hcover
+  apply TopCat.Sheaf.eq_of_locally_eq' S.sheaf W V (fun x => homOfLE (hWV x)) hcover
   intro x
-  change S.presheaf.map (homOfLE inf_le_left).op
+  change S.presheaf.map (homOfLE (hWV x)).op
       ((show Γ(S, V) from g) * S.presheaf.map (homOfLE hVU).op π) =
-    S.presheaf.map (homOfLE inf_le_left).op t
+    S.presheaf.map (homOfLE (hWV x)).op t
   rw [map_mul, res_res, hr x]
   congr 1
   exact hg x

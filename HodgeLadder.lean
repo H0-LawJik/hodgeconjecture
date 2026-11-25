@@ -16,3 +16,6 @@ public import HodgeLadder.Algebra.UFDDescent
 public import HodgeLadder.Divisor.AnalyticStalk
 public import HodgeLadder.Divisor.LocalFactoriality
 public import HodgeLadder.Divisor.IdealSheaf
+public import HodgeLadder.Algebra.HeightOneGenerator
+public import HodgeLadder.Divisor.LocalGenerator
+public import HodgeLadder.Divisor.Invertible
