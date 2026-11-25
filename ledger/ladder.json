@@ -250,7 +250,7 @@
         "chern-classes-are-hodge"
       ],
       "contributors": [],
-      "note": "The step from chern-classes-are-hodge to CycleClassesAreHodgeOne. Two parts: (a) local factoriality, i.e. height-one primes of the local rings of a smooth variety are principal; Mathlib has IsRegularLocalRing but no regular-local-ring UFD theorem; candidate routes are Auslander–Buchsbaum algebraically, or Oka's UFD of analytic germs (port/LefschetzPort/Oka/UFD.lean) with faithfully flat descent (port/LefschetzPort/RingTheory/FaithfullyFlatRankOne.lean); (b) for an invertible sheaf L, a unit extension E with L^an ≅ E.sectionSheafOfModules. Upstream-first: (a) belongs in Mathlib."
+      "note": "The step from chern-classes-are-hodge to CycleClassesAreHodgeOne. (a) Local factoriality: height-one primes of the local rings of a smooth complex variety are principal. Mathlib has IsRegularLocalRing but no regular-local-ring UFD theorem, and the algebraic route needs Serre's theorem as well. Analytic route, with what the port already has: the stalk maps O_{X,p} → O^an_p are faithfully flat (faithfullyFlat_stalkMap_holomorphicAnalytificationπ); germ rings are UFDs (Oka/UFD.lean, LocalOkaRing); rank-one descent (RingTheory/FaithfullyFlatRankOne.lean). Missing: the analytic stalk of X(ℂ) as LocalOkaRing (Fin d); descent of factoriality along faithfully flat local maps (Mori), via reflexive rank-one modules. Then (a') a prime divisor is the divisor of Cartier data of its ideal sheaf's inverse. (b) For an invertible sheaf L, a unit extension E with L^an ≅ E.sectionSheafOfModules. Upstream-first: the descent and UFD results belong in Mathlib."
     },
     {
       "id": "lefschetz-1-1-equality",
