@@ -8,6 +8,7 @@ public import LefschetzPort.AlgebraicGeometry.DivisorClassComparisonSupport
 public import LefschetzPort.AlgebraicGeometry.CycleClassExtComparison
 public import LefschetzPort.Supplement.AnalyticExt
 public import Other.AlgebraicGeometry.Cycle.FundamentalClass
+public import LefschetzPort.Supplement.NormalizationTransport
 
 /-!
 # The local model of the first Chern class along a divisor, and the final assembly
@@ -172,15 +173,8 @@ def HasComponentSupportDecomposition : Prop :=
             ((2 : ℤ)),
         β = ∑ x ∈ s, componentContribution X s x ((2 : ℤ)) (γ x)
 
-/-- Port change (to upstream main 2ead713): main builds a component's supported class in the
-`Ext` model of cohomology with support, while this file works in the injective model. This is
-main's comparison equivalence between the two, for the component with generic point `x`
-(degree `2 = 2 * 1`). -/
-abbrev componentTransport (x : X.left) :
-    CycleComponentSupportedCohomology X x 1 ≃+
-      SupportedInjectiveHomology X (cycleComponentAnalyticClosedSupport X x) ((2 : ℤ)) :=
-  rationalSupportAddEquivSupportedInjectiveHomology X (cycleComponentAnalyticClosedSupport X x)
-    (2 * 1)
+-- Port change: `componentTransport` (main's `Ext`-to-injective comparison per component) lives in
+-- `LefschetzPort.Supplement.NormalizationTransport`.
 
 /-- **Obligation: the local model of the first Chern class along a divisor.**
 
