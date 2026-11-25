@@ -44,3 +44,5 @@ public import HodgeLadder.Cup.SheafTensor
 public import HodgeLadder.Tests.CupNonvanishing
 public import HodgeLadder.Cup.Pullback
 public import HodgeLadder.Cup.PullbackVariety
+public import HodgeLadder.Cup.Supported
+public import HodgeLadder.Cup.SupportedVariety
