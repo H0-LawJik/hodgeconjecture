@@ -1,6 +1,6 @@
 name = "hodgeladder"
 version = "0.2.0"
-defaultTargets = ["HodgeLadder"]
+defaultTargets = ["HodgeLadder", "LefschetzPort"]
 
 [leanOptions]
 autoImplicit = false

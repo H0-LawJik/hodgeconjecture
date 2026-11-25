@@ -165,7 +165,7 @@
         "divisor-chern-exact"
       ],
       "contributors": [],
-      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it. Progress 2026-11-24: parts 1–8 of 11 (191 modules, including the exact bridge to main's cycle class) build at the current pin in the staging library port/LefschetzPort; log in docs/port-lefschetz.md."
+      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it. Progress 2026-11-24: parts 1–9 of 11 (246 modules); the divisor–Chern identity is checked at the pin (rung divisor-chern-exact) build at the current pin in the staging library port/LefschetzPort; log in docs/port-lefschetz.md."
     },
     {
       "id": "lefschetz-1-1",
@@ -184,15 +184,20 @@
     {
       "id": "divisor-chern-exact",
       "title": "Divisor–Chern identity as an exact equality on the pinned cycle class: the class of a Cartier divisor D equals the rational image of c₁(𝒪(D)), sign determined",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "LefschetzPort.AlgebraicGeometry.ChernRelativeFinalAssembly",
+      "declarations": [
+        "AlgebraicGeometry.ComplexPoint.hasDivisorClassOfCartierData"
+      ],
       "depends_on": [
         "lefschetz-upstream-verify"
       ],
-      "contributors": [],
-      "note": "Port requirement (decision 0004). The upstream branch proves this on its older cycle-class model; on the pinned model the two agree only up to a nonzero rational scalar, possibly −1 (red-team record). Prove it exactly on the pinned definitions, state the sign in the docstring, and record it in docs/conventions.md. No 'up to scalar' version counts."
+      "contributors": [
+        "Paul-Lez/HodgeConjecture (upstream proof, PR #225)",
+        "H0-LawJik (port to the pin)"
+      ],
+      "note": "Checked at this repository's pin in the port (2026-11-24). Statement (upstream's HasDivisorClassOfCartierData, as defined at the pin): for every invertible sheaf L, unit extension E with L^an ≅ its section sheaf, and Cartier datum c representing L, sheafCycleClassOnCycles 1 c.divisor = integralToRationalCohomology 2 E.firstChernClass, with sign +. sheafCycleClassOnCycles is upstream main's (Other/AlgebraicGeometry/Cycle/SheafClass.lean), built from main's cycleComponentSheafClass, the class of record; no copy is staged. Exactness on main's class comes from the port's bridge cycleComponentSheafClass_eq_injectiveModel (no scalar) and the transport of the normalization (componentTransport). Signs met on the way are in docs/conventions.md (orientation against winding +1, kernel-checked)."
     },
     {
       "id": "lefschetz-1-1-equality",

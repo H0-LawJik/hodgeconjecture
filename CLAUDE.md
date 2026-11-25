@@ -39,7 +39,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `HodgeLadder/Upstream/Statements.lean` | Rung `statements-consistent`: the upstream variants are instances of the upstream conjecture. |
 | `HodgeLadder/CycleClass/Pins.lean` | Rung `cycle-class-pins`: `rfl` pins of each step of the upstream cycle-class and Hodge-class constructions; a change upstream breaks the build here. |
 | `HodgeLadder/CycleClass/Statements.lean` | Rungs `known-half-statement`, `equality-reductions`: cycle classes are Hodge classes, the equality forms, and their equivalence with upstream inclusion plus known half. |
-| `port/LefschetzPort/`, `docs/port-lefschetz.md` | Staging library and log for the port of the upstream Lefschetz (1,1) stack to the current pin (rung `lefschetz-port`). Not a default target; `lake build LefschetzPort`. |
+| `port/LefschetzPort/`, `docs/port-lefschetz.md` | Staging library and log for the port of the upstream Lefschetz (1,1) stack to the current pin (rung `lefschetz-port`). A default target since part 9; holds the checked divisor–Chern identity (`hasDivisorClassOfCartierData`). |
 | `docs/cycle-class.md` | How the cycle class is built at the pin, step by step, with the pins and upstream normalization theorems. |
 | `.lake/packages/HodgeConjecture/` | Upstream source at the pin (statements of record). Read it; do not edit it. |
 | `ledger/ladder.json` | Machine-readable status of every rung: `checked`, `stated`, `open`, `refuted`, `dead`. The website reads this file. |
