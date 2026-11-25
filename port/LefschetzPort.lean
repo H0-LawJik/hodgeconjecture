@@ -675,6 +675,13 @@ public import LefschetzPort.Supplement.SheafClass
 public import LefschetzPort.Supplement.ShiftedExact
 public import LefschetzPort.Supplement.StdSimplex
 public import LefschetzPort.Supplement.SupportExtension
+public import LefschetzPort.TauCeti.Basic.Complex.ConjZPow
+public import LefschetzPort.TauCeti.Geometry.Hodge.Conjugation
+public import LefschetzPort.TauCeti.Geometry.Hodge.Structure
+public import LefschetzPort.TauCeti.LinearAlgebra.Basis.Semilinear
+public import LefschetzPort.TauCeti.LinearAlgebra.Complex.Conjugation
+public import LefschetzPort.TauCeti.LinearAlgebra.Complex.Module
+public import LefschetzPort.TauCeti.RingTheory.TensorProduct.IsBaseChange
 public import LefschetzPort.TauCeti.SheafOfModules.Free
 public import LefschetzPort.TauCeti.SheafOfModules.Invertible
 public import LefschetzPort.TauCeti.SheafOfModules.JacobsonLocalTriviality
