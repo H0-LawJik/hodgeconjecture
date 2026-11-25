@@ -11,8 +11,8 @@ A statement counts here only when the checker accepts a proof of it against the 
 | Verdict | open |
 | Statement of record | `Paul-Lez/HodgeConjecture` at `2ead713` |
 | Lean / Mathlib | `v4.35.0-rc4` / `v4.35.0-rc4` (following upstream) |
-| Checkpoint | Lefschetz (1,1) as an equality, `Hdg^1(X; ℚ) = algebraicCycleClassSpan X 1`, checked (`HodgeLadder.lefschetzOneOneEquality_holds`); non-vacuity in degree two is pending the ℙ¹ test (`projective-line-class-nonzero`) |
-| Current target | the ℙ¹ test case (`projective-line-test`), then the Markman inventory |
+| Checkpoint | Lefschetz (1,1) as an equality, `Hdg^1(X; ℚ) = algebraicCycleClassSpan X 1`, checked (`HodgeLadder.lefschetzOneOneEquality_holds`); on ℙ¹ both sides are one-dimensional (`HodgeLadder.Tests.projectiveLine_test`) |
+| Current target | the Markman inventory |
 
 The ladder of rungs is in [`docs/roadmap.md`](docs/roadmap.md); the machine-readable copy is [`ledger/ladder.json`](ledger/ladder.json). Why the project is shaped this way: [`docs/decisions/0003-rebase-on-upstream-statement.md`](docs/decisions/0003-rebase-on-upstream-statement.md).
 

@@ -69,3 +69,7 @@ All of the rung's dependencies were checked at the current pin `2ead713`; the po
 2. Public copy (README, site, ledger note) describes the equality as checked and says that non-vacuity in degree two is pending `projective-line-class-nonzero`. It does not describe the equality as non-vacuous before that rung is checked.
 3. Run `projective-line-test` (the ℙ¹ chain) next, before the Markman inventory. This makes the equality non-vacuous.
 4. Proposed new rung (not required for this verdict): `lefschetz-1-1-integral`. Every integral class in H²(X; ℤ) whose rational image is Hodge is c₁ of an algebraic line bundle. The port's `exists_holomorphicUnitExtension_of_integral_hodgeClass` gives the analytic half. The algebraic half needs GAGA for line bundles. That rung is sign-sensitive and would need its own convention pass.
+
+## Follow-up (2026-11-25)
+
+Changes 2 and 3 are done. `projective-line-test` is checked: on upstream's ℙ¹, `Hdg^1 = algebraicCycleClassSpan 1` and both have rank one over ℚ (`HodgeLadder.Tests.projectiveLine_test`), with the class of a point nonzero (`projectiveLine_class_ne_zero`). The equality is non-vacuous in degree two. README and ledger updated.
