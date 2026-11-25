@@ -706,7 +706,7 @@
         "lefschetz-1-1-equality"
       ],
       "contributors": [],
-      "note": "Front abelian. Deferred until the Lefschetz checkpoint (decision 0003); the inventory of tools and gaps comes from that checkpoint. Source Markman2025 is a preprint; the statement records that. Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
+      "note": "Front abelian. The Lefschetz checkpoint is checked and the inventory is written (docs/notes/2026-11-25-markman-inventory.md); blocked on front cup (decision 0008); first Markman-directed rung is the inventory's T1 (Weil classes on abelian surfaces of Weil type). Source Markman2025 is an unrefereed preprint (latest arXiv v2, 2025-06-08); its all-discriminant proof passes through Weil classes on sixfolds (degree six), and Voisin2026Bourbaki (Lemma 2.9, Cor 2.10) replaces Schoen's degeneration by a product reduction. Only the discriminant-1 route (Markman2023, refereed) stays in degree four. The statement records which source it rests on and the discriminant convention (docs/conventions.md). Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
     },
     {
       "id": "Z-cycles",

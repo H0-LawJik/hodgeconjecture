@@ -1,6 +1,6 @@
 # Roadmap: the ladder
 
-Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the checker accepts the declarations), `stated` (statement sorry-free, proof open), `open`, `refuted`, `dead`. Dead rungs stay in the ledger with their reason; decision 0003 retired fifteen of them.
+Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the checker accepts the declarations), `stated` (statement sorry-free, proof open), `open`, `refuted`, `dead`. Dead rungs stay in the ledger with their reason; decision 0003 retired thirteen of them.
 
 | Rung | Kind | Status | Depends on | What it needs |
 |---|---|---|---|---|
@@ -33,23 +33,26 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `projective-line-h2` | test | checked | `projective-line-class-nonzero` | dim H²(ℙ¹; ℚ) = 1 and it equals the span; one-dimensionality of H²_pt on the sheaf side |
 | `projective-line-test` | test | checked | `projective-line-h2`, `lefschetz-1-1`, `chern-classes-are-hodge` | Hdg^1(ℙ¹) = span, both one-dimensional; needs the point class to be Hodge |
 | `clifford-exterior-spin` | foundation | open | `lefschetz-1-1-equality` | Clifford algebra of the split form on H ⊕ H^∨ acting on ∧*H; for the Markman inventory (`docs/notes/2026-11-24-spinors-characters-tests.md`) |
-| `elliptic-product-test` | test | open | `lefschetz-1-1-equality` | dim Hdg^1(E₁ × E₂) = 2 + rank Hom(E₁, E₂) while h^{1,1} = 4 |
+| `elliptic-product-test` | test | open | `lefschetz-1-1-equality` | dim Hdg^1(E₁ × E₂) = 2 + rank Hom(E₁, E₂) while h^{1,1} = 4; needs the cup product and Künneth for constant-sheaf cohomology (inventory §5) |
 | `cup-front` | front | open | `upstream-statement` | ring structure on H^*(X; ℚ), decision 0008 |
 | `rational-ext-equiv` | foundation | checked | `cup-front` | H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces |
 | `cup-product` | foundation | checked | `rational-ext-equiv` | cup product: associative, unital, bilinear |
 | `cup-graded-commutative` | foundation | open | `cup-product` | α ∪ β = (−1)^{pq} β ∪ α |
 | `cycle-class-multiplicative` | foundation | open | `cup-product` | class of an intersection is the cup product of classes |
-| `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; inventory before sub-rungs |
+| `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; the cup product (front `cup`); inventory before sub-rungs |
 | `dimension-le-three` | case | open | `lefschetz-1-1`, `hard-lefschetz` | `HodgeConjectureInDimensionLE 3` |
-| `markman-statement` | front | open | `lefschetz-1-1-equality` | Markman's theorem on upstream definitions, after the checkpoint inventory |
+| `markman-statement` | front | open | `lefschetz-1-1-equality` | Markman's theorem on upstream definitions; inventory written (`docs/notes/2026-11-25-markman-inventory.md`); blocked on front `cup`; target sequence T1 to T5 (inventory §6) |
 
 ## Order of attack
 
-1. `lefschetz-upstream-verify` and `nonvacuity-tests`, in parallel. Both read upstream source and build it; neither changes it.
-2. `lefschetz-port`, after a note to the upstream authors: they proposed taking Oka as a dependency instead of vendoring 372 modules, and a port should follow their choice.
-3. `divisor-chern-exact` as part of the port, then `lefschetz-1-1` and `lefschetz-1-1-equality` here. Then the Markman inventory (`docs/strategy.md` M2).
-4. `cycle-classes-are-hodge` can start now. `projective-space-test` goes through ℙ¹: `projective-line-witness` and `contractible-open-acyclic` can run in parallel, then `projective-line-point` and `projective-line-class-nonzero`.
-5. `hard-lefschetz` is the long pole for `dimension-le-three`; start its inventory once the checkpoint is in.
+Done: M0 and M1 (`lefschetz-upstream-verify`, `nonvacuity-tests`, `lefschetz-port`, `divisor-chern-exact`, `lefschetz-1-1`, `lefschetz-1-1-equality`), the divisor chain behind it, and the ℙ¹ test (`projective-line-test`). The Markman inventory is written.
+
+1. Front `cup` (decision 0008): `rational-ext-equiv`, then `cup-product`, then `cup-graded-commutative` and `cycle-class-multiplicative`. It blocks M2 and M3 (inventory §4, gap 1).
+2. `clifford-exterior-spin` can start at the pin: pure linear algebra, a Mathlib candidate (inventory §5).
+3. After the cup front: the inventory's target sequence T1 to T5 (§6), T1 first (Weil classes on abelian surfaces of Weil type). These rungs are not yet in the ledger; post them as each one's inputs exist. `markman-statement` stays open until then.
+4. `cycle-classes-are-hodge` can start now. `projective-space-test` for n ≥ 2 and `lefschetz-1-1-integral` are the remaining M1+ rungs.
+5. `hard-lefschetz` is the long pole for `dimension-le-three`; it also needs the cup product. Inventory before sub-rungs.
+6. `elliptic-product-test` needs the cup product and Künneth; it cannot be the first abelian rung (inventory §5).
 
 ## Watch signals
 

@@ -54,7 +54,7 @@ Tell your owner before you start:
 - `HodgeLadder` and `LefschetzPort` import together with all of Mathlib (no clashing declaration names).
 - Only the three standard axioms: `propext`, `Classical.choice`, `Quot.sound`.
 - Every declaration a `checked` or `stated` rung names exists in the named module.
-- The ledger is well-formed: known statuses, known dependencies, no duplicate ids.
+- The ledger is well-formed: known statuses and kinds, known dependencies, no duplicate ids.
 
 ## Honesty rules
 

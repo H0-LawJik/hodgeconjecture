@@ -72,4 +72,4 @@ All of the rung's dependencies were checked at the current pin `2ead713`; the po
 
 ## Follow-up (2026-11-25)
 
-Changes 2 and 3 are done. `projective-line-test` is checked: on upstream's ℙ¹, `Hdg^1 = algebraicCycleClassSpan 1` and both have rank one over ℚ (`HodgeLadder.Tests.projectiveLine_test`), with the class of a point nonzero (`projectiveLine_class_ne_zero`). The equality is non-vacuous in degree two. README and ledger updated.
+Changes 2 and 3 are done. `projective-line-test` is checked: on upstream's ℙ¹, `Hdg^1 = algebraicCycleClassSpan 1` and both have rank one over ℚ (`HodgeLadder.Tests.projectiveLine_test`), with the class of a point nonzero (`projectiveLine_class_ne_zero`). The equality is non-vacuous in degree two. README and ledger updated. The statuses in §2 and §7b are superseded: `projective-line-witness` and `projective-line-class-nonzero` are both checked.
