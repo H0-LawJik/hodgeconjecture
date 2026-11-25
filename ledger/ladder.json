@@ -317,39 +317,57 @@
     {
       "id": "unit-extension-of-invertible",
       "title": "Every invertible sheaf has a unit extension E with L^an ≅ E.sectionSheafOfModules",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Divisor.UnitExtensionOfInvertible",
+      "declarations": [
+        "HodgeLadder.exists_unitExtension_of_isInvertible",
+        "HodgeLadder.isInvertible_moduleAnalytification",
+        "HodgeLadder.nonempty_holomorphicTrivializingCover_moduleAnalytification",
+        "HodgeLadder.TCover.sectionIso",
+        "HodgeLadder.TCover.unitExtension",
+        "HodgeLadder.TCover.sameTransitions",
+        "HodgeLadder.Frames.isoOfSameTransitions",
+        "HodgeLadder.constIsoLC"
+      ],
       "depends_on": [
         "lefschetz-port"
       ],
-      "contributors": [],
-      "note": "The transition cocycle of L^an on a trivializing cover gives a class in H¹(𝒪ˣ); exists_cohomologyClass realizes it as E; compare E's section sheaf (local lifts of 1) with L^an frame by frame. Fix the transition convention (gᵢⱼ against gᵢⱼ⁻¹) in docs/conventions.md: the wrong one gives the dual bundle and −c₁."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. For invertible L on a smooth projective integral complex scheme, L^an is invertible (coherent by Oka, stalks free of rank one, X(ℂ) T1 hence Jacobson; Tau Ceti's closed-point criterion), so it has holomorphic frames σᵢ with σᵢ = gᵢⱼ • σⱼ. The middle sheaf N has sections (n, v) with n locally constant and g(b·)ᵢ·^n · v holomorphic on each Uᵢ (a local predicate); 0 → 𝒪ˣ → N → ℤ → 0 is short exact, with ℤ identified with locally constant functions (constIsoLC). E's chosen lifts of 1 have degree one and transitionUnit y x = vʸ/vˣ; the frames wˣᵢ • σᵢ (wˣᵢ = g(b·)ᵢ · vˣ) on the cover Oₓ ⊓ Uᵢ have E's transitions, and Frames.isoOfSameTransitions gives L^an ≅ E.section. This route does not use the stack's AnalytificationGenerates. Convention: docs/conventions.md, row 'Unit extension of a line bundle'."
     },
     {
       "id": "prime-divisors-cartier",
       "title": "Assembly: every prime divisor class is a Hodge class (CycleClassesAreHodgeOne)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Divisor.LefschetzEquality",
+      "declarations": [
+        "HodgeLadder.cycleClassesAreHodgeOne_holds",
+        "HodgeLadder.cycleComponentSheafClass_mem_hodgeClasses_one"
+      ],
       "depends_on": [
         "chern-classes-are-hodge",
         "local-factoriality",
         "prime-divisor-ideal-sheaf",
         "unit-extension-of-invertible"
       ],
-      "contributors": [],
-      "note": "Plan and sub-rungs in docs/sketches/prime-divisors-cartier.md. Checked so far: ufd-descent, analytic-stalk-ufd, local-factoriality, prime-divisor-ideal-sheaf. Open: unit-extension-of-invertible. Then sheafCycleClassOnCycles_divisor_mem_hodgeClasses applied to the ideal sheaf of D gives −[D] ∈ Hdg^1, so [D] ∈ Hdg^1."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. For a prime divisor D = closure {ξ}: the ideal sheaf is invertible with Cartier data of divisor −D (prime-divisor-ideal-sheaf), its analytification is E.section for a unit extension E (unit-extension-of-invertible), so sheafCycleClassOnCycles 1 (single ξ (−1)) = −[D] is Hodge (chern-classes-are-hodge) and [D] is Hodge. The classes of prime divisors span algebraicCycleClassSpan X 1 (sSup of spans)."
     },
     {
       "id": "lefschetz-1-1-equality",
       "title": "Lefschetz (1,1) as an equality: theorem : HodgeLadder.LefschetzOneOneEquality",
-      "status": "open",
+      "status": "checked",
       "kind": "case",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Divisor.LefschetzEquality",
+      "declarations": [
+        "HodgeLadder.lefschetzOneOneEquality_holds"
+      ],
       "depends_on": [
         "lefschetz-1-1",
         "divisor-chern-exact",
@@ -357,8 +375,10 @@
         "chern-classes-are-hodge",
         "prime-divisors-cartier"
       ],
-      "contributors": [],
-      "note": "The checkpoint's definition of done (decision 0004). By lefschetzOneOneEquality_iff it is LefschetzOneOne (checked) plus CycleClassesAreHodgeOne. The Hodge side is done for Cartier divisors (chern-classes-are-hodge); what remains is that every prime divisor is Cartier with a unit extension (prime-divisors-cartier)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25: theorem lefschetzOneOneEquality_holds : HodgeLadder.LefschetzOneOneEquality, from lefschetzOneOneEquality_iff with lefschetzOneOne_holds (upstream inclusion, ported) and cycleClassesAreHodgeOne_holds (prime-divisors-cartier). The checkpoint's definition of done (decision 0004). Red-team pass pending."
     },
     {
       "id": "cycle-classes-are-hodge",

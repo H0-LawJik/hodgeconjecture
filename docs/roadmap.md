@@ -19,9 +19,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `analytic-stalk-ufd` | foundation | checked | `lefschetz-port` | done in `HodgeLadder.Divisor.AnalyticStalk` |
 | `local-factoriality` | foundation | checked | `ufd-descent`, `analytic-stalk-ufd` | done in `HodgeLadder.Divisor.LocalFactoriality` |
 | `prime-divisor-ideal-sheaf` | foundation | checked | `local-factoriality` | done in `HodgeLadder.Divisor.PrimeDivisorSmooth`: the ideal sheaf of D is invertible, represented by Cartier data with divisor −D |
-| `unit-extension-of-invertible` | foundation | open | `lefschetz-port` | a unit extension E with L^an ≅ E.section for every invertible L |
-| `prime-divisors-cartier` | foundation | open | `chern-classes-are-hodge`, `local-factoriality`, `prime-divisor-ideal-sheaf`, `unit-extension-of-invertible` | assembly: `CycleClassesAreHodgeOne` |
-| `lefschetz-1-1-equality` | case | open | `lefschetz-1-1`, `divisor-chern-exact`, `equality-reductions`, `chern-classes-are-hodge`, `prime-divisors-cartier` | `theorem : LefschetzOneOneEquality`; the checkpoint's definition of done |
+| `unit-extension-of-invertible` | foundation | checked | `lefschetz-port` | a unit extension E with L^an ≅ E.section for every invertible L |
+| `prime-divisors-cartier` | foundation | checked | `chern-classes-are-hodge`, `local-factoriality`, `prime-divisor-ideal-sheaf`, `unit-extension-of-invertible` | assembly: `CycleClassesAreHodgeOne` |
+| `lefschetz-1-1-equality` | case | checked | `lefschetz-1-1`, `divisor-chern-exact`, `equality-reductions`, `chern-classes-are-hodge`, `prime-divisors-cartier` | `theorem : LefschetzOneOneEquality`; the checkpoint's definition of done |
 | `cycle-classes-are-hodge` | foundation | open | `known-half-statement`, `cycle-class-pins` | `theorem : CycleClassesAreHodge` |
 | `lefschetz-1-1-integral` | case | open | `lefschetz-port`, `divisor-chern-exact` | image of c₁ on Pic equals the integral Hodge classes in H² |
 | `projective-space-test` | test | open | `upstream-statement`, `projective-line-test` | Hdg^1(ℙ^n) = span, both one-dimensional; split into the ℙ¹ rungs below (`docs/sketches/projective-space-test.md`) |
