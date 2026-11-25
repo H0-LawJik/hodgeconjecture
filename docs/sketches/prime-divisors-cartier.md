@@ -26,7 +26,7 @@ Date: 2026-11-25. Target: close `lefschetz-1-1-equality` (decision 0004) by prov
 
 ## Progress (2026-11-25)
 
-`ufd-descent`, `analytic-stalk-ufd` and `local-factoriality` are checked (standard axioms). Open: `prime-divisor-ideal-sheaf` and `unit-extension-of-invertible`, both constructions of sheaves; then the assembly.
+`ufd-descent`, `analytic-stalk-ufd`, `local-factoriality` and `prime-divisor-ideal-sheaf` are checked (standard axioms). Open: `unit-extension-of-invertible` (it needs the stack's unproved `AnalytificationGenerates`: analytification preserves local generators); then the assembly.
 
 ## Order
 

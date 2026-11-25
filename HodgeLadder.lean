@@ -19,3 +19,6 @@ public import HodgeLadder.Divisor.IdealSheaf
 public import HodgeLadder.Algebra.HeightOneGenerator
 public import HodgeLadder.Divisor.LocalGenerator
 public import HodgeLadder.Divisor.Invertible
+public import HodgeLadder.Divisor.Order
+public import HodgeLadder.Divisor.PrimeDivisorCartier
+public import HodgeLadder.Divisor.PrimeDivisorSmooth
