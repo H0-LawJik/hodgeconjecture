@@ -165,7 +165,7 @@
         "divisor-chern-exact"
       ],
       "contributors": [],
-      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it. Progress 2026-11-24: parts 1–9 of 11 (246 modules); the divisor–Chern identity is checked at the pin (rung divisor-chern-exact) build at the current pin in the staging library port/LefschetzPort; log in docs/port-lefschetz.md."
+      "note": "Stack: upstream PRs #217-#226, #9, #230 (Oka proper GAGA, 372 modules), #228. Contributed upstream; coordinate with the upstream authors before starting, since upstream proposed taking Oka as a dependency instead of vendoring it. Requirement (decision 0004): the port proves the divisor–Chern identity exactly on the pinned cycle class with the sign determined (rung divisor-chern-exact); a bridge 'up to a nonzero scalar' does not satisfy it. Progress 2026-11-24: parts 1–10 of 11 (280 modules); the divisor–Chern identity is checked at the pin (rung divisor-chern-exact) build at the current pin in the staging library port/LefschetzPort; log in docs/port-lefschetz.md."
     },
     {
       "id": "lefschetz-1-1",
