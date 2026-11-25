@@ -469,15 +469,22 @@
     {
       "id": "contractible-open-acyclic",
       "title": "For smooth projective integral X over ℂ and a contractible open U ⊆ X(ℂ), Sheaf.H' of the constant sheaf ℚ over U vanishes in positive degrees",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ContractibleAcyclic",
+      "declarations": [
+        "HodgeLadder.Tests.contractibleOpen_subsingleton_H'",
+        "HodgeLadder.Tests.Acyclic.subsingleton_H_const_of_contractible",
+        "HodgeLadder.Tests.Acyclic.subsingleton_H_of_isFlasque",
+        "HodgeLadder.Tests.Acyclic.subsingleton_H_cycles"
+      ],
       "depends_on": [
         "upstream-statement"
       ],
-      "contributors": [],
-      "note": "Route: Oka's TopCat.Sheaf.H'AddEquiv (H'^q(U, F) ≃ H^q(F|_U)), restriction of the constant sheaf, the constant-sheaf/singular comparison on U, then singularCochainComplex_exactAt_of_contractible. Upstream has the resolution quasi-isomorphism for spaces with a contractible open basis (constantsToSingularCochainSheafComplex_quasiIso_of_contractibleOpenBasis, contractibleOpenBasis_of_isOpenEmbedding) and the global comparison rationalCohomologyAddEquivSingularCohomology for complex points of smooth integral X; the open-subscheme route goes through openScheme and openHomeomorph. The hardest sub-rung."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Flasque-resolution argument on the open itself, no open-subscheme detour: Sheaf.H' over U is H^q(U, ℚ_X|_U) (Oka H'AddEquiv), ℚ_X|_U ≅ ℚ_U (inverse image commutes with constant sheaves). On a contractible Hausdorff space Y with paracompact opens and a contractible open basis, ℚ_Y → 𝒞^•(Y) (sheafified singular cochains) is a flasque resolution whose global sections are exact in positive degrees (upstream quasi-isomorphisms plus singularCochainComplex_exactAt_of_contractible); flasque sheaves are acyclic and dimension shifting along the cycle sheaves gives H^{q+1}(Y; ℚ) = 0. The topological statement subsingleton_H_const_of_contractible uses no algebraic geometry; X enters only through T2, paracompact opens and exists_contractibleOpen_le. Composes with forgetSupport_injective_of_subsingleton."
     },
     {
       "id": "projective-line-class-nonzero",

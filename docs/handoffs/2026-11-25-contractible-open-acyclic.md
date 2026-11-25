@@ -1,0 +1,8 @@
+# Handoff 2026-11-25: `contractible-open-acyclic`
+
+- Moved: rung checked (standard axioms). `HodgeLadder.Tests.contractibleOpen_subsingleton_H'`: for smooth projective integral X over ℂ and a contractible analytic open U ⊆ X(ℂ), `Subsingleton (Sheaf.H' ℚ_X q U)` for `q > 0`, spelled exactly as the hypothesis of `forgetSupport_injective_of_subsingleton` (a composition check elaborates).
+- Route: the classical flasque-resolution argument on U itself. U is an analytic open, so the open-subscheme route (`openScheme`, `openHomeomorph`) does not apply to it in general and was not used.
+- Steps: `H'AddEquiv` (Oka) and `ℚ_X|_U ≅ ℚ_U` (`pullbackAbIsoRestrictAb`, `pullbackConstantSheafIso`); flasque sheaves are acyclic (`Acyclic.subsingleton_H_of_isFlasque`, dimension shifting into an injective); dimension shifting along cycle sheaves of a flasque resolution with exact global sections (`Acyclic.subsingleton_H_cycles`); the singular-cochain resolution and its global sections from upstream; `ℚ_Y ≅ Z⁰` from the quasi-isomorphism in degree 0.
+- The topological core `Acyclic.subsingleton_H_const_of_contractible` holds for any contractible T2 space with paracompact opens and a contractible open basis; X enters only through `complexPoint_t2Space`, `openParacompactSpace`, `exists_contractibleOpen_le`.
+- Upstream candidates, logged in `docs/gaps.md`: flasque acyclicity for `Sheaf.H`, and the cycle-sheaf dimension shift. Upstream's `FlasqueAcyclic.lean` has the docstring of the first but no theorem at the pin.
+- Next: `projective-line-class-nonzero` needs `H'^1(U) = 0` for U = ℙ¹(ℂ) ∖ {pt} ≅ ℂ; it now reduces to `ContractibleSpace U`.
