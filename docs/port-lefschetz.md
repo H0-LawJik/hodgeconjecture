@@ -13,7 +13,8 @@ Method per part: stage the part's new `Other/` modules at that part's own head; 
 | 3/11 | #219 | analytic line bundles and module analytification | 7 | none | builds at the pin |
 | 4/11 | #220 | statement of divisor–Chern compatibility | 1 | none; the part's edits to three existing files were not needed | builds at the pin |
 | 5/11 | #221 | cohomology tools: mapping cones, connecting maps, supported and relative cochains, flasque models | 51 | six, all from Mathlib drift: (a) `Q` is no longer definitionally `quotient ⋙ Qh`, so `PrecompFactorization` and `HypercohomologyFlasqueNaturality` move across `DerivedCategory.quotientCompQhIso` and use `DerivedCategory.Q_map_eq_of_homotopy`; (b) newer `simp` closes two goals in `RelativeCochainConeForgetComparison` and `RelativeCochainConeBoundaryComparison`, so trailing `rfl`s are removed; (c) `SingularExcisionScalar` needs an explicit import of `Mathlib.CategoryTheory.Limits.MonoCoprod`. No statement changed | builds at the pin |
-| 6/11 to 10/11 | #222–#226 | exponential classes and winding, local divisor equations, normal charts, the identity's proof, finite integral homology | | | not started |
+| 6/11 | #222 | exponential classes, winding cochains and boundaries, restriction to opens, cohomology with support | 36 | (a) Mathlib's topological simplex is now the type `Convexity.StdSimplex`; supplement `Supplement/StdSimplex` gives a homeomorphism with the old subset and transfers contractibility and local path-connectedness; `ChernWindingCochain` and `ChernWindingRational` rewritten to the new API (`single`, `map_single`, `continuous_map ℝ`); (b) the global universe-0 `Ext` instance the stack relies on is restated in `Supplement/AnalyticExt` and imported into every staged geometry and topology file, and `extClass` of analytic sequences is taken at universe 0 explicitly (`Ext` and `H^n` therefore land in the same universe as main's statement of record); (c) lemmas the stack adds to files that exist on main are staged in `Supplement/MapExtend`, `Supplement/ShiftedExact`, `Supplement/RelativeCochainCone` (the last re-declares a lemma that is `private` on main); the branch-only file `HodgeConjecture/Mathlib/CategoryTheory/Localization/SmallShiftedHom.lean` is staged under `LefschetzPort/HC/`; (d) newer `simp`/`convert` close five goals, so redundant final steps are removed; (e) one coerced inverse needs `erw`; (f) one theorem's heartbeat budget raised from 1e6 to 4e6 (`ChernClassRestrictionVanishing`, step 3c). No statement changed | builds at the pin |
+| 7/11 to 10/11 | #223–#226 | local divisor equations, normal charts, the identity's proof, finite integral homology | | | not started |
 | 11/11 | #9 | reduction to algebraization of line bundles | | | not started |
 | Oka | #230 | proper GAGA, 372 modules | | | waiting on upstream's answer: dependency or vendored |
 | final | #228 | the theorem | | | not started |
@@ -26,10 +27,14 @@ The staged statement `HasDivisorClassOfCartierData` says: for every Cartier datu
 
 with sign +. On main, `sheafCycleClassOnCycles` (upstream `Other/AlgebraicGeometry/Cycle/SheafClass.lean`) is built from main's `cycleComponentSheafClass`, the class of record, and `sheafCycleClassOnCycles_single` gives each component its exact integer multiplicity. So the ported statement is about the class of record, and proving it at the pin (part 9) is rung `divisor-chern-exact`. Where the branch's proof used its older cycle-class model, the port must redo it on main's; a proof that only gives the identity up to a nonzero scalar does not discharge the rung (decision 0004).
 
+## Not staged on purpose
+
+The branch-only file `HodgeConjecture/Definitions/AlgebraicGeometry/Cycle/Transport/CohomologySheaf.lean` carries the branch's older cycle-class model. It is staged only if a later part needs it, and then only behind an explicit bridge to main's class (rung `divisor-chern-exact`); the port's statements stay on main's class of record.
+
 ## Counts
 
 | | Value |
 |---|---|
-| Modules staged and built | 76 |
+| Modules staged and built | 118 (112 from the stack, 5 supplements, 1 branch-only upstream file) |
 | `sorry` in staged files | 0 |
-| Build of `LefschetzPort` at the pin | 4,821 jobs, success |
+| Build of `LefschetzPort` at the pin | 4,880 jobs, success |

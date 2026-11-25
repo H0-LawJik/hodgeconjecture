@@ -7,6 +7,7 @@ module
 public import LefschetzPort.Algebra.Homology.DerivedFunctorHomology
 public import LefschetzPort.AlgebraicTopology.Sheaf.CohomologySectionTransport
 public import LefschetzPort.AlgebraicGeometry.CocycleGlobalSectionNaturality
+public import LefschetzPort.Supplement.AnalyticExt
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite HomologicalComplex
 open CochainComplex.HomComplex

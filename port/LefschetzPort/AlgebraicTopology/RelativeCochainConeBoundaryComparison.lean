@@ -7,6 +7,7 @@ module
 public import LefschetzPort.AlgebraicTopology.RelativeCochainConeForgetComparison
 public import LefschetzPort.Algebra.Homology.DegreewiseSplitConnecting
 public import LefschetzPort.Algebra.Homology.DerivedCategory.MappingCoconeBoundary
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Boundary normalization of the relative cochain cone comparison

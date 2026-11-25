@@ -8,6 +8,7 @@ public import LefschetzPort.AlgebraicGeometry.IntegralCohomology
 public import LefschetzPort.AlgebraicGeometry.HolomorphicFirstChernClass
 public import LefschetzPort.AlgebraicTopology.SheafExtensionLocalLifts
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Sheaf extensions representing holomorphic Chern-class lifts

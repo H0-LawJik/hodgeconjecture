@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicGeometry.HolomorphicUnitExtension
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Holomorphic transition functions of a unit-sheaf extension

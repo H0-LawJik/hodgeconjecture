@@ -15,6 +15,7 @@ public import Mathlib.CategoryTheory.Adjunction.Limits
 public import Mathlib.CategoryTheory.Sites.Whiskering
 public import Mathlib.Topology.Sheaves.LocallySurjective
 public import Mathlib.Topology.Sheaves.Abelian
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # The holomorphic exponential morphism

@@ -7,6 +7,7 @@ module
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Support.SingularSectionNaturality
 public import HodgeConjecture.Lemmas.Algebra.Homology.DerivedCategory.MappingCoconeShortExactNaturality
 public import HodgeConjecture.Lemmas.Algebra.Homology.DerivedCategory.MappingConeMapNaturality
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Positive local normalization of supported-singular boundaries

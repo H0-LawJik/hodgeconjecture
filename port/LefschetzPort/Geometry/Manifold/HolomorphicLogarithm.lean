@@ -7,6 +7,7 @@ module
 public import Mathlib.Analysis.SpecialFunctions.Complex.Analytic
 public import Mathlib.Geometry.Manifold.Algebra.SmoothFunctions
 public import Mathlib.Geometry.Manifold.ContMDiff.NormedSpace
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Local holomorphic logarithms

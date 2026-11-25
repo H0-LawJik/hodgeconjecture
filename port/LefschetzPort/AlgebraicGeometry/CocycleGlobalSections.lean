@@ -7,6 +7,7 @@ module
 public import Other.AlgebraicGeometry.Cohomology.HypercohomologyNaturality
 public import LefschetzPort.AlgebraicGeometry.HypercohomologyFlasqueNaturality
 public import LefschetzPort.AlgebraicTopology.ConstantSheafGlobalSection
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Actual cocycle representatives under the global-sections comparison

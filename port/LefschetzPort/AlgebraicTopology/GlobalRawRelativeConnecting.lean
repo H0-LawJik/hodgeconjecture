@@ -8,6 +8,7 @@ public import Other.AlgebraicGeometry.Cohomology.SupportSingularGlobal
 public import LefschetzPort.AlgebraicTopology.RelativeCochainConeForgetComparison
 public import LefschetzPort.Algebra.Homology.MapHomologyShift
 public import LefschetzPort.Algebra.Homology.MapArrowConeConnecting
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-! # Exact connecting sign for the raw global relative cochain comparison -/
 

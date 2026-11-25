@@ -20,6 +20,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Colimits
 
 import HodgeConjecture.Lemmas.AlgebraicTopology.Singular.Excision.OpenCover
 import Mathlib.CategoryTheory.Limits.MonoCoprod
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Small singular chains with coefficients in a commutative ring

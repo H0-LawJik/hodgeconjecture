@@ -7,6 +7,7 @@ module
 public import LefschetzPort.AlgebraicTopology.OpenRawRelativeConnecting
 public import LefschetzPort.AlgebraicTopology.SupportedSectionConeConnecting
 public import HodgeConjecture.Definitions.AlgebraicTopology.Support.SingularSectionCohomology
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-! # Positive ordinary normalization of actual supported singular sections -/
 

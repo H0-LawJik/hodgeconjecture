@@ -7,6 +7,7 @@ module
 public import Other.AlgebraicGeometry.Cohomology.HypercohomologyNaturality
 public import Other.AlgebraicGeometry.Cohomology.HypercohomologyShift
 public import Other.AlgebraicGeometry.Cohomology.SupportHypercohomology
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Naturality through actual flasque and injective resolution comparisons

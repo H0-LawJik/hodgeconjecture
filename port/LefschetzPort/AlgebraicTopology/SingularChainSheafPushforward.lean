@@ -18,6 +18,7 @@ module
 public import Other.AlgebraicTopology.Singular.Sheaf.Chain
 public import Other.AlgebraicTopology.Singular.Sheaf.ChainStalk
 public import LefschetzPort.AlgebraicTopology.ClosedEmbeddingSheafification
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Closed-embedding pushforward on the actual relative singular-chain sheaves

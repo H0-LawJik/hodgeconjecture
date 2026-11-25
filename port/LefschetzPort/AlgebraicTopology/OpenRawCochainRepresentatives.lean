@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicTopology.OpenRawBoundaryComparison
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Raw cochain representatives under the prescribed identifications

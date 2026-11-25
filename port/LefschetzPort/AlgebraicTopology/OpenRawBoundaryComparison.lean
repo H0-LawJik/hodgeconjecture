@@ -7,6 +7,7 @@ module
 public import HodgeConjecture.Definitions.AlgebraicTopology.Singular.Sheaf.CochainOpenCone
 public import LefschetzPort.AlgebraicTopology.RelativeCochainConeBoundaryComparison
 public import HodgeConjecture.Lemmas.Algebra.Homology.DerivedCategory.MappingConeMapNaturality
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Positive boundary normalization of raw open relative cohomology

@@ -6,6 +6,7 @@ module
 
 public import LefschetzPort.AlgebraicGeometry.HolomorphicLineBundleOfExtension
 public import Mathlib.Geometry.Manifold.VectorBundle.ContMDiffSection
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # The sheaf of holomorphic sections of a line bundle

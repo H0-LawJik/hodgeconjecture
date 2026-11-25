@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicTopology.TopOpenRelativeCochainNormalization
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Raw complement cochains on the actual top-open intersection

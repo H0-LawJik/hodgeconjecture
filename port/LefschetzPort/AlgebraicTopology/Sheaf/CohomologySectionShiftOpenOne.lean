@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicTopology.Sheaf.CohomologySectionShiftOnOpen
+public import LefschetzPort.Supplement.AnalyticExt
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite HomologicalComplex
 

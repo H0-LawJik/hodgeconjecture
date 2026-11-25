@@ -8,6 +8,7 @@ public import HodgeConjecture.Definitions.AlgebraicTopology.Support.CohomologyIn
 public import HodgeConjecture.Definitions.AlgebraicTopology.Support.DerivedSectionsLocalization
 public import HodgeConjecture.Mathlib.Algebra.Homology.HomComplexPrecomp
 public import LefschetzPort.AlgebraicTopology.FreeAbelianTerminalEvaluation
+public import LefschetzPort.Supplement.AnalyticExt
 
 @[expose] public noncomputable section
 

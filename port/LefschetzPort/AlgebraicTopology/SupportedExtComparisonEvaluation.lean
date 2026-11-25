@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import HodgeConjecture.Definitions.AlgebraicTopology.Support.CohomologyInjectiveModel
+public import LefschetzPort.Supplement.AnalyticExt
 
 @[expose] public noncomputable section
 

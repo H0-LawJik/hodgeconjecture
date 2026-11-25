@@ -7,6 +7,7 @@ module
 import HodgeConjecture.Mathlib.Algebra.Homology.Notation
 public import LefschetzPort.AlgebraicTopology.Support.RestrictionSupportMap
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Singular.Sheaf.CochainOpenConeNaturality
+public import LefschetzPort.Supplement.AnalyticExt
 
 @[expose] public noncomputable section
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite Order

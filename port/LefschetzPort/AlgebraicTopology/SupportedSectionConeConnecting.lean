@@ -6,6 +6,7 @@ module
 
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Support.SectionRestrictionCone
 public import LefschetzPort.Algebra.Homology.MapArrowConeConnecting
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-! # The exact sign of the actual supported-section kernel comparison -/
 
