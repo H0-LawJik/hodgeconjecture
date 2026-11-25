@@ -378,7 +378,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-25: theorem lefschetzOneOneEquality_holds : HodgeLadder.LefschetzOneOneEquality, from lefschetzOneOneEquality_iff with lefschetzOneOne_holds (upstream inclusion, ported) and cycleClassesAreHodgeOne_holds (prime-divisors-cartier). The checkpoint's definition of done (decision 0004). Red-team pass pending."
+      "note": "Checked 2026-11-25: theorem lefschetzOneOneEquality_holds : HodgeLadder.LefschetzOneOneEquality, from lefschetzOneOneEquality_iff with lefschetzOneOne_holds (upstream inclusion, ported) and cycleClassesAreHodgeOne_holds (prime-divisors-cartier). The checkpoint's definition of done (decision 0004). Red team: pass with changes (docs/sketches/lefschetz-1-1-equality.redteam.md). Non-vacuity in degree two is pending projective-line-class-nonzero; Spec ℂ satisfies the hypotheses but has both sides ⊥."
     },
     {
       "id": "cycle-classes-are-hodge",
