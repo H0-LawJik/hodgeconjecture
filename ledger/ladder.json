@@ -177,7 +177,7 @@
         "Paul-Lez/HodgeConjecture (upstream stack: PRs #217–#226, #9, #230, #228)",
         "H0-LawJik (port to the pin)"
       ],
-      "note": "All eleven parts, Oka's proper GAGA (372 modules) and the final theorem build at this repository's pin (680 modules, 0 sorry, 2026-11-24) on branch port/lefschetz. The port changes proofs only, for Mathlib drift; every change is logged in docs/port-lefschetz.md. The divisor–Chern identity is exact with sign + on main's cycle class (rung divisor-chern-exact). Contributing the port upstream is optional."
+      "note": "All eleven parts, Oka's proper GAGA (372 modules) and the final theorem build at this repository's pin (680 modules, 0 sorry, 2026-11-24) on branch port/lefschetz. The port adapts the stack to Mathlib drift; no statement of record and no ledger-named statement changed (red-team pass with changes, docs/sketches/lefschetz-port.redteam.md); every change is logged in docs/port-lefschetz.md. The divisor–Chern identity is exact with sign + on main's cycle class (rung divisor-chern-exact). Contributing the port upstream is optional."
     },
     {
       "id": "lefschetz-1-1",
@@ -196,7 +196,7 @@
         "Paul-Lez/HodgeConjecture (upstream proof)",
         "H0-LawJik (port to the pin)"
       ],
-      "note": "Checked 2026-11-24: HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne, upstream's Prop unchanged (Hdg^1(X; ℚ) ≤ algebraicCycleClassSpan X 1), standard axioms only. The inclusion, a step: the checkpoint is done with lefschetz-1-1-equality (decision 0004), after a red-team pass on the port's changes. nonvacuity-tests is checked on its branch (PR 27)."
+      "note": "Checked 2026-11-24: HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne, upstream's Prop (Hdg^1(X; ℚ) ≤ algebraicCycleClassSpan X 1), standard axioms only. Red team: pass with changes (docs/sketches/lefschetz-port.redteam.md). The inclusion, a step: the checkpoint is done with lefschetz-1-1-equality (decision 0004)."
     },
     {
       "id": "divisor-chern-exact",
@@ -217,6 +217,42 @@
       "note": "Checked at this repository's pin in the port (2026-11-24). Statement (upstream's HasDivisorClassOfCartierData, as defined at the pin): for every invertible sheaf L, unit extension E with L^an ≅ its section sheaf, and Cartier datum c representing L, sheafCycleClassOnCycles 1 c.divisor = integralToRationalCohomology 2 E.firstChernClass, with sign +. sheafCycleClassOnCycles is upstream main's (Other/AlgebraicGeometry/Cycle/SheafClass.lean), built from main's cycleComponentSheafClass, the class of record; no copy is staged. Exactness on main's class comes from the port's bridge cycleComponentSheafClass_eq_injectiveModel (no scalar) and the transport of the normalization (componentTransport). Signs met on the way are in docs/conventions.md (orientation against winding +1, kernel-checked)."
     },
     {
+      "id": "chern-classes-are-hodge",
+      "title": "Rational first Chern classes and Cartier divisor classes are Hodge classes; F¹ is the kernel of the projection to 𝒪",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.ChernClasses",
+      "declarations": [
+        "HodgeLadder.mem_hodgeFiltration_one_iff",
+        "HodgeLadder.deRhamConj_fieldToDeRhamCohomology",
+        "HodgeLadder.isIso_holomorphicZeroFormToFunctionSheaf",
+        "HodgeLadder.integralToRational_mem_hodgeClasses_iff",
+        "HodgeLadder.holomorphicFirstChernClass_mem_hodgeClasses",
+        "HodgeLadder.sheafCycleClassOnCycles_divisor_mem_hodgeClasses"
+      ],
+      "depends_on": [
+        "lefschetz-port",
+        "divisor-chern-exact"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-24. Ω⁰ ≅ 𝒪; the stupid truncation 0 → F¹Ω^• → Ω^• → 𝒪[0] → 0 is short exact, so F¹ H^n_dR is exactly the kernel of H^n_dR → ℍ^n(𝒪[0]) (both inclusions); conjugation fixes de Rham images of rational classes. Hence the rational image of an integral degree-two class is a Hodge class iff it vanishes in H²(𝒪); first Chern classes do (exponential sequence), and so do classes of divisors of Cartier data (divisor–Chern, sign +). This is the known half in codimension one for Cartier divisors."
+    },
+    {
+      "id": "prime-divisors-cartier",
+      "title": "Every prime divisor on a smooth projective complex variety is the divisor of Cartier data of an invertible sheaf whose analytification is a unit-extension section sheaf",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "chern-classes-are-hodge"
+      ],
+      "contributors": [],
+      "note": "The step from chern-classes-are-hodge to CycleClassesAreHodgeOne. Two parts: (a) local factoriality, i.e. height-one primes of the local rings of a smooth variety are principal; Mathlib has IsRegularLocalRing but no regular-local-ring UFD theorem; candidate routes are Auslander–Buchsbaum algebraically, or Oka's UFD of analytic germs (port/LefschetzPort/Oka/UFD.lean) with faithfully flat descent (port/LefschetzPort/RingTheory/FaithfullyFlatRankOne.lean); (b) for an invertible sheaf L, a unit extension E with L^an ≅ E.sectionSheafOfModules. Upstream-first: (a) belongs in Mathlib."
+    },
+    {
       "id": "lefschetz-1-1-equality",
       "title": "Lefschetz (1,1) as an equality: theorem : HodgeLadder.LefschetzOneOneEquality",
       "status": "open",
@@ -226,10 +262,12 @@
       "depends_on": [
         "lefschetz-1-1",
         "divisor-chern-exact",
-        "equality-reductions"
+        "equality-reductions",
+        "chern-classes-are-hodge",
+        "prime-divisors-cartier"
       ],
       "contributors": [],
-      "note": "The checkpoint's definition of done (decision 0004). By lefschetzOneOneEquality_iff it is LefschetzOneOne plus CycleClassesAreHodgeOne. The latter: by divisor-chern-exact each divisor class is a first Chern class; c₁ is a d log class, so it lies in F^1; a rational class is fixed by conjugation, so it lies in conj F^1."
+      "note": "The checkpoint's definition of done (decision 0004). By lefschetzOneOneEquality_iff it is LefschetzOneOne (checked) plus CycleClassesAreHodgeOne. The Hodge side is done for Cartier divisors (chern-classes-are-hodge); what remains is that every prime divisor is Cartier with a unit extension (prime-divisors-cartier)."
     },
     {
       "id": "cycle-classes-are-hodge",

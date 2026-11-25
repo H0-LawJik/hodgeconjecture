@@ -23,8 +23,8 @@ rev = "v4.35.0-rc4"
 name = "HodgeLadder"
 
 # Staging library for the port of the upstream Lefschetz (1,1) stack to the current upstream pin
-# (rung `lefschetz-port`). Not a default target; files keep their upstream headers and move
-# upstream once ported. See docs/sketches/lefschetz-1-1-upstream.md.
+# (rung `lefschetz-port`). A default target, so CI builds it; files keep their upstream headers.
+# See docs/port-lefschetz.md.
 [[lean_lib]]
 name = "LefschetzPort"
 srcDir = "port"

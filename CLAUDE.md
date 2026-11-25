@@ -19,15 +19,13 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
-**2026-11-24 (port).** The upstream Lefschetz (1,1) stack builds at the pin on branch `port/lefschetz` (680 modules including Oka's proper GAGA, 0 `sorry`): rungs `lefschetz-port` and `lefschetz-1-1` are checked, with `HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne` (upstream's `Prop`, standard axioms). The port changes proofs only; `docs/port-lefschetz.md` logs every change. **Next planned work:** red-team the port's changes, then `lefschetz-1-1-equality` (the known half in codimension one), then the Markman inventory.
+**2026-11-24 (Hodge side).** Red team on the port: pass with changes (`docs/sketches/lefschetz-port.redteam.md`; fixes applied or logged in `docs/gaps.md`). Rung `chern-classes-are-hodge` checked: Ω⁰ ≅ 𝒪, F¹ = ker(H_dR → ℍ(𝒪)), conjugation fixes rational classes, so rational first Chern classes and Cartier divisor classes are Hodge classes. **Next planned work:** `prime-divisors-cartier` (local factoriality; Mathlib lacks regular local ⇒ UFD), which closes `lefschetz-1-1-equality`; then the Markman inventory.
+
+**2026-11-24 (port).** The upstream Lefschetz (1,1) stack builds at the pin on branch `port/lefschetz` (680 modules including Oka's proper GAGA, 0 `sorry`): rungs `lefschetz-port` and `lefschetz-1-1` are checked, with `HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne` (upstream's `Prop`, standard axioms). The port changes proofs only; `docs/port-lefschetz.md` logs every change. 
 
 **2026-11-24.** Conformance audit against the 2026 literature (`docs/audits/2026-11-24-conformance.md`) led to decision 0003: rebase on `Paul-Lez/HodgeConjecture` (pinned at `2ead713`, Lean and Mathlib v4.35.0-rc4), rename the library to `HodgeLadder`, retire the interface-first and foundation rungs, and make the Lefschetz checkpoint the first target. An upstream proof of rational Lefschetz (1,1) exists as an unmerged stack on v4.33.1 (PRs #217–#226, #9, #230, #228); this repository verifies it, red-teams it, ports it and checks `LefschetzOneOne` here. Markman follows the checkpoint. `docs/problem.md` corrected against the 2026 literature.
 
 Cycle-class construction pinned (`cycle-class-pins`); known half and equality forms stated (`known-half-statement`); equality ↔ inclusion ∧ known half checked (`equality-reductions`). Decision 0004 (equality first): the checkpoint is done at `lefschetz-1-1-equality`; the port must prove the divisor–Chern identity exactly (`divisor-chern-exact`); new rungs `cycle-classes-are-hodge`, `lefschetz-1-1-integral`, `projective-space-test`.
-
-**Next planned work:** `lefschetz-upstream-verify` and `nonvacuity-tests`; `projective-space-test` and `cycle-classes-are-hodge` can start in parallel; then `divisor-chern-exact` and `lefschetz-port`, coordinated with the upstream authors.
-
-**2026-11-23.** Scaffolded; strategy, harness, problem map written.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 
@@ -42,6 +40,8 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `HodgeLadder/CycleClass/Pins.lean` | Rung `cycle-class-pins`: `rfl` pins of each step of the upstream cycle-class and Hodge-class constructions; a change upstream breaks the build here. |
 | `HodgeLadder/CycleClass/Statements.lean` | Rungs `known-half-statement`, `equality-reductions`: cycle classes are Hodge classes, the equality forms, and their equivalence with upstream inclusion plus known half. |
 | `HodgeLadder/Tests/Witness.lean`, `HodgeLadder/Tests/CodimensionZero.lean` | Rung `nonvacuity-tests`: Spec ℂ satisfies the three hypotheses; the equality form holds non-vacuously in codimension zero (imports upstream's `Other` library). |
+| `HodgeLadder/Lefschetz/OneOne.lean` | Rung `lefschetz-1-1`: `lefschetzOneOne_holds : LefschetzOneOne`, from the port. |
+| `HodgeLadder/Hodge/{Conjugation,ZeroForms,FirstFiltration,ChernClasses}.lean` | Rung `chern-classes-are-hodge`: conjugation fixes rational classes; Ω⁰ ≅ 𝒪; F¹ = ker(H_dR → ℍ(𝒪)); rational c₁ and Cartier divisor classes are Hodge. |
 | `port/LefschetzPort/`, `docs/port-lefschetz.md` | Staging library and log for the port of the upstream Lefschetz (1,1) stack to the current pin (rung `lefschetz-port`). A default target since part 9; holds the checked divisor–Chern identity (`hasDivisorClassOfCartierData`). |
 | `docs/cycle-class.md` | How the cycle class is built at the pin, step by step, with the pins and upstream normalization theorems. |
 | `.lake/packages/HodgeConjecture/` | Upstream source at the pin (statements of record). Read it; do not edit it. |
