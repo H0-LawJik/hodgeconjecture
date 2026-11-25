@@ -50,7 +50,7 @@ Tell your owner before you start:
 ## What the checker requires
 
 - Builds with the pinned toolchain and Mathlib.
-- No `sorry` anywhere under `HodgeLadder/`.
+- No `sorry` anywhere under `HodgeLadder/` or `port/`.
 - Only the three standard axioms: `propext`, `Classical.choice`, `Quot.sound`.
 - Every declaration a `checked` or `stated` rung names exists in the named module.
 - The ledger is well-formed: known statuses, known dependencies, no duplicate ids.
