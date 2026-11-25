@@ -585,6 +585,71 @@
       "note": "Research note 2026-11-24 §3. Shows on upstream definitions that Hodge classes depend on the periods, not the Hodge diamond (dimension 2, 3 or 4). Also checks the Hodge numbers of products of elliptic curves against the refined Künneth count. Needs the cohomology of tori on upstream definitions."
     },
     {
+      "id": "cup-front",
+      "title": "Front cup: a ring structure on upstream's rational cohomology",
+      "status": "open",
+      "kind": "front",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "Decision 0008. Yoneda route: H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces, product = Ext.comp. Kill criterion: no compatibility with the cycle class map. Blocks the Markman inventory's degree-four list and M3."
+    },
+    {
+      "id": "rational-ext-equiv",
+      "title": "H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces on X(ℂ)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-front"
+      ],
+      "contributors": [],
+      "note": "Adjunction.extEquiv for ℚ ⊗ − ⊣ forget on sheaves (Sheaf.adjunction; ℚ flat over ℤ; forget₂ exact), and the left adjoint sends ℤ_X to ℚ_X (constant sheaves commute with left adjoints). General in the space; X(ℂ) only enters through upstream's notation."
+    },
+    {
+      "id": "cup-product",
+      "title": "Cup product on H^*(X; ℚ): definition, associativity, unit, bilinearity",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "rational-ext-equiv"
+      ],
+      "contributors": [],
+      "note": "Transport of Ext.comp through rational-ext-equiv. Factor order and sign registered in docs/conventions.md. Non-vacuity: the unit is the nonzero class of H^0 (codimension-zero tests)."
+    },
+    {
+      "id": "cup-graded-commutative",
+      "title": "Graded commutativity of the cup product: α ∪ β = (−1)^{pq} β ∪ α",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-product"
+      ],
+      "contributors": [],
+      "note": "Missing on every route at the pin. Candidates: Hilton–Eckmann argument for Ext^*(1, 1) in a monoidal abelian category (Sheaf.monoidalCategory on ModuleCat ℚ sheaves), or comparison with a cochain model."
+    },
+    {
+      "id": "cycle-class-multiplicative",
+      "title": "The cycle class map is multiplicative for intersecting cycles (first case: divisor times divisor on a surface)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-product"
+      ],
+      "contributors": [],
+      "note": "The front's kill criterion. Needs an intersection product of cycles on upstream definitions (Mathlib has cycles only) or a restriction formula; scope to be set by an inventory."
+    },
+    {
       "id": "hard-lefschetz",
       "title": "Hard Lefschetz for the upstream rational cohomology of a smooth projective variety",
       "status": "open",
