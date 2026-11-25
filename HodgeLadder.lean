@@ -15,3 +15,4 @@ public import HodgeLadder.Hodge.ChernClasses
 public import HodgeLadder.Algebra.UFDDescent
 public import HodgeLadder.Divisor.AnalyticStalk
 public import HodgeLadder.Divisor.LocalFactoriality
+public import HodgeLadder.Divisor.IdealSheaf

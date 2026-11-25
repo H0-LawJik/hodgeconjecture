@@ -304,7 +304,7 @@
         "local-factoriality"
       ],
       "contributors": [],
-      "note": "Construct the ideal sheaf of D as a Scheme.Modules (Mathlib has IdealSheafData but no module-sheaf form); local generators πᵢ exist near each closed point by local-factoriality (height-one prime of a UFD), shrunk so that their zero locus is D; Generates gives invertibility; Represents holds for fnᵢ = πᵢ⁻¹, and the divisor is −D (ord πᵢ = 1 along D, 0 elsewhere)."
+      "note": "Progress 2026-11-25 (HodgeLadder.Divisor.IdealSheaf, sorry-free): the vanishing ideal sheaf of a set Z as an object of S.Modules (sections whose germs on Z are non-units; the sheaf condition from Subfunctor.isSheaf_iff), and generates_of_locally: a nonzero section of it that generates the ideal near every point of U is a generating section on U. Remaining: (1) local generator at a closed point q of D: the prime of D in 𝒪_{X,q} has height one (𝒪_{X,ξ} is the localization of 𝒪_{X,q} at it, and ringKrullDim_stalk_eq_coheight), so it is principal in the UFD (local-factoriality), and the generator spreads to a neighbourhood D(T) on an affine open; (2) away from D the generator is 1; (3) Tau Ceti ofClosedPoints from the generating sections (inverse of the stack's unitIsoSection), hence IsInvertible; (4) Cartier data fnᵢ = πᵢ⁻¹, Represents, divisor −D (Mathlib's Scheme.ord: ord π = 1 at ξ, 0 where π is a unit)."
     },
     {
       "id": "unit-extension-of-invertible",
