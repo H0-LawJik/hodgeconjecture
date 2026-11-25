@@ -388,10 +388,111 @@
       "module": null,
       "declarations": [],
       "depends_on": [
+        "upstream-statement",
+        "projective-line-test"
+      ],
+      "contributors": [],
+      "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Inventory 2026-11-25 (docs/sketches/projective-space-test.md): nothing at the pin computes H² of a positive-dimensional X, and Mathlib has no smoothness or integrality of Proj. Split into sub-rungs on ℙ¹: projective-line-witness, projective-line-point, forget-support-exact (checked), contractible-open-acyclic, projective-line-class-nonzero, projective-line-h2, projective-line-test. This rung keeps the ℙⁿ statement (n ≥ 1); the ℙ¹ case is posted separately as projective-line-test. The hyperplane-class sign is a conventions-register row."
+    },
+    {
+      "id": "projective-line-witness",
+      "title": "ℙ¹ over ℂ in upstream's sense (ProjectiveSpace.toBase (Fin 2) (Spec ℂ) as X : Over (Spec ↧ℂ)) is integral, smooth of relative dimension one and projective",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
         "upstream-statement"
       ],
       "contributors": [],
-      "note": "Pins the definitions from both sides at once: a nonzero class in degree 2, a nonzero hyperplane class, and no room for a degenerate reading. Needs H²(ℙ^n(ℂ); ℚ) ≅ ℚ on the upstream cohomology; upstream has Definitions/AlgebraicGeometry/ProjectiveSpace.lean to start from. The hyperplane-class sign is a conventions-register row."
+      "note": "Mathlib has no smoothness or integrality of Proj. Route: the staged Oka charts of ℙₒ(1; R) (chart, iSup_U, UIIsoSpec; open immersions from 𝔸¹) and Oka's base change (isPullback_map, baseChangeIso) identify upstream's ℙ(Fin 2; Spec ℂ) with ℙₒ(1; ℂ); smoothness of relative dimension one is local on the source; integrality from two integral charts that meet. IsProjective is the identity presentation."
+    },
+    {
+      "id": "projective-line-point",
+      "title": "ℙ¹ has a point x of coheight one whose analytic support has contractible complement (homeomorphic to ℂ)",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "projective-line-witness"
+      ],
+      "contributors": [],
+      "note": "Coheight at most 1 from SmoothOfRelativeDimension.coheight_ne_of_lt, at least 1 from the generic point. Upstream: cycleComponentSupport_eq_singleton_of_coheight_eq_dimension, openHomeomorph (complex points of an open subscheme), affineSpaceHomeomorph or affineSpecHomeomorph. Scheme side: X ∖ D₊(x₀) is one point, read off the chart x₁ = 1 with UIIsoSpec."
+    },
+    {
+      "id": "forget-support-exact",
+      "title": "Forgetting support is injective in degree n + 1 and surjective in degree n when H^n of the open complement vanishes",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Tests.ForgetSupport",
+      "declarations": [
+        "HodgeLadder.Tests.forgetSupport_injective_of_subsingleton",
+        "HodgeLadder.Tests.forgetSupport_surjective_of_subsingleton"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Exactness of the long exact sequence of the pair (X(ℂ), X(ℂ) ∖ Z) at H_[Z]^{n+1} and at H^n, read off Mathlib's contravariant Ext sequence for upstream's pair sheaf (Sheaf.pairShortComplex_shortExact). The hypothesis is on Sheaf.H' of the constant sheaf ℚ over the open complement; no property of X is used."
+    },
+    {
+      "id": "contractible-open-acyclic",
+      "title": "For smooth projective integral X over ℂ and a contractible open U ⊆ X(ℂ), Sheaf.H' of the constant sheaf ℚ over U vanishes in positive degrees",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [],
+      "note": "Route: Oka's TopCat.Sheaf.H'AddEquiv (H'^q(U, F) ≃ H^q(F|_U)), restriction of the constant sheaf, the constant-sheaf/singular comparison on U, then singularCochainComplex_exactAt_of_contractible. Upstream has the resolution quasi-isomorphism for spaces with a contractible open basis (constantsToSingularCochainSheafComplex_quasiIso_of_contractibleOpenBasis, contractibleOpenBasis_of_isOpenEmbedding) and the global comparison rationalCohomologyAddEquivSingularCohomology for complex points of smooth integral X; the open-subscheme route goes through openScheme and openHomeomorph. The hardest sub-rung."
+    },
+    {
+      "id": "projective-line-class-nonzero",
+      "title": "The class of a point of ℙ¹ is nonzero in H²(ℙ¹; ℚ), so algebraicCycleClassSpan ℙ¹ 1 ≠ ⊥",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "projective-line-point",
+        "forget-support-exact",
+        "contractible-open-acyclic"
+      ],
+      "contributors": [],
+      "note": "The degree-two non-vacuity test (red-team finding I1 on lefschetz-port). cycleComponentSheafClass is forgetSupport of the supported class (upstream cycleComponentSheafClass_eq_forgetSupport); the supported class is nonzero by cycleComponentSmoothSupportCoclassSection_ne_zero and the normalization isomorphism, the pattern of upstream's codimension-zero proof; forgetSupport is injective in degree 2 by forget-support-exact with H'^1(ℙ¹(ℂ) ∖ pt) = 0."
+    },
+    {
+      "id": "projective-line-h2",
+      "title": "H²(ℙ¹; ℚ) is one-dimensional and equals algebraicCycleClassSpan ℙ¹ 1",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "projective-line-class-nonzero"
+      ],
+      "contributors": [],
+      "note": "forgetSupport is bijective in degree 2 (forget-support-exact with H'^1 = H'^2 = 0 on the complement). Still needed: H_[pt]^2(ℙ¹; ℚ) is one-dimensional on the sheaf side, from point purity (span_analyticPointLocalCoclass_eq_top on the singular side, transported by cycleComponentSupportedInjectiveClass_point_normalization) or from the normalization isomorphism onto sections of the local cohomology sheaf."
+    },
+    {
+      "id": "projective-line-test",
+      "title": "Computed test case on ℙ¹: Hdg^1(ℙ¹; ℚ) = algebraicCycleClassSpan ℙ¹ 1, and both are one-dimensional over ℚ",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "projective-line-h2",
+        "lefschetz-1-1",
+        "chern-classes-are-hodge"
+      ],
+      "contributors": [],
+      "note": "The ℙ¹ case of projective-space-test. Hdg^1 ≤ span is lefschetzOneOne_holds; span = H² is projective-line-h2; the reverse inclusion needs the point class to be Hodge. Routes: integralToRational_mem_hodgeClasses_iff with H²(ℙ¹(ℂ), 𝒪) = 0 and the point class as the rational image of an integral class; or the Cartier route (sheafCycleClassOnCycles_divisor_mem_hodgeClasses) for the divisor of x₀ in Γ(𝒪(1)), which needs a unit extension for 𝒪(1) (part (b) of prime-divisors-cartier) and multiplicity one."
     },
     {
       "id": "clifford-exterior-spin",

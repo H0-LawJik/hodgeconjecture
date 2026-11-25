@@ -1,0 +1,8 @@
+# Handoff 2026-11-25: `projective-space-test`
+
+- Inventory (`docs/sketches/projective-space-test.md`): no result at the pin computes H² of a positive-dimensional X. Mathlib has no smoothness or integrality of `Proj`; upstream proves supported classes nonzero for every component and `forgetSupport` injective only for Z = X; upstream's sheaf/singular comparison with supports is unfinished.
+- Decision gate: multi-session. Split into seven sub-rungs on ℙ¹ (ledger and roadmap, all `open` except one): `projective-line-witness`, `projective-line-point`, `forget-support-exact`, `contractible-open-acyclic`, `projective-line-class-nonzero`, `projective-line-h2`, `projective-line-test`. `projective-space-test` keeps its ℙⁿ statement and now depends on `projective-line-test`.
+- Checked: `forget-support-exact` in `HodgeLadder/Tests/ForgetSupport.lean`. `forgetSupport` is injective in degree n + 1 and surjective in degree n when `Sheaf.H'` of the constant sheaf ℚ on the open complement vanishes in degree n. Ten lines each, from Mathlib's contravariant Ext sequence and upstream's pair sheaf. Standard axioms.
+- All proposed sub-rung statements elaborate at the pin with `sorry` (scratch file, not committed).
+- Failed or set aside: the singular route (upstream's supported comparison and the cone class are both incomplete at the pin); a general top-degree point-class argument (needs a fundamental class).
+- Next move: `projective-line-witness` (Oka charts of `ℙₒ(1; ℂ)` and Oka base change to reach upstream's `ProjectiveSpace (Fin 2) (Spec ℂ)`) and `contractible-open-acyclic` (Oka `H'AddEquiv`, then a constant-sheaf/singular comparison on an open), in parallel. Then `projective-line-point` and `projective-line-class-nonzero`, which closes red-team finding I1.

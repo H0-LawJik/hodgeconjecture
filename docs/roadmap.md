@@ -24,7 +24,14 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `lefschetz-1-1-equality` | case | open | `lefschetz-1-1`, `divisor-chern-exact`, `equality-reductions`, `chern-classes-are-hodge`, `prime-divisors-cartier` | `theorem : LefschetzOneOneEquality`; the checkpoint's definition of done |
 | `cycle-classes-are-hodge` | foundation | open | `known-half-statement`, `cycle-class-pins` | `theorem : CycleClassesAreHodge` |
 | `lefschetz-1-1-integral` | case | open | `lefschetz-port`, `divisor-chern-exact` | image of c₁ on Pic equals the integral Hodge classes in H² |
-| `projective-space-test` | test | open | `upstream-statement` | Hdg^1(ℙ^n) = span, both one-dimensional |
+| `projective-space-test` | test | open | `upstream-statement`, `projective-line-test` | Hdg^1(ℙ^n) = span, both one-dimensional; split into the ℙ¹ rungs below (`docs/sketches/projective-space-test.md`) |
+| `projective-line-witness` | test | open | `upstream-statement` | ℙ¹ = `ProjectiveSpace.toBase (Fin 2) (Spec ℂ)` is integral, smooth of relative dimension one, projective; Oka charts and base change |
+| `projective-line-point` | test | open | `projective-line-witness` | a point of coheight one whose analytic complement is homeomorphic to ℂ |
+| `forget-support-exact` | foundation | checked | `upstream-statement` | done in `HodgeLadder.Tests.ForgetSupport`: forgetSupport injective in degree n + 1, surjective in degree n, when H^n of the open complement vanishes |
+| `contractible-open-acyclic` | foundation | open | `upstream-statement` | H'^q(U; ℚ) = 0 for q > 0 and U ⊆ X(ℂ) a contractible open; constant-sheaf/singular comparison on an open |
+| `projective-line-class-nonzero` | test | open | `projective-line-point`, `forget-support-exact`, `contractible-open-acyclic` | the class of a point is nonzero in H²(ℙ¹; ℚ); the degree-two non-vacuity test |
+| `projective-line-h2` | test | open | `projective-line-class-nonzero` | dim H²(ℙ¹; ℚ) = 1 and it equals the span; one-dimensionality of H²_pt on the sheaf side |
+| `projective-line-test` | test | open | `projective-line-h2`, `lefschetz-1-1`, `chern-classes-are-hodge` | Hdg^1(ℙ¹) = span, both one-dimensional; needs the point class to be Hodge |
 | `clifford-exterior-spin` | foundation | open | `lefschetz-1-1-equality` | Clifford algebra of the split form on H ⊕ H^∨ acting on ∧*H; for the Markman inventory (`docs/notes/2026-11-24-spinors-characters-tests.md`) |
 | `elliptic-product-test` | test | open | `lefschetz-1-1-equality` | dim Hdg^1(E₁ × E₂) = 2 + rank Hom(E₁, E₂) while h^{1,1} = 4 |
 | `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; inventory before sub-rungs |
@@ -36,7 +43,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 1. `lefschetz-upstream-verify` and `nonvacuity-tests`, in parallel. Both read upstream source and build it; neither changes it.
 2. `lefschetz-port`, after a note to the upstream authors: they proposed taking Oka as a dependency instead of vendoring 372 modules, and a port should follow their choice.
 3. `divisor-chern-exact` as part of the port, then `lefschetz-1-1` and `lefschetz-1-1-equality` here. Then the Markman inventory (`docs/strategy.md` M2).
-4. `projective-space-test` and `cycle-classes-are-hodge` can start now; both read upstream definitions only.
+4. `cycle-classes-are-hodge` can start now. `projective-space-test` goes through ℙ¹: `projective-line-witness` and `contractible-open-acyclic` can run in parallel, then `projective-line-point` and `projective-line-class-nonzero`.
 5. `hard-lefschetz` is the long pole for `dimension-le-three`; start its inventory once the checkpoint is in.
 
 ## Watch signals
