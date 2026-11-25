@@ -760,15 +760,23 @@
     {
       "id": "cochain-sheaf-right-mult",
       "title": "Right multiplication by a global cocycle as a morphism of complexes of sheaves on the sheafified singular cochains",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.RightMult",
+      "declarations": [
+        "HodgeLadder.Cup.rightMul",
+        "HodgeLadder.Cup.rightMulApp_naturality",
+        "HodgeLadder.Cup.rightMul_comp_coboundary",
+        "HodgeLadder.Cup.rightMulSheaf",
+        "HodgeLadder.Cup.rightMulSheaf_comp_coboundary"
+      ],
       "depends_on": [
         "cochain-cup-upstream"
       ],
-      "contributors": [],
-      "note": "Cochain cup natural under restriction, passed through sheafification. docs/sketches/cup-singular-comparison.md."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. For a global singular q-cocycle b, right multiplication c ↦ c ∪ b|_U (Tau Ceti cupCochain along the Alexander–Whitney diagonal of U) on upstream's singular cochain presheaves is natural under restriction (alexanderWhitneyDiagonal_naturality, cupCochain_naturality) and commutes with the coboundary in degrees n ↦ n + q (Leibniz rule, δb = 0); sheafified, it commutes with the sheaf coboundary. The shift sign (−1)^{nq} needed for a map into S•[q] is left to ext-class-right-mult."
     },
     {
       "id": "ext-class-right-mult",
