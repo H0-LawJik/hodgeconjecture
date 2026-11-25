@@ -18,6 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LIB = ROOT / "HodgeLadder"
+PORT = ROOT / "port"
 LEDGER = ROOT / "ledger" / "ladder.json"
 ALLOWED_AXIOMS = {"propext", "Classical.choice", "Quot.sound"}
 STATUSES = {"checked", "stated", "open", "refuted", "dead"}
@@ -53,7 +54,7 @@ def check_build() -> bool:
 def check_no_sorry() -> None:
     pat = re.compile(r"\bsorry\b")
     hits = []
-    for f in sorted(LIB.rglob("*.lean")) + [ROOT / "HodgeLadder.lean"]:
+    for f in sorted(LIB.rglob("*.lean")) + sorted(PORT.rglob("*.lean")) + [ROOT / "HodgeLadder.lean"]:
         for n, line in enumerate(f.read_text().splitlines(), 1):
             code = line.split("--", 1)[0]
             if pat.search(code):

@@ -7,14 +7,17 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Local declaration | Module | Why local | Opened |
 |---|---|---|---|
 | `codimCycles_one` (codimension one equals Mathlib `weilDivisors`), `codimCycles_inf_eq_bot` (distinct codimensions meet in zero) | removed from this repository (decision 0003); recoverable from git history at `ba3dbef` | Upstream `codimensionCycleSubgroup` lacks these two facts; offer them to `Paul-Lez/HodgeConjecture` as lemmas on its subgroup | 2026-11-24 |
+| Regular local rings are UFDs (Auslander–Buchsbaum); needed for `prime-divisors-cartier` | not yet written | Mathlib has `IsRegularLocalRing`; factoriality is missing there and is general commutative algebra | 2026-11-24 |
 
 ## Known weaknesses
 
 | Gap | Impact | Opened |
 |---|---|---|
-| The upstream Lefschetz (1,1) proof sits on Lean and Mathlib v4.33.1, two releases behind upstream main, and was last updated 2026-10-01 | `lefschetz-1-1` waits on a port | 2026-11-24 |
 | Three Lean pins in play: upstream v4.35.0-rc4 (followed here), the Lefschetz stack v4.33.1, Tau Ceti v4.37.0-rc1 (Mathlib master) | Reuse of Tau Ceti material needs a backport or a wait | 2026-11-24 |
 | Building this repository compiles upstream's statement import closure; CI time grows | Watch CI duration | 2026-11-24 |
+| The upstream Lefschetz stack is resolved: it builds at the pin in `port/LefschetzPort` (`lefschetz-port` checked). Kept for the record | none now | 2026-11-24 |
+| The port declares `CategoryTheory.Sheaf.H.δ` (`port/LefschetzPort/CategoryTheory/Sites/SheafCohomology/Connecting.lean:24`), a name Mathlib also declares at the pin (`Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean`); importing both fails. Bodies agree, no sign differs (red team M1). Global data instances on Mathlib's `Sheaf` in `CategoryTheory/Sites/Forget.lean` carry the same risk (L7) | A future pin or import that reaches the Mathlib module breaks the port build; rename the port's copy or switch to Mathlib's `H.δ hS 1 2 rfl` before the next pin bump | 2026-11-24 |
+| Two staged modules have no counterpart at the verified head (`ChernWindingRawBoundary.lean`, `HolomorphicExponentialSupportWinding.lean`), and `relBaseSubmoduleAddSubgroupClass` is a global `Prop` instance, not a local one (red team L2, L3) | none for truth; hygiene | 2026-11-24 |
 
 ## Process items to investigate
 

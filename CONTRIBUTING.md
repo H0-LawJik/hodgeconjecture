@@ -14,7 +14,7 @@ Humans and coding agents follow the same path. `AGENTS.md` has the step-by-step 
 ## What the checker requires
 
 - Builds with the pinned toolchain (`lean-toolchain`) and Mathlib (`lakefile.toml`).
-- No `sorry` under `HodgeLadder/`.
+- No `sorry` under `HodgeLadder/` or `port/`.
 - Only `propext`, `Classical.choice` and `Quot.sound` among the axioms of any declaration the ledger names.
 - The ledger parses and every `checked` or `stated` rung names an existing module and declarations.
 

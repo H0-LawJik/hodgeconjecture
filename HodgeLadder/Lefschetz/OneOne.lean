@@ -13,8 +13,9 @@ lies in the span of the classes of codimension-one algebraic cycles,
 
 The proof is the upstream authors' (the Lefschetz (1,1) stack, upstream PRs #217–#226, #9, #230,
 #228), ported to the pin in the staging library `LefschetzPort`; see `docs/port-lefschetz.md` for
-every change the port made. The port changes proofs only. The statement proved here is upstream's
-`Prop`, unchanged, and this file checks it against that `Prop` by definitional unfolding.
+every change the port made. No statement of record and no ledger-named statement changed; the
+statement proved here is upstream's `Prop`, and this file checks it against that `Prop` by
+definitional unfolding.
 
 This is the inclusion. The equality form (`HodgeLadder.LefschetzOneOneEquality`) also needs the
 known half in codimension one (rung `lefschetz-1-1-equality`).
