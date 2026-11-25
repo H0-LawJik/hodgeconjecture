@@ -240,17 +240,100 @@
       "note": "Checked 2026-11-24. Ω⁰ ≅ 𝒪; the stupid truncation 0 → F¹Ω^• → Ω^• → 𝒪[0] → 0 is short exact, so F¹ H^n_dR is exactly the kernel of H^n_dR → ℍ^n(𝒪[0]) (both inclusions); conjugation fixes de Rham images of rational classes. Hence the rational image of an integral degree-two class is a Hodge class iff it vanishes in H²(𝒪); first Chern classes do (exponential sequence), and so do classes of divisors of Cartier data (divisor–Chern, sign +). This is the known half in codimension one for Cartier divisors."
     },
     {
-      "id": "prime-divisors-cartier",
-      "title": "Every prime divisor on a smooth projective complex variety is the divisor of Cartier data of an invertible sheaf whose analytification is a unit-extension section sheaf",
+      "id": "ufd-descent",
+      "title": "Unique factorization descends along faithfully flat local homomorphisms from a Noetherian local domain to a local UFD",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Algebra.UFDDescent",
+      "declarations": [
+        "HodgeLadder.uniqueFactorizationMonoid_of_faithfullyFlat",
+        "HodgeLadder.map_colon_eq_of_flat",
+        "HodgeLadder.isPrincipal_of_isPrincipal_map"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25 (Mori's descent, local case). Height-one prime P, 0 ≠ a ∈ P: the double colon (aA : (aA : P)) extends to a principal ideal of B (flat base change of colons by the equational criterion; double colons are principal in a UFD), descends to tA (faithful flatness), and equals P (P is associated to A/aA; Nakayama). Mathlib candidate."
+    },
+    {
+      "id": "analytic-stalk-ufd",
+      "title": "Stalks of holomorphic functions on X(ℂ) are convergent power series rings, hence UFDs",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Divisor.AnalyticStalk",
+      "declarations": [
+        "HodgeLadder.holomorphicStalkRingEquiv",
+        "HodgeLadder.uniqueFactorizationMonoid_holomorphicStalk",
+        "HodgeLadder.isDomain_holomorphicStalk"
+      ],
+      "depends_on": [
+        "lefschetz-port"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25: the chart localChartLocallyRingedSpaceIsoFin and Oka's okaStalkEquiv identify the stalk with LocalOkaRing (Fin d); Oka proves it is a UFD."
+    },
+    {
+      "id": "local-factoriality",
+      "title": "Local rings of a smooth projective complex variety at complex points are UFDs",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Divisor.LocalFactoriality",
+      "declarations": [
+        "HodgeLadder.uniqueFactorizationMonoid_stalk_complexPoint"
+      ],
+      "depends_on": [
+        "ufd-descent",
+        "analytic-stalk-ufd"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25: ufd-descent along the faithfully flat stalk map faithfullyFlat_stalkMap_holomorphicAnalytificationπ (Oka's local GAGA; its local-isomorphism instance is unconditional)."
+    },
+    {
+      "id": "prime-divisor-ideal-sheaf",
+      "title": "The ideal sheaf of a prime divisor is an invertible sheaf represented by Cartier data whose divisor is minus the prime divisor",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "chern-classes-are-hodge"
+        "local-factoriality"
       ],
       "contributors": [],
-      "note": "The step from chern-classes-are-hodge to CycleClassesAreHodgeOne. (a) Local factoriality: height-one primes of the local rings of a smooth complex variety are principal. Mathlib has IsRegularLocalRing but no regular-local-ring UFD theorem, and the algebraic route needs Serre's theorem as well. Analytic route, with what the port already has: the stalk maps O_{X,p} → O^an_p are faithfully flat (faithfullyFlat_stalkMap_holomorphicAnalytificationπ); germ rings are UFDs (Oka/UFD.lean, LocalOkaRing); rank-one descent (RingTheory/FaithfullyFlatRankOne.lean). Missing: the analytic stalk of X(ℂ) as LocalOkaRing (Fin d); descent of factoriality along faithfully flat local maps (Mori), via reflexive rank-one modules. Then (a') a prime divisor is the divisor of Cartier data of its ideal sheaf's inverse. (b) For an invertible sheaf L, a unit extension E with L^an ≅ E.sectionSheafOfModules. Upstream-first: the descent and UFD results belong in Mathlib."
+      "note": "Construct the ideal sheaf of D as a Scheme.Modules (Mathlib has IdealSheafData but no module-sheaf form); local generators πᵢ exist near each closed point by local-factoriality (height-one prime of a UFD), shrunk so that their zero locus is D; Generates gives invertibility; Represents holds for fnᵢ = πᵢ⁻¹, and the divisor is −D (ord πᵢ = 1 along D, 0 elsewhere)."
+    },
+    {
+      "id": "unit-extension-of-invertible",
+      "title": "Every invertible sheaf has a unit extension E with L^an ≅ E.sectionSheafOfModules",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "lefschetz-port"
+      ],
+      "contributors": [],
+      "note": "The transition cocycle of L^an on a trivializing cover gives a class in H¹(𝒪ˣ); exists_cohomologyClass realizes it as E; compare E's section sheaf (local lifts of 1) with L^an frame by frame. Fix the transition convention (gᵢⱼ against gᵢⱼ⁻¹) in docs/conventions.md: the wrong one gives the dual bundle and −c₁."
+    },
+    {
+      "id": "prime-divisors-cartier",
+      "title": "Assembly: every prime divisor class is a Hodge class (CycleClassesAreHodgeOne)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "chern-classes-are-hodge",
+        "local-factoriality",
+        "prime-divisor-ideal-sheaf",
+        "unit-extension-of-invertible"
+      ],
+      "contributors": [],
+      "note": "Plan and sub-rungs in docs/sketches/prime-divisors-cartier.md. Checked so far: ufd-descent, analytic-stalk-ufd, local-factoriality. Open: prime-divisor-ideal-sheaf, unit-extension-of-invertible. Then sheafCycleClassOnCycles_divisor_mem_hodgeClasses applied to the ideal sheaf of D gives −[D] ∈ Hdg^1, so [D] ∈ Hdg^1."
     },
     {
       "id": "lefschetz-1-1-equality",
