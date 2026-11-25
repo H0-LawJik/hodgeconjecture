@@ -63,7 +63,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `docs/notes/` | Dated research notes: ideas reviewed against the literature, kept in corrected form, with what was set aside and why. A note can propose rungs; it is not a result. |
 | `docs/gaps.md` | Acknowledged gaps: local definitions to upstream, known weaknesses, dropped threads. |
 | `docs/decisions/` | Architecture decision records, one decision per file, numbered; numbers are permanent. |
-| `.github/workflows/ci.yml` | Runs `tools/check.py` on every push and pull request. |
+| `.github/workflows/ci.yml` | Runs `tools/check.py` on pushes to `main` and on pull requests from forks (decision 0007). |
 | `.github/ISSUE_TEMPLATE/gap.md`, `.github/PULL_REQUEST_TEMPLATE.md` | Intake shapes for a new rung and for a proof. |
 
 ## Commands
@@ -114,7 +114,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 
 ## Branching
 
-- `main`: always green. Direct pushes allowed for the maintainer on documentation; proofs land by pull request so CI runs the checker.
+- `main`: always green. Direct pushes allowed for the maintainer on documentation; proofs land by pull request. The maintainer's pull requests merge on a clean local `python3 tools/check.py`, and CI rechecks `main` after the merge; pull requests from forks are checked by CI before review (decision 0007).
 - Topic branches named by rung id: `rung/rational-equivalence`.
 - Outside contributions: fork, one rung per pull request, one Lean file added or changed.
 
