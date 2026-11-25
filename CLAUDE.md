@@ -19,11 +19,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
-**2026-11-25.** `local-factoriality` checked (with `ufd-descent`, `analytic-stalk-ufd`): local rings of X are UFDs. `projective-space-test` split into seven ℙ¹ sub-rungs (`docs/sketches/projective-space-test.md`); `forget-support-exact` checked. **Next planned work:** `prime-divisor-ideal-sheaf` and `unit-extension-of-invertible`, then the `prime-divisors-cartier` assembly closing `lefschetz-1-1-equality`; `projective-line-witness` and `contractible-open-acyclic` in parallel.
+**2026-11-25 (divisors).** `prime-divisor-ideal-sheaf` checked: on a smooth projective integral complex scheme the ideal sheaf of every prime divisor is invertible and represented by Cartier data with divisor −D (`HodgeLadder.Divisor.*`). **Next planned work:** `unit-extension-of-invertible` (needs the stack's unproved `AnalytificationGenerates`), then the `prime-divisors-cartier` assembly closing `lefschetz-1-1-equality`.
+
+**2026-11-25.** `local-factoriality` checked (with `ufd-descent`, `analytic-stalk-ufd`): local rings of X are UFDs. `projective-space-test` split into seven ℙ¹ sub-rungs (`docs/sketches/projective-space-test.md`); `forget-support-exact` checked. `projective-line-witness` and `contractible-open-acyclic` can run in parallel.
 
 **2026-11-24 (Hodge side).** Red team on the port: pass with changes (`docs/sketches/lefschetz-port.redteam.md`; fixes applied or logged in `docs/gaps.md`). Rung `chern-classes-are-hodge` checked: Ω⁰ ≅ 𝒪, F¹ = ker(H_dR → ℍ(𝒪)), conjugation fixes rational classes, so rational first Chern classes and Cartier divisor classes are Hodge classes. 
-
-**2026-11-24 (port).** The upstream Lefschetz (1,1) stack builds at the pin on branch `port/lefschetz` (680 modules including Oka's proper GAGA, 0 `sorry`): rungs `lefschetz-port` and `lefschetz-1-1` are checked, with `HodgeLadder.lefschetzOneOne_holds : LefschetzOneOne` (upstream's `Prop`, standard axioms). The port changes proofs only; `docs/port-lefschetz.md` logs every change. 
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 
