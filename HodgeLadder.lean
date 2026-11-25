@@ -6,3 +6,4 @@ public import HodgeLadder.Basic
 public import HodgeLadder.Upstream.Statements
 public import HodgeLadder.CycleClass.Pins
 public import HodgeLadder.CycleClass.Statements
+public import HodgeLadder.Lefschetz.OneOne
