@@ -85,8 +85,9 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Stacks` | The Stacks Project, stacks.math.columbia.edu, cited by tag | scheme-theoretic definitions matching Mathlib |
 | `Tankeev1982` | S. Tankeev, Cycles on simple abelian varieties of prime dimension, Izv. 46 (1982); Math. USSR-Izv. 20 (1983) | prime dimension |
 | `Totaro1997` | B. Totaro, Torsion algebraic cycles and complex cobordism, J. AMS 10 (1997) | cobordism obstruction to integral HC |
-| `vanGeemen2022` | B. van Geemen, Fourfolds of Weil type and the spinor map, SIGMA 18 (2022) 097, arXiv:2205.00483 | spinors and Weil-type fourfolds |
+| `vanGeemen2022` | B. van Geemen, Fourfolds of Weil type and the spinor map, arXiv:2205.00483 (no journal reference on arXiv; an earlier version of this row gave SIGMA 18 (2022) 097, which is arXiv:2108.02087) | spinors and Weil-type fourfolds |
 | `vanGeemenRapagnetta2026` | B. van Geemen, A. Rapagnetta, Hyperkähler sixfolds, abelian fourfolds of Weil type and a Hodge class, arXiv:2607.18341 (preprint) | Weil fourfolds, discriminant 1 |
+| `Voisin2026Bourbaki` | C. Voisin, Séminaire Bourbaki exposé 1248 (2026-01-31), bourbaki.fr/TEXTES/Exp1248-Voisin.pdf | exposition of Markman 2025; product reduction from sixfolds to fourfolds (Lemma 2.9, Cor 2.10) |
 | `Voisin2000` | C. Voisin, The Griffiths group of a general Calabi-Yau threefold is not finitely generated, Duke Math. J. 102 (2000) | Griffiths group |
 | `Voisin2002` | C. Voisin, Hodge Theory and Complex Algebraic Geometry I and II, Cambridge 2002, 2003 | Hodge decomposition, Lefschetz theorems, cycle class map |
 | `Voisin2002K` | C. Voisin, A counterexample to the Hodge conjecture extended to Kähler varieties, IMRN 2002 no. 20 | Kähler HC fails |
