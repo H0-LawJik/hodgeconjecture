@@ -37,8 +37,15 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-front` | front | open | `upstream-statement` | ring structure on H^*(X; ℚ), decision 0008 |
 | `rational-ext-equiv` | foundation | checked | `cup-front` | H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces |
 | `cup-product` | foundation | checked | `rational-ext-equiv` | cup product: associative, unital, bilinear |
-| `cup-graded-commutative` | foundation | open | `cup-product` | α ∪ β = (−1)^{pq} β ∪ α |
-| `cycle-class-multiplicative` | foundation | open | `cup-product` | class of an intersection is the cup product of classes |
+| `cup-pullback` | foundation | open | `cup-product` | Pullback along a morphism of complex schemes on H^*(X; ℚ) is multiplicative for the cup product |
+| `sheaf-tensor-exact` | foundation | open | `cup-front` | The tensor product of sheaves of ℚ-vector spaces on X(ℂ) is exact in each variable |
+| `supported-cup` | foundation | open | `sheaf-tensor-exact`, `cup-product` | Product of a supported class in H_[Z]^p(X; ℚ) with an absolute class |
+| `cup-singular-comparison` | foundation | open | `cup-product`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
+| `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
+| `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
+| `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
+| `cup-graded-commutative` | foundation | open | `cup-singular-comparison` | α ∪ β = (−1)^{pq} β ∪ α |
+| `cycle-class-multiplicative` | foundation | open | `local-class-product` | class of an intersection is the cup product of classes |
 | `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; the cup product (front `cup`); inventory before sub-rungs |
 | `dimension-le-three` | case | open | `lefschetz-1-1`, `hard-lefschetz` | `HodgeConjectureInDimensionLE 3` |
 | `markman-statement` | front | open | `lefschetz-1-1-equality` | Markman's theorem on upstream definitions; inventory written (`docs/notes/2026-11-25-markman-inventory.md`); blocked on front `cup`; target sequence T1 to T5 (inventory §6) |

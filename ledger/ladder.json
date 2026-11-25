@@ -595,7 +595,7 @@
         "upstream-statement"
       ],
       "contributors": [],
-      "note": "Decision 0008. Yoneda route: H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces, product = Ext.comp. Kill criterion: no compatibility with the cycle class map. Blocks the Markman inventory's degree-four list and M3."
+      "note": "Decision 0008. Yoneda route: H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces, product = Ext.comp. Kill criterion: no compatibility with the cycle class map. Blocks the Markman inventory's degree-four list and M3. Amended by decision 0009: comparison with the singular cup product is an explicit rung (cup-singular-comparison), and the kill criterion includes fixing its sign."
     },
     {
       "id": "rational-ext-equiv",
@@ -640,7 +640,101 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-25. α ∪ β is the Yoneda composition of α followed by β in Ext^*(ℚ_X, ℚ_X) (convention row 'Cup product'); the target degree carries a proof of p + q = n. Associative, unital, biadditive. Non-vacuity: on ℙ¹, 1 ∪ [pt] = [pt] ≠ 0 (HodgeLadder.Tests.projectiveLine_one_cup_ne_zero, module HodgeLadder.Tests.CupNonvanishing). Graded commutativity and comparison with the topological cup product are open (cup-graded-commutative)."
+      "note": "Checked 2026-11-25. α ∪ β is the Yoneda composition of α followed by β in Ext^*(ℚ_X, ℚ_X) (convention row 'Cup product'); the target degree carries a proof of p + q = n. Associative, unital, biadditive. Non-vacuity: on ℙ¹, 1 ∪ [pt] = [pt] ≠ 0 (HodgeLadder.Tests.projectiveLine_one_cup_ne_zero, module HodgeLadder.Tests.CupNonvanishing). Graded commutativity and comparison with the topological cup product are open (cup-graded-commutative). Vacuity gap: these laws also hold for the square-zero product; cup-positive-degree-test closes it."
+    },
+    {
+      "id": "cup-pullback",
+      "title": "Pullback along a morphism of complex schemes on H^*(X; ℚ) is multiplicative for the cup product",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-product"
+      ],
+      "contributors": [],
+      "note": "From the port's TopCat.Sheaf.H.pullback (H.mapOfExact) and Ext.mapExactFunctor_comp, plus compatibility of extEquivQ with pullback of ℚ-sheaves. Needed for T1 (decision 0009)."
+    },
+    {
+      "id": "sheaf-tensor-exact",
+      "title": "The tensor product of sheaves of ℚ-vector spaces on X(ℂ) is exact in each variable",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-front"
+      ],
+      "contributors": [],
+      "note": "Sheaf.monoidalCategory on ModuleCat ℚ sheaves elaborates at the pin; exactness via stalks (Sites/Point/Monoidal). Mathlib candidate (decision 0009)."
+    },
+    {
+      "id": "supported-cup",
+      "title": "Product of a supported class in H_[Z]^p(X; ℚ) with an absolute class",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "sheaf-tensor-exact",
+        "cup-product"
+      ],
+      "contributors": [],
+      "note": "α ↦ (α ⊗ ℚ_W) ≫ β; degree-0 naturality only (decision 0009)."
+    },
+    {
+      "id": "cup-singular-comparison",
+      "title": "Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-product",
+        "supported-cup"
+      ],
+      "contributors": [],
+      "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a)."
+    },
+    {
+      "id": "local-class-product",
+      "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-singular-comparison"
+      ],
+      "contributors": [],
+      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009)."
+    },
+    {
+      "id": "cup-hodge-filtration",
+      "title": "Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-product"
+      ],
+      "contributors": [],
+      "note": "Needs a tensor product on the derived category of sheaves over ℂ compatible with upstream's F^p via hypercohomology of holomorphic forms; large (decision 0009). Needed for T1."
+    },
+    {
+      "id": "cup-positive-degree-test",
+      "title": "On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-pullback",
+        "cycle-class-multiplicative"
+      ],
+      "contributors": [],
+      "note": "Closes the vacuity gap of cup-product: its checked laws also hold for the square-zero product (red team on front cup)."
     },
     {
       "id": "cup-graded-commutative",
@@ -650,23 +744,23 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-product"
+        "cup-singular-comparison"
       ],
       "contributors": [],
-      "note": "Missing on every route at the pin. Candidates: Hilton–Eckmann argument for Ext^*(1, 1) in a monoidal abelian category (Sheaf.monoidalCategory on ModuleCat ℚ sheaves), or comparison with a cochain model."
+      "note": "Decision 0009: transfer Tau Ceti's singularCup_gradedComm through cup-singular-comparison; or Hilton–Eckmann if an interchange lemma with sign (−1)^{pq} on Ext classes becomes available (absent at the pin)."
     },
     {
       "id": "cycle-class-multiplicative",
-      "title": "The cycle class map is multiplicative for intersecting cycles (first case: divisor times divisor on a surface)",
+      "title": "The cycle class map is multiplicative for transversal cycles (first case: two fibres on ℙ¹ × ℙ¹)",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-product"
+        "local-class-product"
       ],
       "contributors": [],
-      "note": "The front's kill criterion. Needs an intersection product of cycles on upstream definitions (Mathlib has cycles only) or a restriction formula; scope to be set by an inventory."
+      "note": "Kill criterion of front cup (decisions 0008, 0009). Through cup-singular-comparison and local-class-product."
     },
     {
       "id": "hard-lefschetz",
