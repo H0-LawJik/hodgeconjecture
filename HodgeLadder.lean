@@ -41,3 +41,5 @@ public import HodgeLadder.Cup.RationalExt
 public import HodgeLadder.Cup.Yoneda
 public import HodgeLadder.Cup.Product
 public import HodgeLadder.Tests.CupNonvanishing
+public import HodgeLadder.Cup.Pullback
+public import HodgeLadder.Cup.PullbackVariety

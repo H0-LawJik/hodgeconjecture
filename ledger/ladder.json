@@ -645,15 +645,24 @@
     {
       "id": "cup-pullback",
       "title": "Pullback along a morphism of complex schemes on H^*(X; ℚ) is multiplicative for the cup product",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.PullbackVariety",
+      "declarations": [
+        "HodgeLadder.Cup.pullbackCoh",
+        "HodgeLadder.Cup.pullbackCoh_cup",
+        "HodgeLadder.Cup.pullbackCoh_one",
+        "HodgeLadder.Cup.pullbackCoh_add",
+        "HodgeLadder.Cup.conjExt_comp",
+        "HodgeLadder.Cup.pullbackQX"
+      ],
       "depends_on": [
         "cup-product"
       ],
-      "contributors": [],
-      "note": "From the port's TopCat.Sheaf.H.pullback (H.mapOfExact) and Ext.mapExactFunctor_comp, plus compatibility of extEquivQ with pullback of ℚ-sheaves. Needed for T1 (decision 0009)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. For a continuous map f, the inverse image f⁻¹ of sheaves of ℚ-vector spaces is exact (representably flat for finite limits; left adjoint) and f⁻¹ ℚ_X ≅ ℚ_Y (uniqueness of left adjoints to global sections); conjugating Ext classes by an exact functor is multiplicative and unital (conjExt_comp, conjExt_id). For g : X' ⟶ X over Spec ℂ, pullbackCoh g is additive, multiplicative and sends 1 to 1. Open: agreement with the port's abelian-group pullback TopCat.Sheaf.H.pullback, and functoriality in g."
     },
     {
       "id": "sheaf-tensor-exact",

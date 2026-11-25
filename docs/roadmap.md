@@ -37,7 +37,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-front` | front | open | `upstream-statement` | ring structure on H^*(X; ℚ), decision 0008 |
 | `rational-ext-equiv` | foundation | checked | `cup-front` | H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces |
 | `cup-product` | foundation | checked | `rational-ext-equiv` | cup product: associative, unital, bilinear |
-| `cup-pullback` | foundation | open | `cup-product` | Pullback along a morphism of complex schemes on H^*(X; ℚ) is multiplicative for the cup product |
+| `cup-pullback` | foundation | checked | `cup-product` | Pullback along a morphism of complex schemes on H^*(X; ℚ) is multiplicative for the cup product |
 | `sheaf-tensor-exact` | foundation | open | `cup-front` | The tensor product of sheaves of ℚ-vector spaces on X(ℂ) is exact in each variable |
 | `supported-cup` | foundation | open | `sheaf-tensor-exact`, `cup-product` | Product of a supported class in H_[Z]^p(X; ℚ) with an absolute class |
 | `cup-singular-comparison` | foundation | open | `cup-product`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
