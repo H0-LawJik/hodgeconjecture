@@ -739,15 +739,23 @@
     {
       "id": "cochain-cup-upstream",
       "title": "The cup product on upstream's singular cochains, through a cochain isomorphism with Tau Ceti's model",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SingularCup",
+      "declarations": [
+        "HodgeLadder.Cup.dualIsoYoneda",
+        "HodgeLadder.Cup.cohIso",
+        "HodgeLadder.Cup.cupSing",
+        "HodgeLadder.Cup.cupSing_gradedComm",
+        "HodgeLadder.Cup.cupSing_assoc"
+      ],
       "depends_on": [
         "tauceti-cup-backport"
       ],
-      "contributors": [],
-      "note": "Upstream linearDualCochainComplex versus Tau Ceti linearYonedaObj; short isomorphism (red team on front cup)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Upstream's singular chain complex with ℚ coefficients is Tau Ceti's with unit coefficients (rfl); linear duals are morphisms into ℚ degreewise (ModuleCat.homLinearEquiv), giving cohIso : Cohomology ℚ X n ≅ Tau Ceti's singular cohomology. cupSing is Tau Ceti's cup (front face times back face) transported; b ∪ a = (−1)^{pq} a ∪ b and associativity hold."
     },
     {
       "id": "cochain-sheaf-right-mult",
