@@ -692,17 +692,27 @@
     },
     {
       "id": "supported-cup",
-      "title": "Product of a supported class in H_[Z]^p(X; ℚ) with an absolute class",
-      "status": "open",
+      "title": "Product of a supported class in H_[Z]^p(X; ℚ) with an absolute class, compatible with forgetting the support",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "sheaf-tensor-exact",
-        "cup-product"
+      "module": "HodgeLadder.Cup.SupportedVariety",
+      "declarations": [
+        "HodgeLadder.Cup.supCup",
+        "HodgeLadder.Cup.forgetSupport_supCup",
+        "HodgeLadder.Cup.supCup_assoc",
+        "HodgeLadder.Cup.supCup_one",
+        "HodgeLadder.Cup.add_supCup",
+        "HodgeLadder.Cup.supCup_add",
+        "HodgeLadder.Cup.rationalExtEquiv_comp_lift"
       ],
-      "contributors": [],
-      "note": "α ↦ (α ⊗ ℚ_W) ≫ β; degree-0 naturality only (decision 0009)."
+      "depends_on": [
+        "cup-product",
+        "cup-pullback"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. α ∪ β := α ≫ lift β, where lift β ∈ Ext^q(ℚ_X, ℚ_X) of abelian sheaves is the image of β under the exact forgetful functor, conjugated by forget ℚ_X ≅ ℚ_X. Composition with lift matches the cup product (rationalExtEquiv_comp_lift, from Mathlib's extEquiv_symm_naturality_right), so the product is associative with cup, unital, biadditive, natural in the source, and commutes with forgetting the support. The tensor product (sheaf-tensor-exact) is not needed here; it enters for products of two supported classes."
     },
     {
       "id": "cup-singular-comparison",
