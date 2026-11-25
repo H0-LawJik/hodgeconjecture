@@ -7,7 +7,8 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Local declaration | Module | Why local | Opened |
 |---|---|---|---|
 | `codimCycles_one` (codimension one equals Mathlib `weilDivisors`), `codimCycles_inf_eq_bot` (distinct codimensions meet in zero) | removed from this repository (decision 0003); recoverable from git history at `ba3dbef` | Upstream `codimensionCycleSubgroup` lacks these two facts; offer them to `Paul-Lez/HodgeConjecture` as lemmas on its subgroup | 2026-11-24 |
-| Regular local rings are UFDs (Auslander–Buchsbaum); needed for `prime-divisors-cartier` | not yet written | Mathlib has `IsRegularLocalRing`; factoriality is missing there and is general commutative algebra | 2026-11-24 |
+| Regular local rings are UFDs (Auslander–Buchsbaum); planned for `prime-divisors-cartier`, not used: `local-factoriality` descends factoriality from the analytic stalks | not yet written | Mathlib has `IsRegularLocalRing`; factoriality is missing there and is general commutative algebra | 2026-11-24 |
+| `lcSheaf`, `constIsoLC` (the constant sheaf ℤ is the sheaf of locally constant functions), `Frames.isoOfSameTransitions` (line bundles with equal transitions are isomorphic) | `HodgeLadder.Line.LocallyConstant`, `HodgeLadder.Line.FrameComparison` | general sheaf theory; written against the upstream statement of the constant sheaf | 2026-11-25 |
 
 ## Known weaknesses
 

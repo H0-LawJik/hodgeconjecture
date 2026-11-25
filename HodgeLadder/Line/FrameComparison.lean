@@ -14,7 +14,7 @@ point, and the image of `s` glues the local sections `cᵢ • f i` of `M'`. Par
 
 ## Main results
 
-* `HodgeLadder.isoOfSameTransitions`
+* `HodgeLadder.Frames.isoOfSameTransitions`
 -/
 
 @[expose] public noncomputable section

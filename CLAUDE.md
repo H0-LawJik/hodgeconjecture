@@ -19,11 +19,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
-**2026-11-25 (divisors).** `prime-divisor-ideal-sheaf` checked: on a smooth projective integral complex scheme the ideal sheaf of every prime divisor is invertible and represented by Cartier data with divisor −D (`HodgeLadder.Divisor.*`). **Next planned work:** `unit-extension-of-invertible` (needs the stack's unproved `AnalytificationGenerates`), then the `prime-divisors-cartier` assembly closing `lefschetz-1-1-equality`.
+**2026-11-25 (checkpoint).** `lefschetz-1-1-equality` checked: `HodgeLadder.lefschetzOneOneEquality_holds : LefschetzOneOneEquality`, Hdg^1(X; ℚ) equals the span of prime-divisor classes. It closes through `unit-extension-of-invertible` (L^an invertible; a unit extension E built from its frames, with L^an ≅ E.section, `HodgeLadder.Line.*`) and the `prime-divisors-cartier` assembly. **Next planned work:** red-team pass on the equality, then the Markman inventory.
+
+**2026-11-25 (divisors).** `prime-divisor-ideal-sheaf` checked: on a smooth projective integral complex scheme the ideal sheaf of every prime divisor is invertible and represented by Cartier data with divisor −D (`HodgeLadder.Divisor.*`). 
 
 **2026-11-25.** `local-factoriality` checked (with `ufd-descent`, `analytic-stalk-ufd`): local rings of X are UFDs. `projective-space-test` split into seven ℙ¹ sub-rungs (`docs/sketches/projective-space-test.md`); `forget-support-exact` checked. `projective-line-witness` and `contractible-open-acyclic` can run in parallel.
-
-**2026-11-24 (Hodge side).** Red team on the port: pass with changes (`docs/sketches/lefschetz-port.redteam.md`; fixes applied or logged in `docs/gaps.md`). Rung `chern-classes-are-hodge` checked: Ω⁰ ≅ 𝒪, F¹ = ker(H_dR → ℍ(𝒪)), conjugation fixes rational classes, so rational first Chern classes and Cartier divisor classes are Hodge classes. 
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 
