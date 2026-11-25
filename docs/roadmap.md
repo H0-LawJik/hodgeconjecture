@@ -18,7 +18,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `ufd-descent` | foundation | checked | | done in `HodgeLadder.Algebra.UFDDescent` (Mori's descent, local case) |
 | `analytic-stalk-ufd` | foundation | checked | `lefschetz-port` | done in `HodgeLadder.Divisor.AnalyticStalk` |
 | `local-factoriality` | foundation | checked | `ufd-descent`, `analytic-stalk-ufd` | done in `HodgeLadder.Divisor.LocalFactoriality` |
-| `prime-divisor-ideal-sheaf` | foundation | open | `local-factoriality` | ideal sheaf of D as an invertible `Scheme.Modules`, represented by Cartier data with divisor −D |
+| `prime-divisor-ideal-sheaf` | foundation | checked | `local-factoriality` | done in `HodgeLadder.Divisor.PrimeDivisorSmooth`: the ideal sheaf of D is invertible, represented by Cartier data with divisor −D |
 | `unit-extension-of-invertible` | foundation | open | `lefschetz-port` | a unit extension E with L^an ≅ E.section for every invertible L |
 | `prime-divisors-cartier` | foundation | open | `chern-classes-are-hodge`, `local-factoriality`, `prime-divisor-ideal-sheaf`, `unit-extension-of-invertible` | assembly: `CycleClassesAreHodgeOne` |
 | `lefschetz-1-1-equality` | case | open | `lefschetz-1-1`, `divisor-chern-exact`, `equality-reductions`, `chern-classes-are-hodge`, `prime-divisors-cartier` | `theorem : LefschetzOneOneEquality`; the checkpoint's definition of done |

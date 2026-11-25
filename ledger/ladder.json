@@ -296,15 +296,23 @@
     {
       "id": "prime-divisor-ideal-sheaf",
       "title": "The ideal sheaf of a prime divisor is an invertible sheaf represented by Cartier data whose divisor is minus the prime divisor",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Divisor.PrimeDivisorSmooth",
+      "declarations": [
+        "HodgeLadder.exists_primeDivisor_cartierData_of_smoothProjective",
+        "HodgeLadder.exists_primeDivisor_cartierData",
+        "HodgeLadder.exists_local_generator",
+        "HodgeLadder.isInvertible_of_generates_closedPoints",
+        "HodgeLadder.ord_local_equation"
+      ],
       "depends_on": [
         "local-factoriality"
       ],
-      "contributors": [],
-      "note": "Construct the ideal sheaf of D as a Scheme.Modules (Mathlib has IdealSheafData but no module-sheaf form); local generators πᵢ exist near each closed point by local-factoriality (height-one prime of a UFD), shrunk so that their zero locus is D; Generates gives invertibility; Represents holds for fnᵢ = πᵢ⁻¹, and the divisor is −D (ord πᵢ = 1 along D, 0 elsewhere)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. On a smooth projective integral complex scheme, the vanishing ideal sheaf of every prime divisor D = closure {ξ} is invertible (Tau Ceti IsInvertible) and is represented by Cartier data with divisor −D. Route: the vanishing ideal sheaf as S.Modules (HodgeLadder.Divisor.IdealSheaf); near each closed point of D a local equation π (height-one prime of the UFD local ring, principal after inverting one element on an affine open: HeightOneGenerator, LocalGenerator), and 1 away from D; local generation gives generating sections (generates_of_dividesVanishingAt) and hence invertibility (Tau Ceti ofClosedPoints); ord π = 1 at ξ and 0 at other codimension-one points (Mathlib's Scheme.ord), so the Cartier data with local equations π⁻¹ have divisor −D. Sign: the ideal sheaf is 𝒪(−D), so the divisor is −D; −[D] Hodge gives [D] Hodge."
     },
     {
       "id": "unit-extension-of-invertible",
@@ -333,7 +341,7 @@
         "unit-extension-of-invertible"
       ],
       "contributors": [],
-      "note": "Plan and sub-rungs in docs/sketches/prime-divisors-cartier.md. Checked so far: ufd-descent, analytic-stalk-ufd, local-factoriality. Open: prime-divisor-ideal-sheaf, unit-extension-of-invertible. Then sheafCycleClassOnCycles_divisor_mem_hodgeClasses applied to the ideal sheaf of D gives −[D] ∈ Hdg^1, so [D] ∈ Hdg^1."
+      "note": "Plan and sub-rungs in docs/sketches/prime-divisors-cartier.md. Checked so far: ufd-descent, analytic-stalk-ufd, local-factoriality, prime-divisor-ideal-sheaf. Open: unit-extension-of-invertible. Then sheafCycleClassOnCycles_divisor_mem_hodgeClasses applied to the ideal sheaf of D gives −[D] ∈ Hdg^1, so [D] ∈ Hdg^1."
     },
     {
       "id": "lefschetz-1-1-equality",
