@@ -40,4 +40,5 @@ public import HodgeLadder.Cup.SheafExact
 public import HodgeLadder.Cup.RationalExt
 public import HodgeLadder.Cup.Yoneda
 public import HodgeLadder.Cup.Product
+public import HodgeLadder.Cup.SheafTensor
 public import HodgeLadder.Tests.CupNonvanishing
