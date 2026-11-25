@@ -7,6 +7,7 @@ module
 public import LefschetzPort.AlgebraicGeometry.CocycleGlobalSections
 public import Other.AlgebraicTopology.Sheaf.CohomologySectionRestriction
 public import Other.AlgebraicTopology.Sheaf.CohomologyOpenRestriction
+public import LefschetzPort.Supplement.AnalyticExt
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite HomologicalComplex
 open CochainComplex.HomComplex

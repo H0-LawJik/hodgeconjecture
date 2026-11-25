@@ -6,6 +6,7 @@ module
 
 public import LefschetzPort.AlgebraicGeometry.HolomorphicUnitTransition
 public import Mathlib.Geometry.Manifold.VectorBundle.Basic
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # The holomorphic line bundle of a unit-sheaf extension

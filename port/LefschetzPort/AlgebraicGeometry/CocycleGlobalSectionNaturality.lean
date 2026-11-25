@@ -6,6 +6,7 @@ module
 
 public import LefschetzPort.AlgebraicGeometry.CocycleGlobalSections
 public import LefschetzPort.AlgebraicTopology.CohomologySheafSectionDerivedVanishing
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Naturality and local vanishing of the actual global cocycle section

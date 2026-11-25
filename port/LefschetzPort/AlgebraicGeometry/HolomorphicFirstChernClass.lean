@@ -7,6 +7,7 @@ module
 public import LefschetzPort.AlgebraicGeometry.HolomorphicExponentialSequence
 public import LefschetzPort.AlgebraicGeometry.IntegralCohomology
 public import LefschetzPort.CategoryTheory.Sites.SheafCohomology.Connecting
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # The connecting map of the holomorphic exponential sequence

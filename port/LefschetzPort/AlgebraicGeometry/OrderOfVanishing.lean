@@ -18,6 +18,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.OrderOfVanishing
 public import Mathlib.Topology.LocallyFinsupp
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Finiteness of principal divisors

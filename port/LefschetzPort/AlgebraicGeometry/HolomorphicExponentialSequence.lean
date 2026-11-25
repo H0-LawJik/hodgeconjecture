@@ -9,6 +9,7 @@ public import HodgeConjecture.Lemmas.AlgebraicGeometry.Hodge.Filtration
 public import Mathlib.Topology.Sheaves.Sheafify
 
 import HodgeConjecture.Mathlib.Topology.Sheaves.StalkExact
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # The holomorphic exponential sequence

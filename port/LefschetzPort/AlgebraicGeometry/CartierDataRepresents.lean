@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicGeometry.InvertibleSheafRationalSection
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Cartier data representing an invertible sheaf

@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicTopology.GlobalRawOpenComplement
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Raw cochain restriction and the intrinsic complement presentation

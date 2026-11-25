@@ -7,6 +7,7 @@ module
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Singular.RelativeCochainConeNaturality
 public import Other.AlgebraicTopology.Singular.RelativeCochainCone
 public import Other.Algebra.Homology.DerivedCategory.MappingConeConnectingNaturality
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Ordinary-target compatibility of the two relative cone comparisons

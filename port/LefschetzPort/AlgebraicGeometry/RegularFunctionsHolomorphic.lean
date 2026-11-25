@@ -7,6 +7,7 @@ module
 public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.AnalyticSheaf
 public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.Manifold
 public import Mathlib.Topology.Sheaves.Functors
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Regular functions as holomorphic functions

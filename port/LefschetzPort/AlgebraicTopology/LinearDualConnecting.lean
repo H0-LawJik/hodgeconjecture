@@ -9,6 +9,7 @@ public import LefschetzPort.Algebra.Homology.DualExact
 public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.ConcreteCategory
 public import Mathlib.LinearAlgebra.Dual.Lemmas
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Evaluation pairing and connecting maps

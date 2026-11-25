@@ -17,6 +17,7 @@ module
 
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Singular.Sheaf.Chain
 public import Mathlib.Topology.Sheaves.Functors
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Sheafification and closed-embedding direct image

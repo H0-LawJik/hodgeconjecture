@@ -8,6 +8,7 @@ public import LefschetzPort.AlgebraicGeometry.RegularFunctionsHolomorphic
 public import LefschetzPort.AlgebraicGeometry.HolomorphicRingSheaf
 public import Mathlib.AlgebraicGeometry.Modules.Sheaf
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Analytification of algebraic sheaves of modules

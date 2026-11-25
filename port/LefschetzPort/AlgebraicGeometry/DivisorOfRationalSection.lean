@@ -6,6 +6,7 @@ module
 
 public import Other.AlgebraicGeometry.Cycle.Codimension
 public import LefschetzPort.AlgebraicGeometry.OrderOfVanishing
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Divisors of rational functions and of Cartier data

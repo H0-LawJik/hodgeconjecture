@@ -6,6 +6,7 @@ module
 
 public import LefschetzPort.AlgebraicTopology.Sheaf.CohomologySectionShiftTransport
 public import Other.AlgebraicGeometry.Cohomology.HypercohomologyShift
+public import LefschetzPort.Supplement.AnalyticExt
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite HomologicalComplex
 

@@ -6,6 +6,7 @@ module
 
 public import HodgeConjecture.Definitions.AlgebraicTopology.Singular.Sheaf.CochainOpenCone
 public import LefschetzPort.AlgebraicTopology.GlobalRawRelativeConnecting
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-! # Exact ordinary normalization of the canonical open relative comparison -/
 

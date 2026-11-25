@@ -7,6 +7,7 @@ module
 public import LefschetzPort.AlgebraicTopology.Sheaf.CohomologySectionShiftTransport
 public import Other.AlgebraicTopology.Sheaf.CohomologyOpenRestriction
 public import HodgeConjecture.Definitions.AlgebraicTopology.Support.DerivedSectionsLocalization
+public import LefschetzPort.Supplement.AnalyticExt
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite HomologicalComplex
 @[expose] public noncomputable section
 set_option autoImplicit false

@@ -7,6 +7,7 @@ module
 public import LefschetzPort.AlgebraicGeometry.HolomorphicLineBundleSections
 public import LefschetzPort.AlgebraicGeometry.HolomorphicRingSheaf
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Holomorphic line-bundle sections as a sheaf of modules

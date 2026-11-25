@@ -9,6 +9,7 @@ public import Mathlib.Algebra.Homology.ShortComplex.Ab
 public import Mathlib.Topology.Sheaves.LocallySurjective
 public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.Topology.Sheaves.Abelian
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Differences of local lifts in a sheaf extension

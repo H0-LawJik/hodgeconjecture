@@ -8,6 +8,7 @@ import HodgeConjecture.Mathlib.Algebra.Homology.Notation
 
 public import Other.AlgebraicTopology.Sheaf.CohomologySectionNaturality
 public import LefschetzPort.Algebra.Homology.MapHomologyShift
+public import LefschetzPort.Supplement.AnalyticExt
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite HomologicalComplex
 

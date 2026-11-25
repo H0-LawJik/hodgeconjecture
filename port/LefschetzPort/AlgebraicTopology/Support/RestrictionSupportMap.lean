@@ -9,6 +9,7 @@ public import LefschetzPort.AlgebraicTopology.SupportedSingularBoundaryRelative
 public import LefschetzPort.Algebra.Homology.DerivedCategory.MappingCoconeBoundaryNaturality
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Support.DerivedSectionsNaturality
 public import HodgeConjecture.Lemmas.AlgebraicTopology.Support.SectionRestrictionConeNaturality
+public import LefschetzPort.Supplement.AnalyticExt
 
 @[expose] public noncomputable section
 

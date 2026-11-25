@@ -7,6 +7,7 @@ module
 public import HodgeConjecture.Mathlib.CategoryTheory.Sites.SheafCohomology.Pair
 public import Other.AlgebraicGeometry.Cohomology.GlobalSections
 public import LefschetzPort.AlgebraicTopology.ConstantSheafGlobalSection
+public import LefschetzPort.Supplement.AnalyticExt
 
 set_option backward.isDefEq.respectTransparency false
 set_option backward.isDefEq.respectTransparency.types false

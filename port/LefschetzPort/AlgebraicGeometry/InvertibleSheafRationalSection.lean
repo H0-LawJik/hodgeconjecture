@@ -8,6 +8,7 @@ public import LefschetzPort.AlgebraicGeometry.DivisorOfRationalSection
 public import LefschetzPort.TauCeti.SheafOfModules.Free
 public import LefschetzPort.TauCeti.SheafOfModules.LocalTriviality
 public import Mathlib.AlgebraicGeometry.Modules.Sheaf
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Generating sections of a sheaf of modules and trivializing covers

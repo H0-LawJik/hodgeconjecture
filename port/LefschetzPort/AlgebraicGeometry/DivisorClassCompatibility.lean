@@ -8,6 +8,7 @@ public import LefschetzPort.AlgebraicGeometry.CartierDataRepresents
 public import LefschetzPort.AlgebraicGeometry.AnalytificationModules
 public import LefschetzPort.AlgebraicGeometry.HolomorphicLineBundleModule
 public import Other.AlgebraicGeometry.Cycle.SheafClass
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # The divisor–Chern compatibility statement

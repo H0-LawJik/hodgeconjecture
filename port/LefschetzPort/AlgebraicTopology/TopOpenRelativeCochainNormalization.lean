@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import LefschetzPort.AlgebraicTopology.SupportedSingularOrdinaryComparison
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-! # Literal top-open normalization of relative cochain classes -/
 

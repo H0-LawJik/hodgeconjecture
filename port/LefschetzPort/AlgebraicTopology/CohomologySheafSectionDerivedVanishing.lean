@@ -8,6 +8,7 @@ public import Other.AlgebraicTopology.Sheaf.CohomologySectionNaturality
 public import Other.AlgebraicTopology.Sheaf.CohomologyOpenRestriction
 public import Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor
 public import Mathlib.Algebra.Homology.DerivedCategory.HomologySequence
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Local cohomology-sheaf sections of maps vanishing in the derived category

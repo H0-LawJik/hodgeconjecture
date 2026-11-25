@@ -10,6 +10,7 @@ public import Mathlib.AlgebraicTopology.SimplicialSet.Subcomplex
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import Mathlib.LinearAlgebra.Dual.Defs
 public import Mathlib.Topology.Category.TopCat.EpiMono
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Extension by zero of simplicial cochains

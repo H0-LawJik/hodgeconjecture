@@ -6,6 +6,7 @@ module
 
 public import HodgeConjecture.Lemmas.AlgebraicGeometry.Hodge.Filtration
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.Basic
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-!
 # Integral coefficients and change to rational coefficients

@@ -7,6 +7,7 @@ module
 public import HodgeConjecture.Definitions.AlgebraicGeometry.ComplexPoint.AnalyticSheaf
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf
 public import LefschetzPort.CategoryTheory.Sites.Forget
+public import LefschetzPort.Supplement.AnalyticExt
 
 /-! The holomorphic structure sheaf, regarded as a sheaf of rings. -/
 
