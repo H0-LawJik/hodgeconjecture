@@ -97,3 +97,7 @@ Proof: upstream's `forgetSupport` is `H'.addEquivTerminal` composed with `relH.f
 - Vacuity: `projective-line-class-nonzero` is the test that answers I1; the witness instances must be on upstream's `ProjectiveSpace`, so the test is about the same `X` the upstream statements quantify over. A witness built on `ℙₒ` alone would need the identification with upstream's object as part of the rung.
 - Sign: nonvanishing and dimension counts are sign-free. The identity Hdg^1 = span is sign-free as well (both are subspaces). The sign of the point class against c₁(𝒪(1)) enters only through the Cartier route of `projective-line-test`; `divisor-chern-exact` fixes it as `+`.
 - Drift: the proof of `forget-support-exact` unfolds upstream's `forgetSupport` to `relH.forget`; a change of that definition upstream breaks the build here, which is the intended signal.
+
+## Progress (2026-11-25)
+
+All seven ℙ¹ sub-rungs are checked (standard axioms). Two results hold beyond ℙ¹: `cycleComponentSheafClass_ne_zero_of_subsingleton` (any smooth projective X, codimension one) and `finrank_H2_of_subsingleton` (curves). The step (iii) dimension count used upstream's identification of the supported group with relative singular cohomology and the point coclass spanning it, so no sheaf-side count was needed. The span inclusion on the Hodge side came from `lefschetz-1-1-equality`. `projective-space-test` (ℙⁿ, n ≥ 2) stays open.
