@@ -50,3 +50,5 @@ Upstream's step 2 (`rationalSingularCochainHypercohomologyAddEquivGlobalSections
 The order and sign of the final comparison then come out of Mathlib's `Cocycle.equivHomShift` and `ShiftedHom.comp` conventions; `cup-positive-degree-test` checks them independently.
 
 Progress: `right-mult-cocycle` and `right-mult-unit` are checked. The unit rung is stated at the level of sheaf maps and global sections (ι⁰ ≫ r_b is the sheafification of r ↦ r · b|_U, and sends the section 1 to b); the passage to upstream's integer-constant Hom complex, through `integerConstantHomAddEquivGlobalSections`, moves into `ext-class-right-mult`.
+
+Progress: `cocycle-class-comp` and `step2-cocycle-class` are checked. Upstream's step 2, applied to the class of a Hom-complex cocycle `z : ℤ[0] → S_ℤ`, gives the homology class of the global section `z` names, whatever resolution was chosen (`globalSectionsOfResolution_mk`). What remains for `ext-class-right-mult`: the cocycle of `b` in that form (from `constTimes_sheafify_one` through `integerConstantHomAddEquivGlobalSections`), and the derived-category identity `ι[q] ∘ ε([b]) = R_b ∘ ι`.
