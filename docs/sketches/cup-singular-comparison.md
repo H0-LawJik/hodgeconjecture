@@ -36,3 +36,15 @@ The classical argument avoids the chosen resolution. Let `ι : ℚ_X → S•` b
 - Step 2 uses a resolution chosen by choice. The route above stays in the derived category until global sections, where flasqueness gives the identification; the comparison must not depend on which resolution was chosen.
 - Order and sign: Mathlib's `Ext.comp` is diagrammatic, and shifting `ε([b])` by `p` introduces the shift signs of `CochainComplex`. A product identity that holds only up to an unidentified sign does not discharge this rung (decision 0004). Graded commutativity transferred through a wrong sign would still hold, so the sign must be checked against an independent computation: on ℙ¹ × ℙ¹ the product of the two fibre classes is the positive point class (`cup-positive-degree-test`).
 - The singular cup product's own convention (front face times back face, no sign) is the one registered in `docs/conventions.md`; the comparison is stated against it.
+
+## Refinement (2026-11-25, after sub-rung 3)
+
+Upstream's step 2 (`rationalSingularCochainHypercohomologyAddEquivGlobalSectionsOfResolution`) passes through Mathlib's Hom-complex cohomology classes: a degree-`q` cocycle of `Hom(ℤ[0], K)` is a chain map `ℤ[0] → K⟦q⟧` (`Cocycle.equivHomShift`), and its class in the derived category is `CohomologyClass.toSmallShiftedHom` (no K-injective resolution needed in this direction). This fixes the sign bookkeeping and splits sub-rung 4:
+
+| Id | Statement | Route |
+|---|---|---|
+| `right-mult-cocycle` | for a global cocycle `b`, right multiplication is a degree-`q` cocycle `R_b` of the Hom complex `Hom(S_ℤ, S_ℤ)`, components `v_p = (−1)^{pq} r_p` for `p ≥ 0` and `0` below | `δ R_b = 0` from `rightMulSheaf_comp_coboundary` (`r ≫ d = d ≫ r`) and Mathlib's formula for `δ`; `S_ℤ` is `S.extend embeddingUpNat` |
+| `right-mult-unit` | `ι ≫ R_b`, as a Hom-complex cocycle `ℤ[0] → S_ℤ` of degree `q`, is the cocycle of the global section `b` | `1 ∪ b = b` on cochains (Tau Ceti `cupCochain_constCochain_left`) and naturality of the sheafification unit |
+| `ext-class-right-mult` | the class of that cocycle is sent by upstream's step 2 to `[b]`, and `ι[q] ∘ ε([b]) = R_b ∘ ι` in the derived category | unfold `homComplexSingleIntegerIsoGlobalSections` and the K-injective step `e₁` (postcomposition with the resolution commutes with `toSmallShiftedHom`) |
+
+The order and sign of the final comparison then come out of Mathlib's `Cocycle.equivHomShift` and `ShiftedHom.comp` conventions; `cup-positive-degree-test` checks them independently.
