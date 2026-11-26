@@ -343,6 +343,58 @@ Sign audit: every map in both proofs is either an upstream equivalence already i
 Non-vacuity (change C, rung `supported-pair-forget-test`): `supportedEquivPair_supportedClass_ne_zero` (Φ [Z_x] ≠ 0 for every scheme point x, so both sides of (b) are nonzero) and `forgetRel_supportedEquivPair_genericPoint_ne_zero` (the left side of (a) is nonzero at the generic point, in degree 0).
 Downstream spelling (change D, for `cycle-class-multiplicative`). State `unionComplIso` for `Z W T : Closeds Y` with `hT : T = Z ⊓ W`, on `TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y)`, so that it meets `relCup2` of two Φ-classes term for term, and spell the pairs of `triad-relative-cup` so that `A := (Z.compl : Set Y)` is accepted without unfolding. The `Set` form in "Glue statements" above is superseded by this one; also recorded in the ledger note of `cycle-class-multiplicative`.
 
+## fundamental-class-unit: statement
+
+Date: 2026-11-26. Statement elaborated with `sorry` bodies first, then every body proved in the same session. Red team: pass with changes (`docs/sketches/fundamental-class-unit.redteam.md`), all implemented. Checked: rung `fundamental-class-unit`, module `HodgeLadder.Tests.FundamentalClassUnit` (the derived `file` hint `HodgeLadder/Fundamental/Class/Unit.lean` is superseded), and rung `singular-unit`, module `HodgeLadder.Cup.SingularUnit` (change B), both imported from `HodgeLadder.lean`. All twelve declarations of the reviewed file, and the sign test of change C, check with `propext`, `Classical.choice`, `Quot.sound`. `lake env lean` on the test module: 35 to 45 s wall; on `SingularUnit`, 15 s; default heartbeats.
+
+Result for the kill criterion: [X] = 1 holds at the pin, with sign + and no scalar. The decisive inputs are upstream's normalization `normalizedDual_apply_self` and `standardAmbientClassZero_projection` (the standard local class of ℝ⁰ is the point with coefficient 1; equivalently, augmentation 1), with `SSet.ιChainComplex_constCochain` (the constant cocycle is 1 on that point), so the degree-0 normalization of upstream's cycle class is the constant cocycle 1. `standardLocalClass_zero_epsilon` enters only for nonvanishing. Conventions row "Degree-zero orientation and the unit".
+
+### The rung
+
+```lean
+theorem cycleComponentSheafClass_genericPoint_eq_one (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] :
+    cycleComponentSheafClass X (genericPoint X.left) (coheight_genericPoint_eq_zero X) =
+      (one X : H^(2 * 0)(X; ℚ))
+```
+
+Hypotheses: the three instances `cycleComponentSheafClass` needs. `one X` needs none. Inside the proof: `QuasiSeparatedSpace X.left` (from `quasiSeparatedSpace_of_quasiSeparated X.hom`) for upstream's `ComplexPoint.connectedSpace`, and paracompact opens (upstream `openParacompactSpace X`) for the comparison Ψ; `T2Space (ComplexPoint X)` comes from upstream's instance on projective X.
+
+Trivial proofs fail (scratch file, deleted): `rfl` and `exact rfl` (not definitionally equal), `simp [one]` (unsolved goal `cycleComponentSheafClass … = oneY …`).
+
+Non-vacuity: both sides are nonzero on every X (`cycleComponentSheafClass_genericPoint_ne_zero`; `one X = fieldCohomologyUnit ℚ X ≠ 0` by upstream `rationalCohomologyUnit_ne_zero`), and Spec ℂ meets the hypotheses (`HodgeLadder.Tests.exists_smooth_projective_integral`).
+
+### Helpers, all proved
+
+After change B, `oneSing`, its four lemmas, `rationalCohomologyAddEquivSingularCohomology_one` (generalized to `[T2Space (ComplexPoint X)]` and paracompact opens) and `one_eq_fieldCohomologyUnit` live in `HodgeLadder.Cup.SingularUnit`, namespace `HodgeLadder.Cup`; the others stay in `HodgeLadder.Tests`. Sign test (change C): `cycleComponentSheafClass_genericPoint_ne_neg_one`, [X] ≠ −1.
+
+| Declaration | Statement | Proof |
+|---|---|---|
+| `one_eq_fieldCohomologyUnit` | `one X = fieldCohomologyUnit ℚ X`, any X | `oneY_eq_kappa`, both sides `Ext.mk₀` of the constant-sheaf map of `n ↦ n`; 5 lines |
+| `exists_cycleComponentSheafClass_genericPoint_eq_smul_one` | `∃ c ≠ 0, [X] = c • one X` | upstream `rationalCohomologyClass_surjective` on connected X(ℂ), `fieldCohomologyClass_mul`, `cycleComponentSheafClass_genericPoint_ne_zero` |
+| `oneSing Y` (def) | class of Tau Ceti's constant 0-cocycle `1`, moved to upstream's `Cohomology ℚ Y 0` along `cohIso` | |
+| `cupSing_oneSing`, `oneSing_cupSing` | `oneSing` is a right and left unit of `cupSing` | Tau Ceti `singularCup_constSingularCocycle_right`, `_left`, unitors |
+| `cohomologyMap_oneSing` | pullback of `oneSing` is `oneSing` | `homologyMap_dualIsoYoneda_apply`, Tau Ceti `singularCohomologyMap_homologyπ_constSingularCocycle` |
+| `oneSing_ne_zero` | `oneSing Y ≠ 0` for nonempty Y | `homologyπ` is an iso in degree 0; the cochain is `1` on a vertex |
+| `rationalCohomologyAddEquivSingularCohomology_one` | `Ψ (one X) = oneSing` | `cup_singular_comparison` at p = 0 (sign `(−1)^0`), Ψ surjective, right unit law |
+| `exists_mem_cycleComponentSmoothSupportAmbientOpen` | `X(ℂ) ∖ Z_sing(ℂ)` has a point, every component Z | upstream `cycleComponentSmoothLocusOver_nonempty`; injectivity of the component's closed immersion |
+| `forgetRel_eq_oneSing_of_standardLocalClass_zero` | on ℝ⁰, a class with value 1 on `standardLocalClass ℚ 0` forgets to `oneSing` | universal coefficients; `standardAmbientClassZero_projection` (the point, coefficient 1) and `SSet.ιChainComplex_constCochain` decide the value; `span_standardLocalClass_zero_eq_top` (nonvanishing) makes the value at one class enough (`linearDualHomologyEquiv_homologyπ_apply`, port) |
+| `forgetRel_chartNormalProjectionCoclass_zero` | at c = 0, `forgetRel (chartNormalProjectionCoclass E 0 e S hS W hW) = oneSing W` | move upstream's normalized class from (ℂ⁰, ∅) to (ℝ⁰, ∅) along `standardComplexRealPairIso 0`; `forgetRel_relativeCohomologyMap`, `cohomologyMap_oneSing` |
+
+### The proof, as checked
+
+1. [X] = c • one X with c ≠ 0 (helper 2).
+2. Ψ (one X) = oneSing, so Ψ [X] = c • oneSing (helpers 5 and 7; Ψ is additive, hence ℚ-linear).
+3. Pick y in X(ℂ) ∖ Z_sing(ℂ) for Z the reduced closure of the generic point (helper 8); `adaptedChart_genericPoint` gives the chart hypotheses of `transport_supportedClass_eq_chartNormalProjectionCoclass` at y, and helper 8 gives `hyU`. So `cycle-class-germ` applies with no use of the missing lemma `cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤`: one point suffices.
+4. On the open W ∋ y it returns, forget the subspace: the restriction of Ψ [X] to W is `forgetRel` of the normal projection coclass, through `supported-pair-forget` (a) and (b) and `forgetRel_relativeCohomologyMap`; that is `oneSing W` (helper 10).
+5. Restriction of c • oneSing is c • oneSing W (helper 6), so (c − 1) • oneSing W = 0 and oneSing W ≠ 0 (helper 6, W ∋ y), hence c = 1.
+
+Sign audit: the only signs on the route are `(−1)^{pq}` of `cup_singular_comparison` at p = q = 0, the identity pair maps of `supported-pair-forget`, and the transport (ℂ⁰, ∅) ≅ (ℝ⁰, ∅), a map of one-point spaces. The value is fixed by upstream's normalization `normalizedDual_apply_self` on `standardComplexLocalClass ℚ 0` and by `standardAmbientClassZero_projection` (the point with coefficient 1).
+
+Inputs to list for the drift check on the next pin bump: from upstream's `Other`, `rationalCohomologyClass_surjective` (`Cohomology/RationalDegreeZero.lean`), `fieldCohomologyUnit`, `fieldCohomologyClass_mul` (`Hodge/Filtration.lean`), `ComplexPoint.connectedSpace` (`ComplexPoint/SmoothConnected.lean`), `cycleComponentSmoothLocusOver_nonempty` (`Cycle/Component/CoclassNonzero.lean`), besides those already listed above; from the statement closure, `standardAmbientClassZero`, `standardAmbientClassZero_projection`, `standardRelativeHomologyProjectionZeroIso`, `span_standardLocalClass_zero_eq_top` (`Lemmas/AlgebraicTopology/LocalHomology/FundamentalClassGenerator.lean`).
+
+Red-team answers (implemented): the general lemmas moved to `HodgeLadder.Cup.SingularUnit` with a `docs/gaps.md` row; the module path is `HodgeLadder.Tests.FundamentalClassUnit`; the conventions row "Degree-zero orientation and the unit" was added. Further drift inputs named by the red team (section 8 of the verdict) are listed there.
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.

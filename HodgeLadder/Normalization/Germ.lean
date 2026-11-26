@@ -130,7 +130,8 @@ theorem toSheaf_transport_supportedClass_ne_zero (x : X.left) {p : ℕ}
 `Z = X(ℂ)`), at every `y`: the chart `chartAt y` followed by the inverse of `(ℂ^d) × ℂ^0 ≃ ℂ^d`.
 Here `hyU` needs `cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤`, which is
 not at the pin (rung `cycle-class-multiplicative-codim-zero`); `adaptedChart_closedPoint` meets
-all four hypotheses in positive codimension. -/
+all four hypotheses in positive codimension. For one point,
+`HodgeLadder.Tests.exists_mem_cycleComponentSmoothSupportAmbientOpen` gives a `y` with `hyU`. -/
 theorem adaptedChart_genericPoint (y : ComplexPoint X) :
     let L := ContinuousLinearEquiv.prodUnique ℂ (Fin (dim X.left) → ℂ) (Fin 0 → ℂ)
     let e := (chartAt (Fin (dim X.left) → ℂ) y).trans
