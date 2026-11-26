@@ -99,6 +99,41 @@ theorem unionComplIso_fst_apply {Y : Type} [TopologicalSpace Y] {Z W T : Set Y}
 
 `ofSubsetIsoNeighborhoodUniv` belongs to `supported-pair-forget`, which states (b) with its `Closeds` form `ofSubsetIsoNeighborhoodTop`; `unionComplIso` belongs to `cycle-class-multiplicative` itself, to be stated on `Closeds` in the `Z.compl` spelling (section "supported-pair-forget: statement", change D).
 
+**Step 6 glue** (red team on `triad-relative-cup-naturality`, changes 2 and 3, 2026-11-26). Step 6 restricts `relCup2 (Φ_X α_Z) (Φ_X α_W)` to a chart neighbourhood by the checked `HodgeLadder.Cup.relCup2_restrict` (module `HodgeLadder.Cup.TriadCupNaturality`). This rung adds the four declarations below; they compile against the checked module together with `HodgeLadder.Cup.SupportedPairForget` and upstream's `NormalProjectionCoclass` definitions (about 4 s). The first moved here from `triad-relative-cup-naturality`, so that the triad module does not import the supported stack. The `unionComplIso` below, in `Closeds` form, supersedes the `Set` form above.
+
+```lean
+theorem neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv
+    {Y : Type} [TopologicalSpace Y] (V : Set Y) (Z : Closeds Y) :
+    neighborhoodSupportInclusionPairMap (W := V) (V := ((⊤ : Opens Y) : Set Y))
+        (fun _ _ => trivial) (Z : Set Y) ≫ (ofSubsetIsoNeighborhoodTop Z).inv =
+      restrictToNeighborhood V Z := by
+  apply MorphismProperty.Arrow.Hom.ext <;> ext <;> rfl
+
+noncomputable def unionComplIso {Y : Type} [TopologicalSpace Y] {Z W T : Closeds Y}
+    (hT : T = Z ⊓ W) :
+    TopPair.ofSubset (X := TopCat.of Y) ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅
+      TopPair.ofSubset (X := TopCat.of Y) (T.compl : Set Y) :=
+  TopPair.isoOfSubset (Homeomorph.refl Y) (fun y => by subst hT; simp [Closeds.compl]; tauto)
+
+noncomputable def unionComplIsoNeighborhood {Y : Type} [TopologicalSpace Y] (V : Set Y)
+    {Z W T : Closeds Y} (hT : T = Z ⊓ W) :
+    TopPair.ofSubset (X := TopCat.of V)
+        ({w : V | w.1 ∉ (Z : Set Y)} ∪ {w : V | w.1 ∉ (W : Set Y)}) ≅
+      neighborhoodSupportComplementPair V (T : Set Y) :=
+  TopPair.isoOfSubset (Homeomorph.refl V) (fun w => by subst hT; simp; tauto)
+
+theorem unionComplIso_restrict {Y : Type} [TopologicalSpace Y] (V : Set Y)
+    {Z W T : Closeds Y} (hT : T = Z ⊓ W) :
+    restrictToNeighborhood V T ≫ (unionComplIso hT).inv =
+      (unionComplIsoNeighborhood V hT).inv ≫
+        TopPair.ofSubsetHom (subsetInclusion V)
+          (HodgeLadder.Relative.triadMap_mem_union (subsetInclusion V)
+            (mem_compl_of_neighborhood V Z) (mem_compl_of_neighborhood V W)) := by
+  apply MorphismProperty.Arrow.Hom.ext <;> ext <;> rfl
+```
+
+With these, step 6 closes from `relCup2_restrict` in two lines (red-team scratch RT3): `rw [compat, compat, compat]` with the first lemma, then `rw [← relCup2_restrict, ← LinearMap.comp_apply, ← relativeCohomologyMap_comp, ← LinearMap.comp_apply, ← relativeCohomologyMap_comp, unionComplIso_restrict]`. Type the classes on `Z.compl`, the codomain of `supportedEquivPair`. A class typed on `TopPair.ofSubset ((Z : Set Y)ᶜ)` still elaborates, but `rw [relCup2_restrict]` then fails to find its pattern (conventions row "Pair spellings of (X, X ∖ Z)").
+
 ## What exists (checked by `grep` at the pin)
 
 | Source | Declarations |

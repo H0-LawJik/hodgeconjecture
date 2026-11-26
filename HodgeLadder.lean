@@ -124,6 +124,7 @@ public import HodgeLadder.Cup.TriadCupCap
 public import HodgeLadder.Tests.TriadCupCap
 public import HodgeLadder.Relative.CrossChain
 public import HodgeLadder.Relative.CrossTriadNaturality
+public import HodgeLadder.Cup.TriadCupNaturality
 public import HodgeLadder.Tests.CrossTriadNaturality
 public import HodgeLadder.Cup.SupportedPairForget
 public import HodgeLadder.Tests.SupportedPairForget
