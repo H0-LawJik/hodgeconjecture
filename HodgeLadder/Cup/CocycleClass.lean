@@ -16,6 +16,8 @@ candidates for Mathlib.
 ## Main results
 
 * `HodgeLadder.Cup.toSmallShiftedHom_postcomp`, `HodgeLadder.Cup.toSmallShiftedHom_precomp`
+* `HodgeLadder.Cup.equivHomShift_symm_cocycleComp`, `HodgeLadder.Cup.toSmallShiftedHom_cocycleComp`:
+  the class of a composite of cocycles is the composite of their classes, with no sign
 -/
 
 @[expose] public noncomputable section
@@ -61,5 +63,42 @@ theorem toSmallShiftedHom_precomp
     CohomologyClass.equiv_toSmallShiftedHom_mk, SmallShiftedHom.equiv_mk₀,
     Cocycle.equivHomShift_symm_precomp, ← ShiftedHom.mk₀_comp (0 : ℤ) rfl,
     ShiftedHom.map_comp, ShiftedHom.map_mk₀]
+
+/-- The composite of two Hom-complex cocycles. -/
+def cocycleComp {M : CochainComplex C ℤ} {p q : ℤ} (z : Cocycle K L p) (w : Cocycle L M q)
+    (h : p + q = n) : Cocycle K M n :=
+  Cocycle.mk ((z : Cochain K L p).comp (w : Cochain L M q) h) (n + 1) rfl (by
+    rw [δ_comp _ _ h (p + 1) (q + 1) (n + 1) rfl rfl rfl]
+    simp)
+
+/-- Composition of cocycles is composition of the associated maps into shifts. -/
+lemma equivHomShift_symm_cocycleComp {M : CochainComplex C ℤ} {p q : ℤ} (z : Cocycle K L p)
+    (w : Cocycle L M q) (h : p + q = n) :
+    Cocycle.equivHomShift.symm (cocycleComp z w h) =
+      ShiftedHom.comp (Cocycle.equivHomShift.symm z) (Cocycle.equivHomShift.symm w)
+        (show q + p = n by omega) := by
+  apply Cocycle.equivHomShift.injective
+  rw [AddEquiv.apply_symm_apply]
+  ext a c hac
+  simp [Cocycle.equivHomShift_apply, Cocycle.equivHomShift_symm_apply, cocycleComp, ShiftedHom.comp,
+    CochainComplex.shiftFunctorAdd'_inv_app_f', Cochain.rightShift_v,
+    Cochain.rightUnshift_v _ _ _ _ _ _ _ (add_zero a), Cochain.comp_v _ _ h a (a + p) c rfl
+      (by omega), Cochain.v_comp_XIsoOfEq_hom]
+
+/-- **The class of a composite cocycle is the composite of the classes**, with no sign. -/
+theorem toSmallShiftedHom_cocycleComp {M : CochainComplex C ℤ} {p q : ℤ}
+    [HasSmallLocalizedShiftedHom.{w} (HomologicalComplex.quasiIso C (.up ℤ)) ℤ K L]
+    [HasSmallLocalizedShiftedHom.{w} (HomologicalComplex.quasiIso C (.up ℤ)) ℤ L M]
+    [HasSmallLocalizedShiftedHom.{w} (HomologicalComplex.quasiIso C (.up ℤ)) ℤ K M]
+    [HasSmallLocalizedShiftedHom.{w} (HomologicalComplex.quasiIso C (.up ℤ)) ℤ M M]
+    (z : Cocycle K L p) (w : Cocycle L M q) (h : p + q = n) :
+    (CohomologyClass.mk (cocycleComp z w h)).toSmallShiftedHom =
+      (CohomologyClass.mk z).toSmallShiftedHom.comp (CohomologyClass.mk w).toSmallShiftedHom
+        (show q + p = n by omega) := by
+  let := HasDerivedCategory.standard C
+  apply (SmallShiftedHom.equiv _ DerivedCategory.Q).injective
+  rw [SmallShiftedHom.equiv_comp, CohomologyClass.equiv_toSmallShiftedHom_mk,
+    CohomologyClass.equiv_toSmallShiftedHom_mk, CohomologyClass.equiv_toSmallShiftedHom_mk,
+    equivHomShift_symm_cocycleComp, ShiftedHom.map_comp]
 
 end HodgeLadder.Cup

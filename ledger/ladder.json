@@ -898,6 +898,57 @@
       "note": "Checked 2026-11-25. Both sides are maps out of a single complex, so they agree once their degree-zero components do (from_single_hom_ext); extend_single_comp_f computes the extended side in degree zero for any abelian category, and both components are ℤ_X → ℚ_X → S⁰. iso_hom_iotaZ: upstream's integer-constant isomorphism followed by ι_ℤ is intToRatComplex followed by rationalToSingularCochainComplexInt."
     },
     {
+      "id": "cocycle-class-mul",
+      "title": "The derived-category class of a composite of Hom-complex cocycles is the composite of their classes, with no sign",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.CocycleClass",
+      "declarations": [
+        "HodgeLadder.Cup.cocycleComp",
+        "HodgeLadder.Cup.equivHomShift_symm_cocycleComp",
+        "HodgeLadder.Cup.toSmallShiftedHom_cocycleComp"
+      ],
+      "depends_on": [
+        "cocycle-class-comp"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. General abelian C. Cochain.comp and rightShift carry no sign, and the shift of a chain map has no sign, so equivHomShift.symm (z.comp w) = (equivHomShift.symm z).comp (equivHomShift.symm w) componentwise; ShiftedHom.map_comp passes to the derived category. A Mathlib candidate (docs/gaps.md)."
+    },
+    {
+      "id": "named-cocycle-comp",
+      "title": "The composite of the cocycle naming a with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b",
+      "status": "open",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.IotaUpstream",
+      "declarations": [
+        "HodgeLadder.Cup.intToRatComplex",
+        "HodgeLadder.Cup.extend_single_comp_f",
+        "HodgeLadder.Cup.iotaZ_eq",
+        "HodgeLadder.Cup.iso_hom_iotaZ"
+      ],
+      "depends_on": [
+        "cocycle-class-mul",
+        "ext-class-right-mult"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison.md, plan for the comparison."
+    },
+    {
+      "id": "ab-ext-yoneda",
+      "title": "The Yoneda cup, read in sheaves of abelian groups through rationalCohomologyEquivExt and upstream's step 1, is α_x followed by the endomorphism class of y, which after ι is [R_b] after ι when y = [b]",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "iota-upstream"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison.md, plan for the comparison."
+    },
+    {
       "id": "cup-singular-comparison",
       "title": "Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly",
       "status": "open",
@@ -907,7 +958,10 @@
       "depends_on": [
         "ext-class-right-mult",
         "supported-cup",
-        "iota-upstream"
+        "iota-upstream",
+        "cocycle-class-mul",
+        "named-cocycle-comp",
+        "ab-ext-yoneda"
       ],
       "contributors": [],
       "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a). Sketch and sub-rungs: docs/sketches/cup-singular-comparison.md (right multiplication by a global cocycle; supported version as a later sub-rung)."
