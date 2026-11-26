@@ -1193,16 +1193,21 @@
     {
       "id": "support-ab-yoneda",
       "title": "The supported cup supCup α y is α followed by forgetEnd (e y) in sheaves of abelian groups",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportAbYoneda",
+      "declarations": [
+        "HodgeLadder.Cup.liftAb_eq_forgetEnd",
+        "HodgeLadder.Cup.supCupY_eq_comp_forgetEnd"
+      ],
       "depends_on": [
         "ab-ext-yoneda",
         "supported-cup"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25, by rfl: supported-cup's liftAb is the conjugation forgetEnd of ab-ext-yoneda, so supCupY α β is α followed by forgetEnd (e β)."
     },
     {
       "id": "support-named-class",
