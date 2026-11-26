@@ -40,7 +40,7 @@ What the value −1 pins: upstream's Ψ as defined. A degree twist Ψ' = ε(n)·
 | curve of genus ≥ 2 | no explicit model of X(ℂ) at the pin | nothing | not proposed |
 | smooth projective rational surfaces, ℙⁿ | H¹ = 0 ([Hatcher2002] for ℙⁿ(ℂ)) | ℙ¹ checked | cannot test degree 1 |
 
-𝔾ₘ² is the smallest variety with two independent H¹ classes and a nonzero product: 𝔾ₘ has H² = 0 (a noncompact curve). It is affine, so it does not meet the upstream statements of record (which ask for `IsProjective`); it meets every hypothesis of the cup comparison.
+𝔾ₘ² is the smallest affine variety with two independent H¹ classes and a nonzero product: 𝔾ₘ has H² = 0 (a noncompact curve). It is affine, so it does not meet the upstream statements of record (which ask for `IsProjective`); it meets every hypothesis of the cup comparison.
 
 ## 5. Proposed sub-rungs for the original statement (elliptic curve route)
 
@@ -63,6 +63,10 @@ The rung's purpose (a sign-visible, non-square-zero product of two H¹ classes f
 ## 7. Red-team notes for the checked companions
 
 - The nonvanishing results (`gm2_cup_ne_zero`, `gm2_exists_cup_ne_zero`, `gm2_cup_swap_ne`) are statements about upstream's H¹(X; ℚ) and the Yoneda `cup`; the local definitions `windingClass`, `sheafWindingClass` and `torusEval` only produce the witnesses.
-- The values ±1 depend on two conventions: the orientation of the torus cycle (lower triangle minus upper triangle) and the winding normalization (1/2πi)·d log g. Reversing either flips both values; nonvanishing and x₁ ∪ x₂ ≠ x₂ ∪ x₁ do not depend on them. Recorded as the conventions row "Torus cycle and winding classes".
+- The values ±1 depend on two conventions: the orientation of the torus cycle (lower triangle minus upper triangle) and the exchange of the two circle coordinates; reversing either flips both values. Reversing the winding normalization (1/2πi)·d log g negates both classes and leaves every product value unchanged; rescaling it by c multiplies the values by c². nonvanishing and x₁ ∪ x₂ ≠ x₂ ∪ x₁ do not depend on them. Recorded as the conventions row "Torus cycle and winding classes".
 - The rational retraction ℂ → ℚ behind `rationalWindingCochain` is not continuous; it only matters on the values of the two edges e, f, which are the rationals 0 and 1.
 - 𝔾ₘ² instances: T2 from upstream; paracompactness of opens from the homeomorphism with a subspace of ℂ × ℂ (`gm2-points`), a Mathlib fact about metric spaces. The upstream structure map is `ComplexPoint.affineSpecStructureMap`, so `affineSpecHomeomorph` applies without transport.
+
+### Kill criterion, revised (red team 2026-11-26)
+
+Mark `cup-odd-degree-test` dead, keeping this sketch, when `elliptic-curve-uniformization` reaches needs-split (three releases) and the counting sub-rung that comes out of the split is itself released.

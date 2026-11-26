@@ -1288,7 +1288,7 @@
         "cup-singular-comparison-absolute"
       ],
       "contributors": [],
-      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree. 2026-11-26: the weaker companion cup-odd-degree-gm2 is checked (𝔾ₘ², affine), through torus-cycle-pairing, winding-torus-cup and cup-odd-degree-transfer. This rung stays open: no curve of positive genus or abelian surface exists at the pin with the torus data cup-odd-degree-transfer asks for. Missing pieces and proposed sub-rungs (elliptic-curve-witness, elliptic-curve-uniformization, elliptic-curve-torus-data): docs/sketches/cup-odd-degree-test.md."
+      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree. 2026-11-26: the weaker companion cup-odd-degree-gm2 is checked (𝔾ₘ², affine), through torus-cycle-pairing, winding-torus-cup and cup-odd-degree-transfer. This rung stays open: no curve of positive genus or abelian surface exists at the pin with the torus data cup-odd-degree-transfer asks for. Missing pieces and proposed sub-rungs (elliptic-curve-witness, elliptic-curve-uniformization, elliptic-curve-torus-data): docs/sketches/cup-odd-degree-test.md. Kill criterion (red team): mark dead when elliptic-curve-uniformization reaches needs-split (three releases) and the counting sub-rung out of the split is itself released."
     },
     {
       "id": "torus-cycle-pairing",
@@ -1399,7 +1399,7 @@
     },
     {
       "id": "gm2-points",
-      "title": "𝔾ₘ²(ℂ) is homeomorphic to ℂˣ × ℂˣ; its open subsets are paracompact",
+      "title": "𝔾ₘ²(ℂ) is homeomorphic to the subspace {p ∈ ℂ × ℂ : p.1 ≠ 0, p.2 ≠ 0}; its open subsets are paracompact",
       "status": "checked",
       "kind": "test",
       "module": "HodgeLadder.Tests.AlgebraicTorusPoints",
@@ -1429,7 +1429,8 @@
         "HodgeLadder.Tests.gm2_torusEval_cup_swap",
         "HodgeLadder.Tests.gm2_cup_ne_zero",
         "HodgeLadder.Tests.gm2_exists_cup_ne_zero",
-        "HodgeLadder.Tests.gm2_cup_swap_ne"
+        "HodgeLadder.Tests.gm2_cup_swap_ne",
+        "HodgeLadder.Tests.gm2_not_comparison_plus"
       ],
       "depends_on": [
         "cup-odd-degree-transfer",
@@ -1438,7 +1439,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-26. Weaker companion of cup-odd-degree-test: same content (nonzero product of two H¹ classes, sign (−1)^{pq} visible) on an affine variety instead of a curve of positive genus or an abelian surface. Also a computed nonzero product of two positive-degree classes, the vacuity gap that cup-positive-degree-test addresses in even degree. Sketch: docs/sketches/cup-odd-degree-test.md."
+      "note": "Checked 2026-11-26. Weaker companion of cup-odd-degree-test: same content (nonzero product of two H¹ classes, sign (−1)^{pq} visible) on an affine variety instead of a curve of positive genus or an abelian surface. Also a computed nonzero product of two positive-degree classes, the vacuity gap that cup-positive-degree-test addresses in even degree. Sketch: docs/sketches/cup-odd-degree-test.md. Red team 2026-11-26: pass with changes, implemented (docs/sketches/cup-odd-degree-test.redteam.md). gm2_not_comparison_plus refutes the comparison without its sign on 𝔾ₘ². This rung meets the purpose of cup-positive-degree-test (no square-zero cup) in degrees (1, 1) only."
     },
     {
       "id": "supported-sections-right-mult",
@@ -1878,7 +1879,7 @@
         "cycle-class-multiplicative"
       ],
       "contributors": [],
-      "note": "Closes the vacuity gap of cup-product: its checked laws also hold for the square-zero product (red team on front cup)."
+      "note": "Closes the vacuity gap of cup-product: its checked laws also hold for the square-zero product (red team on front cup). The square-zero gap is closed in degrees (1, 1) by cup-odd-degree-gm2 (affine 𝔾ₘ²). This rung keeps its own content: even degrees, a projective variety, and the cycle-class input."
     },
     {
       "id": "cup-graded-commutative",

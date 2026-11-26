@@ -28,7 +28,7 @@ computed instance.
 
 * `HodgeLadder.Tests.gm2_torusEval_cup`, `HodgeLadder.Tests.gm2_torusEval_cup_swap`,
   `HodgeLadder.Tests.gm2_cup_ne_zero`, `HodgeLadder.Tests.gm2_exists_cup_ne_zero`,
-  `HodgeLadder.Tests.gm2_cup_swap_ne`
+  `HodgeLadder.Tests.gm2_cup_swap_ne`, `HodgeLadder.Tests.gm2_not_comparison_plus`
 -/
 
 @[expose] public noncomputable section
@@ -113,5 +113,24 @@ theorem gm2_cup_swap_ne :
         (sheafWindingClass gm2 gmCoordTwo gmCoordTwo_ne_zero) 2 rfl :=
   cup_sheafWinding_swap_ne gmTorus_one_left gmTorus_one_right _ _ _ _ gmCoordOne_gmTorus
     gmCoordTwo_gmTorus
+
+/-- **The comparison without its sign is false on `𝔾ₘ²`**: no equation
+`Ψ (x ∪ y) = cupSing (Ψ x) (Ψ y)` holds for all degree-one classes. With it,
+`cup_singular_comparison_swap` would give `Ψ (x₁ ∪ x₂) = Ψ (x₂ ∪ x₁)`, while the torus cycle
+takes the values `-1` and `1` on them. -/
+theorem gm2_not_comparison_plus :
+    ¬ ∀ x y : H^1(gm2; ℚ),
+      AlgebraicGeometry.ComplexPoint.rationalCohomologyAddEquivSingularCohomology gm2 2
+          (cup x y 2 rfl) =
+        cupSing (TopCat.of (ComplexPoint gm2))
+          (AlgebraicGeometry.ComplexPoint.rationalCohomologyAddEquivSingularCohomology gm2 1 x)
+          (AlgebraicGeometry.ComplexPoint.rationalCohomologyAddEquivSingularCohomology gm2 1 y)
+          2 rfl := by
+  intro h
+  have e1 := gm2_torusEval_cup
+  have e2 := gm2_torusEval_cup_swap
+  rw [cup_singular_comparison_swap (p := 1) (q := 1) (n := 2) gm2 _ _ (show 1 + 1 = 2 from rfl), ← h] at e1
+  rw [e1] at e2
+  norm_num at e2
 
 end HodgeLadder.Tests
