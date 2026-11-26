@@ -594,15 +594,68 @@
     {
       "id": "clifford-exterior-chevalley",
       "title": "∧*H is the spin module: for M finite free, spinAction is an isomorphism Cl(H^∨ ⊕ H) ≅ End(∧*H) (Chevalley)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Markman.Chevalley",
+      "declarations": [
+        "HodgeLadder.sublistSpan",
+        "HodgeLadder.sublistSpan_le_cons",
+        "HodgeLadder.ι_mul_mem_sublistSpan_cons",
+        "HodgeLadder.ι_mul_mem_sublistSpan",
+        "HodgeLadder.span_sublists_prod_eq_top",
+        "HodgeLadder.sublistProd",
+        "HodgeLadder.span_range_sublistProd",
+        "HodgeLadder.exists_surjective_fun_cliffordAlgebra",
+        "HodgeLadder.contractLeft_list_prod_eq_zero",
+        "HodgeLadder.list_prod_contractLeft_mem",
+        "HodgeLadder.list_prod_contractLeft_eq_zero",
+        "HodgeLadder.list_prod_contractLeft_coord",
+        "HodgeLadder.spinAction_list_prod_vec",
+        "HodgeLadder.basis_exteriorAlgebra_eq_list_prod",
+        "HodgeLadder.exists_mem_range_apply_basis",
+        "HodgeLadder.basis_end_mem_range",
+        "HodgeLadder.spinAction_surjective_of_basis",
+        "HodgeLadder.spinAction_surjective",
+        "HodgeLadder.finrank_end_exteriorAlgebra",
+        "HodgeLadder.dualProdList",
+        "HodgeLadder.length_dualProdList",
+        "HodgeLadder.span_dualProdList",
+        "HodgeLadder.injective_spinAction_comp_sublistProd",
+        "HodgeLadder.linearIndependent_sublistProd_dualProd",
+        "HodgeLadder.cliffordDualProdBasis",
+        "HodgeLadder.cliffordDualProdBasis_apply",
+        "HodgeLadder.spinAction_injective_of_basis",
+        "HodgeLadder.spinAction_bijective",
+        "HodgeLadder.spinEquiv",
+        "HodgeLadder.spinEquiv_apply",
+        "HodgeLadder.spinEquiv_ι_apply",
+        "HodgeLadder.spinEquiv_symm_spinGen",
+        "HodgeLadder.finrank_cliffordAlgebra_dualProd",
+        "HodgeLadder.dual_int_zmod_two_eq_zero",
+        "HodgeLadder.spinAction_int_zmod_two_apply",
+        "HodgeLadder.spinAction_int_zmod_two_not_surjective",
+        "HodgeLadder.finrank_cliffordAlgebra_dualProd_int"
+      ],
+      "depends_on": [
+        "clifford-exterior-spin"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. For M finite free over a commutative ring R ([Module.Free R M] [Module.Finite R M], no Nontrivial R), spinAction_bijective: the action of CliffordAlgebra (QuadraticForm.dualProd R M) on ExteriorAlgebra R M by contraction plus wedge is bijective, and spinEquiv : CliffordAlgebra (dualProd R M) ≃ₐ[R] Module.End R (ExteriorAlgebra R M) is AlgEquiv.ofBijective of it, with spinEquiv_ι_apply (contractLeft v.1 y + ι v.2 * y, the registered sign) and spinEquiv_symm_spinGen. This is [GolyshevLuntsOrlov2001] Prop. 3.2.1(e) (Chevalley1954 not opened), proved the GLO way with the rank replaced by a count. Spanning, for any quadratic form: span_sublists_prod_eq_top (the products of the sublists of a spanning list L span the Clifford algebra; 2 ^ L.length of them, List.length_sublists). Surjectivity: basis_exteriorAlgebra_eq_list_prod writes each exterior basis monomial as a list product; the dual-basis contractions in increasing order send e_I to 1 and kill lower degrees, so (e_S * ·) ∘ c ∘ (e_{I∖T} * ·) is a matrix unit up to a sign u : ℤˣ (existential, as GLO's ±), basis_end_mem_range. Injectivity: End(∧M) is free of rank 2^(2n), and OrzechProperty.bijective_of_surjective_of_finrank_le applied to R^(2^(2n)) → Cl → End(∧M) (injective_spinAction_comp_sublistProd). The same count gives GLO 3.2.1(a) at full strength: linearIndependent_sublistProd_dualProd and the basis cliffordDualProdBasis; finrank_cliffordAlgebra_dualProd (Free and rank 2 ^ (2 * finrank R M), needs Nontrivial R because finrank = 1 over the zero ring), finrank_cliffordAlgebra_dualProd_int (rank 4 for M = ℤ), a consequence of the route end to end. Hypothesis test: spinAction_int_zmod_two_not_surjective (for the finite non-free ℤ-module ZMod 2 the dual is 0, every element acts by left multiplication, dual_int_zmod_two_eq_zero, spinAction_int_zmod_two_apply, and the projection onto ⋀¹ is not in the range), so Module.Free cannot be dropped; Module.Finite cannot be dropped because elements of the Clifford algebra have bounded degree shift (hand argument, sketch). Finite projective M would also work (localize); not needed for H¹ of a torus over ℤ or ℚ (docs/gaps.md). Red team (statement) 2026-11-26: pass with changes, implemented (docs/sketches/clifford-exterior-chevalley.redteam.md). Graded form: rung clifford-exterior-half-spin."
+    },
+    {
+      "id": "clifford-exterior-half-spin",
+      "title": "Half-spin form: an element of Cl(H^∨ ⊕ H) is even iff its action preserves the parity of ∧*H, and the even Clifford algebra is End(∧^ev H) × End(∧^odd H)",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "clifford-exterior-spin"
+        "clifford-exterior-chevalley"
       ],
       "contributors": [],
-      "note": "Target: Function.Bijective (HodgeLadder.spinAction R M) for M finite free over a commutative ring, or an AlgEquiv built from it (Chevalley1954). Not attempted in the clifford-exterior-spin session. Mathlib at the pin has a basis of the exterior algebra (Module.Basis.ExteriorAlgebra) and no basis or rank bound for a general Clifford algebra. One route: show the ordered monomials in a basis of Dual × M span the Clifford algebra (at most 2^{2n} elements), show the action hits every matrix unit of End(∧M) in the exterior basis (surjectivity), and conclude with the Orzech property of commutative rings (a surjection from a module spanned by 2^{2n} elements onto a free module of rank 2^{2n} is injective). Second route for spanning (red team): induct on rank with dualProdProdIsometry and CliffordAlgebra.prodEquiv, reducing to rank 1; injectivity from OrzechProperty.bijective_of_surjective_of_finrank_le."
+      "note": "Targets (red team of clifford-exterior-chevalley, finding 7; statements in docs/sketches/clifford-exterior-chevalley.md, section Half-spin form): spinAction_mem_evenOdd_zero_iff and spinAction_mem_evenOdd_one_iff for M finite free (x ∈ evenOdd (dualProd R M) i iff spinAction x maps exteriorParity R M j into exteriorParity R M (j + i) for all j), equality form first; then spinEquivEven : CliffordAlgebra.even (dualProd R M) ≃ₐ[R] Module.End R (exteriorParity R M 0) × Module.End R (exteriorParity R M 1). The forward inclusion is checked (spinAction_mem_evenOdd). Reverse direction: write x = x₀ + x₁; spinAction x₁ maps each parity part into both parities, hence to 0 (evenOdd_isCompl on ∧M), so x₁ = 0 by spinAction_bijective. [GolyshevLuntsOrlov2001] §3.5.1 and §4.3.6 (Cl^+ onto H^ev). Irreducibility and inequivalence of S⁺ and S⁻ over ℚ is a further step."
     },
     {
       "id": "elliptic-product-test",
