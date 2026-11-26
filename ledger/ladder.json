@@ -1047,6 +1047,42 @@
       "note": "Checked 2026-11-25. Step 2 is injective, so step 1 of β is the class of R_b ∘ ι_ℤ ∘ e, which is R_b precomposed with intToRatComplex ≫ ι (iota-upstream, cocycle level). In the derived category: ext-derived-bridge writes step 1 of β through β.hom, one-is-kappa writes β.hom = κ ≫ ε.hom, and the comparison square uliftIso_hom_kappa lines up both sides behind the isomorphism Q(e_A). Cancelling it, then Q(ι) (an isomorphism, ι a quasi-isomorphism), then κ (kappa_cancel_derived from kappa-cancel) leaves ε ≫ ι[q] = ι ≫ R_b. The algebra is isolated in end_class_core, stated in one spelling of the sheaf category."
     },
     {
+      "id": "cup-global-comparison",
+      "title": "If upstream's steps 1 and 2 send x ∈ H^p and y ∈ H^q to the global-section classes named by cocycles a and b, they send cup x y to (−1)^{pq} times the class named by a ∪ b (any K-injective resolution)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.CupGlobal",
+      "declarations": [
+        "HodgeLadder.Cup.shiftedHom_cup_core",
+        "HodgeLadder.Cup.cocycleComp_precomp",
+        "HodgeLadder.Cup.cup_global_comparison"
+      ],
+      "depends_on": [
+        "end-class-right-mult",
+        "named-cocycle-comp",
+        "ab-ext-yoneda",
+        "ext-derived-bridge"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. cup x y = x followed by forgetEnd(e y) (ab-ext-yoneda); the bridge for x and for the cup product, and end-class-right-mult for y, give step 1 of the cup as step 1 of x followed by the class of R_b. The shifted-hom algebra is shiftedHom_cup_core, proved in any category with a shift by ℤ. Then cocycle-class-mul and named-cocycle-comp turn [z_a].[R_b] into (−1)^{pq}[z_{a∪b}], and step 2 on cocycle classes finishes. The sign is the one predicted in the sketch."
+    },
+    {
+      "id": "cup-step3",
+      "title": "Upstream's step 3 sends the global-section class named by a global cocycle c to the singular class of c, compatibly with cupGlobal and the Tau Ceti cup product cupSing",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-global-comparison",
+        "cochain-cup-upstream"
+      ],
+      "contributors": [],
+      "note": "Unfold globalSectionsSingularCochainComplexIntIsoExtend, extendHomologyIso and ordinaryRationalSingularCohomologyEquivGlobalSections on the named class; cupGlobal is rightMulApp on ⊤, which is the cochain cup of cochain-cup-upstream up to the dual-to-Hom isomorphism."
+    },
+    {
       "id": "cup-singular-comparison",
       "title": "Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly",
       "status": "open",
@@ -1058,9 +1094,8 @@
         "supported-cup",
         "iota-upstream",
         "cocycle-class-mul",
-        "named-cocycle-comp",
-        "ab-ext-yoneda",
-        "end-class-right-mult"
+        "cup-global-comparison",
+        "cup-step3"
       ],
       "contributors": [],
       "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a). Sketch and sub-rungs: docs/sketches/cup-singular-comparison.md (right multiplication by a global cocycle; supported version as a later sub-rung)."
