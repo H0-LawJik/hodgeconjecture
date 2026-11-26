@@ -1260,7 +1260,7 @@
     {
       "id": "supported-sections-right-mult",
       "title": "Right multiplication by a global cocycle preserves the sections of the singular cochain sheaves supported in Z, as a map of complexes",
-      "status": "open",
+      "status": "dead",
       "kind": "foundation",
       "module": null,
       "declarations": [],
@@ -1268,7 +1268,7 @@
         "right-mult-cocycle"
       ],
       "contributors": [],
-      "note": "Not on the current route: supported-sections-class and supported-named-cocycle-comp work with evaluation at the generator and need no map of supported-section complexes. Kept open in case supported-singular-model needs it."
+      "note": "Dead 2026-11-26: the supported comparison was checked without it; supported-sections-class and supported-named-cocycle-comp work with evaluation at the generator (red team, docs/sketches/cup-singular-comparison-supported.redteam.md)."
     },
     {
       "id": "supported-step2-cocycle-class",
@@ -1482,7 +1482,7 @@
     },
     {
       "id": "cup-singular-comparison",
-      "title": "Upstream's sheaf–singular equivalence carries the supported cup product supCup to the relative singular cup product, with the sign fixed exactly (the absolute case is cup-singular-comparison-absolute)",
+      "title": "The comparisons used here carry the Yoneda cup product to the singular cup product (upstream's Ψ) and the supported product supCup to the relative singular cup product (Φ = upstream's flasque supported-sections model followed by supportedRationalSingularSectionCohomologyEquivRelative), with the sign fixed exactly",
       "status": "checked",
       "kind": "foundation",
       "module": "HodgeLadder.Cup.SupportedFinal",
@@ -1494,7 +1494,9 @@
         "HodgeLadder.Cup.cls_zsmul",
         "HodgeLadder.Cup.exists_cls",
         "HodgeLadder.Cup.globalSections_of_singClass",
-        "HodgeLadder.Cup.topOpen_singClass"
+        "HodgeLadder.Cup.topOpen_singClass",
+        "HodgeLadder.Cup.flasqueModel",
+        "HodgeLadder.Cup.supCocycle"
       ],
       "depends_on": [
         "cup-singular-comparison-absolute",
@@ -1534,8 +1536,26 @@
       "note": "supportedEquivPair (α ∪ β) = (−1)^{pq} • relCupSing (supportedEquivPair α) (Ψ β) on TopPair.ofSubset (X ∖ Z). The transport is the identity of X as an isomorphism of pairs (X, X ∖ Z) ≅ (⊤, ⊤ ⊓ (X ∖ Z)). Upstream's supportedRationalSingularSectionCohomologyEquivSupportComplement targets neighborhoodSupportComplementPair ⊤ Z instead, a third spelling of the same pair; it is not used here."
     },
     {
-      "id": "local-class-product",
-      "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection",
+      "id": "cup-comparison-supported-test",
+      "title": "Non-vacuity on ℙ¹: the supported comparison applies for every closed Z, and the supported class of a point times 1 is nonzero",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.SupportedComparison",
+      "declarations": [
+        "HodgeLadder.Tests.projectiveLine_cup_singular_comparison_supported",
+        "HodgeLadder.Tests.projectiveLine_supCup_point_ne_zero"
+      ],
+      "depends_on": [
+        "cup-comparison-supported-pair"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "q = 0, so the test does not see the sign (−1)^{pq}; that needs cup-odd-degree-test."
+    },
+    {
+      "id": "supported-model-agreement",
+      "title": "Φ agrees with upstream's cycle-class transport complexSupportInjectiveSectionCohomologyEquiv ∘ rationalSupportAddEquivSupportedInjectiveHomology",
       "status": "open",
       "kind": "foundation",
       "module": null,
@@ -1544,7 +1564,35 @@
         "cup-singular-comparison"
       ],
       "contributors": [],
-      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009)."
+      "note": "Red team 2026-11-26, finding 4. Expected to hold exactly: upstream's S → I map preserves the augmentation (constants_comp_singularToConstantInjectiveResolution)."
+    },
+    {
+      "id": "supported-forget-compat",
+      "title": "Forgetting the support commutes with Φ against Ψ: forgetRel (Φ α) = Ψ (forgetSupport α), with the sign fixed exactly",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-singular-comparison"
+      ],
+      "contributors": [],
+      "note": "Red team 2026-11-26, finding 4: a degree twist ε(n) would be −1 in degree 2, which the two cup theorems do not fix."
+    },
+    {
+      "id": "local-class-product",
+      "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-singular-comparison",
+        "supported-model-agreement",
+        "supported-forget-compat"
+      ],
+      "contributors": [],
+      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009). Also needs a product of two supported classes, or the supported comparison on a general open V: supCup is defined only at V = ⊤ (red team 2026-11-26)."
     },
     {
       "id": "cup-hodge-filtration",

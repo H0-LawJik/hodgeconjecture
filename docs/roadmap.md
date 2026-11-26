@@ -67,7 +67,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `support-named-class` | foundation | dead | `support-cone-right-mult`, `step3-named-class` | Upstream's supported comparison sends the class named by a relative cocycle to its relative singular class |
 | `cup-comparison-projective-line` | test | checked | `cup-singular-comparison-absolute`, `cup-graded-commutative`, `projective-line-test` | The cup comparison and graded commutativity apply to upstream's ℙ¹ |
 | `cup-odd-degree-test` | test | open | `cup-singular-comparison-absolute` | A nonzero product of two classes in H¹(X; ℚ) |
-| `supported-sections-right-mult` | foundation | open | `right-mult-cocycle` | Right multiplication by a global cocycle preserves the sections of the singular cochain sheaves supported in Z, as a map of complexes |
+| `supported-sections-right-mult` | foundation | dead | `right-mult-cocycle` | Right multiplication by a global cocycle preserves the sections of the singular cochain sheaves supported in Z, as a map of complexes |
 | `supported-step2-cocycle-class` | foundation | checked | `step2-cocycle-class` | the supported-sections model of `relH` on the class of a Hom-complex cocycle, K-injective and flasque forms |
 | `supported-sections-class` | foundation | checked | `supported-step2-cocycle-class`, `support-ab-yoneda`, `cup-global-comparison` | Through upstream's relHAddEquivSupportedSectionsHomologyOfFlasque, supCup α y is the class of the supported cocycle of α times b |
 | `supported-named-cocycle-comp` | foundation | checked | `named-cocycle-comp`, `supported-step2-cocycle-class` | the section named by `cocycleComp z R_b` is `(−1)^{pq}` times `b` acting on the section named by `z` |
@@ -80,6 +80,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `supported-singular-model` | foundation | checked | `relative-singular-cup` | The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing |
 | `cup-singular-comparison` | foundation | checked | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
 | `cup-comparison-supported-pair` | foundation | checked | `cup-singular-comparison` | the supported comparison on `H^n(X, X ∖ Z; ℚ)` (`TopPair.ofSubset`), with `Ψ β` on `X`; `relCupSing` is natural for maps of pairs |
+| `cup-comparison-supported-test` | test | checked | `cup-comparison-supported-pair` | ℙ¹: the supported comparison applies for every closed `Z`; the class of a point times `1` is nonzero |
+| `supported-model-agreement` | foundation | open | `cup-singular-comparison` | `Φ` agrees with upstream's cycle-class transport |
+| `supported-forget-compat` | foundation | open | `cup-singular-comparison` | forgetting the support commutes with `Φ` against `Ψ`, sign fixed |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |

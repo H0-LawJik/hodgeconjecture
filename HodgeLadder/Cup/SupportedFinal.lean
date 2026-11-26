@@ -257,7 +257,7 @@ lemma topOpen_singClass {q : ℕ} (b : OpenCochains ℚ (TopCat.of (ComplexPoint
 set_option maxHeartbeats 4000000 in
 set_option backward.isDefEq.respectTransparency false in
 /-- **The supported cup product against the relative singular cup product.** Let `Φ` be the
-supported comparison of record: upstream's flasque supported-sections model followed by
+supported comparison used here, a composite of two upstream equivalences: upstream's flasque supported-sections model followed by
 `supportedRationalSingularSectionCohomologyEquivRelative` at `V = ⊤`, `U = X ∖ Z`. Then
 `Φ (α ∪ β) = (−1)^{pq} · relCupSing (Φ α) (Ψ β)`, with `Ψ β` read on the open `⊤`. -/
 theorem cup_singular_comparison_supported {p q : ℕ} (α : H_[Z]^p(X; ℚ)) (β : H^q(X; ℚ)) :
