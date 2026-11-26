@@ -1610,6 +1610,22 @@
       "note": "Part of supported-forget-compat. Remaining for that rung: the section 1 of ℤ_X goes to the image of the generator under forgetMap (comparison of integerConstantHomAddEquivGlobalSections with freeAbelianSheafHomAddEquiv through freeAbelianSheafTerminalIso), then step1-of-hom and step3_named_class."
     },
     {
+      "id": "constant-generator",
+      "title": "Upstream's evaluation at 1 of maps out of ℤ_Y is evaluation at the sheafified section 1; upstream's terminal isomorphism sends the generator of ℤ[⊤] to the section 1 in ULift ℤ",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.ConstantGenerator",
+      "declarations": [
+        "HodgeLadder.Cup.integerConstantHomAddEquivGlobalSections_apply",
+        "HodgeLadder.Cup.terminalIso_generator"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Part of supported-forget-compat."
+    },
+    {
       "id": "supported-forget-compat",
       "title": "Forgetting the support commutes with Φ against Ψ: forgetRel (Φ α) = Ψ (forgetSupport α), with the sign fixed exactly",
       "status": "open",
@@ -1619,10 +1635,11 @@
       "depends_on": [
         "cup-singular-comparison",
         "step1-of-hom",
-        "forget-support-cocycle"
+        "forget-support-cocycle",
+        "constant-generator"
       ],
       "contributors": [],
-      "note": "Red team 2026-11-26, finding 4: a degree twist ε(n) would be −1 in degree 2, which the two cup theorems do not fix."
+      "note": "Red team 2026-11-26, finding 4. In progress on branch rung/supported-forget-compat-wip (HodgeLadder/Cup/SupportedForgetFinal.lean, one sorry): the main assembly is checked modulo forget_named_cocycle, whose remaining step times out when the section of the representative is stated at the variety (comparison of the two spellings of the single complex on the pair sheaf). Next move: state forget_named_cocycle for a general space, as for supportedSection_eq_pairEval', then specialize. See docs/handoffs/2026-11-26-supported-forget-compat.md."
     },
     {
       "id": "local-class-product",
