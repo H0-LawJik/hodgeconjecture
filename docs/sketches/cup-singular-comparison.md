@@ -77,5 +77,5 @@ Progress: `named-cocycle-comp` is checked (`namedCocycle_comp_rightMul`; the sig
 |---|---|---|
 | `kappa-cancel` | precomposition with `κ : ℤ_X → ℚ_X` is injective on `Ext^n(ℚ_X, ℚ_X)` (via `ℚ ⊗ κ` an isomorphism) | checked |
 | `one-is-kappa` | `oneY` is the class of `κ`, so `β = κ` followed by `forgetEnd (e β)` | checked |
-| `ext-derived-bridge` | Mathlib's `Ext` and upstream's `Hypercohomology` agree in the derived category | open |
+| `ext-derived-bridge` | Mathlib's `Ext` and upstream's `Hypercohomology` agree in the derived category | checked |
 | assembly | `κ ≫ forgetEnd (e β) ≫ ι` and `κ ≫ ι ≫ R_b` both represent `[b]` under step 2 (`ab-ext-yoneda`, `ext-class-right-mult`); step 2 is injective, `ι` is an isomorphism in the derived category, and `kappa-cancel` removes `κ` | open |
