@@ -2169,17 +2169,95 @@
       "note": "Used in local-class-product (step 7, along chartNormalProjectionPair) and in cycle-class-multiplicative (step 6, restriction to chart neighbourhoods). Split from triad-relative-cup (red team finding 15). Not attempted. Sketch: docs/sketches/local-class-product.md."
     },
     {
-      "id": "triad-relative-cup-cap",
-      "title": "Cup–cap adjunction for the triad products: ⟨relCup2 φ ψ, z⟩ = ⟨ψ, φ ⌢ z⟩ for upstream's triad cap unionRelativeTriadCapCohomologyLinear, with no sign",
-      "status": "open",
-      "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "triad-relative-cup"
+      "id": "triad-cap-pins",
+      "title": "rfl pins of upstream's triad cap product (library Other, outside upstream's statement guard): capHom's simplex formula φ(front) • back, the relative and triad chain-level caps, the signs of the short-complex morphisms, the descent to cohomology, the triad complex and the excision comparison, and unionRelativeTriadCapCohomologyLinear through triadCapCohomologyLinear and the excision inverse",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Cup.TriadCapPins",
+      "declarations": [
+        "HodgeLadder.Cup.TriadCapPins.frontInclusion_val",
+        "HodgeLadder.Cup.TriadCapPins.backInclusion_val",
+        "HodgeLadder.Cup.TriadCapPins.frontFace_eq",
+        "HodgeLadder.Cup.TriadCapPins.backFace_eq",
+        "HodgeLadder.Cup.TriadCapPins.capHom_eq",
+        "HodgeLadder.Cup.TriadCapPins.cap_eq",
+        "HodgeLadder.Cup.TriadCapPins.cap_chainOfSimplex_eq",
+        "HodgeLadder.Cup.TriadCapPins.chainOfSimplex_eq",
+        "HodgeLadder.Cup.TriadCapPins.relativeCochainToAbsolute_eq",
+        "HodgeLadder.Cup.TriadCapPins.relativeCapLift_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapLiftHom_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCap_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadRelativeChainProjection_triadCapHom_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapShortComplexHom_τ₂_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapShortComplexHomSucc_τ₁_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapShortComplexHomSucc_τ₃_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapHomologyMap_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapCocycleHomologyLinear_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapCochainCohomologyLinear_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapCohomologyExplicitLinear_mk",
+        "HodgeLadder.Cup.TriadCapPins.relativeCohomologyCycleToCocycle_val",
+        "HodgeLadder.Cup.TriadCapPins.triadCapCohomologyLinear_eq",
+        "HodgeLadder.Cup.TriadCapPins.relativeCochainCohomologyEquiv_symm_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadToUnionRelativeHomologyMap_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadUnionExcisionHomologyEquiv_symm_eq",
+        "HodgeLadder.Cup.TriadCapPins.unionRelativeTriadCapCohomologyLinear_eq",
+        "HodgeLadder.Cup.TriadCapPins.unionRelativeTriadCapCohomologyLinear_apply_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadSubspaceChainMap_pin",
+        "HodgeLadder.Cup.TriadCapPins.triadRelativeChainComplex_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadRelativeChainProjection_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadToUnionRelativeChainMap_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadRelativeChainProjection_triadToUnionRelativeChainMap_eq",
+        "HodgeLadder.Cup.TriadCapPins.triadCapShortComplexHomZero_τ₁_eq"
       ],
-      "contributors": [],
-      "note": "Turns local-class-cross-model (stated with upstream's cap) into the cup form of local-class-product. Start with rfl pins of capHom's formula and of unionRelativeTriadCapCohomologyLinear through triadCapCohomologyLinear and the excision inverse (red-team hand computation 5; library Other is outside upstream's statement guard), unless cap-cross-evaluation has added them. Split from triad-relative-cup (red team finding 15). Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red-team hand computation 5 (docs/sketches/cycle-class-multiplicative.redteam.md) and Appendix B of docs/sketches/triad-relative-cup-cap.redteam.md. All rfl except cap_chainOfSimplex_eq, triadRelativeChainProjection_triadCapHom_eq, triadCapShortComplexHom_τ₂_eq and triadRelativeChainProjection_triadToUnionRelativeChainMap_eq, which restate an upstream lemma with its right side written out. General in R : Type u. A change of any pinned definition upstream breaks the build here. triadSubspaceChainMap_pin is named to avoid ambiguity with HodgeLadder.Relative.triadSubspaceChainMap_eq (ℚ only). Shared with cap-cross-evaluation."
+    },
+    {
+      "id": "triad-relative-cup-cap",
+      "title": "Cup–cap adjunction for the triad products: ⟨relCup2 φ ψ, z⟩ = ⟨ψ, φ ⌢ z⟩ for upstream's triad cap unionRelativeTriadCapCohomologyLinear, with no sign; pairings relativeCohomologyEquivDualHomology on (X, A ∪ B) and (X, B)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.TriadCupCap",
+      "declarations": [
+        "HodgeLadder.Cup.frontInclusion_eq_subinterval",
+        "HodgeLadder.Cup.backInclusion_eq_subinterval",
+        "HodgeLadder.Cup.cupCochain_eq_capLift",
+        "HodgeLadder.Cup.relativeCochainCohomologyEquiv_symm_homologyπ",
+        "HodgeLadder.Cup.relativeCohomologyEquivDualHomology_triadCapCohomologyLinear_homologyπ",
+        "HodgeLadder.Cup.triadEval_relCup2",
+        "HodgeLadder.Cup.relCup2_eval_eq_eval_triadCap",
+        "HodgeLadder.Cup.relCup2_dual_eq"
+      ],
+      "depends_on": [
+        "triad-relative-cup",
+        "triad-cap-pins"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Exact, no sign. For open A, B ⊆ X over ℚ, every p, q: relCup2_eval_eq_eval_triadCap, with both pairings upstream's universal-coefficient evaluation relativeCohomologyEquivDualHomology (on (X, A ∪ B) in degree p + q and on (X, B) in degree q) and the cap upstream's unionRelativeTriadCapCohomologyLinear with triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other); the A factor caps on the front face. Hatcher2002 §3.3 (recalled): ψ(σ ⌢ φ) = (φ ⌣ ψ)(σ). Chain level: cupCochain_eq_capLift (the Alexander–Whitney cup of the pulled-back cochains is ψ ∘ proj_B ∘ (φ̃ ⌢ -)), with the cap faces identified with Mathlib's subintervals. Sum-relative form triadEval_relCup2 on representatives; the cap's homology map reads only its middle map, so the (−1)^p on the outer maps does not enter; then linearDualHomologyEquiv_naturality along the excision comparison. The pointwise form is the hypothesis of normalizedRelativeCoclass_unique, as local-class-product needs. Pins of upstream's cap: triad-cap-pins. Non-vacuity: triad-relative-cup-cap-test. Convention row: Cup–cap adjunction (triad). Red team: docs/sketches/triad-relative-cup-cap.redteam.md, pass with changes, implemented. Sketch: docs/sketches/local-class-product.md, section triad-relative-cup-cap: statement."
+    },
+    {
+      "id": "triad-relative-cup-cap-test",
+      "title": "Non-vacuity of the triad cup–cap adjunction: at A = B = ∅, p = q = 1, some z pairs nonzero with relCup2 of lifts of the two winding classes of a torus map",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.TriadCupCap",
+      "declarations": [
+        "HodgeLadder.Tests.exists_eval_relCup2_ne_zero"
+      ],
+      "depends_on": [
+        "triad-relative-cup-cap"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team docs/sketches/triad-relative-cup-cap.redteam.md, section 7b, Appendix C (text verbatim). From the checked torusEval_relCup2_winding (value 1) and injectivity of relativeCohomologyEquivDualHomology, so both sides of relCup2_eval_eq_eval_triadCap are nonzero there. Not tested: nonempty A, B, where the sign-visible test is local-class-cross-model at a = b = 1."
     },
     {
       "id": "singular-restrict-open",
