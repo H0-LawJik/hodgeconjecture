@@ -55,3 +55,4 @@ public import HodgeLadder.Cup.ExtRightMult
 public import HodgeLadder.Cup.RightMultClass
 public import HodgeLadder.Cup.IotaUpstream
 public import HodgeLadder.Cup.NamedCocycle
+public import HodgeLadder.Cup.AbYoneda
