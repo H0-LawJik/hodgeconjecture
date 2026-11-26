@@ -14,7 +14,7 @@ cup product `cupSing`, in the same order:
 ## Main results
 
 * `HodgeLadder.Cup.exists_singClass`, `HodgeLadder.Cup.cup_global_chosen`,
-  `HodgeLadder.Cup.cup_singular_comparison`
+  `HodgeLadder.Cup.cup_singular_comparison`, `HodgeLadder.Cup.cup_gradedComm`
 -/
 
 @[expose] public noncomputable section
@@ -121,6 +121,33 @@ theorem cup_singular_comparison [IsIntegral X.left] [Smooth X.hom] [T2Space (Com
   rw [← key]
   congr 1
   exact step3_named_class X (cupGlobal a b) (cupGlobal_coboundary ha hb)
+
+/-- The comparison in any target degree. -/
+theorem cup_singular_comparison' [IsIntegral X.left] [Smooth X.hom] [T2Space (ComplexPoint X)]
+    [∀ U : Opens (ComplexPoint X), ParacompactSpace U]
+    {p q n : ℕ} (x : H^p(X; ℚ)) (y : H^q(X; ℚ)) (h : p + q = n) :
+    rationalCohomologyAddEquivSingularCohomology X n (cup x y n h) =
+      ((-1 : ℤ) ^ (p * q)) • cupSing (TopCat.of (ComplexPoint X))
+        (rationalCohomologyAddEquivSingularCohomology X p x)
+        (rationalCohomologyAddEquivSingularCohomology X q y) n h := by
+  subst h
+  rw [cup_singular_comparison X x y, ← Nat.cast_mul, Int.coe_negOnePow_natCast]
+
+/-- **Graded commutativity of the cup product**: `x ∪ y = (−1)^{pq} · y ∪ x`. -/
+theorem cup_gradedComm [IsIntegral X.left] [Smooth X.hom] [T2Space (ComplexPoint X)]
+    [∀ U : Opens (ComplexPoint X), ParacompactSpace U]
+    {p q n : ℕ} (x : H^p(X; ℚ)) (y : H^q(X; ℚ)) (h : p + q = n) :
+    cup x y n h = ((-1 : ℤ) ^ (p * q)) • cup y x n (by omega) := by
+  apply (rationalCohomologyAddEquivSingularCohomology X n).injective
+  rw [map_zsmul, cup_singular_comparison' X x y h, cup_singular_comparison' X y x (by omega)]
+  generalize rationalCohomologyAddEquivSingularCohomology X p x = A
+  generalize rationalCohomologyAddEquivSingularCohomology X q y = B
+  rw [cupSing_gradedComm (TopCat.of (ComplexPoint X)) A B n h, smul_smul, smul_smul]
+  have hk : ((-1 : ℤ) ^ (p * q)) * (-1 : ℤ) ^ (q * p) * (-1 : ℤ) ^ (p * q) =
+      (-1 : ℤ) ^ (p * q) := by
+    rw [mul_comm q p, ← pow_add, ← two_mul, pow_mul]
+    norm_num
+  rw [hk]
 
 end Variety
 

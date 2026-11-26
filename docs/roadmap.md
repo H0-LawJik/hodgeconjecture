@@ -65,7 +65,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
-| `cup-graded-commutative` | foundation | open | `cup-singular-comparison` | α ∪ β = (−1)^{pq} β ∪ α |
+| `cup-graded-commutative` | foundation | checked | `cup-singular-comparison-absolute` | α ∪ β = (−1)^{pq} β ∪ α |
 | `cycle-class-multiplicative` | foundation | open | `local-class-product` | class of an intersection is the cup product of classes |
 | `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; the cup product (front `cup`); inventory before sub-rungs |
 | `dimension-le-three` | case | open | `lefschetz-1-1`, `hard-lefschetz` | `HodgeConjectureInDimensionLE 3` |
