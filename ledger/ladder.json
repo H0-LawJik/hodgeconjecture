@@ -1292,18 +1292,37 @@
     {
       "id": "supported-sections-class",
       "title": "Through upstream's relHAddEquivSupportedSectionsHomologyOfFlasque, supCup α y is the class of the supported cocycle of α times b",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedClass",
+      "declarations": [
+        "HodgeLadder.Cup.shiftedHom_comp_core",
+        "HodgeLadder.Cup.supCupY_class",
+        "HodgeLadder.Cup.supCup_supportedSections"
+      ],
+      "depends_on": [
+        "support-ab-yoneda",
+        "cup-global-comparison",
+        "supported-step2-cocycle-class"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "If α followed by ι : ℚ_X[0] → S is the class of a cocycle z out of the pair sheaf, supCup α β followed by ι is the class of cocycleComp z R_b, and upstream's flasque supported-sections model sends supCup α β to the supported-sections class of that cocycle. No sign enters at this step. docs/sketches/cup-singular-comparison-supported.md."
+    },
+    {
+      "id": "supported-named-cocycle-comp",
+      "title": "Through upstream's homComplexPairSheafIsoSupportedSections, cocycleComp z R_b is (−1)^{pq} times the supported section a ∪ b, where a is the supported section named by z",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
         "supported-sections-right-mult",
-        "support-ab-yoneda",
-        "cup-global-comparison",
-        "supported-step2-cocycle-class"
+        "named-cocycle-comp"
       ],
       "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
+      "note": "Supported analogue of named-cocycle-comp; docs/sketches/cup-singular-comparison-supported.md."
     },
     {
       "id": "supported-singular-model",
@@ -1332,7 +1351,8 @@
         "support-ab-yoneda",
         "supported-sections-right-mult",
         "supported-sections-class",
-        "supported-singular-model"
+        "supported-singular-model",
+        "supported-named-cocycle-comp"
       ],
       "contributors": [],
       "note": "The absolute case is checked (cup-singular-comparison-absolute). Remaining: the supported version for H_[Z]^p(X; ℚ), through upstream's relative cohomology and a relative right multiplication or the Tau Ceti relative cup."

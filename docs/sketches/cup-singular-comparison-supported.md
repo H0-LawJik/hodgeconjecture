@@ -60,3 +60,9 @@ Upstream's `relHAddEquivSupportedSectionsHomology` (`Definitions/AlgebraicTopolo
 | `named-cocycle-comp` | `cocycleComp z R_b` is, in supported sections, `(−1)^{pq}` times right multiplication by `b` on the supported cocycle |
 
 Right multiplication on supported sections is `sheafSectionsSupportedOutside` applied to `rightMulHom`, since that functor acts on morphisms of sheaves. The step from `Ψ_Z α`'s representing cocycle to an Ext class with `α.hom ≫ Q(ι)⟦p⟧ = [z]` is where `support-ab-yoneda` enters.
+
+### Progress (2026-11-25)
+
+- `supported-step2-cocycle-class` checked (`HodgeLadder/Cup/SupportedStep2.lean`).
+- `supported-sections-class` checked (`HodgeLadder/Cup/SupportedClass.lean`). The argument is the absolute one with the hypercohomology bridge removed: the supported class `α` lives directly in `Ext(P, ℚ_X)`, so only `end-class-right-mult` and the shifted-hom algebra enter, and no sign appears at this step. The sign `(−1)^{pq}` enters in `supported-named-cocycle-comp`, as in the absolute case.
+- Still to show: every supported class is represented by a cocycle out of the pair sheaf. This follows from the bijectivity of upstream's flasque model together with `relHSupportedOfFlasque_mk`, and is part of the final supported rung.

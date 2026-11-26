@@ -19,11 +19,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
+**2026-11-25 (supported comparison, sections).** `supported-sections-class` checked, with `supported-step2-cocycle-class`: through upstream's flasque supported-sections model, `supCup α β` is the class of α's cocycle composed with right multiplication by a cocycle naming β. The cone route (`support-cone-right-mult`, `support-named-class`) is dead. **Next planned work:** the supported analogue of `named-cocycle-comp`, `supported-singular-model`, then the supported `cup-singular-comparison`.
+
 **2026-11-25 (comparison, absolute).** `cup-singular-comparison-absolute` checked, with `step3-named-class`, `cup-top-open` and `cup-step3`: upstream's equivalence Ψ satisfies Ψ(x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y), same order. **Next planned work:** `cup-graded-commutative` (from this and `cupSing_gradedComm`), then the supported comparison and `local-class-product`.
 
 **2026-11-25 (comparison, global sections).** `cup-global-comparison` checked, with `iota-upstream`, `cocycle-class-mul`, `named-cocycle-comp`, `ab-ext-yoneda`, `kappa-cancel`, `one-is-kappa`, `ext-derived-bridge`, `end-class-right-mult`: through upstream's steps 1 and 2 the Yoneda cup goes to (−1)^{pq} times the cup of global cocycles, same order. **Next planned work:** `cup-step3`, then `cup-singular-comparison`.
-
-**2026-11-25 (comparison, sub-rung 4).** `ext-class-right-mult` checked with its parts (`right-mult-cocycle`, `right-mult-unit`, `cocycle-class-comp`, `step2-cocycle-class`): right multiplication by a global cocycle b composed with the resolution names b, and upstream's step 2 sends its class to that global-section class for every K-injective resolution. **Next planned work:** `iota-upstream`, then `cup-singular-comparison` with the sign fixed.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 
