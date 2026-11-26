@@ -1212,15 +1212,20 @@
     {
       "id": "cup-graded-commutative",
       "title": "Graded commutativity of the cup product: α ∪ β = (−1)^{pq} β ∪ α",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "cup-singular-comparison"
+      "module": "HodgeLadder.Cup.CupSingular",
+      "declarations": [
+        "HodgeLadder.Cup.cup_singular_comparison'",
+        "HodgeLadder.Cup.cup_gradedComm"
       ],
-      "contributors": [],
-      "note": "Decision 0009: transfer Tau Ceti's singularCup_gradedComm through cup-singular-comparison; or Hilton–Eckmann if an interchange lemma with sign (−1)^{pq} on Ext classes becomes available (absent at the pin)."
+      "depends_on": [
+        "cup-singular-comparison-absolute"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Transferred from Tau Ceti's graded commutativity of the singular cup (cupSing_gradedComm) through cup-singular-comparison-absolute: both comparisons carry (−1)^{pq} and Ψ is injective. Like the ring laws, the statement alone also holds for a square-zero product; cup-positive-degree-test is the non-vacuity check."
     },
     {
       "id": "cycle-class-multiplicative",
