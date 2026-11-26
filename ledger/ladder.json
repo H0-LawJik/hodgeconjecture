@@ -1271,6 +1271,25 @@
       "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
     },
     {
+      "id": "supported-step2-cocycle-class",
+      "title": "Upstream's supported-sections model of relH, for a K-injective and for a flasque resolution, sends a class whose image is the class of a Hom-complex cocycle z to the supported-sections class of z, independently of the injective resolution",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedStep2",
+      "declarations": [
+        "HodgeLadder.Cup.homComplexPairSheafIsoSupportedSections_naturality",
+        "HodgeLadder.Cup.relHSupported_mk",
+        "HodgeLadder.Cup.relHSupportedOfFlasque_mk"
+      ],
+      "depends_on": [
+        "step2-cocycle-class"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Supported analogue of step2-cocycle-class; docs/sketches/cup-singular-comparison-supported.md, refinement."
+    },
+    {
       "id": "supported-sections-class",
       "title": "Through upstream's relHAddEquivSupportedSectionsHomologyOfFlasque, supCup α y is the class of the supported cocycle of α times b",
       "status": "open",
@@ -1280,7 +1299,8 @@
       "depends_on": [
         "supported-sections-right-mult",
         "support-ab-yoneda",
-        "cup-global-comparison"
+        "cup-global-comparison",
+        "supported-step2-cocycle-class"
       ],
       "contributors": [],
       "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
