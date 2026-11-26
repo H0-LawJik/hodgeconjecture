@@ -91,6 +91,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Shen2012` | M. Shen, Hyperkähler manifolds of Jacobian type, arXiv:1206.2063 | generic K3^[2]-type fourfolds |
 | `Shioda1979` | T. Shioda, The Hodge conjecture for Fermat varieties, Math. Ann. 245 (1979) | Fermat |
 | `Shioda1983` | T. Shioda, What is known about the Hodge conjecture?, Adv. Stud. Pure Math. 1 (1983) | p = n − 1 by hard Lefschetz; survey |
+| `Silverman2009` | J. H. Silverman, The Arithmetic of Elliptic Curves, 2nd ed., GTM 106, Springer 2009, ch. VI | uniformization of elliptic curves over ℂ by ℘ and ℘'; the Weierstrass equation of ℂ/Λ |
 | `Stacks` | The Stacks Project, stacks.math.columbia.edu, cited by tag | scheme-theoretic definitions matching Mathlib |
 | `Tankeev1982` | S. Tankeev, Cycles on simple abelian varieties of prime dimension, Izv. 46 (1982); Math. USSR-Izv. 20 (1983) | prime dimension |
 | `Totaro1997` | B. Totaro, Torsion algebraic cycles and complex cobordism, J. AMS 10 (1997) | cobordism obstruction to integral HC |
