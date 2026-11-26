@@ -50,7 +50,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `ext-class-right-mult` | foundation | checked | `right-mult-unit`, `step2-cocycle-class` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
 | `iota-upstream` | foundation | checked | `ext-class-right-mult` | ι_ℤ composed with upstream's integer-constant isomorphism equals ℤ_X → ℚ_X followed by upstream's ι |
 | `cocycle-class-mul` | foundation | checked | `cocycle-class-comp` | The derived-category class of a composite of Hom-complex cocycles is the composite of their classes, with no sign |
-| `named-cocycle-comp` | foundation | open | `cocycle-class-mul`, `ext-class-right-mult` | The cocycle naming a composed with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b |
+| `named-cocycle-comp` | foundation | checked | `cocycle-class-mul`, `ext-class-right-mult` | The cocycle naming a composed with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b |
 | `ab-ext-yoneda` | foundation | open | `iota-upstream` | The Yoneda cup read in sheaves of abelian groups through upstream's step 1 |
 | `cup-singular-comparison` | foundation | open | `named-cocycle-comp`, `ab-ext-yoneda`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |

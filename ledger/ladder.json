@@ -919,21 +919,26 @@
     {
       "id": "named-cocycle-comp",
       "title": "The composite of the cocycle naming a with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.Cup.IotaUpstream",
+      "module": "HodgeLadder.Cup.NamedCocycle",
       "declarations": [
-        "HodgeLadder.Cup.intToRatComplex",
-        "HodgeLadder.Cup.extend_single_comp_f",
-        "HodgeLadder.Cup.iotaZ_eq",
-        "HodgeLadder.Cup.iso_hom_iotaZ"
+        "HodgeLadder.Cup.cupGlobal",
+        "HodgeLadder.Cup.cupGlobal_coboundary",
+        "HodgeLadder.Cup.namedCocycle",
+        "HodgeLadder.Cup.fromSingleEquiv_comp",
+        "HodgeLadder.Cup.globalMap_comp_rightMulSheaf",
+        "HodgeLadder.Cup.namedCocycle_comp_rightMul",
+        "HodgeLadder.Cup.toSmallShiftedHom_named_comp_rightMul"
       ],
       "depends_on": [
         "cocycle-class-mul",
         "ext-class-right-mult"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison.md, plan for the comparison."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Both sides are cocycles out of ℤ_Y[0], so they agree once their components out of ℤ_Y do (fromSingleEquiv). The component of the composite is the map 1 ↦ a followed by R_b in source degree p, which is (−1)^{pq} · rightMulSheaf b; evaluated at 1, right multiplication sends the sheafified a to the sheafified a ∪ b (naturality of sheafification). The sign (−1)^{pq} is exactly rightMulCochain's. The derived form follows from cocycle-class-mul."
     },
     {
       "id": "ab-ext-yoneda",
