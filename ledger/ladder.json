@@ -985,15 +985,22 @@
     {
       "id": "one-is-kappa",
       "title": "The unit oneY of H^0(Y; ℚ) is the class of ℤ_Y → ℚ_Y, so every β is κ followed by its endomorphism class forgetEnd(e β)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.OneIsKappa",
+      "declarations": [
+        "HodgeLadder.Cup.adj_tensorQSheafInt_comp_forgetQX",
+        "HodgeLadder.Cup.rationalExtEquiv_kappa",
+        "HodgeLadder.Cup.oneY_eq_kappa",
+        "HodgeLadder.Cup.eq_kappa_comp_forgetEnd"
+      ],
       "depends_on": [
         "kappa-cancel"
       ],
-      "contributors": [],
-      "note": "rationalExtEquiv of mk₀ κ is mk₀ 𝟙: extEquivQ.symm of mk₀ is mk₀ of the adjoint map, and the adjoint of κ is tensorQSheafInt up to forgetQX."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Key identity: the adjoint of tensorQSheafInt followed by forgetQX is κ, compared through the constant-sheaf adjunction as maps ℤ → Γ(ℚ_Y). tensorQConstIso is read off by homEquiv_leftAdjointUniq_hom_app; the unit of ℚ ⊗ − followed by ℚ ⊗ ℤ ≅ ℚ is the cast (elementwise, cancelling the counit of forget₂.asEquivalence); forgetQX sends sheafified constant sections to sheafified constant sections (sheafComposeIso_inv_fac and naturality of sheafification)."
     },
     {
       "id": "ext-derived-bridge",
