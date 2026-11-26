@@ -1181,7 +1181,7 @@
     {
       "id": "support-cone-right-mult",
       "title": "Right multiplication by a global cocycle on upstream's natural singular support cone, as a Hom-complex cocycle compatible with the cone maps",
-      "status": "open",
+      "status": "dead",
       "kind": "foundation",
       "module": null,
       "declarations": [],
@@ -1189,7 +1189,7 @@
         "right-mult-cocycle"
       ],
       "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md."
+      "note": "Dead 2026-11-25: upstream's support cone has a chosen injective resolution of the complement as target, where right multiplication is not defined, and mapping cones are not functorial in the derived category. Replaced by the supported-sections route (docs/sketches/cup-singular-comparison-supported.md, revision)."
     },
     {
       "id": "support-ab-yoneda",
@@ -1213,7 +1213,7 @@
     {
       "id": "support-named-class",
       "title": "Upstream's supported comparison sends the class named by a relative cocycle to its relative singular class",
-      "status": "open",
+      "status": "dead",
       "kind": "foundation",
       "module": null,
       "declarations": [],
@@ -1222,7 +1222,7 @@
         "step3-named-class"
       ],
       "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md."
+      "note": "Dead 2026-11-25: upstream's support cone has a chosen injective resolution of the complement as target, where right multiplication is not defined, and mapping cones are not functorial in the derived category. Replaced by the supported-sections route (docs/sketches/cup-singular-comparison-supported.md, revision)."
     },
     {
       "id": "cup-comparison-projective-line",
@@ -1258,6 +1258,47 @@
       "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree."
     },
     {
+      "id": "supported-sections-right-mult",
+      "title": "Right multiplication by a global cocycle preserves the sections of the singular cochain sheaves supported in Z, as a map of complexes",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "right-mult-cocycle"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
+    },
+    {
+      "id": "supported-sections-class",
+      "title": "Through upstream's relHAddEquivSupportedSectionsHomologyOfFlasque, supCup α y is the class of the supported cocycle of α times b",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-sections-right-mult",
+        "support-ab-yoneda",
+        "cup-global-comparison"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
+    },
+    {
+      "id": "supported-singular-model",
+      "title": "The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "relative-singular-cup"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
+    },
+    {
       "id": "cup-singular-comparison",
       "title": "Upstream's sheaf–singular equivalence carries the supported cup product supCup to the relative singular cup product, with the sign fixed exactly (the absolute case is cup-singular-comparison-absolute)",
       "status": "open",
@@ -1268,9 +1309,10 @@
         "cup-singular-comparison-absolute",
         "supported-cup",
         "relative-singular-cup",
-        "support-cone-right-mult",
         "support-ab-yoneda",
-        "support-named-class"
+        "supported-sections-right-mult",
+        "supported-sections-class",
+        "supported-singular-model"
       ],
       "contributors": [],
       "note": "The absolute case is checked (cup-singular-comparison-absolute). Remaining: the supported version for H_[Z]^p(X; ℚ), through upstream's relative cohomology and a relative right multiplication or the Tau Ceti relative cup."
