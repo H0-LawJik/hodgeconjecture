@@ -1593,6 +1593,23 @@
       "note": "Part of supported-forget-compat."
     },
     {
+      "id": "forget-support-cocycle",
+      "title": "Forgetting the support is Ext precomposition with ℤ_X → ℤ[X, X ∖ Z]; on a cocycle representative z of α, forgetSupport α followed by ι is the class of z precomposed with that map",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedForget",
+      "declarations": [
+        "HodgeLadder.Cup.forgetMap",
+        "HodgeLadder.Cup.forgetSupport_eq_comp",
+        "HodgeLadder.Cup.forgetSupport_named"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Part of supported-forget-compat. Remaining for that rung: the section 1 of ℤ_X goes to the image of the generator under forgetMap (comparison of integerConstantHomAddEquivGlobalSections with freeAbelianSheafHomAddEquiv through freeAbelianSheafTerminalIso), then step1-of-hom and step3_named_class."
+    },
+    {
       "id": "supported-forget-compat",
       "title": "Forgetting the support commutes with Φ against Ψ: forgetRel (Φ α) = Ψ (forgetSupport α), with the sign fixed exactly",
       "status": "open",
@@ -1601,7 +1618,8 @@
       "declarations": [],
       "depends_on": [
         "cup-singular-comparison",
-        "step1-of-hom"
+        "step1-of-hom",
+        "forget-support-cocycle"
       ],
       "contributors": [],
       "note": "Red team 2026-11-26, finding 4: a degree twist ε(n) would be −1 in degree 2, which the two cup theorems do not fix."
