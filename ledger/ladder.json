@@ -800,22 +800,24 @@
     },
     {
       "id": "right-mult-unit",
-      "title": "ι ≫ R_b is the Hom-complex cocycle of the global section b",
-      "status": "open",
+      "title": "Right multiplication by a global cocycle b on upstream's constant cochains: ι⁰ ≫ r_b is the sheafification of r ↦ r · b|_U, and sends the constant global section 1 to b",
+      "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.Cup.RightMult",
+      "module": "HodgeLadder.Cup.RightMultUnit",
       "declarations": [
-        "HodgeLadder.Cup.rightMul",
-        "HodgeLadder.Cup.rightMulApp_naturality",
-        "HodgeLadder.Cup.rightMul_comp_coboundary",
-        "HodgeLadder.Cup.rightMulSheaf",
-        "HodgeLadder.Cup.rightMulSheaf_comp_coboundary"
+        "HodgeLadder.Cup.openZeroAugmentation_eq_constCochain",
+        "HodgeLadder.Cup.rightMulApp_const",
+        "HodgeLadder.Cup.constantsToZero_rightMul",
+        "HodgeLadder.Cup.constantsToZeroSheaf_rightMulSheaf",
+        "HodgeLadder.Cup.constTimes_sheafify_one"
       ],
       "depends_on": [
         "right-mult-cocycle"
       ],
-      "contributors": [],
-      "note": "1 ∪ b = b on cochains (cupCochain_constCochain_left) and the sheafification unit."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Upstream's zero-chain augmentation is Tau Ceti's constant cochain with value 1 (checked vertex by vertex); the left unit law cupCochain_constCochain_left gives (r·1) ∪ b|_U = r · b|_U; the identity passes to sheaves by functoriality of sheafification and to global sections by naturality of the unit. Restating this as a degree-q Hom-complex cocycle ℤ[0] → S_ℤ in upstream's integer-constant form is part of ext-class-right-mult, where upstream's step 2 is unfolded."
     },
     {
       "id": "ext-class-right-mult",
@@ -828,7 +830,7 @@
         "right-mult-unit"
       ],
       "contributors": [],
-      "note": "Upstream's step 2 sends the class of the cocycle of b to [b], and ι[q] ∘ ε([b]) = R_b ∘ ι in the derived category. docs/sketches/cup-singular-comparison.md, refinement."
+      "note": "Upstream's step 2 sends the class of the Hom-complex cocycle ℤ[0] → S_ℤ of b (built from constTimes_sheafify_one through integerConstantHomAddEquivGlobalSections) to [b], and ι[q] ∘ ε([b]) = R_b ∘ ι in the derived category. docs/sketches/cup-singular-comparison.md, refinement."
     },
     {
       "id": "cup-singular-comparison",

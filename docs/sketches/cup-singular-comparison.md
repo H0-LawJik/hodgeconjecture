@@ -48,3 +48,5 @@ Upstream's step 2 (`rationalSingularCochainHypercohomologyAddEquivGlobalSections
 | `ext-class-right-mult` | the class of that cocycle is sent by upstream's step 2 to `[b]`, and `ι[q] ∘ ε([b]) = R_b ∘ ι` in the derived category | unfold `homComplexSingleIntegerIsoGlobalSections` and the K-injective step `e₁` (postcomposition with the resolution commutes with `toSmallShiftedHom`) |
 
 The order and sign of the final comparison then come out of Mathlib's `Cocycle.equivHomShift` and `ShiftedHom.comp` conventions; `cup-positive-degree-test` checks them independently.
+
+Progress: `right-mult-cocycle` and `right-mult-unit` are checked. The unit rung is stated at the level of sheaf maps and global sections (ι⁰ ≫ r_b is the sheafification of r ↦ r · b|_U, and sends the section 1 to b); the passage to upstream's integer-constant Hom complex, through `integerConstantHomAddEquivGlobalSections`, moves into `ext-class-right-mult`.
