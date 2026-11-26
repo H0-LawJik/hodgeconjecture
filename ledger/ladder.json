@@ -1842,13 +1842,20 @@
     {
       "id": "glpos-path-connected",
       "title": "A real square matrix with positive determinant is joined to the identity by a path of matrices with positive determinant",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Glpos.PathConnected",
+      "declarations": [
+        "HodgeLadder.Glpos.joinedIn_one_of_det_pos",
+        "HodgeLadder.Glpos.isPathConnected_setOf_det_pos",
+        "HodgeLadder.Glpos.not_joinedIn_det_ne_zero_fin_one",
+        "HodgeLadder.Glpos.joinedIn_one_diagonal_neg_one_neg_one"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Mathlib candidate. Route: Matrix.Pivot.exists_list_transvec_mul_diagonal_mul_list_transvec; transvections and positive diagonals contract to 1, pairs of negative entries by a rotation. Sketch: docs/sketches/local-class-product.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26: JoinedIn {M : Matrix n n ℝ | 0 < M.det} 1 A for 0 < A.det, any finite index type, product topology; IsPathConnected as a corollary. Classical [Hall2015; section unverified]. Route: Matrix.diagonal_transvection_induction; a transvection is joined to 1 by scaling its entry, products by pointwise multiplication, a positive diagonal by the segment; two negative diagonal entries at i ≠ j are negated by W * W, W = transvection i j (−1) · transvection j i 1 · transvection i j (−1) the quarter turn (quarterTurn_mul_self), and strong induction on the number of negative entries (exactly one is excluded by the sign of the product). Tests: the det ≠ 0 form fails at Fin 1 for diagonal ![-1] (intermediate value theorem), and diagonal ![-1, -1] is joined to 1. Conventions row: Real determinant and the topology of real matrices. Red team: docs/sketches/glpos-path-connected.redteam.md. Sketch: docs/sketches/local-class-product.md."
     },
     {
       "id": "real-affine-orientation",

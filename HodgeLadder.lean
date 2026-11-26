@@ -111,3 +111,4 @@ public import HodgeLadder.Tests.SupportedOpenComparison
 public import HodgeLadder.Normalization.Singular
 public import HodgeLadder.Normalization.ChartStep
 public import HodgeLadder.Normalization.Germ
+public import HodgeLadder.Glpos.PathConnected
