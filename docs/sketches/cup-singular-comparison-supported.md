@@ -99,3 +99,17 @@ Both ends use the same positive lift, so no sign is expected from the cones. Ups
 4. `supported_relative_cup`: the supported singular equivalence sends it to `relCupSing`.
 
 Open: `cup-comparison-supported-pair` (the same statement on `neighborhoodSupportComplementPair` and with `β` on `X`).
+
+### Red-team changes, resolved (2026-11-26)
+
+The red team (`cup-singular-comparison-supported.redteam.md`) passed the comparison with seven changes, all done:
+
+| Change | Rung or file |
+|---|---|
+| Φ against upstream's cycle-class transport | `supported-model-agreement`: exact (`transport_eq_flasqueModel`) |
+| forgetting the support against Ψ | `supported-forget-compat`: `forgetRel (Φ α) = Ψ (forgetSupport α)`, no sign |
+| dependencies of `local-class-product` | both rungs above added; the note records the missing product of two supported classes, or a version on a general open V |
+| wording, conventions rows, ledger bookkeeping | PR #83 and PR #88 |
+| ℙ¹ test | `cup-comparison-supported-test` (q = 0, so it does not see the sign) |
+
+The comparison also holds on `H^n(X, X ∖ Z; ℚ)` itself, with `Ψ β` on `X` (`cup-comparison-supported-pair`).
