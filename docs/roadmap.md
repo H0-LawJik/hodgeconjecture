@@ -59,8 +59,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-global-comparison` | foundation | checked | `end-class-right-mult`, `named-cocycle-comp`, `ab-ext-yoneda`, `ext-derived-bridge` | Upstream's steps 1 and 2 send cup x y to (−1)^{pq} times the class named by a ∪ b |
 | `step3-named-class` | foundation | checked | `ext-class-right-mult` | Upstream's full comparison sends the class named by a global cocycle c to the singular class of c |
 | `cup-top-open` | foundation | checked | `step3-named-class`, `cochain-cup-upstream` | The singular cup of the singular classes of a and b is the singular class of a ∪ b |
-| `cup-step3` | foundation | open | `cup-global-comparison`, `step3-named-class`, `cup-top-open` | Upstream's step 3 on named classes, compatible with cupGlobal and the singular cup |
-| `cup-singular-comparison` | foundation | open | `cup-global-comparison`, `cup-step3`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
+| `cup-step3` | foundation | checked | `cup-global-comparison`, `step3-named-class`, `cup-top-open` | Upstream's step 3 on named classes, compatible with cupGlobal and the singular cup |
+| `cup-singular-comparison-absolute` | foundation | checked | `cup-global-comparison`, `cup-step3` | Ψ(x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y) |
+| `cup-singular-comparison` | foundation | open | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |

@@ -1117,36 +1117,57 @@
     {
       "id": "cup-step3",
       "title": "Upstream's step 3 sends the global-section class named by a global cocycle c to the singular class of c, compatibly with cupGlobal and the Tau Ceti cup product cupSing",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.TopOpenCup",
+      "declarations": [
+        "HodgeLadder.Cup.step3_named_class",
+        "HodgeLadder.Cup.cupSing_singClass"
+      ],
       "depends_on": [
         "cup-global-comparison",
         "cochain-cup-upstream",
         "step3-named-class",
         "cup-top-open"
       ],
-      "contributors": [],
-      "note": "Remaining: cup-top-open, the cup on raw cochains of the open ⊤ (cupGlobal) against cupSing on X(ℂ) through ordinarySingularCohomologyEquivGlobalRaw and singularCochainComplexIsoTopOpen (Tau Ceti singularCup_naturality). step3-named-class is checked."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25 through step3-named-class (upstream's comparison sends the class named by c to singClass c) and cup-top-open (cupSing of singular classes is the singular class of cupGlobal)."
+    },
+    {
+      "id": "cup-singular-comparison-absolute",
+      "title": "Upstream's equivalence Ψ from rational sheaf cohomology to rational singular cohomology satisfies Ψ(x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y), same order",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.CupSingular",
+      "declarations": [
+        "HodgeLadder.Cup.exists_singClass",
+        "HodgeLadder.Cup.cup_global_chosen",
+        "HodgeLadder.Cup.cup_singular_comparison"
+      ],
+      "depends_on": [
+        "cup-global-comparison",
+        "cup-step3"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Every singular class is singClass of a global cocycle (exists_singClass); step 3 is injective, so step 1 of x is the class named by its cocycle; cup-global-comparison for upstream's chosen resolution gives step 2 of the cup; step3-named-class and cup-top-open finish. The sign (−1)^{pq} is rightMulCochain's, as predicted in the sketch; cup-positive-degree-test checks it independently."
     },
     {
       "id": "cup-singular-comparison",
-      "title": "Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly",
+      "title": "Upstream's sheaf–singular equivalence carries the supported cup product supCup to the relative singular cup product, with the sign fixed exactly (the absolute case is cup-singular-comparison-absolute)",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "ext-class-right-mult",
-        "supported-cup",
-        "iota-upstream",
-        "cocycle-class-mul",
-        "cup-global-comparison",
-        "cup-step3"
+        "cup-singular-comparison-absolute",
+        "supported-cup"
       ],
       "contributors": [],
-      "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a). Sketch and sub-rungs: docs/sketches/cup-singular-comparison.md (right multiplication by a global cocycle; supported version as a later sub-rung)."
+      "note": "The absolute case is checked (cup-singular-comparison-absolute). Remaining: the supported version for H_[Z]^p(X; ℚ), through upstream's relative cohomology and a relative right multiplication or the Tau Ceti relative cup."
     },
     {
       "id": "local-class-product",
