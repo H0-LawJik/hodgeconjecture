@@ -1022,11 +1022,17 @@
     },
     {
       "id": "end-class-right-mult",
-      "title": "For y = e[b], forgetEnd y followed by ι[q] equals ι followed by the class of R_b, in the derived category of sheaves of abelian groups on X(ℂ)",
-      "status": "open",
+      "title": "For β ∈ H^q(X; ℚ) that upstream's comparison (steps 1 and 2, any K-injective resolution) sends to the class named by a global cocycle b: forgetEnd(e β) followed by ι[q] equals ι followed by the class of R_b, in the derived category of sheaves of abelian groups on X(ℂ)",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.EndClass",
+      "declarations": [
+        "HodgeLadder.Cup.extendSingleIso_hom_naturality",
+        "HodgeLadder.Cup.uliftIso_hom_kappa",
+        "HodgeLadder.Cup.kappa_cancel_derived",
+        "HodgeLadder.Cup.end_class_core",
+        "HodgeLadder.Cup.end_class_right_mult"
+      ],
       "depends_on": [
         "ab-ext-yoneda",
         "ext-class-right-mult",
@@ -1035,8 +1041,10 @@
         "one-is-kappa",
         "ext-derived-bridge"
       ],
-      "contributors": [],
-      "note": "Both sides agree after precomposition with ℤ_X → ℚ_X (eq_oneY_comp_forgetEnd and ext-class-right-mult, once Sheaf.H's ULift ℤ source and upstream's Hypercohomology are identified). Cancelling ℤ_X → ℚ_X needs S to be a complex of ℚ-vector-space sheaves (sheafification commutes with forgetting ℚ) and the adjunction ℚ ⊗ − ⊣ forget on derived categories, under which ℚ ⊗ (ℤ_X → ℚ_X) is an isomorphism."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Step 2 is injective, so step 1 of β is the class of R_b ∘ ι_ℤ ∘ e, which is R_b precomposed with intToRatComplex ≫ ι (iota-upstream, cocycle level). In the derived category: ext-derived-bridge writes step 1 of β through β.hom, one-is-kappa writes β.hom = κ ≫ ε.hom, and the comparison square uliftIso_hom_kappa lines up both sides behind the isomorphism Q(e_A). Cancelling it, then Q(ι) (an isomorphism, ι a quasi-isomorphism), then κ (kappa_cancel_derived from kappa-cancel) leaves ε ≫ ι[q] = ι ≫ R_b. The algebra is isolated in end_class_core, stated in one spelling of the sheaf category."
     },
     {
       "id": "cup-singular-comparison",
