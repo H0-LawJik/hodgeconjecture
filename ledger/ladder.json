@@ -1979,16 +1979,30 @@
     },
     {
       "id": "triad-relative-cup",
-      "title": "The relative-relative singular cup relCup2 : H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B) for open A, B, defined through upstream's triad excision, with forgetRel (relCup2 a b) = cupSing (forgetRel a) (forgetRel b) and relCup2 a b = relCupSing a b when B = ∅",
-      "status": "open",
+      "title": "The relative-relative singular cup relCup2 : H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B) for open A, B, defined through upstream's triad excision, with forgetRel (relCup2 a b) = cupSing (forgetRel a) (forgetRel b), relCup2 a b = relCupSing a (forgetRel b) on (X, A ∪ ∅) = (X, A) when B = ∅, and the cocycle formula",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.TriadCup",
+      "declarations": [
+        "HodgeLadder.Cup.relCup2",
+        "HodgeLadder.Cup.triadDiagonal",
+        "HodgeLadder.Cup.triadExcisionCoh",
+        "HodgeLadder.Cup.unionEmptyIso",
+        "HodgeLadder.Cup.forgetRel_relCup2",
+        "HodgeLadder.Cup.relCup2_empty",
+        "HodgeLadder.Cup.forgetRel_empty_bijective",
+        "HodgeLadder.Cup.triadCupCycles",
+        "HodgeLadder.Cup.triadExcisionCoh_relCup2_homologyπ",
+        "HodgeLadder.Cup.triadProj_cupCochain",
+        "HodgeLadder.Cup.homologyMap_linearDualMap_bijective"
+      ],
       "depends_on": [
         "relative-singular-cup"
       ],
-      "contributors": [],
-      "note": "Alexander–Whitney descends to the triad complex C(X)/(C(A) + C(B)); upstream's triad excision triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other), dualized over ℚ. Split by the red team (finding 15, decision 0010): naturality is triad-relative-cup-naturality, the cap adjunction is triad-relative-cup-cap. Add relCup2 to docs/gaps.md 'To upstream' when it is defined. Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Exact, no sign. Hatcher's relative cup for A, B open in X: Tau Ceti's cup along triadDiagonal (Alexander–Whitney on C(X)/(C(A) + C(B)), A factor first, front face times back face), then the inverse of triadExcisionCoh, the dual of upstream's triadToUnionRelativeChainMap (induced by the identity of C(X)), bijective by triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other). For B = ∅ the pair (X, A ∪ ∅) is (X, A) by unionEmptyIso (the identity of X) and H^q(X, ∅) is H^q(X) by forgetRel (upstream relativeChainProjection_empty_isIso). The two compatibilities do not determine relCup2 (forgetRel loses the relative information); the cocycle formula triadExcisionCoh_relCup2_homologyπ with triadProj_cupCochain does. Non-vacuity: torusEval_relCup2_winding (HodgeLadder.Tests.TriadCupTorus), value 1 at A = B = ∅. Convention row: Triad relative cup product. Red team: docs/sketches/triad-relative-cup.redteam.md, pass with changes, implemented. Naturality is triad-relative-cup-naturality, the cap adjunction triad-relative-cup-cap. Sketch: docs/sketches/local-class-product.md, section triad-relative-cup: statement."
     },
     {
       "id": "triad-relative-cup-naturality",
