@@ -921,8 +921,13 @@
       "title": "The composite of the cocycle naming a with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b",
       "status": "open",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.IotaUpstream",
+      "declarations": [
+        "HodgeLadder.Cup.intToRatComplex",
+        "HodgeLadder.Cup.extend_single_comp_f",
+        "HodgeLadder.Cup.iotaZ_eq",
+        "HodgeLadder.Cup.iso_hom_iotaZ"
+      ],
       "depends_on": [
         "cocycle-class-mul",
         "ext-class-right-mult"
