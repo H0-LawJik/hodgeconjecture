@@ -1,6 +1,6 @@
 # 0009. Amend the cup-product front: comparison with the singular cup product
 
-Date: 2026-11-25. Status: accepted. Amends decision 0008.
+Date: 2026-11-25. Status: accepted; amended by decision 0010. Amends decision 0008.
 
 ## Context
 
@@ -32,3 +32,4 @@ A test rung `cup-positive-degree-test` (pr₁*[pt] ∪ pr₂*[pt] ≠ 0 on ℙ¹
 - Kill criterion changed: the front closes if the sign in `cup-singular-comparison` cannot be fixed exactly, or if `cycle-class-multiplicative` fails on upstream definitions.
 - T1 of the Markman inventory needs rungs 1, 7 and 8.
 - Conventions to register before rung 4: the factor order of the Yoneda product, the singular cup (front face times back face, no sign), the coboundary (δφ = φ ∘ ∂, no sign), upstream's cap product, and the sign of the cross product of complex orientations.
+- Amended by decision 0010 (2026-11-26): rungs 5 and 6 form the product of two supported classes on the singular side with `relCup2` on upstream's triad excision, and the general-V product formula is off the critical path of rung 6; ℙ² with two coordinate lines is the first transversal case and the first positive-degree test, before ℙ¹ × ℙ¹; a reopening on a corrected normalization is a new rung, with the original marked `refuted`.

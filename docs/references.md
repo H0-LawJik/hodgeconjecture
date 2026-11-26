@@ -14,6 +14,8 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `BKT2020` | B. Bakker, B. Klingler, J. Tsimerman, Tame topology of arithmetic quotients and algebraicity of Hodge loci, J. AMS 33 (2020) | o-minimal proof of CDK |
 | `BlochSrinivas1983` | S. Bloch, V. Srinivas, Remarks on correspondences and algebraic cycles, Amer. J. Math. 105 (1983) | decomposition of the diagonal; HC_2 when CH_0 is supported on a threefold |
 | `BMM2016` | N. Bergeron, J. Millson, C. Moeglin, The Hodge conjecture and arithmetic quotients of complex balls, Acta Math. 216 (2016) | unitary Shimura varieties |
+| `Bredon1993` | G. E. Bredon, Topology and Geometry, GTM 139, Springer 1993 | cross, cup and cap products; orientations and Thom classes (chapter numbers unverified) |
+| `Bredon1997` | G. E. Bredon, Sheaf Theory, 2nd ed., GTM 170, Springer 1997 | sheaf cohomology with supports and its products (sections unverified) |
 | `Broe2026` | Broe, Tate conjecture for abelian fourfolds over finite fields, arXiv:2608.28651 (preprint) | Tate for abelian fourfolds, from Markman's HC results |
 | `BroeJiang2026` | Broe, Jiang, The Tate conjecture for abelian fourfolds, arXiv:2611.30237 (2026-11-23, preprint) | Tate for abelian fourfolds over finitely generated fields |
 | `Brosnan2026` | P. Brosnan, arXiv:2609.14169 (preprint) | maximal unipotent degenerations of Weil-type families; analysis of Kontsevich's tropical route |
@@ -27,10 +29,11 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `ClayDeligne` | P. Deligne, The Hodge conjecture, Clay Mathematics Institute official problem description | official statement; obstructions; reformulations |
 | `Clemens1983` | H. Clemens, Homological equivalence, modulo algebraic equivalence, is not finitely generated, Publ. Math. IHES 58 (1983) | Griffiths group of infinite rank |
 | `ConteMurre1978` | A. Conte, J. P. Murre, The Hodge conjecture for fourfolds admitting a covering by rational curves, Math. Ann. 238 (1978) | uniruled fourfolds |
-| `Hatcher2002` | A. Hatcher, Algebraic Topology, Cambridge University Press (2002), §3.2 | the singular cup product: front face times back face, graded commutativity |
+| `Hatcher2002` | A. Hatcher, Algebraic Topology, Cambridge University Press (2002), §3.2 | the singular cup product: front face times back face, graded commutativity; the relative cup H^k(X, A) × H^l(X, B) → H^{k+l}(X, A ∪ B) for open A, B (§3.2); cross products and Künneth (§3.2, §3.B) |
 | `daSilva2021` | G. da Silva Jr., Known cases of the Hodge conjecture, arXiv:2105.04695 (2021) | survey of known cases and reductions |
 | `daSilva2021F` | G. da Silva Jr., Notes on the Hodge conjecture for Fermat varieties, Experimental Results 2 (2021) e22, doi:10.1017/exp.2021.14; arXiv:2101.04739 | Fermat fourfolds, m ≤ 100 coprime to 6; X^n_21, X^n_27. The published version drops the arXiv claim for all m coprime to 6 |
 | `Deligne1982` | P. Deligne, Hodge cycles on abelian varieties (notes by J. S. Milne), LNM 900 (1982) | absolute Hodge classes; theorem for abelian varieties |
+| `Dold1972` | A. Dold, Lectures on Algebraic Topology, Grundlehren 200, Springer 1972 | sign conventions for cross, cup and cap products (Koszul rule; sections unverified) |
 | `Faber1988` | C. Faber, Prym varieties of triple cyclic covers, Math. Z. 199 (1988) 61–79, doi:10.1007/BF01160210 | Prym varieties carrying Weil classes; earlier special cases of algebraic Weil classes (exact scope unverified here) |
 | `FaveroKelly2026` | D. Favero, T. Kelly, arXiv:2609.12759 (preprint) | the degree-33 Fermat fourfold |
 | `Floccari2023` | S. Floccari, The Hodge and Tate conjectures for hyper-Kähler sixfolds of generalized Kummer type, arXiv:2308.02267 (preprint) | Kummer-type sixfolds |
@@ -51,6 +54,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Hodge1950` | W. V. D. Hodge, The topological invariants of algebraic varieties, Proc. ICM 1950 | original statement |
 | `Huybrechts2006` | D. Huybrechts, Fourier–Mukai Transforms in Algebraic Geometry, Oxford University Press 2006, doi:10.1093/acprof:oso/9780199296866.001.0001 | Fourier–Mukai calculus, Poincaré bundle, derived categories of abelian varieties |
 | `Huybrechts2019` | D. Huybrechts, Motives of isogenous K3 surfaces, Comment. Math. Helv. 94 (2019) | self-products of K3s, CM case |
+| `Iversen1986` | B. Iversen, Cohomology of Sheaves, Universitext, Springer 1986 | cohomology with supports, cup products, orientation and fundamental classes of submanifolds (chapters unverified) |
 | `Jumagulov2026` | R. Jumagulov, The Hodge conjecture for Fermat fourfolds of odd degree at most 199, arXiv:2608.18134 (preprint, computer-assisted) | Fermat fourfolds |
 | `Kang2016` | Kang, Refined motivic dimension of some Fermat varieties, Bull. Austral. Math. Soc. 93 (2016) 223–230 | claimed HC for all Fermat fourfolds; conflicts with later literature; unverified here |
 | `Kleiman1994` | S. Kleiman, The standard conjectures, in Motives, Proc. Symp. Pure Math. 55 (1994) | standard conjectures |
@@ -70,6 +74,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Mattuck1958` | A. Mattuck, Cycles on abelian varieties, Proc. AMS 9 (1958) | generic abelian varieties |
 | `Milne1999` | J. S. Milne, Lefschetz motives and the Tate conjecture, Compositio 117 (1999) | Hodge for CM abelian varieties and Tate over finite fields |
 | `Milne2022` | J. S. Milne, Grothendieck's standard conjecture of Lefschetz type over finite fields; also Lefschetz motives and the Tate conjecture, Compositio 117 (1999), and arXiv:2010.08857 | B implies HC for abelian varieties |
+| `MilnorStasheff1974` | J. W. Milnor, J. D. Stasheff, Characteristic Classes, Annals of Math. Studies 76, Princeton 1974 | Thom class of a product bundle as a cross product; canonical orientation of a complex vector space from (v₁, iv₁, …) (section numbers unverified) |
 | `MMRV2026` | Miranda, Movasati, Rufino, Villaflor, Lengths of Hodge characters in Fermat varieties, arXiv:2609.27301 (preprint) | Fermat varieties of degree < 65 except 44, 51, 52 |
 | `MoonenZarhin1995` | B. Moonen, Yu. Zarhin, Hodge classes and Tate classes on simple abelian fourfolds, Duke Math. J. 77 (1995) | abelian fourfolds |
 | `MoonenZarhin1999` | B. Moonen, Yu. Zarhin, Hodge classes on abelian varieties of low dimension, Math. Ann. 315 (1999) | abelian varieties of dimension ≤ 5 |

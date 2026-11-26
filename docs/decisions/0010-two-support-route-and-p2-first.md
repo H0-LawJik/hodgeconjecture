@@ -1,0 +1,26 @@
+# 0010. Cycle classes multiply on the singular side; ℙ² is the first test case
+
+Date: 2026-11-26. Status: accepted. Amends decision 0009 (rungs 5 and 6, the test rung, the kill criterion).
+
+## Context
+
+The red team on the plan for `local-class-product` and `cycle-class-multiplicative` (`docs/sketches/cycle-class-multiplicative.redteam.md`, pass with changes) found:
+
+- The rung needs a class supported on Z ∩ W. The general-V product formula, checked as `cup-comparison-supported-open` (with `supported-open-naturality` and `supported-model-agreement-open`), is Φ_V(α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V). It has one supported factor, so α_Z ∪ [W] lands in H_Z. To compare it with [T] a route would need a product H_Z × H_W → H_T, or a lift from H_Z to H_T, and in degree 2(a + b) > 2a there is no purity to make that lift unique (finding 2).
+- Every complete route therefore needs a product of two supported classes. The singular relative-relative cup `relCup2` on upstream's triad excision (library `Other`, checked over ℚ with the standard axioms) is the one with upstream support. A sheaf-side two-support product would need ℤ[X, X ∖ Z] ⊗ ℤ[X, X ∖ W] ≅ ℤ[X, X ∖ T] and the same singular local computation, because upstream normalizes cycle classes on the singular side (findings 2, 3).
+- Decision 0009 names ℙ¹ × ℙ¹ as the first transversal case and the first positive-degree test. On ℙ¹ × ℙ¹ the pin has no product of varieties, no Segre embedding, no homeomorphism of complex points of a product, and no pullback of cycle classes. With two coordinate lines L₀, L₁ in ℙ², [L₀] ∪ [L₁] = [pt] and [pt] ≠ 0 already rule out the square-zero product, and none of those four inputs is needed (finding 17).
+- Decision 0009's kill criterion is preserved by the plan. The sketch's phrase "closed or reopened on a corrected normalization" needs a precise reading (finding 5).
+
+## Decision
+
+1. **Route.** `cycle-class-multiplicative` forms the product of the two supported lifts on the singular side, with `relCup2 : H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B)` for open A = X ∖ Z, B = X ∖ W, through upstream's triad excision. Its local input `local-class-product` is the chart form of the same product. The general-V product formula stays checked and merged; it is off the critical path of this rung. It enters only through restriction to small opens (upstream's transport, its naturality in V, and `supported-open-naturality`, `supported-model-agreement-open`), in steps 4 and 5 of the sketch.
+2. **Order of test cases.** ℙ² with the two coordinate lines L₀ = {x₀ = 0}, L₁ = {x₁ = 0}, meeting in pt = [0 : 0 : 1], comes first. New rungs: `p2-witness`, `p2-lines-transversal`, `p2-point-class-nonzero`, `cycle-class-multiplicative-p2` ([L₀] ∪ [L₁] = [pt]) and `cup-positive-degree-test-p2` ([L₀] ∪ [L₁] ≠ 0 in H⁴(ℙ²; ℚ)). ℙ² avoids `complex-points-prod`, the Segre embedding in `p1p1-witness`, and `fibre-class-pullback`: both line classes are cycle classes of record, so no pullback is involved. It shares with ℙ¹ × ℙ¹ the hard inputs: H³ of the complement of a point, analytic compatibility of an algebraic affine chart with upstream's charts (`affine-chart-analytic`), and the smooth-locus fact for each line. The ℙ¹ × ℙ¹ rungs (`cycle-class-multiplicative-p1p1`, `cup-positive-degree-test` and their inputs) stay open and come after the ℙ² rungs.
+3. **Kill criterion** (as in decision 0009). The front closes if `cycle-class-multiplicative` fails on upstream definitions. If `local-class-cross-model` evaluates to a value other than 1, or `fundamental-class-unit` fails, and the discrepancy is traced to upstream's normalization after the ladder's own definitions (`relCup2`, the cap and cup order) are ruled out, the failing rung is marked `refuted` with the computed value and its statement is left as it is. A continuation on a corrected normalization is a new rung under a new decision record; it does not reopen the refuted one.
+
+## Consequences
+
+- Rung 5 of decision 0009 reads: `local-class-product`, the relative-relative cup of the normal-projection coclasses of transversal Z, W is that of Z ∩ W, on `relCup2`. Rung 6 reads: `cycle-class-multiplicative`, the general transversal case with one integral component T, sign +; first instances `cycle-class-multiplicative-codim-zero` (every X, a = b = 0) and `cycle-class-multiplicative-p2`.
+- The test rung of decision 0009 on ℙ¹ × ℙ¹ (`cup-positive-degree-test`) is kept; `cup-positive-degree-test-p2` is the first one to post.
+- `triad-relative-cup` is split into the definition with `forgetRel` compatibility, naturality for maps of triads (`triad-relative-cup-naturality`), and the cap adjunction (`triad-relative-cup-cap`). `relCup2` goes into `docs/gaps.md` "To upstream" when it is defined, as the cup counterpart of upstream's triad cap.
+- `fibre-class-pullback` becomes a foundation with sub-rungs, needed only on the ℙ¹ × ℙ¹ path.
+- The declarations used from upstream's library `Other` are outside upstream's statement guard. They are pinned by `rfl` before use, listed for the drift check on the next pin bump (sketch `local-class-product.md`, section "Pins and drift"), and built once in the shared package cache before parallel work starts.
