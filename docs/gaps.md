@@ -15,6 +15,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | `toSmallShiftedHom_postcomp`, `toSmallShiftedHom_precomp`, `toSmallShiftedHom_cocycleComp` (the derived-category class of a Hom-complex cocycle is compatible with composition by chain maps and with composition of cocycles) | `HodgeLadder.Cup.CocycleClass` | general facts about Mathlib's Hom complex, needed for `step2-cocycle-class`; they belong next to `equiv_toSmallShiftedHom_mk` | 2026-11-25 |
 | `homologyπ_mapHomologyIso_hom` (`mapHomologyIso` on classes: `homologyπ ≫ (S.mapHomologyIso F).hom = (S.mapCyclesIso F).hom ≫ F.map S.homologyπ`) | `HodgeLadder.Cup.TopOpenCup` | general short-complex fact, needed for `cup-top-open`; belongs next to `mapHomologyIso_hom_naturality` | 2026-11-25 |
 | `mapArrowHom_eq_map`, `map_shiftedLiftShortComplex`, `mapHomologyIso_shiftIso`, `map_shortExactHomologyIsoCone` | `HodgeLadder.Cup.ConeMaps` | general facts on mapping cones and exact functors; the last two go with upstream's `shortExactHomologyIsoCone` | 2026-11-25 |
+| `mapExtendCanonicalIso_inv_f`, `extend_d_zero_iff` | `HodgeLadder.Cup.SupportedRelCup` | component lemmas for upstream's `mapExtendCanonicalIso` and for `extend`; belong next to upstream's `mapExtendCanonicalIso_hom_f` and Mathlib's `extend_d_eq` | 2026-11-25 |
 
 ## Known weaknesses
 
