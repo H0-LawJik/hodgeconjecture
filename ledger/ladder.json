@@ -1093,6 +1093,28 @@
       "note": "Checked 2026-11-25. Classes of explicit cycles (cls) are followed through homologyAddEquiv, the global-sections isomorphism, the extension isomorphism and extendHomologyIso; on elements, the named cocycle goes to the sheafified c at ⊤, which is also the image of the raw cochain c under topOpenToGlobalSingularCochainSheafComplex (upstream's plus-plus unit, matched with Mathlib's toSheafify by toSheafify_plusPlusIsoSheafify_hom)."
     },
     {
+      "id": "cup-top-open",
+      "title": "The singular cup product of the singular classes of global cocycles a and b is the singular class of a ∪ b (cupGlobal, the Tau Ceti cochain cup on the open ⊤)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.TopOpenCup",
+      "declarations": [
+        "HodgeLadder.Cup.homologyπ_mapHomologyIso_hom",
+        "HodgeLadder.Cup.singClass_eq",
+        "HodgeLadder.Cup.cohIso_singClassM",
+        "HodgeLadder.Cup.tcTop_cupGlobal",
+        "HodgeLadder.Cup.cupSing_singClass"
+      ],
+      "depends_on": [
+        "step3-named-class",
+        "cochain-cup-upstream"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. singClass (through upstream's raw identification) equals the class in the ℚ-module cochain complex of ⊤ transported along singularCochainComplexIsoTopOpen (singClass_eq; uses homologyπ_mapHomologyIso_hom, a general lemma for mapHomologyIso on classes, a Mathlib candidate). Under cohIso this is the Tau Ceti class on ⊤ pulled back along (Opens.inclusionTopIso X).inv (a chain-level rfl). On ⊤ the Tau Ceti class of cupGlobal a b is the cup of the classes (singularCup_homologyπ, iCycles_cupCycles); singularCup_naturality moves it to X."
+    },
+    {
       "id": "cup-step3",
       "title": "Upstream's step 3 sends the global-section class named by a global cocycle c to the singular class of c, compatibly with cupGlobal and the Tau Ceti cup product cupSing",
       "status": "open",
@@ -1102,7 +1124,8 @@
       "depends_on": [
         "cup-global-comparison",
         "cochain-cup-upstream",
-        "step3-named-class"
+        "step3-named-class",
+        "cup-top-open"
       ],
       "contributors": [],
       "note": "Remaining: cup-top-open, the cup on raw cochains of the open ⊤ (cupGlobal) against cupSing on X(ℂ) through ordinarySingularCohomologyEquivGlobalRaw and singularCochainComplexIsoTopOpen (Tau Ceti singularCup_naturality). step3-named-class is checked."
