@@ -105,7 +105,7 @@ theorem kappa_cancel_rational {n : ℕ}
       (Abelian.Ext.mk₀ (kappaSheaf Y)).comp x' (zero_add n)) : x = x' := by
   apply (extPostcompEquiv (forgetQX Y).symm n).injective
   apply kappa_cancel Y (QX Y)
-  simp only [extPostcompEquiv, AddEquiv.coe_mk, Equiv.coe_fn_mk]
+  simp only [extPostcompEquiv, HodgeLadder.Ext.postcompIsoAddEquiv_apply]
   rw [← Abelian.Ext.comp_assoc_of_third_deg_zero, h, Abelian.Ext.comp_assoc_of_third_deg_zero]
 
 end HodgeLadder.Cup

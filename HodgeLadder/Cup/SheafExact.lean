@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.MapAdjunction
+public import HodgeLadder.General.Ext
 public import Mathlib.CategoryTheory.Sites.Adjunction
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import Mathlib.CategoryTheory.Sites.EpiMono
@@ -138,35 +139,17 @@ def extEquivQ (A : Sheaf (J Y) AddCommGrpCat.{0}) (M : Sheaf (J Y) (ModuleCat.{0
     Abelian.Ext.{0} ((tensorQSheaf Y).obj A) M n ≃+ Abelian.Ext.{0} A ((forgetSheaf Y).obj M) n :=
   (adjQSheaf Y).extEquiv
 
-/-- Precomposition with an isomorphism, on extension groups. -/
+/-- Precomposition with an isomorphism, on extension groups: the universe-`0` case of
+`HodgeLadder.Ext.precompIsoAddEquiv`. -/
 def extPrecompEquiv {𝒞 : Type*} [Category 𝒞] [Abelian 𝒞] [HasExt.{0} 𝒞] {A B Z : 𝒞}
-    (e : A ≅ B) (n : ℕ) : Abelian.Ext.{0} B Z n ≃+ Abelian.Ext.{0} A Z n where
-  toFun x := (Abelian.Ext.mk₀ e.hom).comp x (zero_add n)
-  invFun y := (Abelian.Ext.mk₀ e.inv).comp y (zero_add n)
-  left_inv x := by
-    simp only
-    rw [← Abelian.Ext.comp_assoc _ _ _ (zero_add 0) (zero_add n) (by omega),
-      Abelian.Ext.mk₀_comp_mk₀, e.inv_hom_id, Abelian.Ext.mk₀_id_comp]
-  right_inv y := by
-    simp only
-    rw [← Abelian.Ext.comp_assoc _ _ _ (zero_add 0) (zero_add n) (by omega),
-      Abelian.Ext.mk₀_comp_mk₀, e.hom_inv_id, Abelian.Ext.mk₀_id_comp]
-  map_add' x y := Abelian.Ext.comp_add _ _ _ _
+    (e : A ≅ B) (n : ℕ) : Abelian.Ext.{0} B Z n ≃+ Abelian.Ext.{0} A Z n :=
+  HodgeLadder.Ext.precompIsoAddEquiv e Z n
 
-/-- Postcomposition with an isomorphism, on extension groups. -/
+/-- Postcomposition with an isomorphism, on extension groups: the universe-`0` case of
+`HodgeLadder.Ext.postcompIsoAddEquiv`. -/
 def extPostcompEquiv {𝒞 : Type*} [Category 𝒞] [Abelian 𝒞] [HasExt.{0} 𝒞] {A Z Z' : 𝒞}
-    (e : Z ≅ Z') (n : ℕ) : Abelian.Ext.{0} A Z n ≃+ Abelian.Ext.{0} A Z' n where
-  toFun x := x.comp (Abelian.Ext.mk₀ e.hom) (add_zero n)
-  invFun y := y.comp (Abelian.Ext.mk₀ e.inv) (add_zero n)
-  left_inv x := by
-    simp only
-    rw [Abelian.Ext.comp_assoc _ _ _ (add_zero n) (add_zero 0) (by omega),
-      Abelian.Ext.mk₀_comp_mk₀, e.hom_inv_id, Abelian.Ext.comp_mk₀_id]
-  right_inv y := by
-    simp only
-    rw [Abelian.Ext.comp_assoc _ _ _ (add_zero n) (add_zero 0) (by omega),
-      Abelian.Ext.mk₀_comp_mk₀, e.inv_hom_id, Abelian.Ext.comp_mk₀_id]
-  map_add' x y := Abelian.Ext.add_comp _ _ _ _
+    (e : Z ≅ Z') (n : ℕ) : Abelian.Ext.{0} A Z n ≃+ Abelian.Ext.{0} A Z' n :=
+  HodgeLadder.Ext.postcompIsoAddEquiv e A n
 
 /-- The constant sheaf of `ℚ`-vector spaces with value `ℚ`. -/
 abbrev QX : Sheaf (J Y) (ModuleCat.{0} ℚ) :=

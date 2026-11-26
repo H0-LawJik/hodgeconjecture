@@ -54,7 +54,8 @@ theorem rationalExtEquiv_comp_forgetEnd {p q : ℕ} (α : HQ Y p)
         (y.mapExactFunctor (forgetSheaf Y)) h := by
     rw [Abelian.Ext.comp_assoc_of_third_deg_zero, hU, Abelian.Ext.comp_assoc_of_second_deg_zero]
   simp only [rationalExtEquiv, AddEquiv.trans_apply, extPostcompEquiv, extPrecompEquiv,
-    AddEquiv.coe_mk, Equiv.coe_fn_mk, extEquivQ, Iso.symm_hom]
+    HodgeLadder.Ext.postcompIsoAddEquiv_apply, HodgeLadder.Ext.precompIsoAddEquiv_apply,
+    extEquivQ, Iso.symm_hom]
   rw [hA, Adjunction.extEquiv_symm_naturality_right,
     ← Abelian.Ext.comp_assoc _ _ _ (zero_add p) h (by omega)]
 

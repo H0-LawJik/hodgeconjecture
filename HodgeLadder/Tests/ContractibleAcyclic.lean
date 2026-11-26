@@ -9,6 +9,7 @@ public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.ProjectivePa
 public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.Manifold
 public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.ProjectiveHausdorff
 public import Other.AlgebraicGeometry.Cohomology.GlobalSections
+public import Other.AlgebraicTopology.Sheaf.FlasqueGlobalSections
 
 /-!
 # Contractible opens have no rational cohomology in positive degrees
@@ -27,7 +28,8 @@ The proof is the classical one, through a flasque resolution:
    on a Hausdorff space whose opens are paracompact the `𝒞ⁿ` are flasque and the global sections of
    `𝒞^•` compute singular cohomology (upstream `singularCochainSheaf_isFlasque_of_opens_paracompact`,
    `topOpenToGlobalSingularCochainSheafComplex_quasiIso`).
-3. Flasque sheaves are acyclic (dimension shifting into an injective sheaf). Dimension shifting
+3. Flasque sheaves are acyclic (upstream `TopCat.Sheaf.IsFlasque.subsingleton_cohomology_succ`,
+   by dimension shifting into an injective sheaf). Dimension shifting
    along the cycle sheaves `Zⁱ → 𝒞ⁱ → Zⁱ⁺¹` then gives `Hᵠ⁺¹(Y; Zⁱ) = 0` for all `i` as soon as the
    global sections of `𝒞^•` are exact in positive degrees, which holds when `Y` is contractible
    (upstream `singularCochainComplex_exactAt_of_contractible`). Finally `ℚ_Y ≅ Z⁰`.
@@ -45,9 +47,12 @@ The general statement for a topological space is
   contractible open `U ⊆ X(ℂ)`, `Subsingleton (Sheaf.H' ℚ_X q U)` for `q > 0`.
 * `HodgeLadder.Tests.Acyclic.subsingleton_H_const_of_contractible`: a contractible Hausdorff space
   with paracompact opens and a basis of contractible opens has `Hᵠ⁺¹(Y; ℚ) = 0`.
-* `HodgeLadder.Tests.Acyclic.subsingleton_H_of_isFlasque`: flasque sheaves are acyclic.
+* `HodgeLadder.Tests.Acyclic.subsingleton_H_of_isFlasque`: flasque sheaves are acyclic (a
+  restatement of upstream's `TopCat.Sheaf.IsFlasque.subsingleton_cohomology_succ`).
 * `HodgeLadder.Tests.Acyclic.subsingleton_H_cycles`: the cycle sheaves of a flasque resolution with
-  exact global sections are acyclic.
+  exact global sections are acyclic. The cycle sheaves need not be flasque (`Z⁰` is the
+  resolved sheaf), so upstream's `cycles_isFlasque_of_exact_le` does not apply; the exactness of
+  global sections carries the induction.
 -/
 
 @[expose] public section
@@ -87,27 +92,11 @@ theorem subsingleton_H_succ_X₁ {S : ShortComplex (TopCat.AbSheaf Y)} (hS : S.S
   obtain ⟨y, rfl⟩ := (H.exact₁ hS n (n + 1) rfl x).1 (Subsingleton.elim _ _)
   rw [Subsingleton.elim y 0, map_zero]
 
-/-- A flasque sheaf has no cohomology in positive degrees. -/
+/-- A flasque sheaf has no cohomology in positive degrees: upstream's
+`TopCat.Sheaf.IsFlasque.subsingleton_cohomology_succ`, in the notation of this file. -/
 theorem subsingleton_H_of_isFlasque (n : ℕ) :
-    ∀ (F : TopCat.AbSheaf Y) [TopCat.Presheaf.IsFlasque F.obj], Subsingleton (H F (n + 1)) := by
-  induction n with
-  | zero =>
-    intro F _
-    let S := ShortComplex.mk (Injective.ι F) (cokernel.π _) (cokernel.condition _)
-    have hS : S.ShortExact := { exact := ShortComplex.exact_cokernel _ }
-    have : Subsingleton (H S.X₂ 1) := inferInstanceAs (Subsingleton (H (Injective.under F) (0 + 1)))
-    exact subsingleton_H_one_X₁ hS
-      ((AddCommGrpCat.epi_iff_surjective _).1 (TopCat.Sheaf.IsFlasque.epi_of_shortExact hS))
-  | succ n ih =>
-    intro F _
-    let S := ShortComplex.mk (Injective.ι F) (cokernel.π _) (cokernel.condition _)
-    have hS : S.ShortExact := { exact := ShortComplex.exact_cokernel _ }
-    have : TopCat.Presheaf.IsFlasque S.X₂.obj := TopCat.Sheaf.injective_isFlasque _ S.X₂
-    have : TopCat.Presheaf.IsFlasque S.X₃.obj := TopCat.Sheaf.IsFlasque.of_shortExact_of_isFlasque₁₂ hS
-    have : Subsingleton (H S.X₃ (n + 1)) := ih S.X₃
-    have : Subsingleton (H S.X₂ (n + 1 + 1)) :=
-      inferInstanceAs (Subsingleton (H (Injective.under F) (n + 1 + 1)))
-    exact subsingleton_H_succ_X₁ hS (n + 1)
+    ∀ (F : TopCat.AbSheaf Y) [TopCat.Presheaf.IsFlasque F.obj], Subsingleton (H F (n + 1)) :=
+  fun F _ => TopCat.Sheaf.IsFlasque.subsingleton_cohomology_succ F n
 
 /-- Sections of a composite of sheaf morphisms. -/
 theorem app_comp_apply {F G E : TopCat.AbSheaf Y} (f : F ⟶ G) (g : G ⟶ E) (V : (Opens Y)ᵒᵖ)

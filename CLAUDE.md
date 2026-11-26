@@ -34,6 +34,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `lean-toolchain`, `lakefile.toml`, `lake-manifest.json` | Pins: upstream `Paul-Lez/HodgeConjecture` at an exact commit, and the Lean and Mathlib versions it pins (`v4.35.0-rc4`). Bump all of them together in one commit, after a red-team drift check. |
 | `HodgeLadder.lean` | Library root. One `public import` per module. |
 | `HodgeLadder/Basic.lean` | Namespace preamble and a toolchain smoke test. No content. |
+| `HodgeLadder/General/{HomComplex,Homology,Ext,LocallyConstantSheaf,FreeAbelianTerminal,Codimension}.lean` | General lemmas kept local (decision 0011): Hom-complex composition, homology functors on cycles, `Ext` transport, the constant sheaf as locally constant functions, the generator of `ℤ[T]`, codimension-cycle facts. Rows in `docs/gaps.md`. |
 | `HodgeLadder/Upstream/Statements.lean` | Rung `statements-consistent`: the upstream variants are instances of the upstream conjecture. |
 | `HodgeLadder/CycleClass/Pins.lean` | Rung `cycle-class-pins`: `rfl` pins of each step of the upstream cycle-class and Hodge-class constructions; a change upstream breaks the build here. |
 | `HodgeLadder/CycleClass/Statements.lean` | Rungs `known-half-statement`, `equality-reductions`: cycle classes are Hodge classes, the equality forms, and their equivalence with upstream inclusion plus known half. |

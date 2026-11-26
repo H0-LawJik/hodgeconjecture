@@ -3,6 +3,8 @@ module
 public import HodgeLadder.Cup.SupportedForget
 public import HodgeLadder.Cup.ConstantGenerator
 public import HodgeLadder.Cup.SupportedForgetGen
+public import HodgeLadder.General.HomComplex
+public import HodgeLadder.General.Homology
 
 /-!
 # Forgetting the support commutes with the supported comparison
@@ -15,7 +17,9 @@ comparison `Φ` and upstream's absolute comparison `Ψ`, with no sign:
 
 * `HodgeLadder.Cup.supported_forget_compat`
 * `HodgeLadder.Cup.fromSingleEquiv_precomp_single`, `HodgeLadder.Cup.cocycle_precomp_precomp`,
-  `HodgeLadder.Cup.homologyMap_cyclesMk`, `HodgeLadder.Cup.forget_named_cocycle`
+  `HodgeLadder.Cup.homologyMap_cyclesMk` (special cases of the general lemmas in
+  `HodgeLadder.General.HomComplex` and `HodgeLadder.General.Homology`),
+  `HodgeLadder.Cup.forget_named_cocycle`
 -/
 
 @[expose] public noncomputable section
@@ -29,40 +33,31 @@ section General
 
 variable {C : Type*} [Category C] [Preadditive C] [HasZeroObject C]
 
-/-- Precomposing a cochain out of a single complex with the image of a map. -/
+/-- Precomposing a cochain out of a single complex with the image of a map: the degree-`0` case of
+`HodgeLadder.HomComplex.fromSingleEquiv_cocycle_precomp_single`. -/
 lemma fromSingleEquiv_precomp_single {A A' : C} {L : CochainComplex C ℤ} {n : ℤ}
     (z : Cocycle ((CochainComplex.singleFunctor C 0).obj A) L n) (g : A' ⟶ A) :
     Cochain.fromSingleEquiv (zero_add n) (z.precomp ((CochainComplex.singleFunctor C 0).map g)).1 =
-      g ≫ Cochain.fromSingleEquiv (zero_add n) z.1 := by
-  simp [Cochain.fromSingleEquiv, Cocycle.precomp]
-  rw [← Category.assoc, ← Category.assoc]
-  congr 1
-  erw [HomologicalComplex.single_map_f_self]
-  simp
+      g ≫ Cochain.fromSingleEquiv (zero_add n) z.1 :=
+  HodgeLadder.HomComplex.fromSingleEquiv_cocycle_precomp_single (zero_add n) z g
 
-/-- Precomposing a cocycle twice is precomposing with the composite. -/
+/-- Precomposing a cocycle twice is precomposing with the composite
+(`HodgeLadder.HomComplex.cocycle_precomp_precomp`). -/
 lemma cocycle_precomp_precomp {K K' K'' L : CochainComplex C ℤ} {n : ℤ} (z : Cocycle K L n)
-    (g : K' ⟶ K) (f : K'' ⟶ K') : (z.precomp g).precomp f = z.precomp (f ≫ g) := by
-  apply Cocycle.ext
-  simp [Cocycle.precomp, Cochain.ofHom_comp, Cochain.comp_assoc_of_first_is_zero_cochain]
+    (g : K' ⟶ K) (f : K'' ⟶ K') : (z.precomp g).precomp f = z.precomp (f ≫ g) :=
+  HodgeLadder.HomComplex.cocycle_precomp_precomp z g f
 
 end General
 
 section ModuleCls
 
-/-- A map of complexes on the class of `cyclesMk`. -/
+/-- A map of complexes on the class of `cyclesMk`: the case of `ℚ`-modules indexed by `ℕ` of
+`HodgeLadder.Homology.homologyMap_homologyπ_cyclesMk`. -/
 lemma homologyMap_cyclesMk {K L : CochainComplex (ModuleCat.{0} ℚ) ℕ} (φ : K ⟶ L) (k : ℕ)
     (y : K.X k) (hy : K.d k (k + 1) y = 0) (hy' : L.d k (k + 1) (φ.f k y) = 0) :
     HomologicalComplex.homologyMap φ k (K.homologyπ k (K.cyclesMk y (k + 1) (by simp) hy)) =
-      L.homologyπ k (L.cyclesMk (φ.f k y) (k + 1) (by simp) hy') := by
-  rw [← ConcreteCategory.comp_apply, HomologicalComplex.homologyπ_naturality,
-    ConcreteCategory.comp_apply]
-  congr 1
-  apply (ModuleCat.mono_iff_injective (L.iCycles k)).mp inferInstance
-  rw [← ConcreteCategory.comp_apply, HomologicalComplex.cyclesMap_i, ConcreteCategory.comp_apply]
-  have e1 := HomologicalComplex.i_cyclesMk K y (k + 1) (by simp) hy
-  have e2 := HomologicalComplex.i_cyclesMk L (φ.f k y) (k + 1) (by simp) hy'
-  erw [e1, e2]
+      L.homologyπ k (L.cyclesMk (φ.f k y) (k + 1) (by simp) hy') :=
+  HodgeLadder.Homology.homologyMap_homologyπ_cyclesMk φ y (k + 1) (by simp) hy
 
 /-- The class of `cyclesMk` depends only on the element. -/
 lemma homologyπ_cyclesMk_congr {K : CochainComplex (ModuleCat.{0} ℚ) ℕ} {k : ℕ} {y y' : K.X k}
