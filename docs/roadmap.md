@@ -45,7 +45,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cochain-sheaf-right-mult` | foundation | checked | `cochain-cup-upstream` | Right multiplication by a global cocycle as a morphism of complexes of sheaves on the sheafified singular cochains |
 | `right-mult-cocycle` | foundation | checked | `cochain-sheaf-right-mult` | Right multiplication by a global cocycle as a degree-q cocycle of the Hom complex Hom(S_ℤ, S_ℤ), components (−1)^{pq} r_p |
 | `right-mult-unit` | foundation | checked | `right-mult-cocycle` | ι ≫ R_b is the Hom-complex cocycle of the global section b |
-| `ext-class-right-mult` | foundation | open | `right-mult-unit` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
+| `cocycle-class-comp` | foundation | checked | `right-mult-cocycle` | The derived-category class of a Hom-complex cocycle is compatible with pre- and postcomposition by chain maps |
+| `step2-cocycle-class` | foundation | checked | `cocycle-class-comp` | Upstream's step 2 sends the class of a Hom-complex cocycle z : ℤ[0] → S_ℤ to the homology class of the global section z names, for every K-injective resolution |
+| `ext-class-right-mult` | foundation | open | `right-mult-unit`, `step2-cocycle-class` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
 | `cup-singular-comparison` | foundation | open | `ext-class-right-mult`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
