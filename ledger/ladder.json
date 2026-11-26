@@ -1840,6 +1840,97 @@
       "note": "Checked 2026-11-26: forgetRel (Φ α) = Ψ (forgetSupport α) on ⊤, no sign, so no degree twist. Route: exists_supported_rep, forgetSupport_named, step1_of_hom, and gen_forget_named_cocycle (stated for a general space; at the variety the same statement times out on the comparison of two spellings of the single complex)."
     },
     {
+      "id": "glpos-path-connected",
+      "title": "A real square matrix with positive determinant is joined to the identity by a path of matrices with positive determinant",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Mathlib candidate. Route: Matrix.Pivot.exists_list_transvec_mul_diagonal_mul_list_transvec; transvections and positive diagonals contract to 1, pairs of negative entries by a rotation. Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "real-affine-orientation",
+      "title": "An affine automorphism of ℝ^d acts on the transported local orientation class by the sign of its determinant; an affine d-simplex around y has class sign(det)·(−1)^d·standardLocalClass d",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "glpos-path-connected"
+      ],
+      "contributors": [],
+      "note": "Upstream's reference simplex has edge determinant (−1)^d (d+1) (hand computation). Inputs: standardOrientationBallClass_restrict, convexSupport_translation_ne (upstream Other). Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "relative-cross-chain",
+      "title": "The shuffle cross product of relative cycles is a triad cycle: H_m(P, A) ⊗ H_n(Q, B) → TriadRelativeHomology(P × Q; A × Q, P × B) → H_{m+n}(P × Q, A × Q ∪ P × B)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "tauceti-cup-backport"
+      ],
+      "contributors": [],
+      "note": "Tau Ceti TopCat.shuffle and shuffle_naturality (port); upstream triadToUnionRelativeHomologyMap. Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "cap-cross-evaluation",
+      "title": "⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩·⟨ψ, y⟩ for upstream's triad cap product, with no sign",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "relative-cross-chain"
+      ],
+      "contributors": [],
+      "note": "Alexander–Whitney after shuffle is homotopic to the identity through a natural homotopy (SSet.shuffleAlexanderWhitneyHomotopy). Koszul conventions would insert (−1)^{|ψ||x|}, which is 1 in even degrees. Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "cross-orientation",
+      "title": "The shuffle cross product of upstream's complex orientation classes of ℂ^a and ℂ^b is the complex orientation class of ℂ^{a+b} under Fin.append, sign +; real form s_m × s_n = s_{m+n}",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "real-affine-orientation",
+        "relative-cross-chain"
+      ],
+      "contributors": [],
+      "note": "The sign of the cross product of complex orientations asked for by decision 0009; expected + for every a, b (block-triangular determinant of the identity-shuffle simplex). Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "local-class-cross-model",
+      "title": "Model case of local-class-product: the triad cap of the pulled-back normalized local class of ℂ^a with the orientation class of ℂ^{a+b}, paired with the pulled-back normalized local class of ℂ^b, equals 1",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cap-cross-evaluation",
+        "cross-orientation"
+      ],
+      "contributors": [],
+      "note": "Statement elaborated against upstream's unionRelativeTriadCapCohomologyLinear and triadToUnionRelativeChainMap_quasiIso_of_isOpen (scratch file, deleted). The case a = b = 1 is the first sign-visible falsification test of front cup. Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "triad-relative-cup",
+      "title": "The relative singular cup H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B) for open A, B, compatible with forgetRel and cupSing, natural for maps of triads, adjoint to upstream's triad cap",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "relative-singular-cup"
+      ],
+      "contributors": [],
+      "note": "Alexander–Whitney descends to the triad complex C(X)/(C(A) + C(B)); upstream's triad excision triadToUnionRelativeChainMap_quasiIso_of_isOpen, dualized over ℚ. Sketch: docs/sketches/local-class-product.md."
+    },
+    {
       "id": "singular-restrict-open",
       "title": "Upstream's cohomologyMap along the inclusion of an open V sends the singular class of a global cocycle to the class of its restriction to V",
       "status": "checked",
@@ -1983,21 +2074,17 @@
     },
     {
       "id": "local-class-product",
-      "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection",
+      "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection (chart form: relCup2 of the normal-projection coclasses of Z and W is that of Z ∩ W)",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-singular-comparison",
-        "supported-model-agreement",
-        "supported-forget-compat",
-        "cup-comparison-supported-open",
-        "supported-open-naturality",
-        "supported-model-agreement-open"
+        "local-class-cross-model",
+        "triad-relative-cup"
       ],
       "contributors": [],
-      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009). The supported comparison on a general open V is checked (cup-comparison-supported-open: Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V) for α in relH of (V, V ⊓ (X ∖ Z)) and β ∈ H^q(X; ℚ)); Φ_V is natural in V and agrees with upstream's transport at V (supported-open-naturality, supported-model-agreement-open). Still missing: (a) a product of two supported classes, or a version with β ∈ H^q(V), since α ∪ β keeps the support of α only; (b) the move from pairVU (V, V ⊓ (X ∖ Z)) to upstream's neighborhoodSupportComplementPair V Z, where the normalized local classes live: one relCupSing_naturality along openIntersectionPairIsoSupportComplement, whose first component is 𝟙 (TopCat.of V)."
+      "note": "Sign + expected from cross-orientation. The route computes the product on the singular side with a relative-relative cup (triad-relative-cup), so neither a sheaf-side product of two supported classes nor the general-V product formula is on its path; the global dependencies (cup-singular-comparison, supported-model-agreement, supported-forget-compat) moved to cycle-class-multiplicative (2026-11-26). Sketch: docs/sketches/local-class-product.md. The general-V comparison is checked (cup-comparison-supported-open, supported-open-naturality, supported-model-agreement-open); on this route it enters only through restriction to small opens, in cycle-class-multiplicative."
     },
     {
       "id": "cup-hodge-filtration",
@@ -2021,10 +2108,13 @@
       "declarations": [],
       "depends_on": [
         "cup-pullback",
-        "cycle-class-multiplicative"
+        "cycle-class-multiplicative",
+        "cycle-class-multiplicative-p1p1",
+        "fibre-class-pullback",
+        "p1p1-point-class-nonzero"
       ],
       "contributors": [],
-      "note": "Closes the vacuity gap of cup-product: its checked laws also hold for the square-zero product (red team on front cup). The square-zero gap is closed in degrees (1, 1) by cup-odd-degree-gm2 (affine 𝔾ₘ²). This rung keeps its own content: even degrees, a projective variety, and the cycle-class input."
+      "note": "Closes the vacuity gap of cup-product: its checked laws also hold for the square-zero product (red team on front cup). The square-zero gap is closed in degrees (1, 1) by cup-odd-degree-gm2 (affine 𝔾ₘ²). This rung keeps its own content: even degrees, a projective variety, and the cycle-class input. Route: cycle-class-multiplicative-p1p1, fibre-class-pullback, p1p1-point-class-nonzero (docs/sketches/cycle-class-multiplicative.md)."
     },
     {
       "id": "cup-graded-commutative",
@@ -2045,6 +2135,60 @@
       "note": "Checked 2026-11-25. Transferred from Tau Ceti's graded commutativity of the singular cup (cupSing_gradedComm) through cup-singular-comparison-absolute: both comparisons carry (−1)^{pq} and Ψ is injective. Like the ring laws, the statement alone also holds for a square-zero product; cup-positive-degree-test is the non-vacuity check."
     },
     {
+      "id": "fundamental-class-unit",
+      "title": "The class of X is the unit: cycleComponentSheafClass X (genericPoint X.left) _ = one X in H⁰(X; ℚ)",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-forget-compat",
+        "one-is-kappa",
+        "cycle-class-germ"
+      ],
+      "contributors": [],
+      "note": "Codimension-zero case of cycle-class-multiplicative and its smallest falsification test: upstream has [X] ≠ 0 (cycleComponentSheafClass_genericPoint_ne_zero), and [X] ∪ [X] = [X] forces [X] = 1. Statement elaborated. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "normalization-singular",
+      "title": "Upstream's normalization iso of a supported cycle class is the sheafified restriction to X ∖ T_sing of upstream's singular transport complexSupportInjectiveSectionCohomologyEquiv at ⊤",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Upstream-internal: cycleComponentSupportedClassNormalizationIso_apply, complexSupportInjectiveCohomologySheafIsoRelative_section_apply, supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality. Statement elaborated. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "cycle-class-germ",
+      "title": "Near a point of Z_reg(ℂ), the singular transport of the supported cycle class of Z equals chartNormalProjectionCoclass for every analytic chart adapted to Z",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "normalization-singular"
+      ],
+      "contributors": [],
+      "note": "smoothClosedSupportCoclassStalk_eq_chartGerm and exists_open_chartNormalProjectionCoclass_eq (upstream). Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "supported-pair-forget",
+      "title": "On (X, X ∖ Z): forgetRel ∘ supportedEquivPair = Ψ ∘ forgetSupport, and supportedEquivPair agrees with upstream's transport after the pair isomorphisms, with no sign",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-forget-compat",
+        "supported-model-agreement",
+        "cup-comparison-supported-pair"
+      ],
+      "contributors": [],
+      "note": "Moves the checked ⊤-statements to TopPair.ofSubset, where triad-relative-cup is stated. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
       "id": "cycle-class-multiplicative",
       "title": "The cycle class map is multiplicative for transversal cycles (first case: two fibres on ℙ¹ × ℙ¹)",
       "status": "open",
@@ -2052,10 +2196,102 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "local-class-product"
+        "local-class-product",
+        "triad-relative-cup",
+        "normalization-singular",
+        "cycle-class-germ",
+        "supported-pair-forget",
+        "cup-singular-comparison-absolute",
+        "cup-singular-comparison",
+        "supported-model-agreement",
+        "supported-forget-compat",
+        "supported-open-naturality",
+        "supported-model-agreement-open"
       ],
       "contributors": [],
-      "note": "Kill criterion of front cup (decisions 0008, 0009). Through cup-singular-comparison and local-class-product."
+      "note": "Kill criterion of front cup (decisions 0008, 0009). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas; first case cycle-class-multiplicative-p1p1; smallest falsification tests fundamental-class-unit and local-class-cross-model at a = b = 1. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "complex-points-prod",
+      "title": "Complex points of a product over Spec ℂ: Point ℂ (X ⨯ Y) ≃ₜ Point ℂ X × Point ℂ Y for the analytic topology, with product charts in the maximal atlas",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Nothing upstream or here on products of varieties at the pin. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "p1p1-witness",
+      "title": "ℙ¹ ×_ℂ ℙ¹ as an object of Over (Spec ℂ) is integral, smooth of relative dimension 2 and projective",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "projective-line-witness"
+      ],
+      "contributors": [],
+      "note": "Projectivity needs a Segre closed immersion into ℙ³ (missing); integrality from Mathlib's GeometricallyIntegral pullback instances once ℙ¹ is geometrically integral. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "p1p1-fibres-transversal",
+      "title": "On ℙ¹ × ℙ¹ the fibres {∞} × ℙ¹, ℙ¹ × {∞} and the point (∞, ∞) have coheight 1, 1, 2, their supports meet as required, and the product of the chart openOne satisfies the transversality hypothesis",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p1p1-witness",
+        "complex-points-prod",
+        "projective-line-point"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "cycle-class-multiplicative-p1p1",
+      "title": "On ℙ¹ × ℙ¹, [{∞} × ℙ¹] ∪ [ℙ¹ × {∞}] = [(∞, ∞)]",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cycle-class-multiplicative",
+        "p1p1-fibres-transversal"
+      ],
+      "contributors": [],
+      "note": "First transversal case named by decision 0009. A cheaper first case is ℙ² with two coordinate lines; changing the order needs a decision record. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "fibre-class-pullback",
+      "title": "On ℙ¹ × ℙ¹, pullbackCoh pr₁ [∞] = [{∞} × ℙ¹]",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p1p1-fibres-transversal",
+        "cycle-class-germ",
+        "cup-pullback"
+      ],
+      "contributors": [],
+      "note": "Local classes pull back along a submersion; needed for cup-positive-degree-test. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "p1p1-point-class-nonzero",
+      "title": "The class of the point (∞, ∞) is nonzero in H⁴(ℙ¹ × ℙ¹; ℚ)",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p1p1-fibres-transversal",
+        "forget-support-exact"
+      ],
+      "contributors": [],
+      "note": "forget-support-exact with H³ of the complement zero. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "hard-lefschetz",

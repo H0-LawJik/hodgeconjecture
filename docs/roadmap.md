@@ -101,11 +101,28 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-comparison-open-test` | test | checked | `cup-comparison-supported-open` | ℙ¹: the comparison on a general open applies for every closed `Z` and open `V`; on upstream's chart neighborhood of a smooth closed subvariety (on ℙ¹, of a point) it is a nonzero identity at `β = 1` |
 | `supported-open-naturality` | foundation | checked | `supported-open-rep`, `supported-cup` | `Φ_V` is natural in `V` against `relativeCohomologyMap (openInclusionPairMap …)`, and restriction of pairs commutes with `α ∪ β`; no sign |
 | `supported-model-agreement-open` | foundation | checked | `supported-model-agreement`, `supported-open-rep` | `Φ_V` agrees with upstream's cycle-class transport at `V`, through `openIntersectionPairIsoSupportComplement` |
-| `local-class-product` | foundation | open | `cup-singular-comparison`, `supported-open-naturality`, `supported-model-agreement-open` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
+| `glpos-path-connected` | foundation | open | | GL⁺_d(ℝ) is path-connected (Mathlib candidate); `docs/sketches/local-class-product.md` |
+| `real-affine-orientation` | foundation | open | `glpos-path-connected` | affine maps act on local orientation classes by the sign of the determinant; `docs/sketches/local-class-product.md` |
+| `relative-cross-chain` | foundation | open | `tauceti-cup-backport` | shuffle cross product of relative cycles into upstream's triad homology; `docs/sketches/local-class-product.md` |
+| `cap-cross-evaluation` | foundation | open | `relative-cross-chain` | ⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩⟨ψ, y⟩, no sign; `docs/sketches/local-class-product.md` |
+| `cross-orientation` | foundation | open | `real-affine-orientation`, `relative-cross-chain` | cross product of complex orientations of ℂ^a, ℂ^b is that of ℂ^{a+b}, sign + (decision 0009); `docs/sketches/local-class-product.md` |
+| `local-class-cross-model` | foundation | open | `cap-cross-evaluation`, `cross-orientation` | model case on ℂ^{a+b}, stated through upstream's triad cap; a = b = 1 is the first sign test; `docs/sketches/local-class-product.md` |
+| `triad-relative-cup` | foundation | open | `relative-singular-cup` | relative cup H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B) through upstream's triad excision; `docs/sketches/local-class-product.md` |
+| `local-class-product` | foundation | open | `local-class-cross-model`, `triad-relative-cup` | chart form: relative cup of the normal-projection coclasses of transversal Z, W is that of Z ∩ W, sign +; `docs/sketches/local-class-product.md` |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
-| `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
+| `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative`, `cycle-class-multiplicative-p1p1`, `fibre-class-pullback`, `p1p1-point-class-nonzero` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
 | `cup-graded-commutative` | foundation | checked | `cup-singular-comparison-absolute` | α ∪ β = (−1)^{pq} β ∪ α |
-| `cycle-class-multiplicative` | foundation | open | `local-class-product` | class of an intersection is the cup product of classes |
+| `fundamental-class-unit` | test | open | `supported-forget-compat`, `one-is-kappa`, `cycle-class-germ` | [X] = 1 in H⁰; codimension-zero falsification test; `docs/sketches/cycle-class-multiplicative.md` |
+| `normalization-singular` | foundation | open | | upstream's normalization iso through its singular transport, restricted to X ∖ T_sing; `docs/sketches/cycle-class-multiplicative.md` |
+| `cycle-class-germ` | foundation | open | `normalization-singular` | near Z_reg the transported cycle class is the chart coclass of any analytic chart; `docs/sketches/cycle-class-multiplicative.md` |
+| `supported-pair-forget` | foundation | open | `supported-forget-compat`, `supported-model-agreement`, `cup-comparison-supported-pair` | the forget and transport compatibilities on `TopPair.ofSubset`; `docs/sketches/cycle-class-multiplicative.md` |
+| `cycle-class-multiplicative` | foundation | open | `local-class-product`, `triad-relative-cup`, `normalization-singular`, `cycle-class-germ`, `supported-pair-forget`, `cup-singular-comparison-absolute` | [Z] ∪ [W] = [Z ∩ W] for transversal Z, W; kill criterion of front `cup`; `docs/sketches/cycle-class-multiplicative.md` |
+| `complex-points-prod` | foundation | open | | complex points of a product, with product charts; `docs/sketches/cycle-class-multiplicative.md` |
+| `p1p1-witness` | test | open | `projective-line-witness` | ℙ¹ × ℙ¹ integral, smooth, projective (Segre embedding missing); `docs/sketches/cycle-class-multiplicative.md` |
+| `p1p1-fibres-transversal` | test | open | `p1p1-witness`, `complex-points-prod`, `projective-line-point` | two fibres and their point meet the transversality hypothesis; `docs/sketches/cycle-class-multiplicative.md` |
+| `cycle-class-multiplicative-p1p1` | test | open | `cycle-class-multiplicative`, `p1p1-fibres-transversal` | [{∞} × ℙ¹] ∪ [ℙ¹ × {∞}] = [(∞, ∞)]; `docs/sketches/cycle-class-multiplicative.md` |
+| `fibre-class-pullback` | test | open | `p1p1-fibres-transversal`, `cycle-class-germ`, `cup-pullback` | pr₁*[∞] = [{∞} × ℙ¹]; `docs/sketches/cycle-class-multiplicative.md` |
+| `p1p1-point-class-nonzero` | test | open | `p1p1-fibres-transversal`, `forget-support-exact` | the point class is nonzero in H⁴(ℙ¹ × ℙ¹); `docs/sketches/cycle-class-multiplicative.md` |
 | `hard-lefschetz` | foundation | open | `upstream-statement` | Kähler geometry and the Lefschetz decomposition on upstream cohomology; the cup product (front `cup`); inventory before sub-rungs |
 | `dimension-le-three` | case | open | `lefschetz-1-1`, `hard-lefschetz` | `HodgeConjectureInDimensionLE 3` |
 | `markman-statement` | front | open | `lefschetz-1-1-equality` | Markman's theorem on upstream definitions; inventory written (`docs/notes/2026-11-25-markman-inventory.md`); blocked on front `cup`; target sequence T1 to T5 (inventory §6) |
