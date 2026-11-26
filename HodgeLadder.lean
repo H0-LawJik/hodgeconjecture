@@ -62,3 +62,4 @@ public import HodgeLadder.Cup.ExtBridge
 public import HodgeLadder.Cup.EndClass
 public import HodgeLadder.Cup.CupGlobal
 public import HodgeLadder.Cup.Step3
+public import HodgeLadder.Cup.TopOpenCup

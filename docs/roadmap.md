@@ -58,7 +58,8 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `end-class-right-mult` | foundation | checked | `ab-ext-yoneda`, `ext-class-right-mult`, `iota-upstream`, `kappa-cancel`, `one-is-kappa`, `ext-derived-bridge` | The forgotten endomorphism class of [b], followed by ι, is ι followed by R_b |
 | `cup-global-comparison` | foundation | checked | `end-class-right-mult`, `named-cocycle-comp`, `ab-ext-yoneda`, `ext-derived-bridge` | Upstream's steps 1 and 2 send cup x y to (−1)^{pq} times the class named by a ∪ b |
 | `step3-named-class` | foundation | checked | `ext-class-right-mult` | Upstream's full comparison sends the class named by a global cocycle c to the singular class of c |
-| `cup-step3` | foundation | open | `cup-global-comparison`, `cochain-cup-upstream`, `step3-named-class` | Upstream's step 3 on named classes, compatible with cupGlobal and the singular cup |
+| `cup-top-open` | foundation | checked | `step3-named-class`, `cochain-cup-upstream` | The singular cup of the singular classes of a and b is the singular class of a ∪ b |
+| `cup-step3` | foundation | open | `cup-global-comparison`, `step3-named-class`, `cup-top-open` | Upstream's step 3 on named classes, compatible with cupGlobal and the singular cup |
 | `cup-singular-comparison` | foundation | open | `cup-global-comparison`, `cup-step3`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
