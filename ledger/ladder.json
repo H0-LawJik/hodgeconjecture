@@ -961,6 +961,54 @@
       "note": "Checked 2026-11-25. Ext algebra over Mathlib's Adjunction.extEquiv_symm_naturality_right for ℚ ⊗ − ⊣ forget: the forgetQX conjugations cancel and the adjunction moves y.mapExactFunctor forget past the transport. The second half of the original statement (the endomorphism class of [b], followed by ι, is ι followed by R_b) is the open rung end-class-right-mult."
     },
     {
+      "id": "kappa-cancel",
+      "title": "ℚ ⊗ (ℤ_Y → ℚ_Y) is an isomorphism, and precomposition with ℤ_Y → ℚ_Y is injective on Ext^n(ℚ_Y, M) for every sheaf M of ℚ-vector spaces, in particular M = ℚ_Y",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.KappaCancel",
+      "declarations": [
+        "HodgeLadder.Cup.kappaAb",
+        "HodgeLadder.Cup.precomp_kappaAb_bijective",
+        "HodgeLadder.Cup.isIso_tensorQ_map_kappaAb",
+        "HodgeLadder.Cup.isIso_tensorQSheaf_map_kappaSheaf",
+        "HodgeLadder.Cup.kappa_cancel",
+        "HodgeLadder.Cup.kappa_cancel_rational"
+      ],
+      "depends_on": [
+        "ab-ext-yoneda"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. On abelian groups ℚ ⊗ κ is an isomorphism by the coyoneda criterion and the adjunction: an additive map from ℚ to a ℚ-vector space is q ↦ q • f(1) (map_rat_smul). On sheaves by naturality of tensorQConstIso. Cancellation by Adjunction.extEquiv_naturality_left₀."
+    },
+    {
+      "id": "one-is-kappa",
+      "title": "The unit oneY of H^0(Y; ℚ) is the class of ℤ_Y → ℚ_Y, so every β is κ followed by its endomorphism class forgetEnd(e β)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "kappa-cancel"
+      ],
+      "contributors": [],
+      "note": "rationalExtEquiv of mk₀ κ is mk₀ 𝟙: extEquivQ.symm of mk₀ is mk₀ of the adjoint map, and the adjoint of κ is tensorQSheafInt up to forgetQX."
+    },
+    {
+      "id": "ext-derived-bridge",
+      "title": "Mathlib's Ext classes between constant sheaves and upstream's Hypercohomology classes agree in the derived category of sheaves of abelian groups on X(ℂ), through single versus extended complexes and upstream's ULift identification",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "one-is-kappa"
+      ],
+      "contributors": [],
+      "note": "Map both to DerivedCategory through SmallShiftedHom.equiv with Q (universe-independent); constantIntegerSheafComplexIntIsoSingleULift and extendSingleIso supply the object isomorphisms."
+    },
+    {
       "id": "end-class-right-mult",
       "title": "For y = e[b], forgetEnd y followed by ι[q] equals ι followed by the class of R_b, in the derived category of sheaves of abelian groups on X(ℂ)",
       "status": "open",
@@ -970,7 +1018,10 @@
       "depends_on": [
         "ab-ext-yoneda",
         "ext-class-right-mult",
-        "iota-upstream"
+        "iota-upstream",
+        "kappa-cancel",
+        "one-is-kappa",
+        "ext-derived-bridge"
       ],
       "contributors": [],
       "note": "Both sides agree after precomposition with ℤ_X → ℚ_X (eq_oneY_comp_forgetEnd and ext-class-right-mult, once Sheaf.H's ULift ℤ source and upstream's Hypercohomology are identified). Cancelling ℤ_X → ℚ_X needs S to be a complex of ℚ-vector-space sheaves (sheafification commutes with forgetting ℚ) and the adjunction ℚ ⊗ − ⊣ forget on derived categories, under which ℚ ⊗ (ℤ_X → ℚ_X) is an isomorphism."

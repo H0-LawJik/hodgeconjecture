@@ -70,3 +70,12 @@ Progress: `iota-upstream` is checked (`iso_hom_iotaZ`), so `ext-class-right-mult
 Expected result, unverified until the assembly is checked: in the same order, `cup x y ↦ (−1)^{pq} · (x ∪ y)`, where `x ∪ y` is the singular cup product. The sign comes only from `rightMulCochain`; `cup-positive-degree-test` checks it independently on ℙ¹ × ℙ¹, where p = q = 2 and the sign is `+1`. A product with `p` and `q` both odd distinguishes the two candidates; on a curve of positive genus, H¹ ⊗ H¹ → H² gives such a test.
 
 Progress: `named-cocycle-comp` is checked (`namedCocycle_comp_rightMul`; the sign is `rightMulCochain`'s (−1)^{pq}), and `ab-ext-yoneda` is checked in the form α ∪ β = α followed by `forgetEnd (e β)` (`cupY_eq_comp_forgetEnd`). The remaining input is `end-class-right-mult`: `forgetEnd (e [b])` followed by `ι` is `ι` followed by `R_b`. Both sides agree after `ℤ_X → ℚ_X`; cancelling that map needs the singular cochain sheaves as a complex of `ℚ`-vector-space sheaves and the derived adjunction for `ℚ ⊗ − ⊣ forget`. The identification of `Sheaf.H` (source `ULift ℤ`) with upstream's `Hypercohomology` goes in the same rung.
+
+### Route for `end-class-right-mult`
+
+| Step | Statement | Status |
+|---|---|---|
+| `kappa-cancel` | precomposition with `κ : ℤ_X → ℚ_X` is injective on `Ext^n(ℚ_X, ℚ_X)` (via `ℚ ⊗ κ` an isomorphism) | checked |
+| `one-is-kappa` | `oneY` is the class of `κ`, so `β = κ` followed by `forgetEnd (e β)` | open |
+| `ext-derived-bridge` | Mathlib's `Ext` and upstream's `Hypercohomology` agree in the derived category | open |
+| assembly | `κ ≫ forgetEnd (e β) ≫ ι` and `κ ≫ ι ≫ R_b` both represent `[b]` under step 2 (`ab-ext-yoneda`, `ext-class-right-mult`); step 2 is injective, `ι` is an isomorphism in the derived category, and `kappa-cancel` removes `κ` | open |

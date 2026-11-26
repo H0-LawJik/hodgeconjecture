@@ -56,3 +56,4 @@ public import HodgeLadder.Cup.RightMultClass
 public import HodgeLadder.Cup.IotaUpstream
 public import HodgeLadder.Cup.NamedCocycle
 public import HodgeLadder.Cup.AbYoneda
+public import HodgeLadder.Cup.KappaCancel
