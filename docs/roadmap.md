@@ -44,7 +44,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cochain-cup-upstream` | foundation | checked | `tauceti-cup-backport` | The cup product on upstream's singular cochains, through a cochain isomorphism with Tau Ceti's model |
 | `cochain-sheaf-right-mult` | foundation | checked | `cochain-cup-upstream` | Right multiplication by a global cocycle as a morphism of complexes of sheaves on the sheafified singular cochains |
 | `right-mult-cocycle` | foundation | checked | `cochain-sheaf-right-mult` | Right multiplication by a global cocycle as a degree-q cocycle of the Hom complex Hom(S_ℤ, S_ℤ), components (−1)^{pq} r_p |
-| `right-mult-unit` | foundation | open | `right-mult-cocycle` | ι ≫ R_b is the Hom-complex cocycle of the global section b |
+| `right-mult-unit` | foundation | checked | `right-mult-cocycle` | ι ≫ R_b is the Hom-complex cocycle of the global section b |
 | `ext-class-right-mult` | foundation | open | `right-mult-unit` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
 | `cup-singular-comparison` | foundation | open | `ext-class-right-mult`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
