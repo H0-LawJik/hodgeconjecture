@@ -880,15 +880,22 @@
     {
       "id": "iota-upstream",
       "title": "ι_ℤ composed with upstream's integer-constant isomorphism equals upstream's ℤ_X → ℚ_X followed by rationalToSingularCochainComplexInt",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.IotaUpstream",
+      "declarations": [
+        "HodgeLadder.Cup.intToRatComplex",
+        "HodgeLadder.Cup.extend_single_comp_f",
+        "HodgeLadder.Cup.iotaZ_eq",
+        "HodgeLadder.Cup.iso_hom_iotaZ"
+      ],
       "depends_on": [
         "ext-class-right-mult"
       ],
-      "contributors": [],
-      "note": "Chain maps out of (single₀ A).extend are determined in degree zero; both sides there are ℤ_X → ℚ_X → S⁰. Needed to read ext-class-right-mult through upstream's step 1."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Both sides are maps out of a single complex, so they agree once their degree-zero components do (from_single_hom_ext); extend_single_comp_f computes the extended side in degree zero for any abelian category, and both components are ℤ_X → ℚ_X → S⁰. iso_hom_iotaZ: upstream's integer-constant isomorphism followed by ι_ℤ is intToRatComplex followed by rationalToSingularCochainComplexInt."
     },
     {
       "id": "cup-singular-comparison",
