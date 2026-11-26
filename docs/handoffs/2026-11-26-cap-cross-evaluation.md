@@ -1,0 +1,13 @@
+# Handoff 2026-11-26: `cap-cross-evaluation`
+
+- Checked: `HodgeLadder/Cup/CapCrossEvaluation.lean` (namespace `HodgeLadder.CapCross`) and the test module `HodgeLadder/Tests/CapCrossEvaluation.lean` (new rung `cap-cross-evaluation-test`), both imported from the root, standard axioms only. `python3 tools/check.py` exits 0. The three statements the red team passed are unchanged.
+- Identity: ⟨pr₂^*ψ, pr₁^*φ ⌢ (x × y)⟩ = ⟨φ, x⟩ · ⟨ψ, y⟩ over ℚ, exact, no sign in any degree.
+  - `cap_cross_evaluation_triad`: upstream's sum-relative triad cap with `relCross`, any subsets.
+  - `cap_cross_evaluation`: upstream's union-relative triad cap with `relCrossUnion`, any excision proof; `quasiIso_triadToUnion_prod_of_isOpen` for open A, B.
+  - `cap_cross_evaluation_cocycle`: the chain-level form on cocycles and relative cycles.
+- Route (homotopy, as the red team checked): the cap evaluation is Tau Ceti's `tensorCochain` α ⊗ β after Alexander–Whitney (`alexanderWhitney_tensorEval`); AW ∘ EZ = d h + h d + id (`SSet.shuffleAlexanderWhitneyHomotopy`); d h dies on cocycles (`tensorEval_d_eq_zero`); h d dies by the homotopy's naturality along A → P and B → Q (`d_ιTensorObj_mem`, `tensorEval_homotopy_left`, `_right`). Upstream's subspace chain map is `SSet.chainComplexMap` of the inclusion by `rfl`.
+- Tests (red team C1, verbatim): `capCross_real_one_one` (ℝ¹ × ℝ¹, value 1 in odd degrees, so a Koszul (−1)^{mn} is excluded) and `capCross_complex_model` (product form on ℂ^a × ℂ^b, value 1).
+- C2: six private `rfl` pins kept, with the comment to replace them by `HodgeLadder.Cup.TriadCapPins`. C3: representative lemmas in `docs/gaps.md` "General lemmas kept local". C4: `local-class-cross-model` restated in product form (title, note, `depends_on` without `relative-cross-triad-naturality` and `triad-cap-naturality`, sketch and roadmap rows); its statement is `capCross_complex_model`, already checked, so the maintainer can post it. `triad-cap-naturality` stays open, marked off the critical path. C5: register row "Cap–cross evaluation" kept.
+- What took time: the ℚ-module instances of `ModuleCat.of ℚ ℚ`, `𝟙_ (ModuleCat ℚ)` and `SingularChainComplex` agree only up to unfolding, so `rw` with `hom_ofHom`, `comp_apply`, `map_smul` and `ring` failed in the per-simplex computation; `change`, single-term `erw` and `ac_rfl` work. `rw [zero_add]` rewrote inside an `ιTensorObj` degree proof; use `Eq.trans`.
+- Not done: the GitHub issue for `cap-cross-evaluation-test` (no push from this session); the CLAUDE.md status block.
+- Next: `local-class-product` through `triad-relative-cup-cap` and `triad-relative-cup-naturality`, with the pullback lemma for `normalizedRelativeCoclass` along an isomorphism of pairs (red team finding 5) for the move to ℂ^{a+b}.

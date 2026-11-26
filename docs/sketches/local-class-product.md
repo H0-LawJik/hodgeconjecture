@@ -91,7 +91,7 @@ Path-connectedness of GL⁺_d(ℝ) (checked since 2026-11-26 as `glpos-path-conn
 | `relative-cross-chain` | shuffle cross product H_m(P, A) ⊗ H_n(Q, B) → `TriadRelativeHomology` and → H_{m+n}(P × Q, A × Q ∪ P × B). First Lean lemma: the identity shuffle has coefficient +1 in `shuffleChain` | step 3 | `tauceti-cup-backport` |
 | `cap-cross-evaluation` | ⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩⟨ψ, y⟩, no sign; the docstring records the unnormalized-chain homotopy of step 4. First: the `rfl` pins of section "Pins and drift", unless `triad-relative-cup-cap` added them | step 4 | `relative-cross-chain` |
 | `cross-orientation` | s_a × s_b = `standardComplexLocalClass ℚ (a + b)` via `orient`, sign +; real form s_m × s_n = s_{m+n}. First Lean lemmas: `complexRealHomeomorph_append` (below) and det of the identity-shuffle simplex of s_m × s_n = det(s_m) · det(s_n) | step 5 | `real-affine-orientation`, `relative-cross-chain` |
-| `local-class-cross-model` | `local_class_cross_cap` above | step 6 | `cap-cross-evaluation`, `cross-orientation` |
+| `local-class-cross-model` | product form (restated 2026-11-26, red team of `cap-cross-evaluation`, C4): on ℂ^a × ℂ^b with `leftProdSet {0}ᶜ _`, `rightProdSet _ {0}ᶜ`, the triad cap of pr₁^* u_a with s_a × s_b, paired with pr₂^* u_b, is 1; the statement of `HodgeLadder.Tests.capCross_complex_model` (checked). `local_class_cross_cap` above, on ℂ^{a+b}, is superseded: the move to ℂ^{a+b} is made in `local-class-product` on the union pair, by upstream functoriality, `cross_orientation_complex` and the pullback lemma for `normalizedRelativeCoclass` along an isomorphism of pairs | step 6 | `cap-cross-evaluation`, `cross-orientation` |
 | `triad-relative-cup` | `relCup2 : H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B)` for open A, B; `forgetRel (relCup2 a b) = cupSing (forgetRel a) (forgetRel b)`; `relCup2` with B = ∅ is `relCupSing` | AW descends to the triad complex; dual of upstream's triad excision | `relative-singular-cup` |
 | `triad-relative-cup-naturality` | `relCup2` is natural for maps of triads (open A, B, A', B'), no sign | pullback of the triad complex | `triad-relative-cup` |
 | `triad-relative-cup-cap` | ⟨relCup2 φ ψ, z⟩ = ⟨ψ, φ ⌢ z⟩ for `unionRelativeTriadCapCohomologyLinear`, no sign. First: the `rfl` pins below, unless `cap-cross-evaluation` added them | chain-level identity front/back faces; excision on both sides | `triad-relative-cup` |
@@ -654,6 +654,112 @@ theorem unionRelativeTriadCapCohomologyLinear_naturality {X Y : TopCat.{0}} (f :
 The proof also needs naturality of upstream's `relativeCochainCohomologyEquiv`, which the pin lacks (it has the absolute `cochainCohomologyEquiv_naturality` only).
 
 `lake env lean` takes about 5 seconds on each of the two files. `python3 tools/check.py` exits 0 with both modules imported from `HodgeLadder.lean`.
+## cap-cross-evaluation: statement
+Date: 2026-11-26. Phase 1 (statement), branch `track/cap-cross-evaluation` from `c486870`. File `HodgeLadder/Cup/CapCrossEvaluation.lean`, module `HodgeLadder.Cup.CapCrossEvaluation`, namespace `HodgeLadder.CapCross`; not yet imported from `HodgeLadder.lean`. The brief's default path `HodgeLadder/Cap/Cross/Evaluation.lean` splits the id at its hyphens; the maintainer picks the name when the rung is posted. `lake env lean` on the file takes 4 to 7 s (warm cache). Status at the statement pass: the two homology statements are proved from one chain-level statement, which is open; four representative lemmas, the excision helper and six private pins are proved with the three standard axioms. Statement red team: pass with changes (`docs/sketches/cap-cross-evaluation.redteam.md`). **Checked 2026-11-26** with the statements unchanged; see "cap-cross-evaluation: proofs" below.
+**Choices.** Coefficients ℚ, spaces in `TopCat.{0}`, the product `P ⊗ Q` with `leftProdSet A Q` (A × Q) and `rightProdSet P B` (P × B) of `relative-cross-chain`. This is the product form that the ledger note of `local-class-cross-model` names as the way around triad-level naturality: on P = ℂ^a, Q = ℂ^b, A = B = {0}ᶜ the pairs `TopPair.ofSubset A` are upstream's `puncturedPair ℂ a` by `abbrev`, so the model on the product needs no transport (scratch check below). The two projections are maps of pairs defined here (`prFstPair`, `prSndPair`, by `TopPair.ofSubsetHom` of `fst`, `snd`). The cap enters in two forms: upstream's sum-relative `triadCapCohomologyLinear` (no openness), and the customary `unionRelativeTriadCapCohomologyLinear`, which takes a proof `hExc` of the excision quasi-isomorphism as an argument; a consumer passes `quasiIso_triadToUnion_prod_of_isOpen hA hB`, and since `hExc` is a proposition the identity does not depend on it. The pairing is upstream's `relativeCohomologyEquivDualHomology` on both sides.
+### Statements
+def prFstPair {P : TopCat.{0}} (A : Set P) (Q : TopCat.{0}) :
+    TopPair.ofSubset (X := P ⊗ Q) (leftProdSet A Q) ⟶ TopPair.ofSubset A :=
+  TopPair.ofSubsetHom (fst P Q) fun _ h => h
+def prSndPair (P : TopCat.{0}) {Q : TopCat.{0}} (B : Set Q) :
+    TopPair.ofSubset (X := P ⊗ Q) (rightProdSet P B) ⟶ TopPair.ofSubset B :=
+  TopPair.ofSubsetHom (snd P Q) fun _ h => h
+-- open: the chain-level identity
+theorem cap_cross_evaluation_cocycle {P Q : TopCat.{0}} (A : Set P) (B : Set Q) {m n : ℕ}
+    (φ : RelativeCochain ℚ (TopPair.ofSubset A) m)
+    (hφ : relativeCoboundary ℚ (TopPair.ofSubset A) m φ = 0)
+    (ψ : RelativeCochain ℚ (TopPair.ofSubset B) n)
+    (hψ : relativeCoboundary ℚ (TopPair.ofSubset B) n ψ = 0)
+    (x : (SingularChainComplex ℚ P).X m) (y : (SingularChainComplex ℚ Q).X n)
+    (zx : ((relativeChainFunctor ℚ).obj (TopPair.ofSubset A)).cycles m)
+    (hx : (((relativeChainFunctor ℚ).obj (TopPair.ofSubset A)).iCycles m).hom zx =
+      ((relativeChainProjection ℚ (TopPair.ofSubset A)).f m).hom x)
+    (zy : ((relativeChainFunctor ℚ).obj (TopPair.ofSubset B)).cycles n)
+    (hy : (((relativeChainFunctor ℚ).obj (TopPair.ofSubset B)).iCycles n).hom zy =
+      ((relativeChainProjection ℚ (TopPair.ofSubset B)).f n).hom y) :
+    (((relativeChainFunctor ℚ).map (prSndPair P B)).f n).hom.dualMap ψ
+        (triadCap ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B) m n
+          ((((relativeChainFunctor ℚ).map (prFstPair A Q)).f m).hom.dualMap φ)
+          (((triadRelativeChainProjection ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)).f
+            (m + n)).hom (shuffleBilin P Q m n x y))) =
+      φ (((relativeChainProjection ℚ (TopPair.ofSubset A)).f m).hom x) *
+        ψ (((relativeChainProjection ℚ (TopPair.ofSubset B)).f n).hom y)
+-- proved from cap_cross_evaluation_cocycle
+theorem cap_cross_evaluation_triad {P Q : TopCat.{0}} (A : Set P) (B : Set Q) (m n : ℕ)
+    (φ : RelativeCohomology ℚ (TopPair.ofSubset A) m)
+    (ψ : RelativeCohomology ℚ (TopPair.ofSubset B) n)
+    relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset (X := P ⊗ Q) (rightProdSet P B)) n
+        (relativeCohomologyMap ℚ n (prSndPair P B) ψ)
+        (triadCapCohomologyLinear ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B) m n
+          (relativeCohomologyMap ℚ m (prFstPair A Q) φ) (relCross A B m n x y)) =
+      relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset A) m φ x *
+        relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset B) n ψ y
+-- the rung's statement; proved from the triad form
+theorem cap_cross_evaluation {P Q : TopCat.{0}} (A : Set P) (B : Set Q) (m n : ℕ)
+    (hExc : QuasiIso
+      (triadToUnionRelativeChainMap ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)))
+    (φ : RelativeCohomology ℚ (TopPair.ofSubset A) m)
+    (ψ : RelativeCohomology ℚ (TopPair.ofSubset B) n)
+    relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset (X := P ⊗ Q) (rightProdSet P B)) n
+        (relativeCohomologyMap ℚ n (prSndPair P B) ψ)
+        (unionRelativeTriadCapCohomologyLinear ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)
+          m n hExc (relativeCohomologyMap ℚ m (prFstPair A Q) φ) (relCrossUnion A B m n x y)) =
+      relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset A) m φ x *
+        relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset B) n ψ y
+### Proved now
+| Declaration | Content |
+| `cap_cross_evaluation` | from the triad form: `relCrossUnion x y` is `triadToUnionRelativeHomologyMap (relCross x y)` by `rfl`, then upstream's `unionRelativeTriadCapCohomologyLinear_on_comparison` |
+| `cap_cross_evaluation_triad` | from the cocycle form: representatives of φ, ψ (`moduleCatHomologyClass_surjective`, `relativeCochainCohomologyEquiv`), of x, y (`moduleCat_homologyπ_surjective`, `relProj_surjective`), the triad cycle of `exists_triadCycle_shuffle` and `relCross_homologyπ`, then the three lemmas below |
+| `relEval_class` | upstream's pairing on representatives: ⟨class of φc, homologyπ z⟩ = φc(iCycles z), no sign (`linearDualHomologyEquiv_class_apply_class`) |
+| `relativeCohomologyMap_class` | upstream's pullback on representatives: the class of φc goes to the class of φc ∘ f_* (`linearDualCochainComplexScIso_naturality`, which is `rfl` upstream, and `moduleCatHomologyClass_naturality`) |
+| `triadCap_class_homologyπ` | upstream's sum-relative triad cap on representatives: the class of the cycle `triadCap φc (iCycles z)`, read off the middle term `triadCapHom` of `triadCapShortComplexHom`, so the factors (−1)^p of the outer terms do not enter |
+| `homologyπ_eq_class` | for a short complex of modules, `homologyπ z` is the explicit class of `iCycles z` (Mathlib `moduleCatCyclesIso_inv_π`) |
+| `quasiIso_triadToUnion_prod_of_isOpen` | for open A, B, the excision hypothesis on (P × Q; A × Q, P × B), from upstream's `triadToUnionRelativeChainMap_quasiIso_of_isOpen` |
+| private pins | `capHom` = coproduct desc of φ(front face) • back face; `frontFace`, `backFace` through `frontInclusion` (vertex i ↦ i) and `backInclusion` (i ↦ p + i); `relativeCapLift` = `Simplicial.cap` of the cochain pulled back along the relative projection; `triadCapLiftHom` = that, then the projection to C(X, B); `unionRelativeTriadCapCohomologyLinear` = `triadCapCochainCohomologyLinear` of `relativeCochainCohomologyEquiv.symm α`, applied to the inverse of `isoOfQuasiIsoAt` of the comparison. All by `rfl`; replace by `HodgeLadder.Cup.TriadCapPins` (rung `triad-relative-cup-cap`) once it lands |
+So the rung reduces to one chain-level identity, `cap_cross_evaluation_cocycle`, and the reduction is checked.
+### Signs
+| Fact | Value | Source |
+|---|---|---|
+| cap on a simplex | φ(front p-face) · back q-face, no sign | `capHom_pin` (proved by `rfl`), register row "Triad cap product" |
+| cap on homology | the middle term `triadCapHom`; the (−1)^p of the outer terms does not reach homology | `triadCap_class_homologyπ` (proved) |
+| evaluation | ⟨[φ], [x]⟩ = φ(x), no sign | `relEval_class` (proved), row "Universal-coefficient evaluation" |
+| pullback | [φ] ↦ [φ ∘ f_*], no sign | `relativeCohomologyMap_class` (proved) |
+| cross product | [x] × [y] = [shuffle(x ⊗ y)]; identity shuffle +1 | `relCross_homologyπ`, `shuffleChain_idShuffle_coeff` (checked), rows "Shuffle map", "Relative homology cross product" |
+| the identity-shuffle term | φ(x) · ψ(y): its front m-face projects to x under pr₁ and its back n-face to y under pr₂ (vertices (min(k, m), k − m)) | `idShuffle`; to be used in the proof |
+| other shuffle terms | each is ±φ(degenerate) · ψ(degenerate); single terms need not vanish, their sum does on cocycles and relative cycles | route below |
+| Koszul evaluation | (−1)^{|ψ||x|} = (−1)^{nm}, which upstream's cap and pairing do not insert | `Dold1972`, unverified; the identity has no sign in every degree, also for m, n odd |
+The identity has + in every degree, so `local-class-cross-model` gets 1 · 1 = 1 with no parity condition. The degree twist ε(k) = (−1)^{k(k−1)/2} of some conventions does not appear: upstream's pairing is plain evaluation.
+### Route for the proof of `cap_cross_evaluation_cocycle`
+Write α = φ ∘ relProj_A, β = ψ ∘ relProj_B (absolute cocycles on P, Q vanishing on C(A), C(B)).
+1. **Cap to Alexander–Whitney.** For a chain c of degree m + n on P ⊗ Q: β(pr₂_* (pr₁^* α ⌢ c)) = ε_{α,β}(AW c), with AW Tau Ceti's `TopCat.alexanderWhitney` and ε_{α,β} the functional on (C(P) ⊗ C(Q))_{m+n} that is α ⊗ β on the (m, n) summand and 0 on the others (to be defined by `HomologicalComplex.mapBifunctorDesc`, coefficients by the left unitor). On a simplex it is `capHom_pin` against `TopCat.ιChainComplex_alexanderWhitney_f`: Tau Ceti's p-th term uses `SimplexCategory.subinterval 0 p` and `subinterval p (n − p)`, which agree with upstream's `frontInclusion`, `backInclusion` on vertices (an `ext` lemma, with the cast (m + n) − m = n).
+2. **AW after shuffle.** `TopCat.shuffle_alexanderWhitney` turns AW ∘ shuffle into the simplicial composite, and `SSet.shuffleAlexanderWhitneyHomotopy` gives AW ∘ shuffle − id = d h + h d.
+3. **The two homotopy terms vanish.** ε_{α,β} ∘ d = 0 in degree m + n + 1, since d(a ⊗ b) = da ⊗ b + (−1)^i a ⊗ db (Mathlib's tensor differential) and α, β are cocycles. For h d: d(x ⊗ y) = dx ⊗ y ± x ⊗ dy with dx in the image of C(A) and dy in the image of C(B) (`exists_of_relProj_eq_zero`, `relProj_d`); by `shuffleAlexanderWhitneyHomotopy_hom_naturality` along A ↪ P (and B ↪ Q), h maps C(A) ⊗ C(Q) into the image of C(A) ⊗ C(Q), where ε_{α,β} vanishes because α does on C(A); likewise for B. Degree m + n = 0 is the case of the zero differential.
+4. **The identity term.** ε_{α,β}(x ⊗ y) = α(x) β(y).
+A second route avoids the tensor functional: replace φ, ψ by cohomologous normalized cocycles (Mathlib's `AlgebraicTopology.DoldKan.PInfty`, natural, homotopic to the identity, zero on degenerate simplices), and note that for a simplex s of Δ[m] ⊗ Δ[n] in degree m + n other than `idShuffle`, the first projection of its front m-face or the second projection of its back n-face is degenerate (a monotone self-map of [m] or [n] other than the identity is not injective, `SimplexCategory.eq_σ_comp_of_not_injective`); then only `shuffleChain_idShuffle_coeff` remains, through `simplexCoeff`. It needs the naturality of the normalization homotopy, which is worth checking in Mathlib before choosing it. The first route uses only declarations that exist and is the planned one.
+### Checks for the red team
+- `rfl`, `simp`, `simp [triadCap, shuffleBilin]`, `ring` and `exact?` fail on `cap_cross_evaluation_cocycle` (copy of the file, deleted); `rfl`, `simp`, `simp [relativeCohomologyEquivDualHomology]`, `norm_num` and `exact?` fail on the triad form stated with a `sorry` body. `simp` on the triad form rewrites pr₂^* to the homology side and stops at a genuine cap.
+- `#print axioms`: `relEval_class`, `relativeCohomologyMap_class`, `triadCap_class_homologyπ`, `homologyπ_eq_class`, `quasiIso_triadToUnion_prod_of_isOpen` use `propext`, `Classical.choice`, `Quot.sound` only; `cap_cross_evaluation` adds `sorryAx` through the one open statement.
+- `python3 tools/check.py --no-build` rejects only the `sorry` of this file.
+- Consumer shape (scratch, deleted), the product form of the model: with P = `TopCat.of (Fin a → ℂ)`, Q = `TopCat.of (Fin b → ℂ)`, A = B = {0}ᶜ, φ, ψ upstream's `normalizedRelativeCoclass (standardComplexLocalClass ℚ k) (standardComplexLocalClass_ne_zero k)`, x, y the classes `standardComplexLocalClass ℚ k`, the left side of `cap_cross_evaluation` equals 1 by `rw [cap_cross_evaluation, normalizedRelativeCoclass_pairing_self, normalizedRelativeCoclass_pairing_self, mul_one]`. This is the model on ℂ^a × ℂ^b with the cross class; `cross_orientation_complex` identifies that class with the orientation class of ℂ^{a+b} after the push along `complexAppendMap`.
+- Non-vacuity: at P = Q = a point, A = B = ∅, m = n = 0 both sides are the products of the values on the vertex (`shuffleBilin_vertex`), so the identity is not 0 = 0; the consumer check above has right side 1.
+Questions for the red team: (i) the form of `local-class-cross-model`. On ℂ^a ⊗ ℂ^b with the cross class s_a × s_b its identity follows from this rung alone (scratch check above), and the sign content of decision 0009 then sits in `cross_orientation_complex`. Bringing it to ℂ^{a+b} with `setA`, `setB`, `orient` needs a naturality of upstream's triad cap along the homeomorphism of triads `complexAppendMap` (upstream has none), or `relative-cross-triad-naturality` together with it. Which form should the ledger record? (ii) whether the four representative lemmas belong in `docs/gaps.md` "General lemmas kept local" (they are statements about upstream's own API); (iii) the file name.
+
+## cap-cross-evaluation: proofs
+
+Date: 2026-11-26. `cap_cross_evaluation_cocycle` is proved with the statement as posted, by the homotopy route the red team checked; with it the three statements are checked with the three standard axioms in `HodgeLadder.Cup.CapCrossEvaluation`, now imported from `HodgeLadder.lean`, and the red team's two tests (C1, verbatim) are checked in `HodgeLadder.Tests.CapCrossEvaluation` under the new test rung `cap-cross-evaluation-test`. `lake env lean` on the rung file takes about 10 s. No step produced a sign.
+
+| Step | Lean |
+|---|---|
+| The left side is a functional of the shuffle chain | `capEval α β`, c ↦ β(pr₂_*(pr₁^*α ⌢ c)), with α = φ ∘ relProj_A, β = ψ ∘ relProj_B; reached from the triad cap by `triadCap_projection_apply`, `relativeChainProjection_naturality` (`relProj_map_apply`) and the identity of the pulled-back cochain with `Simplicial.cochainMap` |
+| Cap to Alexander–Whitney | `alexanderWhitney_tensorEval`: on chains with coefficients ℚ ⊗ ℚ, `TopCat.alexanderWhitney` followed by `tensorEval α β` (Tau Ceti `tensorCochain` with the left unitor) is the coefficient change followed by `capEval α β`. Per simplex: `TopCat.ιChainComplex_alexanderWhitney_f`, `SSet.ιChainComplex_alexanderWhitney_f`, the summand p = m (the others vanish by `ιTensorObj_tensorCochain_of_ne_left`), the degree m + n − m read through a free variable as in Tau Ceti's `ιChainComplex_alexanderWhitneyDiagonal_f_tensorCochain`; upstream's `frontInclusion`, `backInclusion` are Mathlib's `subinterval 0 m`, `subinterval m n` (`frontInclusion_eq_subinterval`, `backInclusion_eq_subinterval`) |
+| AW ∘ EZ = d h + h d + id | `TopCat.shuffle_alexanderWhitney`, `(SSet.shuffleAlexanderWhitneyHomotopy _ _ _ _).comm` |
+| d h dies | `tensorEval_d_eq_zero`: Tau Ceti's `d_comp_tensorCochain` with d ≫ α = 0 and d ≫ β = 0 (from `hφ`, `hψ` and `relProj_d`) |
+| h d dies | `d_ιTensorObj_mem`: in the four degree cases (`ιTensorObj_d_of_rel`, `_of_not_rel_left`, `_of_not_rel_right`; m = n = 0 has no boundary), d(x ⊗ y) lies in the image of C(A) ⊗ C(Q) plus that of C(P) ⊗ C(B), from `exists_d_eq_of_cycle`; `tensorEval_homotopy_left`, `_right`: `SSet.shuffleAlexanderWhitneyHomotopy_hom_naturality` along `toSSet.map` of A → P (resp. B → Q) and `tensorHom_f_comp_tensorCochain` with α ∘ i_A = 0 (resp. β ∘ i_B = 0) |
+| identity term | `ιTensorObj_tensorCochain`: (α ⊗ β)(x ⊗ y) = α(x) β(y) |
+
+Upstream's subspace chain map `((chainPairFunctor ℚ).obj (TopPair.ofSubset A)).hom` is `SSet.chainComplexMap (TopCat.toSSet.map (TopPair.ofSubset A).map) (ModuleCat.of ℚ ℚ)` by `rfl` (private `subspaceChainMap_pin`), as the red team asked; so is `singChainFunctor.map`, and `SingularChainComplex ℚ P` is `(TopCat.toSSet.obj P).chainComplex (𝟙_ (ModuleCat ℚ))`.
+
+**What failed on the way.** Rewriting with `ModuleCat.hom_ofHom`, `LinearMap.comp_apply`, `cochainMap_apply` or `map_smul` in the per-simplex computation failed, because the ℚ-module instances of `ModuleCat.of ℚ ℚ`, of `𝟙_ (ModuleCat ℚ)` and of `SingularChainComplex` agree only up to unfolding; `change` to an explicit form, `erw` of the linear-map lemmas on single terms, and `ac_rfl` for the final commutation (where `ring` failed for the same reason) work. `erw` with `tensorHom_tmul` timed out; two `rfl` lemmas for `(f ⊗ₘ g) ≫ λ` and `λ ≫ f` on `r ⊗ₜ t` replace it. `rw [zero_add]` after the Leibniz rule rewrote a `0 + n'` inside the degree proof of `ιTensorObj`; `Eq.trans ?_ (zero_add _).symm` avoids it.
 
 ## triad-relative-cup-cap: statement
 
