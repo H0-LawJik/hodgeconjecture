@@ -68,6 +68,13 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `support-named-class` | foundation | dead | `support-cone-right-mult`, `step3-named-class` | Upstream's supported comparison sends the class named by a relative cocycle to its relative singular class |
 | `cup-comparison-projective-line` | test | checked | `cup-singular-comparison-absolute`, `cup-graded-commutative`, `projective-line-test` | The cup comparison and graded commutativity apply to upstream's ℙ¹ |
 | `cup-odd-degree-test` | test | open | `cup-singular-comparison-absolute` | A nonzero product of two classes in H¹(X; ℚ) |
+| `torus-cycle-pairing` | foundation | checked | `cochain-cup-upstream` | Evaluation on a torus cycle σ₁ − σ₂ descends to H²(Y; ℚ); on a cup of two degree-one classes it is the determinant a(e)b(f) − a(f)b(e) |
+| `winding-torus-cup` | foundation | checked | `torus-cycle-pairing` | For units winding once around the two circles of a torus T, ⟨cupSing a₁ a₂, T⟩ = 1 and ⟨cupSing a₂ a₁, T⟩ = −1 |
+| `singular-odd-cup-test` | test | checked | `winding-torus-cup`, `cup-graded-commutative` | On ℂˣ × ℂˣ the coordinate winding classes have nonzero singular cup, which changes when the factors are swapped |
+| `cup-odd-degree-transfer` | reduction | checked | `winding-torus-cup`, `cup-singular-comparison-absolute` | With such units and torus on X(ℂ), x₁, x₂ = Ψ⁻¹(a₁), Ψ⁻¹(a₂) satisfy ⟨Ψ(x₁ ∪ x₂), T⟩ = −1 |
+| `gm2-witness` | test | checked | `upstream-statement` | 𝔾ₘ² over ℂ is integral and smooth, with Hausdorff analytification |
+| `gm2-points` | test | checked | `gm2-witness` | 𝔾ₘ²(ℂ) ≅ ℂˣ × ℂˣ; its opens are paracompact |
+| `cup-odd-degree-gm2` | test | checked | `cup-odd-degree-transfer`, `gm2-points` | On 𝔾ₘ², a nonzero product of two classes in H¹(X; ℚ), with the sign (−1)^{1·1} visible |
 | `supported-sections-right-mult` | foundation | dead | `right-mult-cocycle` | Right multiplication by a global cocycle preserves the sections of the singular cochain sheaves supported in Z, as a map of complexes |
 | `supported-step2-cocycle-class` | foundation | checked | `step2-cocycle-class` | the supported-sections model of `relH` on the class of a Hom-complex cocycle, K-injective and flasque forms |
 | `supported-sections-class` | foundation | checked | `supported-step2-cocycle-class`, `support-ab-yoneda`, `cup-global-comparison` | Through upstream's relHAddEquivSupportedSectionsHomologyOfFlasque, supCup α y is the class of the supported cocycle of α times b |

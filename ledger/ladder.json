@@ -1288,7 +1288,157 @@
         "cup-singular-comparison-absolute"
       ],
       "contributors": [],
-      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree."
+      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree. 2026-11-26: the weaker companion cup-odd-degree-gm2 is checked (𝔾ₘ², affine), through torus-cycle-pairing, winding-torus-cup and cup-odd-degree-transfer. This rung stays open: no curve of positive genus or abelian surface exists at the pin with the torus data cup-odd-degree-transfer asks for. Missing pieces and proposed sub-rungs (elliptic-curve-witness, elliptic-curve-uniformization, elliptic-curve-torus-data): docs/sketches/cup-odd-degree-test.md."
+    },
+    {
+      "id": "torus-cycle-pairing",
+      "title": "Evaluation on a torus cycle σ₁ − σ₂ descends to H²(Y; ℚ) and is a determinant on cup products of degree-one classes",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.TorusPairing",
+      "declarations": [
+        "HodgeLadder.Cup.torusEv_d",
+        "HodgeLadder.Cup.torusPairing",
+        "HodgeLadder.Cup.torusPairing_homologyπ",
+        "HodgeLadder.Cup.torusPairing_tcCup",
+        "HodgeLadder.Cup.torus_h0",
+        "HodgeLadder.Cup.torus_h1",
+        "HodgeLadder.Cup.torus_h2"
+      ],
+      "depends_on": [
+        "cochain-cup-upstream"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. For singular 2-simplices with δ₀σ₁ = δ₂σ₂, δ₁σ₁ = δ₁σ₂, δ₂σ₁ = δ₀σ₂, ⟨a ⌣ b, σ₁ − σ₂⟩ = a(e)b(f) − a(f)b(e) with e = δ₂σ₁, f = δ₀σ₁ (Tau Ceti's front-face/back-face formula). The square model of the torus (HodgeLadder.Cup.TorusCycle) supplies such a pair from any map ℝ × ℝ → Y of period 1 in each variable. Sketch: docs/sketches/cup-odd-degree-test.md."
+    },
+    {
+      "id": "winding-torus-cup",
+      "title": "Winding classes of two units winding once around the two circles of a torus have cup product pairing to 1, and to −1 in the other order",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.WindingTorus",
+      "declarations": [
+        "HodgeLadder.Cup.windingClass",
+        "HodgeLadder.Cup.torusEval",
+        "HodgeLadder.Cup.torusEval_cupSing",
+        "HodgeLadder.Cup.torusEval_cupSing_winding",
+        "HodgeLadder.Cup.torusEval_cupSing_winding_swap",
+        "HodgeLadder.Cup.cupSing_winding_ne_zero",
+        "HodgeLadder.Cup.cupSing_winding_swap_ne"
+      ],
+      "depends_on": [
+        "torus-cycle-pairing"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. For any space Y with nowhere vanishing g₁, g₂ and T : ℝ × ℝ → Y of period 1 with g₁ ∘ T = exp(2πi s), g₂ ∘ T = exp(2πi t): the classes of the port's rational winding cocycles satisfy ⟨cupSing a₁ a₂, T⟩ = 1 and ⟨cupSing a₂ a₁, T⟩ = −1. Edge values computed exactly by logIncrement_of_exp."
+    },
+    {
+      "id": "singular-odd-cup-test",
+      "title": "On ℂˣ × ℂˣ, the singular cup product of the two coordinate winding classes is nonzero and changes when the factors are swapped",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.TorusSingular",
+      "declarations": [
+        "HodgeLadder.Tests.puncturedSquare_cupSing_eval",
+        "HodgeLadder.Tests.puncturedSquare_cupSing_swap_eval",
+        "HodgeLadder.Tests.puncturedSquare_cupSing_ne_zero",
+        "HodgeLadder.Tests.puncturedSquare_cupSing_swap_ne"
+      ],
+      "depends_on": [
+        "winding-torus-cup",
+        "cup-graded-commutative"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. Non-vacuity of cupSing_gradedComm in degrees (1, 1): the sign −1 is visible on a computed instance."
+    },
+    {
+      "id": "cup-odd-degree-transfer",
+      "title": "If X(ℂ) carries two units winding once around the circles of a torus, their preimages x₁, x₂ ∈ H¹(X; ℚ) under Ψ satisfy ⟨Ψ(x₁ ∪ x₂), T⟩ = −1",
+      "status": "checked",
+      "kind": "reduction",
+      "module": "HodgeLadder.Cup.OddDegree",
+      "declarations": [
+        "HodgeLadder.Cup.sheafWindingClass",
+        "HodgeLadder.Cup.torusEval_cup_sheafWinding",
+        "HodgeLadder.Cup.torusEval_cup_sheafWinding_swap",
+        "HodgeLadder.Cup.cup_sheafWinding_ne_zero",
+        "HodgeLadder.Cup.cup_sheafWinding_swap_ne"
+      ],
+      "depends_on": [
+        "winding-torus-cup",
+        "cup-singular-comparison-absolute"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. Hypotheses: the four instances of cup_singular_comparison, continuous nowhere vanishing g₁, g₂ on X(ℂ), and a continuous T : ℝ × ℝ → X(ℂ) of period 1 with g₁ ∘ T = exp(2πi s), g₂ ∘ T = exp(2πi t). All are statements on upstream and Mathlib definitions. The value −1 is the sign (−1)^{1·1} of the comparison."
+    },
+    {
+      "id": "gm2-witness",
+      "title": "The algebraic torus 𝔾ₘ² = Spec ℂ[x, y][(xy)⁻¹] is integral and smooth over ℂ, with Hausdorff analytification",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.AlgebraicTorus",
+      "declarations": [
+        "HodgeLadder.Tests.gm2",
+        "HodgeLadder.Tests.gmRing"
+      ],
+      "depends_on": [
+        "upstream-statement"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. Instances IsIntegral, Smooth, IsAffine, T2Space (upstream's t2Space_of_isAffine). Affine, not projective."
+    },
+    {
+      "id": "gm2-points",
+      "title": "𝔾ₘ²(ℂ) is homeomorphic to ℂˣ × ℂˣ; its open subsets are paracompact",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.AlgebraicTorusPoints",
+      "declarations": [
+        "HodgeLadder.Tests.gmHomeomorph",
+        "HodgeLadder.Tests.gmAlgHomHomeomorph",
+        "HodgeLadder.Tests.continuous_gmOfPair",
+        "HodgeLadder.Tests.gmOfPair_gmToPair",
+        "HodgeLadder.Tests.gmToPair_gmOfPair"
+      ],
+      "depends_on": [
+        "gm2-witness"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. Through upstream's affineSpecHomeomorph (complex points of Spec R = complex algebra homomorphisms R → ℂ with pointwise topology). Paracompactness of opens: metrizable through the embedding into ℂ × ℂ."
+    },
+    {
+      "id": "cup-odd-degree-gm2",
+      "title": "On 𝔾ₘ², a nonzero product of two classes in H¹(X; ℚ), with ⟨Ψ(x₁ ∪ x₂), T⟩ = −1 and ⟨Ψ(x₂ ∪ x₁), T⟩ = 1",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.OddDegreeTorus",
+      "declarations": [
+        "HodgeLadder.Tests.gm2_torusEval_cup",
+        "HodgeLadder.Tests.gm2_torusEval_cup_swap",
+        "HodgeLadder.Tests.gm2_cup_ne_zero",
+        "HodgeLadder.Tests.gm2_exists_cup_ne_zero",
+        "HodgeLadder.Tests.gm2_cup_swap_ne"
+      ],
+      "depends_on": [
+        "cup-odd-degree-transfer",
+        "gm2-points"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26. Weaker companion of cup-odd-degree-test: same content (nonzero product of two H¹ classes, sign (−1)^{pq} visible) on an affine variety instead of a curve of positive genus or an abelian surface. Also a computed nonzero product of two positive-degree classes, the vacuity gap that cup-positive-degree-test addresses in even degree. Sketch: docs/sketches/cup-odd-degree-test.md."
     },
     {
       "id": "supported-sections-right-mult",

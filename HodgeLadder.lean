@@ -85,3 +85,11 @@ public import HodgeLadder.Cup.ConstantGenerator
 public import HodgeLadder.Cup.SupportedForgetGen
 public import HodgeLadder.Cup.SupportedForgetFinal
 public import HodgeLadder.Markman.CliffordSpin
+public import HodgeLadder.Cup.TorusPairing
+public import HodgeLadder.Cup.TorusCycle
+public import HodgeLadder.Cup.WindingTorus
+public import HodgeLadder.Tests.TorusSingular
+public import HodgeLadder.Cup.OddDegree
+public import HodgeLadder.Tests.AlgebraicTorus
+public import HodgeLadder.Tests.AlgebraicTorusPoints
+public import HodgeLadder.Tests.OddDegreeTorus
