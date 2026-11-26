@@ -2193,17 +2193,74 @@
       "note": "Exact, no sign. N a = (supportRelativeCohomologyToSheaf Z (2p)).app U (relativeCohomologyMap (neighborhoodSupportInclusionPairMap U ≤ ⊤) (complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ (2p) (r a))), U = cycleComponentSmoothSupportAmbientOpen X x, r = rationalSupportAddEquivSupportedInjectiveHomology. Route: cycleComponentSupportedClassNormalizationIso_apply, openRestrictedLowestSectionCohomologyIso_hom (the lowest-section iso is sectionCohomologyToSheafSection at U), complexSupportInjectiveCohomologySheafIsoRelative_restriction_section at U ≤ ⊤, then naturality of the sheafification unit, whose presheaf map is relativeCohomologyMap along neighborhoodSupportInclusionPairMap by definition. The singular naturality supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality was not needed. Imports Other.AlgebraicGeometry.Cycle.Component.PointClassNormalization (on the drift list). Sketch: docs/sketches/cycle-class-multiplicative.md. Red team 2026-11-26: pass with changes (docs/sketches/normalization-singular.redteam.md)."
     },
     {
+      "id": "open-subscheme-chart-analytic",
+      "title": "The inclusion of an open subscheme is a biholomorphism onto its image: a chart of the maximal analytic atlas of U(ℂ), lifted to X(ℂ), is in the maximal analytic atlas of X(ℂ)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Normalization.ChartStep",
+      "declarations": [
+        "HodgeLadder.Normalization.lift_mem_maximalAtlas_openScheme",
+        "HodgeLadder.Normalization.lift_mem_maximalAtlas_smoothSupportAmbient",
+        "HodgeLadder.Normalization.contMDiff_map_openInclusion",
+        "HodgeLadder.Normalization.contMDiffAt_map_openInclusion_symm"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Chart step of cycle-class-germ (red team finding 15). Upstream chooses the étale charts localChart of U(ℂ) and of X(ℂ) independently; their coordinates are evaluations of regular sections. ι is holomorphic by Point.evaluate_map, its local inverse by evaluate_openEquiv, both through analyticAt_localChart_symm_evaluate (upstream); then Mathlib's OpenPartialHomeomorph.mem_maximalAtlas_of_contMDiffOn. The instance SmoothOfRelativeDimension d (openScheme X U).hom is an argument (it holds for every U by smoothOfRelativeDimension_comp 0 d U.ι X.hom), so no instance is added. Also in the module: translate_mem, trans_mem_maximalAtlas, analyticAt_transition_of_mem_maximalAtlas, analyticAt_transition_of_factor."
+    },
+    {
       "id": "cycle-class-germ",
       "title": "Near a point of Z_reg(ℂ), the singular transport of the supported cycle class of Z equals chartNormalProjectionCoclass for every analytic chart adapted to Z",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Normalization.Germ",
+      "declarations": [
+        "HodgeLadder.Normalization.transport_supportedClass_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.Normalization.germ_coclassSection_eq",
+        "HodgeLadder.Normalization.coclassSection_eq_singular",
+        "HodgeLadder.Normalization.normalization_supportedInjectiveClass_ne_zero",
+        "HodgeLadder.Normalization.normalization_genericPoint_ne_zero",
+        "HodgeLadder.Normalization.toSheaf_transport_supportedClass_ne_zero",
+        "HodgeLadder.Normalization.chartNormalProjectionCoclass_germ_ne_zero",
+        "HodgeLadder.Normalization.adaptedChart_closedPoint",
+        "HodgeLadder.Normalization.adaptedChart_genericPoint"
+      ],
+      "depends_on": [
+        "normalization-singular",
+        "open-subscheme-chart-analytic"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Exact, no sign, for every holomorphic adapted chart: e : X(ℂ) ⇀ E × ℂ^p with e ≫ L in Mathlib's ω-maximal atlas for some ℂ-linear L, Z = {(e ·).2 = 0} on e.source, y ∈ e.source ∩ (X ∖ Z_sing); then on some open W ∋ y the restriction of upstream's transport at ⊤ of the supported class is chartNormalProjectionCoclass of e. Conventions: rows Complex orientation of ℂ^p, Fundamental-class normalization, Normalization iso against the singular transport, Holomorphic adapted chart. Route: germ equality gives the ∃ W form (exists_restrict_eq_of_germ_eq, from supportRelativeCohomologyGerm_eq_zero_iff); coclassSection_eq_singular; upstream's stalk is a flattening-chart germ (smoothClosedSupportCoclassStalk_eq_chartGerm) moved to X(ℂ) by supportRelativeCohomologySectionOnOpen_restrict and supportRelativeCohomologySheafOpenIso_unit_apply (Other) as the coclass of the lifted chart (chartNormalProjectionCoclass_pairImage); the lifted chart and e have analytic transitions (chart step, analyticAt_transition_of_factor), so exists_open_chartNormalProjectionCoclass_eq applies after matching the tangential factor with ContinuousLinearEquiv.ofFinrankEq; the degree cast dim X − (dim X − p) = p is removed by subst on a generalized statement; y ∉ Z by supportRelativeCohomologyGerm_eq_zero_of_not_mem. Non-vacuity: adaptedChart_closedPoint meets all four hypotheses at p = dim X on every X; chartNormalProjectionCoclass_germ_ne_zero, toSheaf_transport_supportedClass_ne_zero. hyU is redundant in truth (rung analytic-smooth-locus). New Other inputs on the drift list: supportRelativeCohomologyGerm_eq_zero_iff, supportRelativeCohomologySheafOpenIso_unit_apply, supportRelativeCohomologySectionOnOpen_restrict, cycleComponentSupportedInjectiveClass_normalization, cycleComponentSmoothSupportCoclassSection_ne_zero, cycleComponentSmoothSupportAmbientOpen_eq_top_of_coheight_eq_dimension, underlying_injective_of_locallyOfFiniteType. Sketch: docs/sketches/cycle-class-multiplicative.md; red team 2026-11-26: pass with changes (docs/sketches/cycle-class-germ.redteam.md)."
+    },
+    {
+      "id": "analytic-smooth-locus",
+      "title": "Under a holomorphic chart adapted to Z, e.source ∩ Z lies in cycleComponentSmoothSupportAmbientOpen X x; with it cycle-class-germ holds without hyU",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "normalization-singular"
+        "cycle-class-germ"
       ],
       "contributors": [],
-      "note": "smoothClosedSupportCoclassStalk_eq_chartGerm and exists_open_chartNormalProjectionCoclass_eq (upstream). Named step inside the rung (red team finding 15): move a chart of Mathlib's maximal atlas on X(ℂ), adapted to Z near y, into upstream's E × (Fin c → ℂ) chart form on the complex points of the open subscheme X ∖ Z_sing, the form chartNormalProjectionCoclass takes; split it out if the file passes the size rule. When the component is a point, upstream's cycleComponentSupportedInjectiveClass_point_normalization (Other) gives the class directly. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. From the normalization-singular red team: start with named lemmas for non-vacuity (N of the generic-point class is nonzero, from cycleComponentSheafClass_genericPoint_ne_zero) and for cycleComponentSmoothSupportCoclassSection in singular form; stay on the ⊤ form and compose with .trans or congrArg, since a goal-level rw with normalization_singular times out in whnf."
+      "note": "Red team on cycle-class-germ, change G. Statement: for e, L, he, hS as in transport_supportedClass_eq_chartNormalProjectionCoclass, e.source ∩ cycleComponentAnalyticClosedSupport X x ⊆ cycleComponentSmoothSupportAmbientOpen X x. Mathematics: where the reduced germ of Z is a complex submanifold, the analytic and algebraic local rings of the reduced closure have the same completion, so the scheme-theoretic closure is regular there. Not at the pin. Not attempted."
+    },
+    {
+      "id": "cycle-class-germ-point",
+      "title": "At a closed point and the chart of adaptedChart_closedPoint, the conclusion of cycle-class-germ, cross-checked against upstream's point-class normalization",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cycle-class-germ"
+      ],
+      "contributors": [],
+      "note": "Red team on cycle-class-germ, change H. A test with an independent code path: upstream's cycleComponentSupportedInjectiveClass_point_normalization and analyticComponentPointSupportedInjectiveCoclass_relative (Other) give the left side at a closed point as analyticComponentPointRelativeCoclass, built from the older analyticPointLocalCoclass; the rung at the chart of adaptedChart_closedPoint then says that class restricts to the chart coclass. Not attempted."
     },
     {
       "id": "supported-pair-forget",
