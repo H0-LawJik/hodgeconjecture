@@ -19,6 +19,8 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
+**2026-11-25 (comparison, sub-rung 4).** `ext-class-right-mult` checked with its parts (`right-mult-cocycle`, `right-mult-unit`, `cocycle-class-comp`, `step2-cocycle-class`): right multiplication by a global cocycle b composed with the resolution names b, and upstream's step 2 sends its class to that global-section class for every K-injective resolution. **Next planned work:** `iota-upstream`, then `cup-singular-comparison` with the sign fixed.
+
 **2026-11-25 (cup).** Front `cup` opened (decision 0008); `rational-ext-equiv` and `cup-product` checked (`HodgeLadder.Cup.*`): Hⁿ(X; ℚ) ≅ Extⁿ(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces, and an associative, unital, biadditive cup product, nonzero on ℙ¹. **Next planned work:** `cup-graded-commutative` (compare with the singular route: upstream's sheaf–singular equivalence and Tau Ceti's graded-commutative singular cup), then pullback and T1 of the Markman inventory.
 
 **2026-11-25 (ℙ¹ test).** `projective-line-test` checked with its six sub-rungs (`HodgeLadder.Tests.*`): on upstream's ℙ¹, Hdg^1 = algebraicCycleClassSpan 1 and both have rank one, so `lefschetz-1-1-equality` is non-vacuous in degree two (red team: pass with changes, changes done).
