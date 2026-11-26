@@ -51,8 +51,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `iota-upstream` | foundation | checked | `ext-class-right-mult` | ι_ℤ composed with upstream's integer-constant isomorphism equals ℤ_X → ℚ_X followed by upstream's ι |
 | `cocycle-class-mul` | foundation | checked | `cocycle-class-comp` | The derived-category class of a composite of Hom-complex cocycles is the composite of their classes, with no sign |
 | `named-cocycle-comp` | foundation | checked | `cocycle-class-mul`, `ext-class-right-mult` | The cocycle naming a composed with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b |
-| `ab-ext-yoneda` | foundation | open | `iota-upstream` | The Yoneda cup read in sheaves of abelian groups through upstream's step 1 |
-| `cup-singular-comparison` | foundation | open | `named-cocycle-comp`, `ab-ext-yoneda`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
+| `ab-ext-yoneda` | foundation | checked | `cup-product` | The Yoneda cup in sheaves of abelian groups: α ∪ β is α followed by the forgotten endomorphism class of β |
+| `end-class-right-mult` | foundation | open | `ab-ext-yoneda`, `ext-class-right-mult`, `iota-upstream` | The forgotten endomorphism class of [b], followed by ι, is ι followed by R_b |
+| `cup-singular-comparison` | foundation | open | `named-cocycle-comp`, `ab-ext-yoneda`, `end-class-right-mult`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
