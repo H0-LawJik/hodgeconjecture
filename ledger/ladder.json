@@ -820,6 +820,41 @@
       "note": "Checked 2026-11-25. Upstream's zero-chain augmentation is Tau Ceti's constant cochain with value 1 (checked vertex by vertex); the left unit law cupCochain_constCochain_left gives (r·1) ∪ b|_U = r · b|_U; the identity passes to sheaves by functoriality of sheafification and to global sections by naturality of the unit. Restating this as a degree-q Hom-complex cocycle ℤ[0] → S_ℤ in upstream's integer-constant form is part of ext-class-right-mult, where upstream's step 2 is unfolded."
     },
     {
+      "id": "cocycle-class-comp",
+      "title": "The derived-category class of a Hom-complex cocycle is compatible with pre- and postcomposition by chain maps",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.CocycleClass",
+      "declarations": [
+        "HodgeLadder.Cup.toSmallShiftedHom_postcomp",
+        "HodgeLadder.Cup.toSmallShiftedHom_precomp"
+      ],
+      "depends_on": [
+        "right-mult-cocycle"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. General abelian C, any universe w: toSmallShiftedHom (mk (z.postcomp g)) = (toSmallShiftedHom (mk z)).comp (mk₀ g), and the same for precomposition; from Cocycle.equivHomShift_symm_postcomp/precomp and ShiftedHom.map_comp. A Mathlib candidate (docs/gaps.md)."
+    },
+    {
+      "id": "step2-cocycle-class",
+      "title": "Upstream's step 2 sends the class of a Hom-complex cocycle z : ℤ[0] → S_ℤ to the homology class of the global section z names, for every K-injective resolution",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.ExtRightMult",
+      "declarations": [
+        "HodgeLadder.Cup.globalSectionsOfResolution_mk"
+      ],
+      "depends_on": [
+        "cocycle-class-comp"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Unfolds rationalSingularCochainHypercohomologyAddEquivGlobalSectionsOfResolution stage by stage: cocycle-class-comp for the postcomposition with the resolution and the precomposition with the integer-constant isomorphism, equivOfIsKInjective on a class, upstream's homologyAddEquiv_postcompMap and homComplexSingleIntegerIsoGlobalSections_naturality (Other library), then the inverse of the global-sections quasi-isomorphism. The answer does not involve the resolution."
+    },
+    {
       "id": "ext-class-right-mult",
       "title": "r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution",
       "status": "open",
@@ -827,7 +862,8 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "right-mult-unit"
+        "right-mult-unit",
+        "step2-cocycle-class"
       ],
       "contributors": [],
       "note": "Upstream's step 2 sends the class of the Hom-complex cocycle ℤ[0] → S_ℤ of b (built from constTimes_sheafify_one through integerConstantHomAddEquivGlobalSections) to [b], and ι[q] ∘ ε([b]) = R_b ∘ ι in the derived category. docs/sketches/cup-singular-comparison.md, refinement."
