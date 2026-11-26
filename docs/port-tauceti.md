@@ -98,3 +98,9 @@ The declarations keep Tau Ceti's namespaces (`TopCat.singularCup*` and the rest 
 `HomologicalComplex`, `SSet`). This batch is the backport that `cup-singular-comparison` (decision
 0009, rung 4) and the transfer route of `cup-graded-commutative` (rung 7) need; nothing in the
 ledger names these declarations yet.
+
+## Downstream readers of non-exposed bodies
+
+| Reader | Vendored file | What it reads | Consequence on a re-vendor |
+|---|---|---|---|
+| `HodgeLadder.Relative.CrossChain` (rung `relative-cross-chain`), through a private `import all LefschetzPort.TauCeti.AlgebraicTopology.SimplicialSet.Shuffle` | `port/LefschetzPort/TauCeti/AlgebraicTopology/SimplicialSet/Shuffle.lean` | the bodies of `SSet.stdSimplex.cone` and `SSet.stdSimplex.prodCone` (vertex computations in `shuffleChain_idShuffle_coeff`; the public lemmas give every vertex of `prodCone x` except vertex 0) | rebuild `HodgeLadder.Relative.CrossChain`; a change of these bodies breaks its build and cannot change a statement. The import is not re-exported and adds no axiom or instance |
