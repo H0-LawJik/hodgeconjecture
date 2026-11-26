@@ -81,3 +81,5 @@ Progress: `named-cocycle-comp` is checked (`namedCocycle_comp_rightMul`; the sig
 | assembly | `κ ≫ forgetEnd (e β) ≫ ι` and `κ ≫ ι ≫ R_b` both represent `[b]` under step 2 (`ab-ext-yoneda`, `ext-class-right-mult`); step 2 is injective, `ι` is an isomorphism in the derived category, and `kappa-cancel` removes `κ` | checked (`end_class_right_mult`) |
 
 Progress: `end-class-right-mult` is checked (`end_class_right_mult`). All inputs of `cup-singular-comparison` except step 3 (global sections to singular cochains, compared with the Tau Ceti cup on cochains) and `supported-cup` are now checked.
+
+Progress: `cup-global-comparison` is checked (`cup_global_comparison`). Through upstream's steps 1 and 2, `cup x y` goes to `(−1)^{pq}` times the class named by `a ∪ b`, in the same order: the prediction above holds at the level of global sections. What remains for `cup-singular-comparison` is `cup-step3` (step 3 to singular cohomology and `cupSing`) and the supported version.

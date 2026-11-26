@@ -60,3 +60,4 @@ public import HodgeLadder.Cup.KappaCancel
 public import HodgeLadder.Cup.OneIsKappa
 public import HodgeLadder.Cup.ExtBridge
 public import HodgeLadder.Cup.EndClass
+public import HodgeLadder.Cup.CupGlobal
