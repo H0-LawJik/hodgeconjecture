@@ -856,17 +856,39 @@
     },
     {
       "id": "ext-class-right-mult",
-      "title": "r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution",
+      "title": "For a global q-cocycle b: R_b ∘ ι_ℤ is the Hom-complex cocycle ℤ_Y[0] → S_ℤ sending 1 to b, its derived-category class is ι_ℤ followed by the class of R_b, and upstream's step 2 sends it to the global-section class it names, for every K-injective resolution",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.RightMultClass",
+      "declarations": [
+        "HodgeLadder.Cup.evalOne_intToRat",
+        "HodgeLadder.Cup.iotaZ",
+        "HodgeLadder.Cup.globalMap",
+        "HodgeLadder.Cup.fromSingleEquiv_rightMul_precomp",
+        "HodgeLadder.Cup.toSmallShiftedHom_rightMul_precomp",
+        "HodgeLadder.Cup.globalSections_rightMul_iota"
+      ],
+      "depends_on": [
+        "right-mult-unit",
+        "step2-cocycle-class"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. ι_ℤ has degree-zero component ℤ_Y → ℚ_Y → S⁰ (mkHomFromSingle). The component of R_b ∘ ι_ℤ out of ℤ_Y is compared with the map 1 ↦ b by evaluation at 1 (integerConstantHomAddEquivGlobalSections is injective): ℤ_Y → ℚ_Y sends 1 to the sheafified constant 1 (adjunction unit), and right-mult-unit does the rest. The sign is (−1)^{0·q} = 1. With cocycle-class-comp and step2-cocycle-class this gives the step-2 image. The original form ι[q] ∘ ε([b]) = R_b ∘ ι follows by bijectivity of upstream's steps 1 and 2 once ι_ℤ is identified with upstream's ι (rung iota-upstream) and is stated inside cup-singular-comparison."
+    },
+    {
+      "id": "iota-upstream",
+      "title": "ι_ℤ composed with upstream's integer-constant isomorphism equals upstream's ℤ_X → ℚ_X followed by rationalToSingularCochainComplexInt",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "right-mult-unit",
-        "step2-cocycle-class"
+        "ext-class-right-mult"
       ],
       "contributors": [],
-      "note": "Upstream's step 2 sends the class of the Hom-complex cocycle ℤ[0] → S_ℤ of b (built from constTimes_sheafify_one through integerConstantHomAddEquivGlobalSections) to [b], and ι[q] ∘ ε([b]) = R_b ∘ ι in the derived category. docs/sketches/cup-singular-comparison.md, refinement."
+      "note": "Chain maps out of (single₀ A).extend are determined in degree zero; both sides there are ℤ_X → ℚ_X → S⁰. Needed to read ext-class-right-mult through upstream's step 1."
     },
     {
       "id": "cup-singular-comparison",
@@ -877,7 +899,8 @@
       "declarations": [],
       "depends_on": [
         "ext-class-right-mult",
-        "supported-cup"
+        "supported-cup",
+        "iota-upstream"
       ],
       "contributors": [],
       "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a). Sketch and sub-rungs: docs/sketches/cup-singular-comparison.md (right multiplication by a global cocycle; supported version as a later sub-rung)."

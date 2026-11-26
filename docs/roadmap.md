@@ -47,8 +47,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `right-mult-unit` | foundation | checked | `right-mult-cocycle` | ι ≫ R_b is the Hom-complex cocycle of the global section b |
 | `cocycle-class-comp` | foundation | checked | `right-mult-cocycle` | The derived-category class of a Hom-complex cocycle is compatible with pre- and postcomposition by chain maps |
 | `step2-cocycle-class` | foundation | checked | `cocycle-class-comp` | Upstream's step 2 sends the class of a Hom-complex cocycle z : ℤ[0] → S_ℤ to the homology class of the global section z names, for every K-injective resolution |
-| `ext-class-right-mult` | foundation | open | `right-mult-unit`, `step2-cocycle-class` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
-| `cup-singular-comparison` | foundation | open | `ext-class-right-mult`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
+| `ext-class-right-mult` | foundation | checked | `right-mult-unit`, `step2-cocycle-class` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
+| `iota-upstream` | foundation | open | `ext-class-right-mult` | ι_ℤ composed with upstream's integer-constant isomorphism equals ℤ_X → ℚ_X followed by upstream's ι |
+| `cup-singular-comparison` | foundation | open | `ext-class-right-mult`, `iota-upstream`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |

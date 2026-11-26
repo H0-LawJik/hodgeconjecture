@@ -52,3 +52,4 @@ public import HodgeLadder.Cup.RightMultCocycle
 public import HodgeLadder.Cup.RightMultUnit
 public import HodgeLadder.Cup.CocycleClass
 public import HodgeLadder.Cup.ExtRightMult
+public import HodgeLadder.Cup.RightMultClass
