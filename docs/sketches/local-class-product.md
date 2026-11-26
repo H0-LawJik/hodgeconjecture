@@ -1,6 +1,6 @@
 # Sketch: `local-class-product`
 
-Date: 2026-11-26. Front `cup`, decisions 0008 and 0009, rung 5. Companion sketch: `docs/sketches/cycle-class-multiplicative.md` (global assembly, tests, kill criterion). This is a plan. Nothing in it is checked, and each identity below is a target.
+Date: 2026-11-26. Front `cup`, decisions 0008, 0009 and 0010, rung 5. Red team: pass with changes (`docs/sketches/cycle-class-multiplicative.redteam.md`), implemented below. Companion sketch: `docs/sketches/cycle-class-multiplicative.md` (global assembly, tests, kill criterion). This is a plan. Nothing in it is checked, and each identity below is a target.
 
 ## Statement
 
@@ -10,15 +10,28 @@ Date: 2026-11-26. Front `cup`, decisions 0008 and 0009, rung 5. Companion sketch
 
 **Literature.** For open A, B ⊆ X the relative cup H^k(X, A) × H^l(X, B) → H^{k+l}(X, A ∪ B) [`Hatcher2002` §3.2]. The Thom class of a product of oriented bundles is the cross product of the Thom classes, and the complex orientation comes from the real basis (v₁, iv₁, v₂, iv₂, …) [`MilnorStasheff1974` §§10, 14; section numbers unverified]. Cross products, shuffle maps, and their evaluation [`Hatcher2002` §3.B, `Bredon1993` ch. VI; chapter numbers unverified].
 
-**Proposed Lean, model form.** Elaborated with `lake env lean` on a scratch file inside the worktree (deleted). Upstream's `Other.AlgebraicTopology.Singular.Excision.Triad` and the three `Cap` files it needs are not built in the shared cache, so they were compiled from copies; a prover's `lake build` builds them. The statement uses upstream's triad cap product, so it needs no new definition; the cup form follows from the adjunction in `triad-relative-cup` and `normalizedRelativeCoclass_unique`.
+**Proposed Lean, model form.** Elaborated with `lake env lean` on a scratch file inside the worktree (deleted). Upstream's `Other.AlgebraicTopology.Singular.Excision.Triad` and the three `Cap` files it needs are not built in the shared cache, so they were compiled from copies; a prover's `lake build` builds them (build them once, from one worktree, before parallel work starts; section "Pins and drift"). The statement uses upstream's triad cap product, so it needs no new definition; the cup form follows from the adjunction `triad-relative-cup-cap` and `normalizedRelativeCoclass_unique`.
+
+Helper definitions (the red team elaborated the statement with exactly these, scratch S3):
 
 ```lean
--- setA a b = {z | (fun i : Fin a => z (Fin.castAdd b i)) ≠ 0}, setB a b likewise with Fin.natAdd a,
--- subsets of Fin (a + b) → ℂ; projA, projB the block projections as maps of pairs to
--- puncturedPair ℂ a and puncturedPair ℂ b; u k = normalizedRelativeCoclass
--- (standardComplexLocalClass ℚ k) (standardComplexLocalClass_ne_zero k); orient a b =
--- standardComplexLocalClass ℚ (a + b) moved to (ℂ^{a+b}, setA ∪ setB) by the identity
--- (setA ∪ setB = {0}ᶜ) and recast to degree 2 * a + 2 * b by Nat.mul_add.
+def setA (a b : ℕ) : Set (Fin (a + b) → ℂ) := {z | (fun i : Fin a => z (Fin.castAdd b i)) ≠ 0}
+def setB (a b : ℕ) : Set (Fin (a + b) → ℂ) := {z | (fun j : Fin b => z (Fin.natAdd a j)) ≠ 0}
+noncomputable def projA (a b : ℕ) :
+    TopPair.ofSubset (X := TopCat.of (Fin (a + b) → ℂ)) (setA a b) ⟶ puncturedPair ℂ a :=
+  TopPair.ofSubsetHom (TopCat.ofHom ⟨fun z i => z (Fin.castAdd b i), by fun_prop⟩) fun _ h => h
+noncomputable def u (k : ℕ) : RelativeCohomology ℚ (puncturedPair ℂ k) (2 * k) :=
+  normalizedRelativeCoclass (standardComplexLocalClass ℚ k) (standardComplexLocalClass_ne_zero k)
+noncomputable def orient (a b : ℕ) : RelativeHomology ℚ
+    (TopPair.ofSubset (X := TopCat.of (Fin (a + b) → ℂ)) (setA a b ∪ setB a b)) (2 * a + 2 * b) :=
+  (Nat.mul_add 2 a b) ▸ relativeHomologyMap ℚ (2 * (a + b))
+    (TopPair.isoOfSubset (Homeomorph.refl _) (fun z => union_eq a b z)).hom
+    (standardComplexLocalClass ℚ (a + b))
+```
+
+`projB` follows the pattern of `projA` with `Fin.natAdd a`. `union_eq a b z` (membership in setA ∪ setB is membership in {0}ᶜ) takes about eight lines by `Fin.addCases`; `isOpen_setA`, `isOpen_setB` are preimages of {0}ᶜ under continuous maps. Spell the ambient space `(X := TopCat.of _)` in every `TopPair.ofSubset`: left implicit, elaboration of the statement exceeds 200000 heartbeats.
+
+```lean
 theorem local_class_cross_cap (a b : ℕ) :
     relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset (setB a b)) (2 * b)
       (relativeCohomologyMap ℚ (2 * b) (projB a b) (u b))
@@ -28,7 +41,7 @@ theorem local_class_cross_cap (a b : ℕ) :
         (relativeCohomologyMap ℚ (2 * a) (projA a b) (u a)) (orient a b)) = 1
 ```
 
-**Chart form** (the rung id `local-class-product` itself): for a complex normed space E, an open M-chart φ : `OpenPartialHomeomorph M (E × (Fin a → ℂ) × (Fin b → ℂ))` with Z = {φ₂ = 0} and W = {φ₃ = 0} on its source, and W' ⊆ source open: `relCup2 (chartNormalProjectionCoclass … Z) (chartNormalProjectionCoclass … W) = chartNormalProjectionCoclass … (Z ∩ W)` on (W'; W' ∖ Z, W' ∖ W), the union read as W' ∖ (Z ∩ W) by the identity. It cannot elaborate until `triad-relative-cup` defines `relCup2`.
+**Chart form** (the rung id `local-class-product` itself): for a complex normed space E, an open M-chart φ : `OpenPartialHomeomorph M (E × (Fin a → ℂ) × (Fin b → ℂ))` with Z = {φ₂ = 0} and W = {φ₃ = 0} on its source, and W' ⊆ source open: `relCup2 (chartNormalProjectionCoclass … Z) (chartNormalProjectionCoclass … W) = chartNormalProjectionCoclass … (Z ∩ W)` on (W'; W' ∖ Z, W' ∖ W), the union read as W' ∖ (Z ∩ W) by the identity. It cannot elaborate until `triad-relative-cup` defines `relCup2`. Route (decision 0010): the product of two supported classes is `relCup2` on upstream's triad excision. The checked general-V formula has one supported factor, so it cannot produce a class supported on Z ∩ W; it is off this rung's path.
 
 ## Why the ladder needs it
 
@@ -50,10 +63,10 @@ Proposed register row for the red team: "Cross product of complex orientations |
 1. GL⁺_d(ℝ) is path-connected (from Mathlib's transvection decomposition).
 2. An affine automorphism with positive determinant fixes the local orientation (transported back to 0); negative determinant gives −1. Hence an affine d-simplex with y in its interior has class sign(det) · (−1)^d · s_d at y.
 3. The shuffle map descends to relative chains: C(P, A) ⊗ C(Q, B) → C(P × Q)/(C(A × Q) + C(P × B)); this gives x × y in upstream's `TriadRelativeHomology` and, by `triadToUnionRelativeHomologyMap`, in H(P × Q, A × Q ∪ P × B).
-4. Cap evaluation: ⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩⟨ψ, y⟩, from Alexander–Whitney after shuffle being homotopic to the identity through a natural homotopy (so it preserves the relative subcomplexes).
+4. Cap evaluation: ⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩⟨ψ, y⟩, from Alexander–Whitney after shuffle being homotopic to the identity through a natural homotopy. Singular chains here are unnormalized, so Alexander–Whitney after shuffle is the identity only up to that homotopy (`SSet.shuffleAlexanderWhitneyHomotopy`), and the relative form needs the homotopy to preserve C(A) ⊗ C(Q) + C(P) ⊗ C(B); naturality in each factor gives this, and the docstring of `cap-cross-evaluation` says so.
 5. Orientation: s_m × s_n = s_{m+n}. Move the base point along a segment inside the image of the open prism (convex, disjoint from the image of its boundary) into the interior of the identity-shuffle simplex; there every other shuffle simplex vanishes in relative chains, and step 2 applies with the block determinant of the sign section. The complex form follows by block compatibility.
 6. Model: steps 4 and 5 with `normalizedRelativeCoclass_pairing_self` give `local_class_cross_cap`.
-7. Chart form: `triad-relative-cup` naturality along the normal projections (`chartNormalProjectionPair`) and the cup–cap adjunction reduce it to step 6.
+7. Chart form: `triad-relative-cup-naturality` along the normal projections (`chartNormalProjectionPair`) and the cup–cap adjunction `triad-relative-cup-cap` reduce it to step 6.
 
 ## What exists (checked by `grep` at the pin)
 
@@ -61,7 +74,7 @@ Proposed register row for the red team: "Cross product of complex orientations |
 |---|---|
 | Mathlib | `Matrix.Pivot.exists_list_transvec_mul_diagonal_mul_list_transvec`, `Matrix.diagonal_transvection_induction_of_det_ne_zero`, `IsManifold.maximalAtlas` |
 | upstream statement library | `standardLocalClass`, `standardComplexLocalClass`, `complexRealHomeomorph`, `puncturedPair`, `normalizedRelativeCoclass`, `normalizedRelativeCoclass_pairing_self`, `normalizedRelativeCoclass_unique`, `span_standardComplexLocalClass_eq_top`, `standardComplexLocalClass_ne_zero`, `chartNormalProjectionPair`, `chartNormalProjectionCoclass`, `chartNormalProjectionCoclass_restrict`, `exists_open_chartNormalProjectionCoclass_eq`, `relativeHomologyMap_complexMatrix_standardComplexLocalClass`, `nonempty_complexIsotopyToOne` |
-| upstream `Other` | `triadToUnionRelativeChainMap_quasiIso_of_isOpen`, `triadToUnionRelativeHomologyMap`, `unionRelativeTriadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear_on_comparison`, `standardOrientationBallClass_restrict`, `convexSupport_translation_ne` |
+| upstream `Other` (outside upstream's statement guard; pinned and drift-listed below) | `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Singular/Excision/Triad.lean`, unbuilt in the shared cache), `triadToUnionRelativeHomologyMap`, `unionRelativeTriadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear_on_comparison` (`Singular/Cap/Triad.lean`, unbuilt), `capHom` (`Singular/Cap/Simplicial.lean`, unbuilt), `standardOrientationBallClass_restrict`, `convexSupport_translation_ne` (`LocalHomology/EuclideanNeighborhoodOrientation.lean`, built) |
 | Tau Ceti in `port/` | `TopCat.shuffle`, `TopCat.shuffle_naturality`, `TopCat.shuffle_alexanderWhitney`, `SSet.shuffleAlexanderWhitneyHomotopy`, `SSet.shuffleAlexanderWhitneyHomotopy_hom_naturality`, `SSet.eilenbergZilberHomotopyEquiv` |
 | this repository | `HodgeLadder.Cup.relCupSing`, `forgetRel`, `relDiagonal`, `relCupSing_naturality` |
 
@@ -74,15 +87,47 @@ Path-connectedness of GL⁺_d(ℝ); the real local-orientation sign of an affine
 | Id | Statement | Route | Depends on |
 |---|---|---|---|
 | `glpos-path-connected` | a real square matrix with det > 0 is joined to 1 by a path in GL⁺ (Mathlib candidate) | transvections t ↦ E(t·c); positive diagonal; pairs of −1 by rotation | |
-| `real-affine-orientation` | an affine automorphism of ℝ^d acts on the transported local class by sign(det); an affine simplex around y has class sign(det)(−1)^d s_d | step 2 | `glpos-path-connected` |
-| `relative-cross-chain` | shuffle cross product H_m(P, A) ⊗ H_n(Q, B) → `TriadRelativeHomology` and → H_{m+n}(P × Q, A × Q ∪ P × B) | step 3 | `tauceti-cup-backport` |
-| `cap-cross-evaluation` | ⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩⟨ψ, y⟩, no sign | step 4 | `relative-cross-chain` |
-| `cross-orientation` | s_a × s_b = `standardComplexLocalClass ℚ (a + b)` via `orient`, sign +; real form s_m × s_n = s_{m+n} | step 5 | `real-affine-orientation`, `relative-cross-chain` |
+| `real-affine-orientation` | an affine automorphism of ℝ^d acts on the transported local class by sign(det); an affine simplex around y has class sign(det)(−1)^d s_d. First Lean lemma: the edge determinant of `standardAffineSimplex d` is (−1)^d (d + 1) | step 2 | `glpos-path-connected` |
+| `relative-cross-chain` | shuffle cross product H_m(P, A) ⊗ H_n(Q, B) → `TriadRelativeHomology` and → H_{m+n}(P × Q, A × Q ∪ P × B). First Lean lemma: the identity shuffle has coefficient +1 in `shuffleChain` | step 3 | `tauceti-cup-backport` |
+| `cap-cross-evaluation` | ⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩⟨ψ, y⟩, no sign; the docstring records the unnormalized-chain homotopy of step 4. First: the `rfl` pins of section "Pins and drift", unless `triad-relative-cup-cap` added them | step 4 | `relative-cross-chain` |
+| `cross-orientation` | s_a × s_b = `standardComplexLocalClass ℚ (a + b)` via `orient`, sign +; real form s_m × s_n = s_{m+n}. First Lean lemmas: `complexRealHomeomorph_append` (below) and det of the identity-shuffle simplex of s_m × s_n = det(s_m) · det(s_n) | step 5 | `real-affine-orientation`, `relative-cross-chain` |
 | `local-class-cross-model` | `local_class_cross_cap` above | step 6 | `cap-cross-evaluation`, `cross-orientation` |
-| `triad-relative-cup` | `relCup2 : H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B)` for open A, B; `forgetRel` compatibility with `cupSing`; restriction to `relCupSing`; naturality for maps of triads; ⟨relCup2 φ ψ, z⟩ = ⟨ψ, φ ⌢ z⟩ | AW descends to the triad complex; dual of upstream's triad excision | `relative-singular-cup` |
-| `local-class-product` | chart form above | step 7 | `local-class-cross-model`, `triad-relative-cup` |
+| `triad-relative-cup` | `relCup2 : H^p(X, A) × H^q(X, B) → H^{p+q}(X, A ∪ B)` for open A, B; `forgetRel (relCup2 a b) = cupSing (forgetRel a) (forgetRel b)`; `relCup2` with B = ∅ is `relCupSing` | AW descends to the triad complex; dual of upstream's triad excision | `relative-singular-cup` |
+| `triad-relative-cup-naturality` | `relCup2` is natural for maps of triads (open A, B, A', B'), no sign | pullback of the triad complex | `triad-relative-cup` |
+| `triad-relative-cup-cap` | ⟨relCup2 φ ψ, z⟩ = ⟨ψ, φ ⌢ z⟩ for `unionRelativeTriadCapCohomologyLinear`, no sign. First: the `rfl` pins below, unless `cap-cross-evaluation` added them | chain-level identity front/back faces; excision on both sides | `triad-relative-cup` |
+| `local-class-product` | chart form above | step 7 | `local-class-cross-model`, `triad-relative-cup`, `triad-relative-cup-naturality`, `triad-relative-cup-cap` |
 
 Smallest sign-visible instance: `local-class-cross-model` at a = b = 1 (ℂ², real dimension 4, six shuffle simplices). A prover can try it before the general case.
+
+Block compatibility, the first lemma of `cross-orientation` (statement elaborated 2026-11-26 against `HodgeConjecture.Definitions.AlgebraicTopology.LocalHomology.ComplexClass`):
+
+```lean
+theorem complexRealHomeomorph_append (a b : ℕ) (u : Fin a → ℂ) (v : Fin b → ℂ) :
+    complexRealHomeomorph (a + b) (Fin.append u v) = fun i =>
+      Fin.append (complexRealHomeomorph a u) (complexRealHomeomorph b v)
+        (Fin.cast (Nat.add_mul a b 2) i)
+```
+
+## Pins and drift
+
+The declarations this plan uses from upstream's library `Other` are outside upstream's statement guard, and four of their files (`Singular/Cap/{Simplicial,Relative,Triad}.lean`, `Singular/Excision/Triad.lean`) are not built in the shared package cache. They compile at the pin from copies in about 70 seconds with the standard axioms (red team, section 5).
+
+- **Build once.** A prover's first `lake build` of a file that imports them writes their `.olean` files into the shared package cache. Build them once, from one worktree, before parallel work on these rungs starts.
+- **`rfl` pins**, at the start of the first rung that uses them (`cap-cross-evaluation` or `triad-relative-cup-cap`): the formula of `capHom` (φ(front p-face) • back q-face) and `unionRelativeTriadCapCohomologyLinear` unfolded through `triadCapCohomologyLinear` and the inverse of the excision quasi-isomorphism.
+- **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`.
+
+## Red-team changes (2026-11-26), as implemented
+
+Verdict `docs/sketches/cycle-class-multiplicative.redteam.md`, pass with changes. For this sketch:
+
+| Change | Where it is now |
+|---|---|
+| A: singular-side route, general-V formula off the critical path | decision 0010; "Chart form" above |
+| B: helper definitions of the cap model | "Proposed Lean, model form" |
+| E: split `triad-relative-cup` into definition with `forgetRel`, naturality, cap adjunction | sub-rungs table; ledger `triad-relative-cup-naturality`, `triad-relative-cup-cap` |
+| H: `Other` declarations marked, pins, drift list, build once | "What exists", "Pins and drift" |
+| I: hand computations 1 to 5 as Lean lemmas inside named rungs | sub-rungs table; `complexRealHomeomorph_append`; ledger notes of `real-affine-orientation`, `relative-cross-chain`, `cross-orientation`, `cap-cross-evaluation`, `triad-relative-cup-cap` |
+| unnormalized chains in `cap-cross-evaluation` | proof idea, step 4 |
 
 ## Sources
 
