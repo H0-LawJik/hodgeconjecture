@@ -5,16 +5,20 @@ public import HodgeLadder.Cup.TopOpenCup
 /-!
 # The Yoneda cup product against the singular cup product
 
-Rung `cup-singular-comparison` (front `cup`, absolute case). Upstream's equivalence
+Rung `cup-singular-comparison-absolute` (front `cup`; the supported case is `cup-singular-comparison`). Upstream's equivalence
 `rationalCohomologyAddEquivSingularCohomology` from rational sheaf cohomology to rational singular
 cohomology carries the Yoneda cup product `cup` (decision 0009) to `(−1)^{pq}` times the singular
 cup product `cupSing`, in the same order:
-`Ψ (x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y)`.
+`Ψ (x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y)`. Equivalently, without a sign,
+`Ψ (x ∪ y) = cupSing (Ψ y) (Ψ x)`: Mathlib's `Ext.comp` is diagrammatic, so "x then y" is `y ∘ x`.
+Conventions: `docs/conventions.md`, rows "Cup product", "Singular cup product" and
+"Sheaf–singular comparison Ψ".
 
 ## Main results
 
 * `HodgeLadder.Cup.exists_singClass`, `HodgeLadder.Cup.cup_global_chosen`,
-  `HodgeLadder.Cup.cup_singular_comparison`, `HodgeLadder.Cup.cup_gradedComm`
+  `HodgeLadder.Cup.cup_singular_comparison`, `HodgeLadder.Cup.cup_singular_comparison_swap`,
+  `HodgeLadder.Cup.cup_gradedComm`
 -/
 
 @[expose] public noncomputable section
@@ -132,6 +136,18 @@ theorem cup_singular_comparison' [IsIntegral X.left] [Smooth X.hom] [T2Space (Co
         (rationalCohomologyAddEquivSingularCohomology X q y) n h := by
   subst h
   rw [cup_singular_comparison X x y, ← Nat.cast_mul, Int.coe_negOnePow_natCast]
+
+/-- **The comparison without a sign**: `Ψ (x ∪ y) = cupSing (Ψ y) (Ψ x)`. -/
+theorem cup_singular_comparison_swap [IsIntegral X.left] [Smooth X.hom] [T2Space (ComplexPoint X)]
+    [∀ U : Opens (ComplexPoint X), ParacompactSpace U]
+    {p q n : ℕ} (x : H^p(X; ℚ)) (y : H^q(X; ℚ)) (h : p + q = n) :
+    rationalCohomologyAddEquivSingularCohomology X n (cup x y n h) =
+      cupSing (TopCat.of (ComplexPoint X)) (rationalCohomologyAddEquivSingularCohomology X q y)
+        (rationalCohomologyAddEquivSingularCohomology X p x) n (by omega) := by
+  rw [cup_singular_comparison' X x y h]
+  generalize rationalCohomologyAddEquivSingularCohomology X p x = A
+  generalize rationalCohomologyAddEquivSingularCohomology X q y = B
+  rw [cupSing_gradedComm (TopCat.of (ComplexPoint X)) A B n h]
 
 /-- **Graded commutativity of the cup product**: `x ∪ y = (−1)^{pq} · y ∪ x`. -/
 theorem cup_gradedComm [IsIntegral X.left] [Smooth X.hom] [T2Space (ComplexPoint X)]

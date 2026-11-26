@@ -27,6 +27,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `ClayDeligne` | P. Deligne, The Hodge conjecture, Clay Mathematics Institute official problem description | official statement; obstructions; reformulations |
 | `Clemens1983` | H. Clemens, Homological equivalence, modulo algebraic equivalence, is not finitely generated, Publ. Math. IHES 58 (1983) | Griffiths group of infinite rank |
 | `ConteMurre1978` | A. Conte, J. P. Murre, The Hodge conjecture for fourfolds admitting a covering by rational curves, Math. Ann. 238 (1978) | uniruled fourfolds |
+| `Hatcher2002` | A. Hatcher, Algebraic Topology, Cambridge University Press (2002), §3.2 | the singular cup product: front face times back face, graded commutativity |
 | `daSilva2021` | G. da Silva Jr., Known cases of the Hodge conjecture, arXiv:2105.04695 (2021) | survey of known cases and reductions |
 | `daSilva2021F` | G. da Silva Jr., Notes on the Hodge conjecture for Fermat varieties, Experimental Results 2 (2021) e22, doi:10.1017/exp.2021.14; arXiv:2101.04739 | Fermat fourfolds, m ≤ 100 coprime to 6; X^n_21, X^n_27. The published version drops the arXiv claim for all m coprime to 6 |
 | `Deligne1982` | P. Deligne, Hodge cycles on abelian varieties (notes by J. S. Milne), LNM 900 (1982) | absolute Hodge classes; theorem for abelian varieties |

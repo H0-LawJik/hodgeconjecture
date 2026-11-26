@@ -59,7 +59,7 @@ Attempts, all failed: `rfl`, `subsingleton`, `simp [cup, cupSing, cupY]` on the 
 
 Intermediate local definitions (`singClass`, `namedClass`, `cupGlobal`, `rightMulCocycle`, `iotaZ`) do not occur in the final statement, so a mistaken intermediate definition could not make the final identity false; it could only make an intermediate rung's statement mean something else. They were still read (section 4).
 
-What section 3 cannot exclude by itself: if both products were square-zero in positive degrees, the identity would hold trivially there. That is not the case for these definitions (they are concrete formulas, not axiomatized laws), but no instance at the pin has a nonzero product of two positive-degree classes, so the positive-degree content has no computed witness. See 7b.
+What section 3 cannot exclude by itself: if both products were square-zero in positive degrees, the identity would hold trivially there. Both products are concrete formulas, with no square-zero law imposed; still, no instance at the pin has a nonzero product of two positive-degree classes, so the positive-degree content has no computed witness. See 7b.
 
 ## 4. Definitions: nothing local stands in for an upstream object
 
