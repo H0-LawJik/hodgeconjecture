@@ -54,3 +54,5 @@ Progress: `right-mult-cocycle` and `right-mult-unit` are checked. The unit rung 
 Progress: `cocycle-class-comp` and `step2-cocycle-class` are checked. Upstream's step 2, applied to the class of a Hom-complex cocycle `z : ℤ[0] → S_ℤ`, gives the homology class of the global section `z` names, whatever resolution was chosen (`globalSectionsOfResolution_mk`). What remains for `ext-class-right-mult`: the cocycle of `b` in that form (from `constTimes_sheafify_one` through `integerConstantHomAddEquivGlobalSections`), and the derived-category identity `ι[q] ∘ ε([b]) = R_b ∘ ι`.
 
 Progress: `ext-class-right-mult` is checked in the form above (`globalSections_rightMul_iota`, with `fromSingleEquiv_rightMul_precomp` identifying the cocycle as the map sending 1 to b). The comparison step that remains before `cup-singular-comparison`: `iota-upstream`, matching `ι_ℤ` with upstream's `rationalToSingularCochainComplexInt` after `ℤ_X → ℚ_X`, so that `ε([b])` can be read off upstream's step 1.
+
+Progress: `iota-upstream` is checked (`iso_hom_iotaZ`), so `ext-class-right-mult` reads through upstream's own `rationalToSingularCochainComplexInt` after `ℤ_X → ℚ_X`.
