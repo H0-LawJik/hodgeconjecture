@@ -1268,7 +1268,7 @@
         "right-mult-cocycle"
       ],
       "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
+      "note": "Not on the current route: supported-sections-class and supported-named-cocycle-comp work with evaluation at the generator and need no map of supported-section complexes. Kept open in case supported-singular-model needs it."
     },
     {
       "id": "supported-step2-cocycle-class",
@@ -1313,16 +1313,22 @@
     {
       "id": "supported-named-cocycle-comp",
       "title": "Through upstream's homComplexPairSheafIsoSupportedSections, cocycleComp z R_b is (−1)^{pq} times the supported section a ∪ b, where a is the supported section named by z",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "supported-sections-right-mult",
-        "named-cocycle-comp"
+      "module": "HodgeLadder.Cup.SupportedNamed",
+      "declarations": [
+        "HodgeLadder.Cup.pairEval",
+        "HodgeLadder.Cup.xIso_smul_apply",
+        "HodgeLadder.Cup.pairSheafEvaluation_cocycleComp_rightMul"
       ],
-      "contributors": [],
-      "note": "Supported analogue of named-cocycle-comp; docs/sketches/cup-singular-comparison-supported.md."
+      "depends_on": [
+        "named-cocycle-comp",
+        "supported-step2-cocycle-class"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "The section over V named by cocycleComp z R_b (evaluation at the generator of the pair sheaf) is (−1)^{pq} times right multiplication by b applied to the section named by z. Supported analogue of named-cocycle-comp."
     },
     {
       "id": "supported-singular-model",
@@ -1349,7 +1355,6 @@
         "supported-cup",
         "relative-singular-cup",
         "support-ab-yoneda",
-        "supported-sections-right-mult",
         "supported-sections-class",
         "supported-singular-model",
         "supported-named-cocycle-comp"
