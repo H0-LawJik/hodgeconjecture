@@ -19,11 +19,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
+**2026-11-26 (supported comparison, red-team changes).** Red team on the supported comparison: pass with changes, all implemented. `cup-comparison-supported-pair` (the identity on `H^n(X, X ∖ Z)` with `Ψ β` on `X`), `supported-model-agreement` (`Φ` is upstream's cycle-class transport) and `supported-forget-compat` (forgetting the support commutes with `Φ` against `Ψ`, no sign) are checked. **Next planned work:** the route choice for `local-class-product` (a product of two supported classes, or the comparison on a general open `V`).
+
 **2026-11-26 (comparison, supported).** `cup-singular-comparison` checked: with `cup-singular-comparison-absolute`, the supported case `Φ (α ∪ β) = (−1)^{pq} · relCupSing (Φ α) (Ψ β)` holds for upstream's flasque supported-sections model followed by `supportedRationalSingularSectionCohomologyEquivRelative`. Red team: pass with changes, implemented; `cup-comparison-supported-pair` checked. **Next planned work:** `supported-model-agreement`, `supported-forget-compat`, then the route choice for `local-class-product`.
 
 **2026-11-25 (supported comparison, relative cup).** `supported-singular-model` checked, with `supported-relative-cup`, `relative-cup-cocycle`: upstream's supported singular equivalence carries right multiplication by a global cocycle on supported sections to `relCupSing`, with no sign. **Next planned work:** the supported `cup-singular-comparison`: combine with `supCup_supportedSections` and `pairSheafEvaluation_cocycleComp_rightMul` at `V = ⊤`, `U = X ∖ Z`, then transport to `neighborhoodSupportComplementPair`.
-
-**2026-11-25 (supported comparison, singular model).** `supported-singular-class` checked, with `supported-raw-map`, `cone-map-lemmas`, `supported-cone-compat`, `supported-named-cocycle-comp`: upstream's supported singular equivalence sends the class of the sheafified relative cocycle `Θ₁ c` to the relative class of `c`, with no sign, and `H(Θ₁)` is bijective. **Next planned work:** `supported-relative-cup`, then the supported `cup-singular-comparison`.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 

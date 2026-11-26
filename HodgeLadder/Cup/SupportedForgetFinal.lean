@@ -2,6 +2,7 @@ module
 
 public import HodgeLadder.Cup.SupportedForget
 public import HodgeLadder.Cup.ConstantGenerator
+public import HodgeLadder.Cup.SupportedForgetGen
 
 /-!
 # Forgetting the support commutes with the supported comparison
@@ -13,6 +14,8 @@ comparison `Φ` and upstream's absolute comparison `Ψ`, with no sign:
 ## Main results
 
 * `HodgeLadder.Cup.supported_forget_compat`
+* `HodgeLadder.Cup.fromSingleEquiv_precomp_single`, `HodgeLadder.Cup.cocycle_precomp_precomp`,
+  `HodgeLadder.Cup.homologyMap_cyclesMk`, `HodgeLadder.Cup.forget_named_cocycle`
 -/
 
 @[expose] public noncomputable section
@@ -36,6 +39,12 @@ lemma fromSingleEquiv_precomp_single {A A' : C} {L : CochainComplex C ℤ} {n : 
   congr 1
   erw [HomologicalComplex.single_map_f_self]
   simp
+
+/-- Precomposing a cocycle twice is precomposing with the composite. -/
+lemma cocycle_precomp_precomp {K K' K'' L : CochainComplex C ℤ} {n : ℤ} (z : Cocycle K L n)
+    (g : K' ⟶ K) (f : K'' ⟶ K') : (z.precomp g).precomp f = z.precomp (f ≫ g) := by
+  apply Cocycle.ext
+  simp [Cocycle.precomp, Cochain.ofHom_comp, Cochain.comp_assoc_of_first_is_zero_cochain]
 
 end General
 
@@ -84,8 +93,7 @@ lemma forget_named_cocycle {n : ℕ} (x : (relSeq (TopCat.of (ComplexPoint X)) Z
     (hcx : c = ((relativeDualCochainShortComplexNat ℚ
       (pairVU (TopCat.of (ComplexPoint X)) Z.compl ⊤)).X₂.extendXIso ComplexShape.embeddingUpNat
         (rfl : ComplexShape.embeddingUpNat.f n = n)).hom
-        ((relSeq (TopCat.of (ComplexPoint X)) Z.compl ⊤).f.f n x))
-    (hc : (singularCochainCoboundary ℚ (TopCat.of (ComplexPoint X)) n).app (op ⊤) c = 0) :
+        ((relSeq (TopCat.of (ComplexPoint X)) Z.compl ⊤).f.f n x)) :
     Cochain.fromSingleEquiv (zero_add (n : ℤ))
         ((supCocycle X Z ((rawMap (TopCat.of (ComplexPoint X)) Z.compl ⊤).τ₁.f n x)
           (map_d_eq_zero _ x hx)).precomp ((CochainComplex.singleFunctor _ 0).map
@@ -93,44 +101,7 @@ lemma forget_named_cocycle {n : ℕ} (x : (relSeq (TopCat.of (ComplexPoint X)) Z
               (AddEquiv.ulift (α := ℤ)).toAddCommGrpIso.inv ≫ forgetMap X Z))).1 =
       globalMap c := by
   rw [fromSingleEquiv_precomp_single]
-  let s₀ := (rawMap (TopCat.of (ComplexPoint X)) Z.compl ⊤).τ₁.f n x
-  let z := supCocycle X Z s₀ (map_d_eq_zero _ x hx)
-  let ψ := Cochain.fromSingleEquiv (zero_add (n : ℤ)) z.1
-  let u : (TopCat.Sheaf.constantFunctor (TopCat.of (ComplexPoint X))).obj (AddCommGrpCat.of ℤ) ⟶
-      (TopCat.Sheaf.constantFunctor (TopCat.of (ComplexPoint X))).obj (AddCommGrpCat.of (ULift ℤ)) :=
-    (TopCat.Sheaf.constantFunctor (TopCat.of (ComplexPoint X))).map
-      (AddEquiv.ulift (α := ℤ)).toAddCommGrpIso.inv
-  let iT := CategoryTheory.Sheaf.freeAbelianSheafTerminalIso
-    (J := Opens.grothendieckTopology (TopCat.of (ComplexPoint X))) isTerminalTop
-  let t1 := (toSheafify (Opens.grothendieckTopology (TopCat.of (ComplexPoint X)))
-    ((Functor.const _).obj (AddCommGrpCat.of ℤ))).app (op ⊤) (1 : ℤ)
-  -- the section `1` goes to the generator
-  have hgen : iT.inv.hom.app (op ⊤) (u.hom.app (op ⊤) t1) =
-      CategoryTheory.Sheaf.freeAbelianSheafGenerator ⊤ := by
-    rw [← terminalIso_generator]
-    exact ConcreteCategory.congr_hom (congrArg (fun g => g.hom.app (op ⊤)) iT.hom_inv_id) _
-  -- the section of the representative
-  have hes : (TopCat.Sheaf.homComplexPairSheafIsoSupportedSections (TopCat.of (ComplexPoint X)) Z.compl
-      ⊤ Z.compl (top_inf_eq _) (sInt (TopCat.of (ComplexPoint X)))).hom.f (n : ℤ) z.1 = s₀ := by
-    have h1 := congrArg (fun φ => HomologicalComplex.Hom.f φ (n : ℤ))
-      (TopCat.Sheaf.homComplexPairSheafIsoSupportedSections (TopCat.of (ComplexPoint X)) Z.compl ⊤
-        Z.compl (top_inf_eq _) (sInt (TopCat.of (ComplexPoint X)))).inv_hom_id
-    simp only [HomologicalComplex.comp_f, HomologicalComplex.id_f] at h1
-    exact ConcreteCategory.congr_hom h1 s₀
-  have h1 := supportedSection_eq_pairEval' (Y := TopCat.of (ComplexPoint X)) Z.compl ⊤ Z.compl
-    (top_inf_eq _) (rfl : (n : ℤ) = n) z.1
-  have h2 : (sInt_XIso (X := TopCat.of (ComplexPoint X)) (rfl : (n : ℤ) = n)).hom.hom.app (op ⊤)
-      ((supSeq (TopCat.of (ComplexPoint X)) Z.compl ⊤).f.f (n : ℤ) s₀) =
-      (toSheafify (Opens.grothendieckTopology (TopCat.of (ComplexPoint X)))
-        (singularCochainPresheaf ℚ (TopCat.of (ComplexPoint X)) n)).app (op ⊤) c := by
-    rw [rawMap_comm₁₂_apply, hcx]
-    exact rawMapMid_apply (TopCat.of (ComplexPoint X)) Z.compl ⊤ n _
-  have hsec : pairEval Z.compl ⊤ Z.compl (top_inf_eq _) (rfl : (n : ℤ) = n) z.1 =
-      (toSheafify (Opens.grothendieckTopology (TopCat.of (ComplexPoint X)))
-        (singularCochainPresheaf ℚ (TopCat.of (ComplexPoint X)) n)).app (op ⊤) c := by
-    rw [← h1, hes]
-    exact h2
-  sorry
+  exact gen_forget_named_cocycle (TopCat.of (ComplexPoint X)) Z.compl x hx c hcx
 
 set_option maxHeartbeats 4000000 in
 set_option backward.isDefEq.respectTransparency false in
@@ -157,7 +128,23 @@ theorem supported_forget_compat (n : ℕ) (α : H_[Z]^n(X; ℚ)) :
         (constantIntegerSheafComplexIntIsoSingleULift X).hom) =
       ((rightMulCocycle c hc).precomp (iotaZ (TopCat.of (ComplexPoint X)))).precomp
         (constantIntegerSheafComplexIntIsoSingle X).hom := by
-    sorry
+    have key : ((supCocycle X Z ((rawMap (TopCat.of (ComplexPoint X)) Z.compl ⊤).τ₁.f n x)
+        (map_d_eq_zero _ x hx)).precomp ((CochainComplex.singleFunctor _ 0).map
+          ((TopCat.Sheaf.constantFunctor (TopCat.of (ComplexPoint X))).map
+            (AddEquiv.ulift (α := ℤ)).toAddCommGrpIso.inv ≫ forgetMap X Z))) =
+        (rightMulCocycle c hc).precomp (iotaZ (TopCat.of (ComplexPoint X))) := by
+      apply Cocycle.ext
+      apply (Cochain.fromSingleEquiv (zero_add (n : ℤ))).injective
+      exact (forget_named_cocycle X Z x hx c rfl).trans (fromSingleEquiv_rightMul_precomp c hc).symm
+    rw [← key, cocycle_precomp_precomp, cocycle_precomp_precomp]
+    congr 1
+    have hU : (constantIntegerSheafComplexIntIsoSingleULift X).hom =
+        (constantIntegerSheafComplexIntIsoSingle X).hom ≫
+          (CochainComplex.singleFunctor (CategoryTheory.Sheaf
+            (Opens.grothendieckTopology (TopCat.of (ComplexPoint X))) AddCommGrpCat) 0).map
+            ((TopCat.Sheaf.constantFunctor (TopCat.of (ComplexPoint X))).map
+              (AddEquiv.ulift (α := ℤ)).toAddCommGrpIso.inv) := rfl
+    rw [hU, Category.assoc, ← Functor.map_comp]
   have hΨ : rationalCohomologyAddEquivSingularCohomology X n (forgetSupport ℚ X Z n α) =
       singClass c hc := by
     change rationalSingularCochainHypercohomologyAddEquivCohomology X n
