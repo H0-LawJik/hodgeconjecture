@@ -2180,13 +2180,17 @@
     {
       "id": "normalization-singular",
       "title": "Upstream's normalization iso of a supported cycle class is the sheafified restriction to X ∖ T_sing of upstream's singular transport complexSupportInjectiveSectionCohomologyEquiv at ⊤",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Normalization.Singular",
+      "declarations": [
+        "HodgeLadder.Normalization.normalization_singular"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Upstream-internal: cycleComponentSupportedClassNormalizationIso_apply, complexSupportInjectiveCohomologySheafIsoRelative_section_apply (both Other), supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality. Lean statement recorded in the sketch (elaborated 2026-11-26 against Other.AlgebraicGeometry.Cohomology.SupportSheafNormalization). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Exact, no sign. N a = (supportRelativeCohomologyToSheaf Z (2p)).app U (relativeCohomologyMap (neighborhoodSupportInclusionPairMap U ≤ ⊤) (complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ (2p) (r a))), U = cycleComponentSmoothSupportAmbientOpen X x, r = rationalSupportAddEquivSupportedInjectiveHomology. Route: cycleComponentSupportedClassNormalizationIso_apply, openRestrictedLowestSectionCohomologyIso_hom (the lowest-section iso is sectionCohomologyToSheafSection at U), complexSupportInjectiveCohomologySheafIsoRelative_restriction_section at U ≤ ⊤, then naturality of the sheafification unit, whose presheaf map is relativeCohomologyMap along neighborhoodSupportInclusionPairMap by definition. The singular naturality supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality was not needed. Imports Other.AlgebraicGeometry.Cycle.Component.PointClassNormalization (on the drift list). Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cycle-class-germ",
