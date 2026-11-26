@@ -655,6 +655,54 @@ The proof also needs naturality of upstream's `relativeCochainCohomologyEquiv`, 
 
 `lake env lean` takes about 5 seconds on each of the two files. `python3 tools/check.py` exits 0 with both modules imported from `HodgeLadder.lean`.
 
+## triad-relative-cup-cap: statement
+
+Statement phase, 2026-11-26; checked 2026-11-26 (paragraph "Proved after the red team" below). Two new modules, both now imported from `HodgeLadder.lean`: `HodgeLadder/Cup/TriadCapPins.lean` (the shared `rfl` pins of upstream's triad cap, all proved) and `HodgeLadder/Cup/TriadCupCap.lean` (the adjunction). The ledger's `module` was `null`; it is now `HodgeLadder.Cup.TriadCupCap`. Elaboration with `lake env lean`: about 4 seconds for each file, once `HodgeLadder.Cup.TriadCup` and upstream's `Other/AlgebraicTopology/Singular/Cap/Triad.lean` are built (both are, in the shared cache and in the worktree).
+
+**The adjunction.** For `X : TopCat.{0}` and `A B : Set X`:
+
+```lean
+theorem relCup2_eval_eq_eval_triadCap (hA : IsOpen A) (hB : IsOpen B) {p q : ℕ}
+    (φ : RelativeCohomology ℚ (TopPair.ofSubset A) p)
+    (ψ : RelativeCohomology ℚ (TopPair.ofSubset B) q)
+    (z : RelativeHomology ℚ (TopPair.ofSubset (A ∪ B)) (p + q)) :
+    relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset (A ∪ B)) (p + q)
+        (relCup2 X A B hA hB φ ψ (p + q) rfl) z =
+      relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset B) q ψ
+        (unionRelativeTriadCapCohomologyLinear ℚ X A B p q
+          (triadToUnionRelativeChainMap_quasiIso_of_isOpen X A B hA hB) φ z)
+```
+
+Both pairings are upstream's universal-coefficient evaluation `relativeCohomologyEquivDualHomology` (= `linearDualHomologyEquiv` of the relative chain complex; register row "Universal-coefficient evaluation", ⟨[c], [x]⟩ = c(x), no sign), on (X, A ∪ B) on the left and on (X, B) on the right. The cap is upstream's `unionRelativeTriadCapCohomologyLinear` with the excision proof `triadToUnionRelativeChainMap_quasiIso_of_isOpen`, the term in the statement of `local_class_cross_cap` (rung `local-class-cross-model`, open); any other proof of `QuasiIso` is the same term by proof irrelevance. Sign: none. Source: `Hatcher2002` §3.3 (section recalled), ψ(σ ⌢ φ) = (φ ⌣ ψ)(σ) with σ ⌢ φ = φ(σ|[v₀, …, v_p]) σ|[v_p, …, v_{p+q}], in the relative form C_n(X, A + B) × C^p(X, A) → C_{n−p}(X, B).
+
+Corollary `relCup2_dual_eq`: the same identity as linear forms, `relativeCohomologyEquivDualHomology … (relCup2 φ ψ) = (relativeCohomologyEquivDualHomology … ψ).comp (unionRelativeTriadCapCohomologyLinear … φ)`, by `LinearMap.ext`.
+
+**Use in `local-class-product`.** With φ, ψ the pullbacks of u_a, u_b along `projA`, `projB` and z = `orient a b`, `local_class_cross_cap` says the right side is 1 (p = 2a, q = 2b, so p + q is `2 * a + 2 * b` syntactically, the degree of `orient`). The adjunction gives `relativeCohomologyEquivDualHomology … (relCup2 … (2 * a + 2 * b) rfl) (orient a b) = 1`, which is the hypothesis `hβ` of upstream's `normalizedRelativeCoclass_unique`; with `span_standardComplexLocalClass_eq_top` transported along the identity pair map, the cup is the normalized class of `orient`, the cup form.
+
+**Pins** (`HodgeLadder.Cup.TriadCapPins`, red-team hand computation 5; general in `R : Type u` and the universe, so `cap-cross-evaluation` can import them in place of its private copies):
+
+| Step | Pins |
+|---|---|
+| simplex cap | `frontInclusion_val` (vertex i ↦ i), `backInclusion_val` (vertex i ↦ p + i), `frontFace_eq`, `backFace_eq`, `capHom_eq` (the cofan of x ↦ φ(front x) • back x), `cap_eq`, `cap_chainOfSimplex_eq` (the formula on a simplex, right side written out), `chainOfSimplex_eq` (the generator 1 of its summand) |
+| triad complex | `triadSubspaceChainMap_pin` (`biprod.desc` of the two inclusions), `triadRelativeChainComplex_eq`, `triadRelativeChainProjection_eq` (cokernel and its projection), `triadToUnionRelativeChainMap_eq`, `triadRelativeChainProjection_triadToUnionRelativeChainMap_eq` (the comparison is induced by the identity of C(X)) |
+| relative cap | `relativeCochainToAbsolute_eq` (dual of the relative projection), `relativeCapLift_eq` |
+| triad chain level | `triadCapLiftHom_eq` (lift then C(X) → C(X, B)), `triadCap_eq`, `triadRelativeChainProjection_triadCapHom_eq` (φ ⌢ [c] = [φ̃ ⌢ c]) |
+| signs | `triadCapShortComplexHom_τ₂_eq` (middle map `triadCapHom`, no sign), `triadCapShortComplexHomSucc_τ₁_eq`, `_τ₃_eq`, `triadCapShortComplexHomZero_τ₁_eq` (outer maps (−1)^p • `triadCap`) |
+| descent | `triadCapHomologyMap_eq`, `triadCapCocycleHomologyLinear_eq`, `triadCapCochainCohomologyLinear_eq`, `triadCapCohomologyExplicitLinear_mk`, `relativeCohomologyCycleToCocycle_val`, `triadCapCohomologyLinear_eq`, `relativeCochainCohomologyEquiv_symm_eq` (the inverse is `homologyMap` of `linearDualCochainComplexScIso`, the identification `linearDualHomologyEquiv` also goes through) |
+| excision inverse | `triadToUnionRelativeHomologyMap_eq`, `triadUnionExcisionHomologyEquiv_symm_eq` (`(isoOfQuasiIsoAt τ n).inv`), `unionRelativeTriadCapCohomologyLinear_eq`, and the composite `unionRelativeTriadCapCohomologyLinear_apply_eq` |
+
+All 33 are `rfl` except `cap_chainOfSimplex_eq`, `triadRelativeChainProjection_triadCapHom_eq`, `triadCapShortComplexHom_τ₂_eq`, `triadRelativeChainProjection_triadToUnionRelativeChainMap_eq`, which restate an upstream lemma with its right-hand side written out, so that a change of the upstream formula breaks the statement. Standard axioms. Drift list addition for the next bump: `chainOfSimplex`, `triadCapShortComplexHomZero` (the other pinned names are already on it).
+
+**Proved now** (`HodgeLadder.Cup.TriadCupCap`, standard axioms):
+
+| Declaration | Content |
+|---|---|
+| `frontInclusion_eq_subinterval`, `backInclusion_eq_subinterval` | upstream's cap faces are Mathlib's `SimplexCategory.subinterval 0 p` and `subinterval p q`, the faces of Tau Ceti's Alexander–Whitney diagonal |
+| `cupCochain_eq_capLift` | chain level, no sign: `cupCochain ℚ (awX X) (λ_ _).hom p q (p + q) rfl (proj_A ≫ φ) (proj_B ≫ ψ) = ofHom (relativeCapLift φ) ≫ proj_B ≫ ψ` on C_{p+q}(X); proof on simplices from `cochainValuesEquiv_cupCochain_alexanderWhitneyDiagonal` and `iota_capHom` |
+| `relCup2_eval_eq_eval_triadCap` from `triadEval_relCup2` | write z = τ_*(w) with w = (isoOfQuasiIsoAt τ (p + q)).inv z; the right side is the sum-relative cap at w by `rfl`; upstream's `HomologicalComplex.linearDualHomologyEquiv_naturality` along τ moves the left side to the triad complex, where `triadExcisionCoh.hom` is the dual of τ by definition |
+
+**Proved after the red team** (2026-11-26). `triadEval_relCup2`, with the helpers `relativeCochainCohomologyEquiv_symm_homologyπ` and `relativeCohomologyEquivDualHomology_triadCapCohomologyLinear_homologyπ`, is proved along the route of the verdict `docs/sketches/triad-relative-cup-cap.redteam.md` (Appendix A): one bridge lemma on the cap side, both pairings through the port's `HomologicalComplex.linearDualHomologyEquiv_homologyπ_apply`. The rung is `checked`. The seven pins of Appendix B are in `HodgeLadder.Cup.TriadCapPins` (rung `triad-cap-pins`; the subspace-map pin is `triadSubspaceChainMap_pin`, to stay distinct from `HodgeLadder.Relative.triadSubspaceChainMap_eq`), and the non-vacuity corollary of Appendix C is `HodgeLadder.Tests.exists_eval_relCup2_ne_zero` (rung `triad-relative-cup-cap-test`).
+
 ## Sources
 
 `Hatcher2002` (§3.2 relative cup, §3.B cross products), `MilnorStasheff1974` (Thom class of a product, complex orientation; section numbers unverified), `Bredon1993` (cross and cap products; unverified), `Dold1972` (Koszul sign conventions; unverified), `Fulton1998` ch. 19 (why: the cycle map is a ring homomorphism; numbering unverified). The determinant (−1)^d (d + 1) is checked in Lean (`det_edgeMatrix_standardAffineSimplex`). The block determinant is a hand computation with an exact check for 1 ≤ m, n ≤ 4 (red team of `real-affine-orientation`); it is to be checked in Lean in `cross-orientation`.

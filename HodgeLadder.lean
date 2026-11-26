@@ -118,6 +118,9 @@ public import HodgeLadder.Local.CrossOrientation
 public import HodgeLadder.Tests.CrossOrientation
 public import HodgeLadder.Cup.TriadCup
 public import HodgeLadder.Tests.TriadCupTorus
+public import HodgeLadder.Cup.TriadCapPins
+public import HodgeLadder.Cup.TriadCupCap
+public import HodgeLadder.Tests.TriadCupCap
 public import HodgeLadder.Relative.CrossChain
 public import HodgeLadder.Relative.CrossTriadNaturality
 public import HodgeLadder.Tests.CrossTriadNaturality
