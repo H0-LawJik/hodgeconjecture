@@ -1410,6 +1410,25 @@
       "note": "supportedRationalSingularSectionCohomologyEquivRelative X U V n (H(Θ₁) x) = relativeDualCochainCohomologyEquiv (mapHomologyIso x): no sign. H(Θ₁) is bijective. Hypotheses: X Hausdorff, every open paracompact."
     },
     {
+      "id": "relative-cup-cocycle",
+      "title": "relCupSing of the classes of a relative cocycle and an absolute cocycle is the class of their cup along the relative diagonal; forgetting the subspace sends that cup to the Alexander–Whitney cup",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.RelCupCocycle",
+      "declarations": [
+        "HodgeLadder.Cup.relCupCycles",
+        "HodgeLadder.Cup.relCupSing_homologyπ",
+        "HodgeLadder.Cup.relProj_cupCochain"
+      ],
+      "depends_on": [
+        "relative-singular-cup"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Cocycle-level form of relative-singular-cup, used by supported-relative-cup."
+    },
+    {
       "id": "supported-relative-cup",
       "title": "Upstream's supported singular equivalence sends the class of b acting on Θ₁ c to relCupSing [c] [b]",
       "status": "open",
@@ -1418,7 +1437,8 @@
       "declarations": [],
       "depends_on": [
         "supported-singular-class",
-        "relative-singular-cup"
+        "relative-singular-cup",
+        "relative-cup-cocycle"
       ],
       "contributors": [],
       "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
