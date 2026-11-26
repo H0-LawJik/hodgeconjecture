@@ -303,6 +303,132 @@ Date: 2026-11-26. All five open statements are proved, with the standard axioms,
 | The five statements | `exists_triadCycle_shuffle` (`triadCycleMk`), `exists_unionCycle_shuffle` (`cyclesMap` of upstream's comparison), `existsUnique_relCross` (witness `relCrossAux`), `relCrossUnion_homologyπ`, `relCrossUnion_naturality` |
 Also added: `shuffleBilin_vertex` (the red team's degree (0, 0) normalization, its proof text verbatim), and register citations in the docstrings of the equality lemmas. The triad-level naturality is the new open rung `relative-cross-triad-naturality`.
 
+## real-affine-orientation: statement
+
+Statement elaborated 2026-11-26 in `HodgeLadder/Local/RealAffineOrientation.lean` (namespace `HodgeLadder.RealAffine`); statement red team `docs/sketches/real-affine-orientation.redteam.md` (pass with changes 1 to 5, implemented). Checked 2026-11-26 with the statements unchanged; see "real-affine-orientation: proofs" below. The ledger module is `HodgeLadder.Local.RealAffineOrientation` (the brief's default path `HodgeLadder/Real/Affine/Orientation.lean` splits the id at every hyphen).
+
+Notation: E(v) is the edge matrix of an ordered list v₀, …, v_d in ℝ^d, column i equal to v_{i+1} − v₀; s_d is upstream's reference simplex (`standardAffineSimplex d`, vertices e₀, …, e_{d−1}, (−1, …, −1)); o_y is upstream's `standardLocalClass ℚ d` moved to H_d(ℝ^d, ℝ^d ∖ {y}; ℚ) by `translationPointComplementPairMap (Fin d → ℝ) y` (x ↦ x + y). Matrices act on column vectors by `mulVec`.
+
+```lean
+def edgeMatrix {d : ℕ} (v : Fin (d + 1) → Fin d → ℝ) : Matrix (Fin d) (Fin d) ℝ :=
+  Matrix.of fun j i => v i.succ j - v 0 j
+
+theorem det_edgeMatrix_standardAffineSimplex (d : ℕ) :
+    (edgeMatrix fun k => standardAffineSimplex d (StdSimplex.single k)).det =
+      (-1) ^ d * (d + 1)
+
+theorem relativeHomologyMap_realMatrix_standardLocalClass (d : ℕ)
+    (A : Matrix (Fin d) (Fin d) ℝ) (hA : A.det ≠ 0) :
+    relativeHomologyMap ℚ d (realMatrixPuncturedPairMap d A hA) (standardLocalClass ℚ d) =
+      (SignType.sign A.det : ℚ) • standardLocalClass ℚ d
+
+theorem relativeHomologyMap_affinePointPairMap {d : ℕ} (A : Matrix (Fin d) (Fin d) ℝ)
+    (hA : A.det ≠ 0) (c y : Fin d → ℝ) :
+    relativeHomologyMap ℚ d (affinePointPairMap A hA c y)
+        (relativeHomologyMap ℚ d (translationPointComplementPairMap (Fin d → ℝ) y)
+          (standardLocalClass ℚ d)) =
+      (SignType.sign A.det : ℚ) •
+        relativeHomologyMap ℚ d (translationPointComplementPairMap (Fin d → ℝ) (A *ᵥ y + c))
+          (standardLocalClass ℚ d)
+
+theorem affineSimplex_homologyπ {d : ℕ} (v : Fin (d + 1) → Fin d → ℝ)
+    (hv : (edgeMatrix v).det ≠ 0) (y : Fin d → ℝ) (w : Fin (d + 1) → ℝ)
+    (hw : ∀ i, 0 < w i) (hw1 : ∑ i, w i = 1) (hy : ∑ i, w i • v i = y)
+    (z : ((relativeChainFunctor ℚ).obj (pointPair d y)).cycles d)
+    (hz : (((relativeChainFunctor ℚ).obj (pointPair d y)).iCycles d).hom z =
+      ((relativeChainProjection ℚ (pointPair d y)).f d).hom
+        (((TopCat.toSSet.obj (TopCat.of (Fin d → ℝ))).ιChainComplex (R := ModuleCat.of ℚ ℚ)
+          (affineSingularSimplex v)).hom (1 : ℚ))) :
+    (((relativeChainFunctor ℚ).obj (pointPair d y)).homologyπ d).hom z =
+      ((SignType.sign (edgeMatrix v).det : ℚ) * (-1) ^ d) •
+        relativeHomologyMap ℚ d (translationPointComplementPairMap (Fin d → ℝ) y)
+          (standardLocalClass ℚ d)
+```
+
+Local definitions: `pointPair d y` (an `abbrev` for `TopPair.ofSubset (X := TopCat.of (Fin d → ℝ)) {y}ᶜ`, the target of upstream's translation map; at y = 0 it is `puncturedPair ℝ d`), `affineSimplexMap v t = ∑ tᵢ • vᵢ`, `affineSingularSimplex v` (that map as a singular d-simplex of `TopCat.of (Fin d → ℝ)`, via `toSSetObjEquiv`), `realMatrixPuncturedPairMap` (the real copy of upstream's `complexMatrixPuncturedPairMap`, by `TopPair.ofSubsetHom`), `affinePointPairMap A hA c y : pointPair d y ⟶ pointPair d (A *ᵥ y + c)` (x ↦ A x + c), `vertexSwapMatrix d` (column j is the vertex `swap 0 1 j` of s_d), `openSimplex v` (the points ∑ wᵢ vᵢ with every wᵢ > 0, ∑ wᵢ = 1). The file also states `exists_affineSimplex_cycle` (the cycle z of `affineSimplex_homologyπ` exists, same hypotheses), `exists_affineSimplex_openSimplex_cycle` (σ_v is a relative cycle of (ℝ^d, ℝ^d ∖ openSimplex v) when det E(v) ≠ 0) and the route lemma `relativeHomologyMap_vertexSwap_standardLocalClass` (the vertex swap sends `standardLocalClass ℚ (n + 1)` to its negative).
+
+**Proved at the statement stage** (standard axioms, `#print axioms`): `det_edgeMatrix_standardAffineSimplex`; `sign_det_edgeMatrix_standardAffineSimplex_mul` (the scalar of `affineSimplex_homologyπ` at v = the vertices of s_d is sign((−1)^d (d + 1)) · (−1)^d = 1); `det_vertexSwapMatrix` (det = −1 in every dimension n + 1); `affineSimplexMap_standardAffineSimplex` (s_d is the affine simplex on its own vertices); `convex_openSimplex`; `zero_mem_openSimplex_standardAffineSimplex` (weights 1/(d + 1)); `relativeHomologyMap_point_eq_translate` (for convex U ∋ 0, y and x ∈ H_n(ℝ^d, ℝ^d ∖ U), restriction of x to y is the translate by y of its restriction to 0; upstream's `convexSupportTranslationPairHomotopy` and `relativeHomologyMap_comp`). The six statements left open then (`relativeHomologyMap_vertexSwap_standardLocalClass`, `relativeHomologyMap_realMatrix_standardLocalClass`, `relativeHomologyMap_affinePointPairMap`, `exists_affineSimplex_openSimplex_cycle`, `exists_affineSimplex_cycle`, `affineSimplex_homologyπ`) are now proved.
+
+**Signs, and where each comes from.**
+
+| Sign | Value | Source |
+|---|---|---|
+| det E(s_d) | (−1)^d (d + 1) | Lean proof: adding every row to row 0 leaves (0, …, 0, −(d + 1)) there (column i < d − 1 of E(s_d) is e_{i+1} − e₀, the last is (−1, …, −1) − e₀); Laplace along row 0 leaves (−1)^{d−1} · (−(d + 1)) times an identity minor. Agrees with the red team's column computation and its rational check for d ≤ 7; d = 1 gives −2, d = 2 gives 3 |
+| vertex swap R | det R = −1; R_* o₀ = −o₀ | R permutes the vertices of s_d by the transposition (0 1) (for d = 1, R = −1; for d ≥ 2, R exchanges coordinates 0 and 1 and fixes (−1, …, −1)). Linear maps preserve barycentric combinations, so R ∘ s_d = s_d ∘ (0 1) as singular simplices. For the (d + 1)-simplex ρ = s_d on the vertex sequence 0, 1, 0, 2, …, d: face 0 is s_d ∘ (0 1), face 2 is s_d, face 1 (sequence 0, 0, 2, …, d) and faces k ≥ 3 omit a vertex of s_d, so they lie in a face of s_d and miss 0. In relative chains ∂ρ = s_d ∘ (0 1) + s_d |
+| det A > 0 | + | `glpos-path-connected`: a path from 1 to A in {det > 0} gives a homotopy of pairs from the identity to A, as in upstream's `complexMatrixPuncturedPairHomotopy` |
+| det A < 0 | − | A = (A R) R with det(A R) = −det A > 0: the + case after the vertex swap |
+| affine x ↦ A x + c | sign(det A), no further sign | the map of pairs (ℝ^d, ℝ^d ∖ {y}) → (ℝ^d, ℝ^d ∖ {A y + c}) is translation by −y, then A, then translation by A y + c; translations by −y then y compose to the identity map of pairs |
+| affine simplex around y | sign(det E(v)) · (−1)^d | F(x) = M x + c with M = E(v) E(s_d)⁻¹ sends s_d's vertices to v, so F ∘ s_d = σ_v. p = F⁻¹(y) has the same positive barycentric weights for s_d, so p and 0 lie in the open reference simplex U (convex; the boundary image of s_d misses it). By the move lemma the class of s_d at p is o_p; F sends it to sign(det M) o_y, and sign(det M) = sign(det E(v)) · sign(det E(s_d)) = sign(det E(v)) · (−1)^d |
+| reference simplex in that formula | 1 | `sign_det_edgeMatrix_standardAffineSimplex_mul` (proved) |
+
+**How `cross-orientation` reads it.** The real form `cross_orientation_real m n` (relative-cross-chain red team, section 2) is an identity at 0 in H_{m+n}(ℝ^{m+n}, ℝ^{m+n} ∖ {0}). Take the cross product of the cycles of `exists_affineSimplex_openSimplex_cycle` for s_m and s_n, so the class lives on (ℝ^{m+n}, ℝ^{m+n} ∖ U) with U = openSimplex(s_m) × openSimplex(s_n) the open prism (convex by `convex_openSimplex`, containing 0 by `zero_mem_openSimplex_standardAffineSimplex`), and restricts at 0 to the cross product of the two `standardLocalClass`es by naturality; `relativeHomologyMap_point_eq_translate` moves it from 0 to a point y inside the open identity-shuffle simplex. At y every other shuffle simplex lies in ℝ^{m+n} ∖ {y} (two simplices of the prism triangulation meet in a common face, which misses the open identity simplex), and the identity shuffle has coefficient +1 (`shuffleChain_idShuffle_coeff`), so the restricted cycle is the hz-cycle of the identity-shuffle simplex σ_id. `affineSimplex_homologyπ` gives sign(det E(σ_id)) · (−1)^{m+n} · o_y, and the first lemma of `cross-orientation` makes det E(σ_id) = det E(s_m) · det E(s_n), of sign (−1)^{m+n}; the scalar is 1. Example at m = n = 1: σ_id has vertices (1, 1), (−1, 1), (−1, −1), edge columns (−2, 0) and (−2, −2), det 4 = (−2)(−2). Over ℚ this distinguishes + from − because `standardLocalClass_ne_zero_of_pos` makes o_y nonzero.
+
+**Route for the proofs.** (a) `relativeHomologyMap_vertexSwap_standardLocalClass`: the chain identity above, with faces as `StdSimplex.map i.succAbove` as in upstream's `standardOrientationBallFace_projection`, and the faces' supports by `standardAffineSimplex_ne_zero_of_coord_zero`. (b) `relativeHomologyMap_realMatrix_standardLocalClass`: copy upstream's `complexMatrixPuncturedPairHomotopy` over ℝ with `h.somePath` and `h.somePath_mem` (glpos red team, finding 7), then (a) for det < 0. (c) `relativeHomologyMap_affinePointPairMap`: factor the pair map through translations (`TopPair.Hom` ext), `relativeHomologyMap_comp`, (b). (d) `exists_affineSimplex_openSimplex_cycle`: faces of σ_v miss openSimplex v, as in `standardLocalChain_boundary` (a face point with a zero barycentric weight equal to y would give a second barycentric expression of y, excluded by det E(v) ≠ 0); `exists_affineSimplex_cycle` by restriction along `supportInclusionPairMap`. (e) `affineSimplex_homologyπ`: the class of s_d on (ℝ^d, ℝ^d ∖ U), U the open reference simplex (from (d)), its restriction to 0 is `standardLocalClass` (as `standardOrientationBallClass_restrict_zero`), the move lemma to p, chain naturality for F ∘ s_d = σ_v, (c), and uniqueness of z from `iCycles` mono.
+
+**Alternatives set aside.**
+
+| Alternative | Why set aside |
+|---|---|
+| a local definition `affineSimplexLocalClass v y` | the cycle-hypothesis form needs no new class; it matches `relCrossUnion_homologyπ`, which is what the consumer has in hand; `exists_affineSimplex_cycle` keeps it non-vacuous |
+| two statements, det > 0 and det < 0 | `SignType.sign` holds both; a consumer rewrites with `sign_pos` or `sign_neg` |
+| the coordinate reflection diag(−1, 1, …, 1) for the negative case | it moves e₀ to −e₀, off the vertex set of s_d, so there is no chain identity; the vertex swap permutes the vertices |
+| dropping hv | by hand the identity should hold for det E(v) = 0 too (both sides 0: σ_v lies in a hyperplane; unverified), but the proof would need the vanishing of H_d on a lower-dimensional subspace; a degenerate simplex has no interior point, so the consumer does not need it |
+| any coefficient ring | the consumer and upstream's complex analogue work over ℚ |
+
+**Checks for the red team.** `rfl`, `simp`, `aesop`, `decide`, `trivial`, `grind`, `norm_num` and `exact?` fail on each of the six open statements (six errors per tactic, run on a copy of the file). Hypotheses of `affineSimplex_homologyπ` are met by the vertices of s_d, y = 0, wᵢ = 1/(d + 1) (`affineSimplexMap_standardAffineSimplex`, `exists_affineSimplex_cycle`), where it returns `standardLocalClass` itself. Sign-visible instances: d = 1 with v = (−1, 1) has E(v) = (2) and class −o_y; the reference order v = (1, −1) has class o_y. Proposed register row: "Real local orientation and affine maps | `real-affine-orientation` | x ↦ A x + c (A by `mulVec`) sends o_y to sign(det A) o_{Ay+c}; an affine simplex around y has class sign(det E(v)) (−1)^d o_y, E(v) with columns v_{i+1} − v₀ | `cross-orientation`, `local-class-product` | stated".
+
+## real-affine-orientation: proofs
+
+Checked 2026-11-26, after a rebase on `main` (so `HodgeLadder.Relative.CrossChain` is in scope). `lake env lean` on the file takes about 7 s wall time; every declaration uses the three standard axioms only. The red team's changes, as implemented:
+
+| Change | Declarations |
+|---|---|
+| 1: reference pins and the reference instance | `affineSingularSimplex_standardAffineSimplex`, `translationPointComplementPairMap_zero`, `exists_affineSimplex_cycle_standard`, `affineSimplex_homologyπ_standard` (the red team's text, one line rewrapped) |
+| 2: cancelling the translation | `relativeHomologyMap_translation_injective` (translation by −y, `translateBackPairMap`, is a left inverse as maps of pairs) |
+| 3: the open-simplex class at a point | `affineSimplex_openSimplex_restrict` (restriction along `supportInclusionPairMap`, then `affineSimplex_homologyπ`), with the corollary `openSimplex_standard_restrict_zero` (class `standardLocalClass ℚ d` at 0) |
+| 4: rebase and fit check | below |
+| 5: records | `Hatcher2002` row (§2.2, unverified) in `docs/references.md`; the Sources line below |
+
+Route as proved, step by step:
+
+- (a) `relativeHomologyMap_vertexSwap_standardLocalClass`. `vertexSwapMatrix_mulVec_standardAffineSimplex` gives R ∘ s_d = s_d ∘ swap(0 1) through `affineSimplexMap_map` and `vertexSwapMatrix_mulVec_single`; the last vertex uses ∑ₖ sₖ = 0. `stdMapSimplex n g` is s_{n+1} on a vertex sequence g. `swapPrism n` is the sequence 0, 1, 0, 2, …, n + 1, and three lemmas control its faces: face 0 is the swap, face 2 is the identity, and every other face omits a vertex (`stdMapSimplex_ne_zero`, `relProj_ι_eq_zero`). The cycle sum z₁ + z₀ is then `toCycles` of the prism and has class 0.
+- (b) `relativeHomologyMap_realMatrix_standardLocalClass`. `realMatrixPuncturedPairHomotopy` copies upstream's complex homotopy, with the path `h.somePath` from `joinedIn_one_of_det_pos`. For det < 0, A = (A R⁻¹) R with det(A R⁻¹) = −det A, through `realMatrixPuncturedPairMap_comp` and `_congr`.
+- (c) `relativeHomologyMap_affinePointPairMap`. `translation_comp_affinePointPairMap` is an identity of maps of pairs, x ↦ A(x + y) + c = A x + (A y + c), so it needs no homotopy. `relativeHomologyMap_affinePairMap` is the same with the image point named.
+- (d) The cycle lemmas. `exists_affineSimplex_cycle_of_faces` covers positive dimension, and `exists_affineSimplex_cycle_zero` covers dimension 0 (the differential out of degree 0 is zero). Faces miss the open simplex by `weights_eq_of_det_ne_zero`.
+- (e) `affineSimplex_homologyπ`. M = E(v) E(s_d)⁻¹ and c = v₀ − M s₀, and `affine_transport_combination` gives M (∑ aᵢ sᵢ) + c = ∑ aᵢ vᵢ whenever ∑ aᵢ = 1. The steps are: the open-reference-simplex cycle of s_d; its restriction to 0 is `standardLocalCycle`, by `iCycles` injectivity; the move lemma takes it to p = ∑ wᵢ sᵢ; the push along `affinePairMap M _ c p y`, whose simplex is σ_v; and sign(det M) = sign(det E(v)) · sign(det E(s_d)) = sign(det E(v)) · (−1)^d (`sign_inv_real`).
+
+**Fit check with `relCrossUnion_homologyπ`.** This elaborated in a scratch file inside the worktree importing `HodgeLadder.Relative.CrossChain` (since deleted). The open-simplex cycles of s_m and s_n feed `hx` and `hy` with no cast:
+
+```lean
+example (m n : ℕ)
+    (z : ((relativeChainFunctor ℚ).obj (HodgeLadder.Relative.crossUnionPair
+      (P := TopCat.of (Fin m → ℝ)) (Q := TopCat.of (Fin n → ℝ))
+      (openSimplex fun k => standardAffineSimplex m (Convexity.StdSimplex.single k))ᶜ
+      (openSimplex fun k => standardAffineSimplex n (Convexity.StdSimplex.single k))ᶜ)).cycles
+        (m + n)) : True := by
+  have hm : (edgeMatrix fun k => standardAffineSimplex m (Convexity.StdSimplex.single k)).det ≠ 0 := by
+    rw [det_edgeMatrix_standardAffineSimplex]; positivity
+  have hn : (edgeMatrix fun k => standardAffineSimplex n (Convexity.StdSimplex.single k)).det ≠ 0 := by
+    rw [det_edgeMatrix_standardAffineSimplex]; positivity
+  obtain ⟨zx, hzx⟩ := exists_affineSimplex_openSimplex_cycle _ hm
+  obtain ⟨zy, hzy⟩ := exists_affineSimplex_openSimplex_cycle _ hn
+  have := fun hz => HodgeLadder.Relative.relCrossUnion_homologyπ _ _ _ _ zx zy z hzx hzy hz
+  trivial
+```
+
+Exchanging `hzx` and `hzy` fails to elaborate, so the check is not vacuous. `cross-orientation` composes as follows:
+
+1. `relCrossUnion_homologyπ` on these cycles.
+2. Restriction from the complement of the open prism to a point y of the open identity-shuffle simplex, via `relativeHomologyMap_point_eq_translate` with U the product of the two open simplices.
+3. `affineSimplex_homologyπ` at y, with the block determinant.
+4. `relativeHomologyMap_translation_injective` to return to 0.
+5. On the other side, the restriction at 0 of the cross product of the two open-simplex classes is the cross product of the two `standardLocalClass`es, by `relCrossUnion_naturality` and `openSimplex_standard_restrict_zero`.
+
+**What failed on the way.**
+- `rw` with chain-level lemmas failed when the goal mixed `TopPair.fst` with `TopCat.of (Fin d → ℝ)`, or the two `Ring ℚ` instance paths. `erw`, or `refine (lemma …).trans ?_`, works.
+- `relProj_ι_eq_zero` applied to a face with its implicit arguments left to unification hit the heartbeat limit. Naming the space and the simplex fixes it.
+- `pointPair` used before its definition was silently auto-bound and made two statements time out. Definitions now come first.
+
 ## Sources
 
-`Hatcher2002` (§3.2 relative cup, §3.B cross products), `MilnorStasheff1974` (Thom class of a product, complex orientation; section numbers unverified), `Bredon1993` (cross and cap products; unverified), `Dold1972` (Koszul sign conventions; unverified), `Fulton1998` ch. 19 (why: the cycle map is a ring homomorphism; numbering unverified). The determinant (−1)^d (d + 1) and the block determinant are hand computations, unverified in Lean.
+`Hatcher2002` (§3.2 relative cup, §3.B cross products), `MilnorStasheff1974` (Thom class of a product, complex orientation; section numbers unverified), `Bredon1993` (cross and cap products; unverified), `Dold1972` (Koszul sign conventions; unverified), `Fulton1998` ch. 19 (why: the cycle map is a ring homomorphism; numbering unverified). The determinant (−1)^d (d + 1) is checked in Lean (`det_edgeMatrix_standardAffineSimplex`). The block determinant is a hand computation with an exact check for 1 ≤ m, n ≤ 4 (red team of `real-affine-orientation`); it is to be checked in Lean in `cross-orientation`.
