@@ -383,6 +383,8 @@ Downstream spelling (change D, for `cycle-class-multiplicative`). State `unionCo
 Date: 2026-11-26. Statement elaborated with `sorry` bodies first, then every body proved in the same session. Red team: pass with changes (`docs/sketches/fundamental-class-unit.redteam.md`), all implemented. Checked: rung `fundamental-class-unit`, module `HodgeLadder.Tests.FundamentalClassUnit` (the derived `file` hint `HodgeLadder/Fundamental/Class/Unit.lean` is superseded), and rung `singular-unit`, module `HodgeLadder.Cup.SingularUnit` (change B), both imported from `HodgeLadder.lean`. All twelve declarations of the reviewed file, and the sign test of change C, check with `propext`, `Classical.choice`, `Quot.sound`. `lake env lean` on the test module: 35 to 45 s wall; on `SingularUnit`, 15 s; default heartbeats.
 
 Result for the kill criterion: [X] = 1 holds at the pin, with sign + and no scalar. The decisive inputs are upstream's normalization `normalizedDual_apply_self` and `standardAmbientClassZero_projection` (the standard local class of ℝ⁰ is the point with coefficient 1; equivalently, augmentation 1), with `SSet.ιChainComplex_constCochain` (the constant cocycle is 1 on that point), so the degree-0 normalization of upstream's cycle class is the constant cocycle 1. `standardLocalClass_zero_epsilon` enters only for nonvanishing. Conventions row "Degree-zero orientation and the unit".
+## affine-chart-analytic: statement
+Rung `affine-chart-analytic` (red team finding 12, consumers `p2-lines-transversal` and `p1p1-fibres-transversal`), checked 2026-11-26. The statement was fixed first and passed a statement red team with changes (`docs/sketches/affine-chart-analytic.redteam.md`); the changes are implemented. General part: `HodgeLadder/Normalization/AffineChart.lean`, module `HodgeLadder.Normalization.AffineChart`, next to the checked chart step; it imports no `Tests` or port module (change D). The ℙⁿ instance is its own rung, `affine-chart-analytic-p2`, in `HodgeLadder/Tests/ProjectiveChart.lean`. Both are imported from `HodgeLadder.lean`.
 
 ### The rung
 
@@ -429,6 +431,43 @@ Sign audit: the only signs on the route are `(−1)^{pq}` of `cup_singular_compa
 Inputs to list for the drift check on the next pin bump: from upstream's `Other`, `rationalCohomologyClass_surjective` (`Cohomology/RationalDegreeZero.lean`), `fieldCohomologyUnit`, `fieldCohomologyClass_mul` (`Hodge/Filtration.lean`), `ComplexPoint.connectedSpace` (`ComplexPoint/SmoothConnected.lean`), `cycleComponentSmoothLocusOver_nonempty` (`Cycle/Component/CoclassNonzero.lean`), besides those already listed above; from the statement closure, `standardAmbientClassZero`, `standardAmbientClassZero_projection`, `standardRelativeHomologyProjectionZeroIso`, `span_standardLocalClass_zero_eq_top` (`Lemmas/AlgebraicTopology/LocalHomology/FundamentalClassGenerator.lean`).
 
 Red-team answers (implemented): the general lemmas moved to `HodgeLadder.Cup.SingularUnit` with a `docs/gaps.md` row; the module path is `HodgeLadder.Tests.FundamentalClassUnit`; the conventions row "Degree-zero orientation and the unit" was added. Further drift inputs named by the red team (section 8 of the verdict) are listed there.
+variable (X : Over (Spec ↧ℂ)) {d : ℕ} (U : X.left.Opens)
+  (e : openScheme X U ≅ Over.mk (complexAffineSpace (Fin d) ↘ Spec ↧ℂ))
+def affineCoordinates : ComplexPoint (openScheme X U) ≃ₜ (Fin d → ℂ) :=
+  (Point.isoMapHomeomorph e).trans (affineSpaceHomeomorph (Fin d))
+def affineChart : OpenPartialHomeomorph (ComplexPoint X) (Fin d → ℂ) :=
+  (affineCoordinates X U e).toOpenPartialHomeomorph.lift_openEmbedding
+    (isOpenEmbedding_map_open X U)
+theorem affineChart_mem_maximalAtlas [SmoothOfRelativeDimension d X.hom] :
+    affineChart X U e ∈ IsManifold.maximalAtlas 𝓘(ℂ, Fin d → ℂ) ω (ComplexPoint X)
+In words: U ≅ 𝔸^d over Spec ℂ (an isomorphism in `Over (Spec ℂ)` from upstream's `openScheme X U`), the complex points of U go to ℂ^d by the values of the coordinate functions `AffineSpace.coord m` pulled back along e, and this chart, extended along upstream's open embedding U(ℂ) → X(ℂ), is in Mathlib's maximal analytic atlas for upstream's charted space. Membership in the maximal atlas is compatibility with every chart of upstream's atlas, the range of `localChart`; `affineChart_compatible_localChart` states it in that form (both transitions with `localChart X d z` in `contDiffGroupoid ω`), proved from the rung by `IsManifold.compatible_of_mem_maximalAtlas`. Both definitions are sorry-free and use only upstream's homeomorphisms (`Point.isoMapHomeomorph`, `affineSpaceHomeomorph`, `isOpenEmbedding_map_open`). Sign: coordinate m of the chart is `AffineSpace.coord m` pulled back along e, with no conjugation (row "Holomorphic adapted chart").
+### Proved with it
+| `affineChart_apply_map` | `affineChart X U e (Point.map (openInclusion X U) q) = affineSpaceEquiv (Fin d) (Point.map e.hom q)` | `lift_openEmbedding_apply`, `rfl` |
+| `affineChart_source`, `affineChart_target` | source is the range of `Point.map (openInclusion X U)`; target is `univ` | `lift_openEmbedding_source`, `_target` |
+| `affineChart_compatible_localChart` | for every z, both transitions with `localChart X d z` are in the analytic groupoid | from the rung, `IsManifold.compatible_of_mem_maximalAtlas` |
+### The instance for the ℙ² consumers
+Rung `affine-chart-analytic-p2`, module `HodgeLadder.Tests.ProjectiveChart`. Stated for every ℙⁿ (`HodgeLadder.Tests.projectiveSpace n`), at the cost of ℙ², as in `p2-witness`.
+| Declaration | Statement | Status |
+| `projectiveChartImmersion n i` | Oka's `ProjectiveSpace.chart i : Spec ℂ[Y₀, …, Y_{n−1}] ⟶ ℙₒ(n; ℂ)` (Yₘ = x_{i.succAbove m} / xᵢ) followed by `(okaIsoSpace n).hom`; an open immersion (instance) | definition |
+| `projectiveChartOpen n i` | its `opensRange`, an abbreviation | definition |
+| `projectiveChartOpen_eq` | `projectiveChartOpen n i = (okaIsoSpace n).hom ''ᵁ ProjectiveSpace.U n ℂ i` | proved (`opensRange_comp`, `opensRange_chart`) |
+| `projectiveChartSchemeIso`, `_over` | `isoOpensRange.symm ≪≫ (AffineSpace.SpecIso (Fin n) (.of ℂ)).symm`, and it lies over Spec ℂ | proved (`chart_toSpec`, `okaIsoSpace_hom_toBase`, `SpecIso_inv_over`) |
+| `projectiveChartIso n i` | `openScheme (projectiveSpace n) (projectiveChartOpen n i) ≅ Over.mk (complexAffineSpace (Fin n) ↘ Spec ↧ℂ)` | definition, sorry-free (`Over.isoMk`) |
+| `projectiveChart n i` | `affineChart` of that iso | definition |
+| `projectiveChart_mem_maximalAtlas`, `projectivePlane_chart_mem_maximalAtlas (i : Fin 3)` | the chart is in the maximal atlas of ℙⁿ(ℂ), of ℙ²(ℂ) with `Fin 2 → ℂ` | one line from the rung |
+| `projectiveChart_symm_underlying` | `((projectiveChart n i).symm v).underlying = (okaIsoSpace n).hom.base ((ProjectiveSpace.chart i).base (ProjectiveSpace.evalPoint (RingHom.id ℂ) v))` | proved (red team section 7: prime ideals compared by basic opens through `evaluate_affineSpaceEquiv_symm_top`) |
+| `projectiveChart_symm_mem_U_iff` | `((projectiveChart n i).symm v).underlying ∈ (okaIsoSpace n).hom ''ᵁ ProjectiveSpace.U n ℂ j ↔ Fin.insertNth i 1 v j ≠ 0` (change B) | proved, from the row above and `chart_base_evalPoint_mem_U_iff` |
+The last row is what `p2-lines-transversal` reads: the point (projectiveChart 2 2).symm v has homogeneous coordinates (v₀, v₁, 1), so the chart x₂ ≠ 0 has coordinates (x₀ / x₂, x₁ / x₂) and L₀, L₁ are {v₀ = 0}, {v₁ = 0} in it. The hypothesis of the rung is met at the pin by `projectiveChartIso`, which is sorry-free, so the rung is not vacuous.
+### Failed trivial proofs
+On `affineChart_mem_maximalAtlas`: `rfl`, `simp` (no progress), `aesop` (no progress), `trivial`, `exact?` fail, and `exact IsManifold.chart_mem_maximalAtlas _` times out at 200000 heartbeats. On `projectiveChart_symm_underlying`: `rfl`, `simp`, `aesop`, `trivial`, `exact?` fail.
+### Open-immersion form (change A)
+`openImmersionAffineIso X j`, `openImmersionChart X j`, `openImmersionChart_symm` (the inverse chart at v is `Point.map j` of the point of 𝔸^d with coordinates v) and `openImmersionChart_mem_maximalAtlas`, for an open immersion j : 𝔸^d ⟶ X over Spec ℂ, with U = range j. `p1p1-fibres-transversal` can build its chart this way; its coordinate order is that rung's convention.
+Write ι = `Point.map (openInclusion X U)` and A = `affineSpaceEquiv (Fin d)`. Mathlib's `OpenPartialHomeomorph.mem_maximalAtlas_of_contMDiffOn`, with `contMDiffAt_of_analyticAt_chart` from `ChartStep` (the chart of the model space is the identity, `chartAt_self_eq`).
+1. The chart is holomorphic on its source. `affineChart_apply_eq_evaluate`: on the source, coordinate m is `Point.evaluate` of `affineCoordinateSection X U e m`, the section `(U.ι.appIso _).inv (e.hom.left.app ⊤ (coord m))` over `U.ι ''ᵁ (e.hom.left ⁻¹ᵁ ⊤)` (upstream `affineSpaceEquiv_apply`, `evaluate_top_eq_appTop`, `Point.evaluate_map`, `evaluate_openEquiv`); upstream's `analyticAt_localChart_symm_evaluate` makes it analytic in `localChart X d w`.
+2. Its inverse is holomorphic on ℂ^d. The inverse is ι ∘ `Point.map e.inv` ∘ A⁻¹ by definition. Coordinate k of `localChart X d w` is evaluation of an étale coordinate section of X (`localChart_apply_component_eq_evaluate`); `Point.evaluate_map` twice moves it to a section of 𝔸^d, and `analyticAt_evaluate_affineSpaceEquiv_symm` (red team section 8, 30 lines: a basic open around the point, `exists_evaluate_basicOpen_eq_div`, `evaluate_affineSpaceEquiv_symm_top`, Mathlib's `AnalyticOnNhd.eval_continuousLinearMap`) makes it analytic. The membership of the point in the open comes from `mem_coordinateNeighborhood_of_mem_localChart_source` and `Point.mem_overOpen_map_iff` twice. Upstream's `analyticAt_localChart_symm_map` was not needed.
+About 75 lines for the rung and its helper. One trap: `rw [hsymm]` with `hsymm : ∀ u, φ.symm u = ι (…)` rewrites the base point of `localEtaleCoordinates X d (φ.symm v)` first and fails on the motive; `rw [hsymm u]` works.
+Open test rung `affine-chart-conj-test` (change F): the chart of ℙ¹ followed by complex conjugation is outside the maximal atlas; statement in its ledger note, elaborated, not proved.
+Timing: `lake env lean HodgeLadder/Normalization/AffineChart.lean` 5 s wall, `HodgeLadder/Tests/ProjectiveChart.lean` 5 s; default heartbeats. Every declaration either ledger rung names checks with the standard axioms.
 
 ## Sources
 

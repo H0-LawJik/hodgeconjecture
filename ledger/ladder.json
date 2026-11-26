@@ -2752,13 +2752,73 @@
     {
       "id": "affine-chart-analytic",
       "title": "An open subscheme U ⊆ X with an isomorphism U ≅ 𝔸^d over Spec ℂ gives a chart of X(ℂ) in IsManifold.maximalAtlas 𝓘(ℂ, Fin d → ℂ) ω (ComplexPoint X), compatible with upstream's étale-coordinate charts localChart",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
+      "module": "HodgeLadder.Normalization.AffineChart",
+      "declarations": [
+        "HodgeLadder.Normalization.affineChart_mem_maximalAtlas",
+        "HodgeLadder.Normalization.affineChart_compatible_localChart",
+        "HodgeLadder.Normalization.affineCoordinates",
+        "HodgeLadder.Normalization.affineChart",
+        "HodgeLadder.Normalization.affineCoordinateSection",
+        "HodgeLadder.Normalization.affineChart_apply_map",
+        "HodgeLadder.Normalization.affineChart_apply_eq_evaluate",
+        "HodgeLadder.Normalization.affineChart_source",
+        "HodgeLadder.Normalization.affineChart_target",
+        "HodgeLadder.Normalization.analyticAt_evaluate_affineSpaceEquiv_symm",
+        "HodgeLadder.Normalization.openImmersionAffineIso",
+        "HodgeLadder.Normalization.openImmersionChart",
+        "HodgeLadder.Normalization.openImmersionChart_symm",
+        "HodgeLadder.Normalization.openImmersionChart_mem_maximalAtlas"
+      ],
+      "depends_on": [
+        "open-subscheme-chart-analytic"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team finding 12 on cycle-class-multiplicative: no upstream file mentions maximalAtlas at the pin, and upstream's localChart comes from étale coordinates chosen with Classical.choice. Checked: for X smooth of relative dimension d over ℂ, U open and e : openScheme X U ≅ 𝔸^d in Over (Spec ℂ), the chart affineChart X U e (coordinate m is AffineSpace.coord m pulled back along e, no conjugation) lies in IsManifold.maximalAtlas 𝓘(ℂ, Fin d → ℂ) ω (ComplexPoint X); affineChart_compatible_localChart states compatibility with every localChart in both directions. Proof: the chart's coordinates are evaluations of regular functions on U, analytic in localChart by upstream's analyticAt_localChart_symm_evaluate; the coordinates of localChart pulled back to 𝔸^d are locally quotients of polynomials (analyticAt_evaluate_affineSpaceEquiv_symm, proof from the red team); then Mathlib's mem_maximalAtlas_of_contMDiffOn. Open-immersion form openImmersionChart (red team change A). The ℙⁿ instance is rung affine-chart-analytic-p2. Statement red team: pass with changes, implemented (docs/sketches/affine-chart-analytic.redteam.md); conventions row 'Algebraic affine chart and the standard chart of ℙⁿ'. Sketch: docs/sketches/cycle-class-multiplicative.md, section 'affine-chart-analytic: statement'."
+    },
+    {
+      "id": "affine-chart-analytic-p2",
+      "title": "The standard affine chart xᵢ ≠ 0 of ℙⁿ (Oka's chart followed by okaIsoSpace, ≅ 𝔸ⁿ over Spec ℂ) is in the maximal analytic atlas of ℙⁿ(ℂ), and its inverse sends v to the point with homogeneous coordinates Fin.insertNth i 1 v",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.ProjectiveChart",
+      "declarations": [
+        "HodgeLadder.Normalization.projectiveChart_mem_maximalAtlas",
+        "HodgeLadder.Normalization.projectivePlane_chart_mem_maximalAtlas",
+        "HodgeLadder.Normalization.projectiveChart_symm_underlying",
+        "HodgeLadder.Normalization.projectiveChart_symm_mem_U_iff",
+        "HodgeLadder.Normalization.projectiveChartImmersion",
+        "HodgeLadder.Normalization.projectiveChartOpen",
+        "HodgeLadder.Normalization.projectiveChartOpen_eq",
+        "HodgeLadder.Normalization.projectiveChartSchemeIso",
+        "HodgeLadder.Normalization.projectiveChartSchemeIso_over",
+        "HodgeLadder.Normalization.projectiveChartIso",
+        "HodgeLadder.Normalization.projectiveChart"
+      ],
+      "depends_on": [
+        "affine-chart-analytic",
+        "p2-witness"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team change D on affine-chart-analytic: the ℙⁿ instance moved to a Tests module so that HodgeLadder.Normalization.AffineChart imports no Tests or port module. projectiveChartIso is sorry-free, so the hypothesis of affine-chart-analytic is met on every ℙⁿ. projectiveChart_symm_mem_U_iff is the form p2-lines-transversal reads: at i = 2 on ℙ² the coordinates are (x₀/x₂, x₁/x₂), and the inverse chart at v lies in U j (j = 0, 1) iff v j ≠ 0. Proof of projectiveChart_symm_underlying and the corollary from the red team (docs/sketches/affine-chart-analytic.redteam.md, sections 7 and 9)."
+    },
+    {
+      "id": "affine-chart-conj-test",
+      "title": "Non-vacuity of affine-chart-analytic: the standard chart of ℙ¹ followed by complex conjugation is not in the maximal analytic atlas",
+      "status": "open",
+      "kind": "test",
       "module": null,
       "declarations": [],
-      "depends_on": [],
+      "depends_on": [
+        "affine-chart-analytic-p2"
+      ],
       "contributors": [],
-      "note": "Red team finding 12: no upstream file mentions maximalAtlas at the pin, and upstream's localChart comes from étale coordinates chosen with Classical.choice, so compatibility of an algebraic chart is a separate statement; it is missing even for ℙ¹ (complInftyHomeomorph is only a homeomorphism). Needed by p2-lines-transversal and p1p1-fibres-transversal. Statement not yet elaborated. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Red team change F on affine-chart-analytic (section 7b): guards the no-conjugation convention. Statement, elaborated against HodgeLadder.Tests.ProjectiveChart with a sorry body: theorem projectiveChart_conj_not_mem_maximalAtlas : (projectiveChart 1 0).trans (Homeomorph.piCongrRight fun _ : Fin 1 => Complex.conjCLE.toHomeomorph).toOpenPartialHomeomorph ∉ IsManifold.maximalAtlas 𝓘(ℂ, Fin 1 → ℂ) ω (ComplexPoint (projectiveSpace 1)). Proof idea: with projectiveChart_mem_maximalAtlas the transition from projectiveChart 1 0 to the conjugated chart is v ↦ conj v on ℂ¹, which would be analytic; conj has no complex derivative. Not attempted."
     },
     {
       "id": "p2-witness",
@@ -2795,7 +2855,8 @@
       "declarations": [],
       "depends_on": [
         "p2-witness",
-        "affine-chart-analytic"
+        "affine-chart-analytic",
+        "affine-chart-analytic-p2"
       ],
       "contributors": [],
       "note": "Decision 0010; red team finding 12. Items: (i) the chart x₂ ≠ 0, isomorphic to 𝔸², is in the maximal atlas by affine-chart-analytic; (ii) hxreg, hwreg need the closed subscheme cycleComponentι of each line computed on that chart, where it is a coordinate line. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
