@@ -58,3 +58,4 @@ public import HodgeLadder.Cup.NamedCocycle
 public import HodgeLadder.Cup.AbYoneda
 public import HodgeLadder.Cup.KappaCancel
 public import HodgeLadder.Cup.OneIsKappa
+public import HodgeLadder.Cup.ExtBridge
