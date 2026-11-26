@@ -1512,16 +1512,26 @@
     },
     {
       "id": "cup-comparison-supported-pair",
-      "title": "relCupSing is natural for maps of pairs; the supported comparison stated on upstream's neighborhoodSupportComplementPair, through supportedRationalSingularSectionCohomologyEquivSupportComplement, with β on X",
-      "status": "open",
+      "title": "relCupSing is natural for maps of pairs; the supported comparison on H^n(X, X ∖ Z; ℚ) (upstream's TopPair.ofSubset, the pair of CohomologyWithSupport), with Ψ β on X",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedPair",
+      "declarations": [
+        "HodgeLadder.Cup.relDiagonal_naturality",
+        "HodgeLadder.Cup.relCupSing_naturality",
+        "HodgeLadder.Cup.topPairIso",
+        "HodgeLadder.Cup.pairCohIso",
+        "HodgeLadder.Cup.fst_topOpen",
+        "HodgeLadder.Cup.supportedEquivPair",
+        "HodgeLadder.Cup.cup_singular_comparison_supported_pair"
+      ],
       "depends_on": [
         "cup-singular-comparison"
       ],
-      "contributors": [],
-      "note": "Transport of cup_singular_comparison_supported along openIntersectionPairIsoSupportComplement and Opens.inclusionTopIso."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "supportedEquivPair (α ∪ β) = (−1)^{pq} • relCupSing (supportedEquivPair α) (Ψ β) on TopPair.ofSubset (X ∖ Z). The transport is the identity of X as an isomorphism of pairs (X, X ∖ Z) ≅ (⊤, ⊤ ⊓ (X ∖ Z)). Upstream's supportedRationalSingularSectionCohomologyEquivSupportComplement targets neighborhoodSupportComplementPair ⊤ Z instead, a third spelling of the same pair; it is not used here."
     },
     {
       "id": "local-class-product",
