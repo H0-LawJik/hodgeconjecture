@@ -128,3 +128,5 @@ public import HodgeLadder.Tests.CrossTriadNaturality
 public import HodgeLadder.Cup.SupportedPairForget
 public import HodgeLadder.Tests.SupportedPairForget
 public import HodgeLadder.Tests.FundamentalClassUnit
+public import HodgeLadder.Cup.CapCrossEvaluation
+public import HodgeLadder.Tests.CapCrossEvaluation

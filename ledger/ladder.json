@@ -2044,20 +2044,65 @@
         "relative-cross-triad-naturality"
       ],
       "contributors": [],
-      "note": "Statements elaborated by the red team of relative-cross-triad-naturality (docs/sketches/relative-cross-triad-naturality.redteam.md, change 3; text also in docs/sketches/local-class-product.md): triadCapCohomologyLinear_triadChainMap (f : X ⟶ Y, hA, hB, p q, α : RelativeCohomology ℚ (TopPair.ofSubset A') p, z : TriadRelativeHomology ℚ X A B (p + q); left side triadCapCohomologyLinear ℚ Y A' B' p q α ((homologyMap (triadChainMap f hA hB) (p + q)).hom z), right side relativeHomologyMap ℚ q (TopPair.ofSubsetHom f hB) (triadCapCohomologyLinear ℚ X A B p q (relativeCohomologyMap ℚ p (TopPair.ofSubsetHom f hA) α) z)) and unionRelativeTriadCapCohomologyLinear_naturality (with hX, hY : QuasiIso of upstream's comparisons, z : RelativeHomology ℚ (TopPair.ofSubset (A ∪ B)) (p + q) pushed along TopPair.ofSubsetHom f (triadMap_mem_union f hA hB)). The union form follows from the triad form in five lines (red-team scratch). Route for the triad form: the chain-level identity by cancelling the triad projection, triadRelativeChainProjection_triadCapHom, relativeChainProjection_naturality, relativeCochainToAbsolute_relativeCochainMap and Simplicial.cap_naturality, as upstream's relativeCapHom_naturality; then homology through triadCapShortComplexHom. The cohomology argument also needs naturality of upstream's relativeCochainCohomologyEquiv, which upstream lacks (it has the absolute cochainCohomologyEquiv_naturality only); prove it here as a linearDualMap naturality, modelled on linearDualHomologyEquiv_naturality. Sign: none expected; the (−1)^p factors on the outer terms of triadCapShortComplexHomSucc appear identically on both sides. Register row: Triad cap product. Needed by the cap route of local-class-cross-model. Not attempted."
+      "note": "Statements elaborated by the red team of relative-cross-triad-naturality (docs/sketches/relative-cross-triad-naturality.redteam.md, change 3; text also in docs/sketches/local-class-product.md): triadCapCohomologyLinear_triadChainMap (f : X ⟶ Y, hA, hB, p q, α : RelativeCohomology ℚ (TopPair.ofSubset A') p, z : TriadRelativeHomology ℚ X A B (p + q); left side triadCapCohomologyLinear ℚ Y A' B' p q α ((homologyMap (triadChainMap f hA hB) (p + q)).hom z), right side relativeHomologyMap ℚ q (TopPair.ofSubsetHom f hB) (triadCapCohomologyLinear ℚ X A B p q (relativeCohomologyMap ℚ p (TopPair.ofSubsetHom f hA) α) z)) and unionRelativeTriadCapCohomologyLinear_naturality (with hX, hY : QuasiIso of upstream's comparisons, z : RelativeHomology ℚ (TopPair.ofSubset (A ∪ B)) (p + q) pushed along TopPair.ofSubsetHom f (triadMap_mem_union f hA hB)). The union form follows from the triad form in five lines (red-team scratch). Route for the triad form: the chain-level identity by cancelling the triad projection, triadRelativeChainProjection_triadCapHom, relativeChainProjection_naturality, relativeCochainToAbsolute_relativeCochainMap and Simplicial.cap_naturality, as upstream's relativeCapHom_naturality; then homology through triadCapShortComplexHom. The cohomology argument also needs naturality of upstream's relativeCochainCohomologyEquiv, which upstream lacks (it has the absolute cochainCohomologyEquiv_naturality only); prove it here as a linearDualMap naturality, modelled on linearDualHomologyEquiv_naturality. Sign: none expected; the (−1)^p factors on the outer terms of triadCapShortComplexHomSucc appear identically on both sides. Register row: Triad cap product. Off the critical path since 2026-11-26: local-class-cross-model is restated in product form (red team of cap-cross-evaluation, C4), and the move to ℂ^{a+b} goes through the union pair with upstream functoriality, so no rung on the route to local-class-product depends on this one. Kept open as a general projection formula. Not attempted."
     },
     {
       "id": "cap-cross-evaluation",
       "title": "⟨pr₂*ψ, pr₁*φ ⌢ (x × y)⟩ = ⟨φ, x⟩·⟨ψ, y⟩ for upstream's triad cap product, with no sign",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.CapCrossEvaluation",
+      "declarations": [
+        "HodgeLadder.CapCross.prFstPair",
+        "HodgeLadder.CapCross.prSndPair",
+        "HodgeLadder.CapCross.quasiIso_triadToUnion_prod_of_isOpen",
+        "HodgeLadder.CapCross.homologyπ_eq_class",
+        "HodgeLadder.CapCross.relEval_class",
+        "HodgeLadder.CapCross.relativeCohomologyMap_class",
+        "HodgeLadder.CapCross.triadCap_class_homologyπ",
+        "HodgeLadder.CapCross.capEval",
+        "HodgeLadder.CapCross.tensorEval",
+        "HodgeLadder.CapCross.frontInclusion_eq_subinterval",
+        "HodgeLadder.CapCross.backInclusion_eq_subinterval",
+        "HodgeLadder.CapCross.alexanderWhitney_tensorEval",
+        "HodgeLadder.CapCross.tensorEval_d_eq_zero",
+        "HodgeLadder.CapCross.tensorEval_homotopy_left",
+        "HodgeLadder.CapCross.tensorEval_homotopy_right",
+        "HodgeLadder.CapCross.d_ιTensorObj_mem",
+        "HodgeLadder.CapCross.tensorEval_shuffle",
+        "HodgeLadder.CapCross.cap_cross_evaluation_cocycle",
+        "HodgeLadder.CapCross.cap_cross_evaluation_triad",
+        "HodgeLadder.CapCross.cap_cross_evaluation"
+      ],
       "depends_on": [
         "relative-cross-chain"
       ],
-      "contributors": [],
-      "note": "Singular chains here are unnormalized, so Alexander–Whitney after shuffle is the identity only up to the natural homotopy SSet.shuffleAlexanderWhitneyHomotopy; by naturality in each factor it preserves C(A) ⊗ C(Q) + C(P) ⊗ C(B), and the docstring says so. Koszul conventions would insert (−1)^{|ψ||x|}, which is 1 in even degrees. Start with rfl pins of capHom's formula and of unionRelativeTriadCapCohomologyLinear through triadCapCohomologyLinear and the excision inverse (red-team hand computation 5), unless triad-relative-cup-cap has added them. Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Exact, no sign in any degree, odd m and n included: ⟨pr₂^*ψ, pr₁^*φ ⌢ (x × y)⟩ = ⟨φ, x⟩·⟨ψ, y⟩ over ℚ, for upstream's sum-relative triad cap triadCapCohomologyLinear with relCross (cap_cross_evaluation_triad, any subsets A, B) and for upstream's union-relative triad cap unionRelativeTriadCapCohomologyLinear with relCrossUnion (cap_cross_evaluation, any proof hExc of the excision quasi-isomorphism; for open A, B quasiIso_triadToUnion_prod_of_isOpen). The pairing is upstream's relativeCohomologyEquivDualHomology, the projections prFstPair, prSndPair. Both reduce to the chain-level cap_cross_evaluation_cocycle through representative lemmas on upstream's API (relEval_class, relativeCohomologyMap_class, triadCap_class_homologyπ, homologyπ_eq_class). Unnormalized chains: single non-identity shuffle terms φ(degenerate)·ψ(degenerate) survive, so the chain-level identity holds for cocycles and relative cycles only; the proof is the homotopy route: alexanderWhitney_tensorEval (the cap evaluation is Tau Ceti's tensorCochain α ⊗ β after TopCat.alexanderWhitney, per simplex, no sign), TopCat.shuffle_alexanderWhitney and SSet.shuffleAlexanderWhitneyHomotopy (AW ∘ EZ = d h + h d + id), tensorEval_d_eq_zero (d h dies on cocycles), d_ιTensorObj_mem with tensorEval_homotopy_left, _right (h d dies by SSet.shuffleAlexanderWhitneyHomotopy_hom_naturality along A → P, B → Q). Imports Tau Ceti's SimplicialSet.EilenbergZilber and Monoidal.Tensor.Cochain; upstream's subspace chain map is SSet.chainComplexMap of the inclusion by rfl (private subspaceChainMap_pin). Six private rfl pins of capHom, faces, relativeCapLift, triadCapLiftHom, unionRelativeTriadCapCohomologyLinear, to be replaced by HodgeLadder.Cup.TriadCapPins (rung triad-relative-cup-cap) once it lands. Non-vacuity and sign visibility: cap-cross-evaluation-test. Register row: Cap–cross evaluation. Sketch: docs/sketches/local-class-product.md; red team 2026-11-26: statement pass with changes (docs/sketches/cap-cross-evaluation.redteam.md), C1 to C5 implemented."
+    },
+    {
+      "id": "cap-cross-evaluation-test",
+      "title": "Non-vacuity of cap-cross-evaluation: value 1 on ℝ¹ × ℝ¹ in odd degrees m = n = 1 (sign-visible against a Koszul (−1)^{mn}), and value 1 in the product form on ℂ^a × ℂ^b for every a, b",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.CapCrossEvaluation",
+      "declarations": [
+        "HodgeLadder.Tests.capCrossCx",
+        "HodgeLadder.Tests.capCrossCxPunct",
+        "HodgeLadder.Tests.capCrossRe",
+        "HodgeLadder.Tests.capCrossRePunct",
+        "HodgeLadder.Tests.capCross_real_one_one",
+        "HodgeLadder.Tests.capCross_complex_model"
+      ],
+      "depends_on": [
+        "cap-cross-evaluation"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team of cap-cross-evaluation, change C1 (docs/sketches/cap-cross-evaluation.redteam.md, text verbatim). capCross_real_one_one: with upstream's standardLocalClass ℚ 1 and its normalizedRelativeCoclass on (ℝ¹, ℝ¹ ∖ 0), the left side of cap_cross_evaluation is 1; m·n = 1 is odd, so a Koszul (−1)^{mn} statement would give −1 ≠ 1 over ℚ. capCross_complex_model: the product form of local-class-cross-model, value 1 for every a, b (even degrees, so non-vacuity only). Both are rw chains through cap_cross_evaluation and normalizedRelativeCoclass_pairing_self. The spaces are named by abbrev: leaving Q implicit in prSndPair times out at isDefEq."
     },
     {
       "id": "cross-orientation",
@@ -2114,19 +2159,17 @@
     },
     {
       "id": "local-class-cross-model",
-      "title": "Model case of local-class-product: the triad cap of the pulled-back normalized local class of ℂ^a with the orientation class of ℂ^{a+b}, paired with the pulled-back normalized local class of ℂ^b, equals 1",
+      "title": "Model case of local-class-product in product form: on ℂ^a × ℂ^b, upstream's triad cap of the pulled-back normalized local class of ℂ^a with the cross product of the complex orientation classes, paired with the pulled-back normalized local class of ℂ^b, equals 1",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
         "cap-cross-evaluation",
-        "cross-orientation",
-        "relative-cross-triad-naturality",
-        "triad-cap-naturality"
+        "cross-orientation"
       ],
       "contributors": [],
-      "note": "Statement elaborated against upstream's unionRelativeTriadCapCohomologyLinear and triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other, compiled from copies by the red team); the helper definitions setA, setB, projA, projB, u, orient are recorded in the sketch. Spell the ambient space (X := TopCat.of _) in every TopPair.ofSubset: left implicit, elaboration exceeds 200000 heartbeats. The case a = b = 1 is the first sign-visible falsification test of front cup. As stated on TopCat.of (Fin (a + b) → ℂ) (the cap route) it needs relative-cross-triad-naturality (checked: relCross_naturality, triadToUnionRelativeHomologyMap_triadChainMap; orient a b is the comparison image of the triad push-forward of relCross along complexAppendMap, HodgeLadder.Tests.orient_eq_triadToUnion_triadChainMap) and triad-cap-naturality (naturality of upstream's triad cap under triadChainMap, open). Alternative cup-side route, avoiding triad-cap-naturality and the triad-level push-forward (red team of relative-cross-triad-naturality): state the cap model on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) with leftProdSet {0}ᶜ _ and rightProdSet _ {0}ᶜ (both open, so excision holds), where cap-cross-evaluation applies directly; pass to relCup2 on the product by triad-relative-cup-cap; pull relCup2 on ℂ^{a+b} back along complexAppendMap by triad-relative-cup-naturality; and pair with orient a b = h_*(relCrossUnion x y) (cross_orientation_orient) by naturality of the evaluation pairing ⟨γ, h_* c⟩ = ⟨h^* γ, c⟩. That route puts the whole transport on triad-relative-cup-naturality and triad-relative-cup-cap, both open. The thinker chooses; if the cup route is taken, drop triad-cap-naturality from depends_on. Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "note": "Restated 2026-11-26 in product form (red team of cap-cross-evaluation, question (i) and change C4): on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) with leftProdSet {0}ᶜ _ and rightProdSet _ {0}ᶜ, the statement is that of HodgeLadder.Tests.capCross_complex_model (checked under cap-cross-evaluation-test, a three-line corollary of cap_cross_evaluation), so the maintainer can post this rung against that declaration. The earlier form on TopCat.of (Fin (a + b) → ℂ) with setA, setB, orient needed a naturality of upstream's triad cap along complexAppendMap (triad-cap-naturality) on top of relative-cross-triad-naturality; both are dropped from depends_on. The move to ℂ^{a+b} happens later, in local-class-product, on the single union pair (P × Q, A × Q ∪ P × B) ≅ (ℂ^{a+b}, ℂ^{a+b} ∖ 0): upstream's functoriality of relativeCohomologyMap and of the evaluation pairing suffice there, with cross_orientation_complex (s_a × s_b goes to the orientation class) and a short lemma that the pullback of normalizedRelativeCoclass z along an isomorphism of pairs is the normalized coclass of the preimage class (red team finding 5). The sign content of decision 0009 sits in cross_orientation_complex; the evaluation sits in cap-cross-evaluation. Spelling pitfall: name the spaces by abbrev or (Q := …) and give normalizedRelativeCoclass (X := puncturedPair ℂ k); with Q left implicit in prSndPair (TopCat.of (Fin a → ℂ)) ({0}ᶜ : Set (Fin b → ℂ)) elaboration hits a deterministic timeout at isDefEq (↑?Q =?= (Fin b → ℂ)), the same failure as an implicit ambient space in TopPair.ofSubset. Sketch: docs/sketches/local-class-product.md."
     },
     {
       "id": "triad-relative-cup",
