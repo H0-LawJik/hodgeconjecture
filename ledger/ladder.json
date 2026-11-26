@@ -2180,13 +2180,17 @@
     {
       "id": "normalization-singular",
       "title": "Upstream's normalization iso of a supported cycle class is the sheafified restriction to X ∖ T_sing of upstream's singular transport complexSupportInjectiveSectionCohomologyEquiv at ⊤",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Normalization.Singular",
+      "declarations": [
+        "HodgeLadder.Normalization.normalization_singular"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Upstream-internal: cycleComponentSupportedClassNormalizationIso_apply, complexSupportInjectiveCohomologySheafIsoRelative_section_apply (both Other), supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality. Lean statement recorded in the sketch (elaborated 2026-11-26 against Other.AlgebraicGeometry.Cohomology.SupportSheafNormalization). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Exact, no sign. N a = (supportRelativeCohomologyToSheaf Z (2p)).app U (relativeCohomologyMap (neighborhoodSupportInclusionPairMap U ≤ ⊤) (complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ (2p) (r a))), U = cycleComponentSmoothSupportAmbientOpen X x, r = rationalSupportAddEquivSupportedInjectiveHomology. Route: cycleComponentSupportedClassNormalizationIso_apply, openRestrictedLowestSectionCohomologyIso_hom (the lowest-section iso is sectionCohomologyToSheafSection at U), complexSupportInjectiveCohomologySheafIsoRelative_restriction_section at U ≤ ⊤, then naturality of the sheafification unit, whose presheaf map is relativeCohomologyMap along neighborhoodSupportInclusionPairMap by definition. The singular naturality supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality was not needed. Imports Other.AlgebraicGeometry.Cycle.Component.PointClassNormalization (on the drift list). Sketch: docs/sketches/cycle-class-multiplicative.md. Red team 2026-11-26: pass with changes (docs/sketches/normalization-singular.redteam.md)."
     },
     {
       "id": "cycle-class-germ",
@@ -2199,7 +2203,7 @@
         "normalization-singular"
       ],
       "contributors": [],
-      "note": "smoothClosedSupportCoclassStalk_eq_chartGerm and exists_open_chartNormalProjectionCoclass_eq (upstream). Named step inside the rung (red team finding 15): move a chart of Mathlib's maximal atlas on X(ℂ), adapted to Z near y, into upstream's E × (Fin c → ℂ) chart form on the complex points of the open subscheme X ∖ Z_sing, the form chartNormalProjectionCoclass takes; split it out if the file passes the size rule. When the component is a point, upstream's cycleComponentSupportedInjectiveClass_point_normalization (Other) gives the class directly. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "smoothClosedSupportCoclassStalk_eq_chartGerm and exists_open_chartNormalProjectionCoclass_eq (upstream). Named step inside the rung (red team finding 15): move a chart of Mathlib's maximal atlas on X(ℂ), adapted to Z near y, into upstream's E × (Fin c → ℂ) chart form on the complex points of the open subscheme X ∖ Z_sing, the form chartNormalProjectionCoclass takes; split it out if the file passes the size rule. When the component is a point, upstream's cycleComponentSupportedInjectiveClass_point_normalization (Other) gives the class directly. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. From the normalization-singular red team: start with named lemmas for non-vacuity (N of the generic-point class is nonzero, from cycleComponentSheafClass_genericPoint_ne_zero) and for cycleComponentSmoothSupportCoclassSection in singular form; stay on the ⊤ form and compose with .trans or congrArg, since a goal-level rw with normalization_singular times out in whnf."
     },
     {
       "id": "supported-pair-forget",

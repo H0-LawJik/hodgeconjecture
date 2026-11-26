@@ -1,0 +1,9 @@
+# Handoff 2026-11-26: `normalization-singular`
+
+- Checked: `HodgeLadder.Normalization.normalization_singular` in `HodgeLadder/Normalization/Singular.lean`, the statement from `docs/sketches/cycle-class-multiplicative.md` "Glue statements", text unchanged.
+- Content: `N a` is the sheafification unit at `U = cycleComponentSmoothSupportAmbientOpen X x` applied to the restriction, from `(X, X ∖ Z)` to `(U, U ∖ Z)`, of `complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ (2p)` of the injective-model image of `a`. Exact, no sign, no scalar.
+- Route, four upstream steps: `cycleComponentSupportedClassNormalizationIso_apply`; `openRestrictedLowestSectionCohomologyIso_hom` (stated as a `have` about the iso's `.hom`, then `rw`); `complexSupportInjectiveCohomologySheafIsoRelative_restriction_section` at `U ≤ ⊤`; naturality of `supportRelativeCohomologyToSheaf`. That naturality is the singular-side restriction by definition of `supportRelativeCohomologyPresheaf`, so `supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality` was not needed.
+- Failed attempt: a direct `rw [cycleComponentSmoothSupportLowestSectionCohomologyComplexIso, openRestrictedLowestSectionCohomologyIso_hom]` on the goal times out in `whnf` (200000 heartbeats), and its motive fails a type-correctness check unless upstream's `backward.isDefEq` options are set. The `have hL` form needs no options.
+- Timing: the file elaborates in about 15 seconds at the default heartbeat limit; full `tools/check.py` about 17 seconds on a warm build.
+- Imports `Other.AlgebraicGeometry.Cycle.Component.PointClassNormalization` (already built in the shared cache; nothing rebuilt). Add `openRestrictedLowestSectionCohomologyIso_hom` (`Other/AlgebraicTopology/Sheaf/OpenRestrictedLowestCohomology.lean`) to the drift list of the cycle-class sketch next to the two `Other` lemmas already named there.
+- Next move: `cycle-class-germ`, which now starts from this identity.

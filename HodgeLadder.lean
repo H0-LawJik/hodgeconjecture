@@ -101,3 +101,4 @@ public import HodgeLadder.Cup.SupportedOpenTop
 public import HodgeLadder.Cup.SupportedOpenNaturality
 public import HodgeLadder.Cup.SupportedAgreementOpen
 public import HodgeLadder.Tests.SupportedOpenComparison
+public import HodgeLadder.Normalization.Singular
