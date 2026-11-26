@@ -68,6 +68,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-comparison-projective-line` | test | checked | `cup-singular-comparison-absolute`, `cup-graded-commutative`, `projective-line-test` | The cup comparison and graded commutativity apply to upstream's ℙ¹ |
 | `cup-odd-degree-test` | test | open | `cup-singular-comparison-absolute` | A nonzero product of two classes in H¹(X; ℚ) |
 | `supported-sections-right-mult` | foundation | open | `right-mult-cocycle` | Right multiplication by a global cocycle preserves the sections of the singular cochain sheaves supported in Z, as a map of complexes |
+| `supported-step2-cocycle-class` | foundation | checked | `step2-cocycle-class` | the supported-sections model of `relH` on the class of a Hom-complex cocycle, K-injective and flasque forms |
 | `supported-sections-class` | foundation | open | `supported-sections-right-mult`, `support-ab-yoneda`, `cup-global-comparison` | Through upstream's relHAddEquivSupportedSectionsHomologyOfFlasque, supCup α y is the class of the supported cocycle of α times b |
 | `supported-singular-model` | foundation | open | `relative-singular-cup` | The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing |
 | `cup-singular-comparison` | foundation | open | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |

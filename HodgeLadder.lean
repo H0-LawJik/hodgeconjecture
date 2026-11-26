@@ -67,3 +67,4 @@ public import HodgeLadder.Cup.CupSingular
 public import HodgeLadder.Cup.RelativeCup
 public import HodgeLadder.Cup.SupportAbYoneda
 public import HodgeLadder.Tests.CupComparison
+public import HodgeLadder.Cup.SupportedStep2
