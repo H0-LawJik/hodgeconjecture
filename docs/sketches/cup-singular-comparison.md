@@ -93,3 +93,5 @@ Upstream's step 3 (`rationalSingularCochainHypercohomologyAddEquivCohomology` af
 | `step3-named-class` (checked) | step 3 sends the class named by a global cocycle `c` (on the open `⊤`) to the singular class of `c` transported along `singularCochainComplexIsoTopOpen` | the named class is the homology class of the sheafified global section `c`; `topOpenToGlobalSingularCochainSheafComplex` sends the raw cochain `c` to it, after `globalSingularCochainPlusPlusComplexIsoSheafComplex` is matched with `toSheafify` |
 | `cup-top-open` (checked) | `cupGlobal a b` (the Tau Ceti cup on cochains of the open `⊤`) corresponds to the cochain cup on `X(ℂ)` under `⊤ ≅ X(ℂ)` | Tau Ceti `singularCup_naturality` |
 | assembly | with `cup-global-comparison`: `cup x y ↦ (−1)^{pq} · cupSing x y` in upstream's singular cohomology | the two rows above and `cochain-cup-upstream` |
+
+Result (2026-11-25): the absolute comparison is checked (`cup_singular_comparison`): `Ψ (x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y)` for all `x`, `y`, in the same order. The supported comparison stays open under `cup-singular-comparison`.
