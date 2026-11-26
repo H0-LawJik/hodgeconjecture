@@ -47,3 +47,16 @@ Upstream's statement library has a strict model for `relH`: `relHAddEquivSupport
 | `cup-singular-comparison` (supported) | `supCup` against `relCupSing` through the composite of the two models | the three rows above |
 
 Which equivalence `H_[Z]^n(X; ℚ) ≃ H^n(X, X ∖ Z)` is the one of record for the supported statement is a decision for the orchestrator: the composite above, or upstream's cone equivalence after a separate identification of `relH` with `RationalCohomologyWithSupport`.
+
+### Refinement of the supported-sections route
+
+Upstream's `relHAddEquivSupportedSectionsHomology` (`Definitions/AlgebraicTopology/Support/CohomologyInjectiveModel.lean`) has the shape of the absolute step 2, with the pair sheaf `P` in place of `ℤ_X`: `Ext.homAddEquiv`, postcomposition with `Q(ι)`, `kInjectiveDerivedHomAddEquivCohomologyClass`, `homologyAddEquiv`, then `homComplexPairSheafIsoSupportedSections`. `relHAddEquivSupportedSectionsHomologyOfFlasque` transports it to a flasque resolution `K` through `resolutionToInjective`. So the absolute lemmas transfer:
+
+| Absolute input | Supported analogue |
+|---|---|
+| `step2-cocycle-class` (`globalSectionsOfResolution_mk`) | the flasque model sends the class of a cocycle `z : P[0] → S_ℤ` to the supported-sections class of `z` |
+| `cocycle-class-mul` | unchanged (general) |
+| `end-class-right-mult` | unchanged: `ε_y ≫ ι = ι ≫ R_b` is a statement about `ℚ_X` |
+| `named-cocycle-comp` | `cocycleComp z R_b` is, in supported sections, `(−1)^{pq}` times right multiplication by `b` on the supported cocycle |
+
+Right multiplication on supported sections is `sheafSectionsSupportedOutside` applied to `rightMulHom`, since that functor acts on morphisms of sheaves. The step from `Ψ_Z α`'s representing cocycle to an Ext class with `α.hom ≫ Q(ι)⟦p⟧ = [z]` is where `support-ab-yoneda` enters.
