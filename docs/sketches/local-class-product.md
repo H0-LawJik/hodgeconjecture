@@ -115,6 +115,7 @@ The declarations this plan uses from upstream's library `Other` are outside upst
 - **Build once.** A prover's first `lake build` of a file that imports them writes their `.olean` files into the shared package cache. Build them once, from one worktree, before parallel work on these rungs starts.
 - **`rfl` pins**, at the start of the first rung that uses them (`cap-cross-evaluation` or `triad-relative-cup-cap`): the formula of `capHom` (φ(front p-face) • back q-face) and `unionRelativeTriadCapCohomologyLinear` unfolded through `triadCapCohomologyLinear` and the inverse of the excision quasi-isomorphism.
 - **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. For `triad-relative-cup` (red team 2026-11-26): `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap`, `relativeChainProjection_empty_isIso`, `TopPair.ofSubset`, `TopPair.isoOfSubset`, `TopPair.ofSubsetHom`, `relativeChainProjection`, `relativeCohomologyMap`, `HomologicalComplex.linearDualMap`, `linearDualMap_comp`, `linearDualHomologyEquiv_naturality`, `TopPair.Homotopy.relativeChainProjection_naturality`.
+- **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. Added by `relative-cross-chain` (red team, section 8): the bodies of Tau Ceti `SSet.shuffleChain`, `SSet.stdSimplex.cone`, `prodCone`, `prodConeChain`, `SSet.shuffle`, `TopCat.shuffle` (`HodgeLadder.Relative.CrossChain` reads `cone` and `prodCone` through `import all`); Mathlib `TensorSigns (ComplexShape.down ℕ)`, `ιTensorObj`, the `ModuleCat` left unitor, `Functor.LaxMonoidal.μ TopCat.toSSet`; upstream `relativeChainFunctor`, `relativeChainProjection`, `TopPair.ofSubset`, `TopPair.ofSubsetHom`, `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadToUnionRelativeChainMap`, `triadToUnionRelativeHomologyMap`, and `TopPair.Homotopy.relativeChainProjectionComponentIsCokernel`, `relativeChainProjection_naturality`.
 
 ## Red-team changes (2026-11-26), as implemented
 
@@ -201,6 +202,106 @@ theorem forgetRel_empty_bijective (q : ℕ) :
 3. `relCup2_empty`. Apply the injective map `triadExcisionCoh.hom`. Both sides become pullbacks to the triad complex C(X)/(C(A) + C(∅)): the left side is the triad cup of a and b; the right side is the pullback of `relCupSing a (forgetRel b)` along the map τ : C(X)/(C(A) + C(∅)) → C(X, A) induced by the identity of C(X). Tau Ceti's `cup_naturality` with e = τ, D = `relDiagonal`, D' = `triadDiagonal`, f = 𝟙 and g the inverse of C(X) → C(X, ∅) (step 2) gives the identity, after `τ ≫ relDiagonal = triadDiagonal ≫ (𝟙 ⊗ g)`, checked on generators through `cokernel.π`.
 **Checked (2026-11-26).** Red team `docs/sketches/triad-relative-cup.redteam.md`, pass with changes, implemented. The three theorems are proved, with the cocycle formula required by finding 3: `triadCupCycles`, `triadExcisionCoh_relCup2_homologyπ` (through triad excision, `relCup2 [c] [d]` is the class of `triadCupCycles c d`) and `triadProj_cupCochain` (that cochain pulled back to C(X) is the Alexander–Whitney cup of c and d pulled back to C(X)). Together with injectivity of `triadExcisionCoh.hom` they determine `relCup2`; the two compatibility theorems alone do not, since forgetRel loses the relative information (counterfeit on S¹ ⊔ {pt} in the verdict). C(∅) = 0 comes from upstream's `relativeChainProjection_empty_isIso` (`Other/AlgebraicTopology/Singular/EmptySubspace.lean`). Non-vacuity: `torusEval_relCup2_winding` in `HodgeLadder.Tests.TriadCupTorus`, value 1 at A = B = ∅; the swapped product gives −1. Elaboration of the proved file: about 20 seconds.
 **Drift list.** Add to section "Pins and drift": `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap` (`Other/.../Cap/Triad.lean`), `relativeChainProjection_empty_isIso` (`Other/.../Singular/EmptySubspace.lean`), `TopPair.ofSubset`, `TopPair.isoOfSubset`, `TopPair.ofSubsetHom`, `relativeChainProjection`, `relativeCohomologyMap`, `HomologicalComplex.linearDualMap`, `linearDualMap_comp`, `linearDualHomologyEquiv_naturality`, `TopPair.Homotopy.relativeChainProjection_naturality`. A change of `triadToUnionRelativeChainMap` away from "induced by the identity of C(X)", or a sign in `isoOfSubset`, would change the truth of the identities.
+## relative-cross-chain: statement
+Date: 2026-11-26. Phase 1 (statement), branch `track/relative-cross-chain` from `8b3a2fa`. File `HodgeLadder/Relative/CrossChain.lean`, module `HodgeLadder.Relative.CrossChain`, namespace `HodgeLadder.Relative`; not yet imported from `HodgeLadder.lean`. The ledger's `module` hint reads `HodgeLadder/Relative/Cross/Chain.lean`; the maintainer picks one of the two names when the rung is posted. The whole file elaborates with `lake env lean` in 6 to 11 seconds (wall clock, warm cache; 25 seconds on the first run). Status at the statement pass: the identity-shuffle sign and the simplex formula proved, five statements open. Red team: pass with changes (`docs/sketches/relative-cross-chain.redteam.md`). **Checked 2026-11-26** (section "relative-cross-chain: proofs" below).
+**Choices.** Coefficients ℚ and spaces in `TopCat.{0}`, as upstream's triad files and every consumer use them. The product is the cartesian monoidal product `P ⊗ Q` of `TopCat`, whose points are pairs (`TopCat.tensor_apply` is `rfl`), since Tau Ceti's `TopCat.shuffle` lands in `Sing (X ⊗ Y)`. A relative cycle is given as an ambient chain `x` together with a cycle `zx` of upstream's relative complex with `iCycles zx = relativeChainProjection x`; every class of H_m(P, A) has this form, because `homologyπ` and the cokernel projection are surjective in `ModuleCat`. No openness is assumed: the cross product into the triad complex exists for all subsets, and openness enters only through upstream's excision (`triadToUnionRelativeChainMap_quasiIso_of_isOpen`) when a consumer inverts the comparison. The map into triad homology is fixed by an `∃!` statement, and `relCross` is its witness; consumers use `relCross_homologyπ` and uniqueness only. This keeps data `sorry` out of the file: the one definition that depends on an open proof is a choice from a Prop.
+### Proved now
+/-- The coefficient of the simplex `x` (identity on its summand, zero on the others). -/
+def simplexCoeff (K : SSet.{w}) (T : C) {n : ℕ} (x : K _⦋n⦌) : (K.chainComplex T).X n ⟶ T :=
+  Cofan.IsColimit.desc (K.isColimitChainComplexXCofan T n) fun y => if y = x then 𝟙 T else 0
+/-- The identity (p, q)-shuffle: vertices (min i p, i - p), i = 0, …, n. -/
+def idShuffle (p q n : ℕ) (h : p + q = n) : ((Δ[p] : SSet.{w}) ⊗ Δ[q]) _⦋n⦌
+theorem shuffleChain_idShuffle_coeff (T : C) (p q n : ℕ) (h : p + q = n) :
+    SSet.shuffleChain T p q n h ≫
+        simplexCoeff ((Δ[p] : SSet.{w}) ⊗ Δ[q]) T (idShuffle p q n h) = 𝟙 T
+def crossChainMap (P Q : TopCat.{0}) :
+    SingularChainComplex ℚ P ⊗ SingularChainComplex ℚ Q ⟶ SingularChainComplex ℚ (P ⊗ Q) :=
+  TopCat.shuffle P Q (𝟙_ (ModuleCat.{0} ℚ)) (𝟙_ (ModuleCat.{0} ℚ)) ≫
+    ((SSet.chainComplexFunctor (ModuleCat.{0} ℚ)).map (λ_ (𝟙_ (ModuleCat.{0} ℚ))).hom).app _
+def shuffleBilin (P Q : TopCat.{0}) (m n : ℕ) :
+    (SingularChainComplex ℚ P).X m →ₗ[ℚ] (SingularChainComplex ℚ Q).X n →ₗ[ℚ]
+      (SingularChainComplex ℚ (P ⊗ Q)).X (m + n) :=
+  (TensorProduct.mk ℚ _ _).compr₂
+    (ιTensorObj (SingularChainComplex ℚ P) (SingularChainComplex ℚ Q) m n (m + n) rfl ≫
+      (crossChainMap P Q).f (m + n)).hom
+theorem shuffleBilin_ι {P Q : TopCat.{0}} {p q : ℕ} (σ : (TopCat.toSSet.obj P) _⦋p⦌)
+    (τ : (TopCat.toSSet.obj Q) _⦋q⦌) :
+    shuffleBilin P Q p q
+        (((TopCat.toSSet.obj P).ιChainComplex (R := ModuleCat.of ℚ ℚ) σ).hom (1 : ℚ))
+        (((TopCat.toSSet.obj Q).ιChainComplex (R := ModuleCat.of ℚ ℚ) τ).hom (1 : ℚ)) =
+      (SSet.shuffleChain (ModuleCat.of ℚ ℚ) p q (p + q) rfl ≫
+        (SSet.chainComplexMap
+          ((SSet.yonedaEquiv.symm σ ⊗ₘ SSet.yonedaEquiv.symm τ) ≫
+            Functor.LaxMonoidal.μ TopCat.toSSet P Q) (ModuleCat.of ℚ ℚ)).f (p + q)).hom (1 : ℚ)
+Helpers, also proved: `ι_simplexCoeff_self`, `ι_simplexCoeff_of_ne`, `eq_idShuffle_iff` (a simplex is `idShuffle` iff its vertices are (min i p, i - p)), `prodCone_whiskerRight_succ`, `prodCone_whiskerLeft_one`, `tensorHom_mem_union`. The proof of `shuffleChain_idShuffle_coeff` follows the recursion of `shuffleChain`: the base cases are Tau Ceti's `shuffleChain_zero_left` and `shuffleChain_zero_right`; in the step, the horizontal cone sends `idShuffle p (q + 1)` to `idShuffle (p + 1) (q + 1)` and no other simplex there, and every simplex of the vertical cone has second coordinate at least 1 at vertex 1, where the identity shuffle has 0. Tau Ceti's `SSet.stdSimplex.prodCone` has no exposed body, so the file reads it through a private `import all` of `LefschetzPort.TauCeti.AlgebraicTopology.SimplicialSet.Shuffle`; this adds no axiom.
+### Stated, proof open
+With `leftProdSet A Q := {z : ↑(P ⊗ Q) | fst P Q z ∈ A}` (that is, A × Q), `rightProdSet P B := {z | snd P Q z ∈ B}` (P × B) and `crossUnionPair A B := TopPair.ofSubset (X := P ⊗ Q) (leftProdSet A Q ∪ rightProdSet P B)`:
+theorem exists_triadCycle_shuffle {P Q : TopCat.{0}} (A : Set P) (B : Set Q) {m n : ℕ}
+    (x : (SingularChainComplex ℚ P).X m) (y : (SingularChainComplex ℚ Q).X n)
+    (zx : ((relativeChainFunctor ℚ).obj (TopPair.ofSubset A)).cycles m)
+    (hx : (((relativeChainFunctor ℚ).obj (TopPair.ofSubset A)).iCycles m).hom zx =
+      ((relativeChainProjection ℚ (TopPair.ofSubset A)).f m).hom x)
+    (zy : ((relativeChainFunctor ℚ).obj (TopPair.ofSubset B)).cycles n)
+    (hy : (((relativeChainFunctor ℚ).obj (TopPair.ofSubset B)).iCycles n).hom zy =
+      ((relativeChainProjection ℚ (TopPair.ofSubset B)).f n).hom y) :
+    ∃ z : (triadRelativeChainComplex ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)).cycles
+        (m + n),
+      ((triadRelativeChainComplex ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)).iCycles
+          (m + n)).hom z =
+        ((triadRelativeChainProjection ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)).f
+          (m + n)).hom (shuffleBilin P Q m n x y)
+`exists_unionCycle_shuffle` is the same with the cycle taken in `(relativeChainFunctor ℚ).obj (crossUnionPair A B)` and `relativeChainProjection ℚ (crossUnionPair A B)`.
+`IsRelCross A B m n f` says, for a bilinear `f : H_m(P, A) →ₗ H_n(Q, B) →ₗ TriadRelativeHomology ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B) (m + n)`: for all `x y zx zy z` with `hx`, `hy` as above and `iCycles z = triadRelativeChainProjection (shuffleBilin P Q m n x y)`, `f (homologyπ zx) (homologyπ zy) = homologyπ z`. Then:
+theorem existsUnique_relCross {P Q : TopCat.{0}} (A : Set P) (B : Set Q) (m n : ℕ) :
+    ∃! f, IsRelCross A B m n f
+def relCross (A : Set P) (B : Set Q) (m n : ℕ) :
+    RelativeHomology ℚ (TopPair.ofSubset A) m →ₗ[ℚ] RelativeHomology ℚ (TopPair.ofSubset B) n →ₗ[ℚ]
+      TriadRelativeHomology ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B) (m + n) :=
+  (existsUnique_relCross A B m n).exists.choose
+theorem relCross_homologyπ (A : Set P) (B : Set Q) (m n : ℕ) :
+    IsRelCross A B m n (relCross A B m n)          -- proved from the ∃!
+def relCrossUnion (A : Set P) (B : Set Q) (m n : ℕ) :
+    RelativeHomology ℚ (TopPair.ofSubset A) m →ₗ[ℚ] RelativeHomology ℚ (TopPair.ofSubset B) n →ₗ[ℚ]
+      RelativeHomology ℚ (crossUnionPair A B) (m + n) :=
+  (relCross A B m n).compr₂
+    (triadToUnionRelativeHomologyMap ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B) (m + n))
+`relCrossUnion_homologyπ`: with `hx`, `hy` as above and `z` a cycle of `(relativeChainFunctor ℚ).obj (crossUnionPair A B)` with `iCycles z = relativeChainProjection (shuffleBilin P Q m n x y)`, `relCrossUnion A B m n (homologyπ zx) (homologyπ zy) = homologyπ z`.
+theorem relCrossUnion_naturality {P P' Q Q' : TopCat.{0}} (f : P ⟶ P') (g : Q ⟶ Q')
+    {A : Set P} {A' : Set P'} {B : Set Q} {B' : Set Q'}
+    (hf : ∀ a ∈ A, f a ∈ A') (hg : ∀ b ∈ B, g b ∈ B') {m n : ℕ}
+    (x : RelativeHomology ℚ (TopPair.ofSubset A) m)
+    (y : RelativeHomology ℚ (TopPair.ofSubset B) n) :
+    relCrossUnion A' B' m n (relativeHomologyMap ℚ m (TopPair.ofSubsetHom f hf) x)
+        (relativeHomologyMap ℚ n (TopPair.ofSubsetHom g hg) y) =
+      relativeHomologyMap ℚ (m + n)
+        (TopPair.ofSubsetHom (f ⊗ₘ g) (tensorHom_mem_union f g hf hg))
+        (relCrossUnion A B m n x y)
+**Trivial proofs fail** (scratch copy, deleted): `refine ⟨0, ?_, ?_⟩ <;> simp [IsRelCross]` on `existsUnique_relCross`; `simp` on `IsRelCross A B m n 0` (no progress); `exact ⟨0, by simp⟩`, `simp` and `exact ⟨_, rfl⟩` on `exists_triadCycle_shuffle`; `rfl` and `simp [relCrossUnion]` on the naturality. The zero map does not satisfy `IsRelCross` in general: for P = Q = a point, A = B = ∅ and m = n = 0 the shuffle of the two vertices is the vertex of the product (`TopCat.ιChainComplex_tensorHom_ιChainComplex_shuffle_f_zero`), whose class is nonzero (by hand, not checked in Lean).
+### Signs
+| Fact | Status |
+| The identity shuffle has coefficient +1 in `SSet.shuffleChain` (register row "Shuffle map") | proved, `shuffleChain_idShuffle_coeff` |
+| Coefficient change ℚ ⊗ ℚ ≅ ℚ by the left unitor sends 1 ⊗ 1 to 1, so the singular shuffle of two simplices is the simplicial shuffle chain pushed forward, with no sign | proved, `shuffleBilin_ι` |
+| The cross product on homology is [x] × [y] = [shuffle(x ⊗ y)], no sign; its boundary obeys d(x ⊗ y) = dx ⊗ y + (−1)^m x ⊗ dy (Mathlib's tensor differential), which is why the product of relative cycles is a cycle | stated; the Leibniz rule is Tau Ceti's `SSet.shuffle` being a chain map |
+| Naturality in both pairs, no sign | stated, `relCrossUnion_naturality` |
+| (1, 1) check: Tau Ceti's `ιChainComplex_tensorHom_ιChainComplex_shuffle_f_one_one` gives (s₁x, s₀y) − (s₀x, s₁y); its + term is `idShuffle 1 1 2` (vertices (0, 0), (1, 0), (1, 1)) | consistent with the proved coefficient |
+### Route for the proofs
+1. **Chain level.** `crossChainMap` sends the image of C(A) ⊗ C(Q) into the image of C(A × Q), and the image of C(P) ⊗ C(B) into that of C(P × B): `TopCat.shuffle_naturality` along the inclusion A ↪ P and the identity of Q, plus naturality of the coefficient change, and the factorization of the inclusion `A ⊗ Q ⟶ P ⊗ Q` through `(TopPair.ofSubset (leftProdSet A Q)).snd`.
+2. **`exists_triadCycle_shuffle`.** By `hx`, d x lies in the image of C(A) (kernel of the cokernel projection in `ModuleCat` is the range), likewise d y in C(B). The chain-map property of `crossChainMap` and the Leibniz rule give d(shuffle x y) = shuffle(dx, y) ± shuffle(x, dy), and step 1 sends both into C(A × Q) + C(P × B). Treat m + n = 0 separately (the differential out of degree 0 is zero). Build `z` with `liftCycles`.
+3. **`existsUnique_relCross`.** Existence: descend `crossChainMap ≫ triadRelativeChainProjection` to a chain map `C(P, A) ⊗ C(Q, B) ⟶ triadRelativeChainComplex` (step 1, both cokernels, right exactness of `⊗` in `ModuleCat` degreewise), and compose with the map H_m(K) × H_n(L) → H_{m+n}(K ⊗ L) built on cycles by `ιTensorObj`; it is new and general (record it in `docs/gaps.md` "General lemmas kept local", decision 0011). Uniqueness: `moduleCat_homologyπ_surjective`, surjectivity of the cokernel projection, and step 2.
+4. **`exists_unionCycle_shuffle`, `relCrossUnion_homologyπ`.** Push the triad cycle along `triadToUnionRelativeChainMap` (`triadRelativeChainProjection_triadToUnionRelativeChainMap`) and use `homologyπ_naturality`.
+5. **Naturality.** On representatives, from `TopCat.shuffle_naturality`, `TopCat.shuffle_coefficient_naturality` and `relCrossUnion_homologyπ`; every class has a representative.
+**Downstream use.** `cap-cross-evaluation` uses `relCross` with upstream's `triadCapCohomologyLinear` on `TriadRelativeHomology ℚ (P ⊗ Q) (leftProdSet A Q) (rightProdSet P B)`, and `unionRelativeTriadCapCohomologyLinear_on_comparison` for the union form; `cross-orientation` uses `relCrossUnion`, `relCrossUnion_naturality` (to move between ℂ^k and ℝ^{2k} along `complexRealHomeomorph`), `shuffleBilin_ι` and `shuffleChain_idShuffle_coeff`. Questions for the red team: (i) whether `local-class-cross-model` also needs naturality at the triad level (maps of triads), which upstream does not define; (ii) whether consumers want the product as `P ⊗ Q` or as `TopCat.of (P × Q)` (definitionally equal); (iii) the file name.
+## relative-cross-chain: proofs
+Date: 2026-11-26. All five open statements are proved, with the standard axioms, in `HodgeLadder.Relative.CrossChain`, now imported from `HodgeLadder.lean`. The file elaborates in 9 to 14 seconds.
+| Step | Lean |
+| Leibniz rule on chains, with Mathlib's tensor differential, in the three cases (both degrees positive, a vertex chain on either side) | `shB_d_succ_succ`, `shB_d_zero_succ`, `shB_d_succ_zero`, from Tau Ceti's `ιTensorObj_d_of_rel`, `_of_not_rel_left`, `_of_not_rel_right` and the chain-map property of `crossChainMap` |
+| Naturality of the shuffle product on chains | `crossChainMap_naturality`, `shB_naturality` (Tau Ceti `TopCat.shuffle_naturality`, coefficient naturality) |
+| Chains of A × Q and of P × B vanish in the triad complex | `triadProj_shB_left`, `triadProj_shB_right`, through `leftProdLift`, `rightProdLift` and `triadSubspaceChainMap_triadRelativeChainProjection` |
+| The shuffle product descends to relative chains | `relMu` (`descendBilin` along both cokernel projections; surjectivity and kernel from upstream's `relativeChainProjectionComponentIsCokernel`) |
+| Cycles to cycles, boundaries to boundaries | `relMu_cycle`, `relMu_boundary_left`, `relMu_boundary_right` |
+| Bilinear map on homology, any complex shape | `homologyBilin`, `homologyBilin_homologyπ` |
+| The five statements | `exists_triadCycle_shuffle` (`triadCycleMk`), `exists_unionCycle_shuffle` (`cyclesMap` of upstream's comparison), `existsUnique_relCross` (witness `relCrossAux`), `relCrossUnion_homologyπ`, `relCrossUnion_naturality` |
+Also added: `shuffleBilin_vertex` (the red team's degree (0, 0) normalization, its proof text verbatim), and register citations in the docstrings of the equality lemmas. The triad-level naturality is the new open rung `relative-cross-triad-naturality`.
 
 ## Sources
 

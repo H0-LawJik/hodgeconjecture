@@ -1926,15 +1926,50 @@
     {
       "id": "relative-cross-chain",
       "title": "The shuffle cross product of relative cycles is a triad cycle: H_m(P, A) ⊗ H_n(Q, B) → TriadRelativeHomology(P × Q; A × Q, P × B) → H_{m+n}(P × Q, A × Q ∪ P × B)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Relative.CrossChain",
+      "declarations": [
+        "HodgeLadder.Relative.shuffleChain_idShuffle_coeff",
+        "HodgeLadder.Relative.shuffleBilin_ι",
+        "HodgeLadder.Relative.shuffleBilin_vertex",
+        "HodgeLadder.Relative.exists_triadCycle_shuffle",
+        "HodgeLadder.Relative.exists_unionCycle_shuffle",
+        "HodgeLadder.Relative.existsUnique_relCross",
+        "HodgeLadder.Relative.relCross",
+        "HodgeLadder.Relative.relCross_homologyπ",
+        "HodgeLadder.Relative.relCrossUnion",
+        "HodgeLadder.Relative.relCrossUnion_homologyπ",
+        "HodgeLadder.Relative.relCrossUnion_naturality",
+        "HodgeLadder.Relative.shB_d_succ_succ",
+        "HodgeLadder.Relative.shB_d_zero_succ",
+        "HodgeLadder.Relative.shB_d_succ_zero",
+        "HodgeLadder.Relative.shB_naturality",
+        "HodgeLadder.Relative.homologyBilin",
+        "HodgeLadder.Relative.homologyBilin_homologyπ",
+        "HodgeLadder.Relative.simplexCoeff",
+        "HodgeLadder.Relative.idShuffle"
+      ],
+      "depends_on": [
+        "tauceti-cup-backport"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Exact, no sign: [x] × [y] = [shuffle(x ⊗ y)] in upstream's triad homology of (P × Q; A × Q, P × B) and, through upstream's comparison triadToUnionRelativeHomologyMap, in H_{m+n}(P × Q, A × Q ∪ P × B), for all subsets A, B (openness enters only through upstream's excision). Signs: the identity shuffle has coefficient +1 in Tau Ceti's shuffleChain (shuffleChain_idShuffle_coeff); coefficient change by the left unitor, 1 ⊗ 1 ↦ 1 (shuffleBilin_ι); two vertices give the vertex of the product (shuffleBilin_vertex); Leibniz rule with Mathlib's tensor differential d(x ⊗ y) = dx ⊗ y + (−1)^p x ⊗ dy. Register rows: Shuffle map, Tensor product of chain complexes, Relative homology cross product. Route: the shuffle product descends through both cokernel projections (relMu, via descendBilin), sends relative cycles to triad cycles and boundaries to boundaries (relMu_cycle, relMu_boundary_left, relMu_boundary_right, from the three Leibniz lemmas), and homologyBilin (any complex shape) gives the bilinear map; uniqueness from surjectivity of homologyπ and of the cokernel projections. relCross is the choice of the ∃!; the witness is relCrossAux. The file reads Tau Ceti's non-exposed SSet.stdSimplex.cone and prodCone through a private import all of LefschetzPort.TauCeti.AlgebraicTopology.SimplicialSet.Shuffle: a re-vendor that changes prodCone breaks this build, it cannot change a statement. Triad-level naturality is rung relative-cross-triad-naturality. Sketch: docs/sketches/local-class-product.md; red team 2026-11-26: pass with changes (docs/sketches/relative-cross-chain.redteam.md)."
+    },
+    {
+      "id": "relative-cross-triad-naturality",
+      "title": "Naturality of the relative cross product at the triad level: a map of triads induces a chain map of upstream's sum-relative triad complexes, compatible with the comparison to the union pair, and relCross commutes with it, no sign",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "tauceti-cup-backport"
+        "relative-cross-chain"
       ],
       "contributors": [],
-      "note": "Tau Ceti TopCat.shuffle and shuffle_naturality (port); upstream triadToUnionRelativeHomologyMap (Other). Lean lemma at the start of the rung: the identity shuffle (all first-factor steps first) has coefficient +1 in Tau Ceti's shuffleChain (register row 'Shuffle map'). Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "note": "Statements elaborated by the red team of relative-cross-chain (docs/sketches/relative-cross-chain.redteam.md, change 2; text also in docs/sketches/local-class-product.md, section relative-cross-chain: statement): triadChainMap f hA hB : triadRelativeChainComplex ℚ X A B ⟶ triadRelativeChainComplex ℚ Y A' B' (cokernel.desc of the chain map of f followed by the triad projection; the obligation holds by biprod extensionality and naturality of the subspace inclusions), triadRelativeChainProjection_triadChainMap (cokernel.π_desc), triadChainMap_triadToUnionRelativeChainMap (compatibility with upstream's comparison along TopPair.ofSubsetHom f (union_mem f hA hB)), and relCross_naturality: relCross A' B' m n (relativeHomologyMap (ofSubsetHom f hf) x) (relativeHomologyMap (ofSubsetHom g hg) y) = homologyMap (triadChainMap (f ⊗ₘ g) _ _) (m + n) (relCross A B m n x y). Needed by local-class-cross-model as stated. Route: on representatives from shB_naturality and relCross_homologyπ. Not attempted."
     },
     {
       "id": "cap-cross-evaluation",
@@ -1961,7 +1996,7 @@
         "relative-cross-chain"
       ],
       "contributors": [],
-      "note": "The sign of the cross product of complex orientations asked for by decision 0009; expected + for every a, b, confirmed by the red team by hand and numerically (register row). Lean lemmas at the start of the rung: complexRealHomeomorph_append, complexRealHomeomorph (a + b) (Fin.append u v) = fun i => Fin.append (complexRealHomeomorph a u) (complexRealHomeomorph b v) (Fin.cast (Nat.add_mul a b 2) i) (statement elaborated 2026-11-26); and the identity-shuffle simplex of s_m × s_n has edge determinant det(s_m) · det(s_n). Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "note": "The sign of the cross product of complex orientations asked for by decision 0009; expected + for every a, b, confirmed by the red team by hand and numerically (register row). Lean lemmas at the start of the rung: complexRealHomeomorph_append, complexRealHomeomorph (a + b) (Fin.append u v) = fun i => Fin.append (complexRealHomeomorph a u) (complexRealHomeomorph b v) (Fin.cast (Nat.add_mul a b 2) i) (statement elaborated 2026-11-26); and the identity-shuffle simplex of s_m × s_n has edge determinant det(s_m) · det(s_n). Sign-visible test (red team of relative-cross-chain, elaborated): with appendMap m n : TopCat.of (Fin m → ℝ) ⊗ TopCat.of (Fin n → ℝ) ⟶ TopCat.of (Fin (m + n) → ℝ), (u, v) ↦ Fin.append u v, the theorem relativeHomologyMap ℚ (m + n) (TopPair.ofSubsetHom (appendMap m n) (appendMap_mem m n)) (relCrossUnion (P := TopCat.of (Fin m → ℝ)) (Q := TopCat.of (Fin n → ℝ)) ({0}ᶜ) ({0}ᶜ) m n (standardLocalClass ℚ m) (standardLocalClass ℚ n)) = standardLocalClass ℚ (m + n); at m = n = 1 the right side is nonzero (standardLocalClass_ne_zero_of_pos 2), so it separates + from − and from 0. Inputs from relative-cross-chain: relCrossUnion_naturality, shuffleBilin_ι, shuffleChain_idShuffle_coeff. Not attempted. Sketch: docs/sketches/local-class-product.md."
     },
     {
       "id": "local-class-cross-model",
@@ -1972,10 +2007,11 @@
       "declarations": [],
       "depends_on": [
         "cap-cross-evaluation",
-        "cross-orientation"
+        "cross-orientation",
+        "relative-cross-triad-naturality"
       ],
       "contributors": [],
-      "note": "Statement elaborated against upstream's unionRelativeTriadCapCohomologyLinear and triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other, compiled from copies by the red team); the helper definitions setA, setB, projA, projB, u, orient are recorded in the sketch. Spell the ambient space (X := TopCat.of _) in every TopPair.ofSubset: left implicit, elaboration exceeds 200000 heartbeats. The case a = b = 1 is the first sign-visible falsification test of front cup. Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "note": "Statement elaborated against upstream's unionRelativeTriadCapCohomologyLinear and triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other, compiled from copies by the red team); the helper definitions setA, setB, projA, projB, u, orient are recorded in the sketch. Spell the ambient space (X := TopCat.of _) in every TopPair.ofSubset: left implicit, elaboration exceeds 200000 heartbeats. The case a = b = 1 is the first sign-visible falsification test of front cup. As stated on TopCat.of (Fin (a + b) → ℂ) it needs relative-cross-triad-naturality (to move relCross along the Fin.append homeomorphism at the triad level) and also naturality of upstream's triad cap under triadChainMap, which upstream lacks; restating the model on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) avoids both (red team of relative-cross-chain). Not attempted. Sketch: docs/sketches/local-class-product.md."
     },
     {
       "id": "triad-relative-cup",

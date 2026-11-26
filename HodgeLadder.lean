@@ -115,3 +115,4 @@ public import HodgeLadder.Normalization.Germ
 public import HodgeLadder.Glpos.PathConnected
 public import HodgeLadder.Cup.TriadCup
 public import HodgeLadder.Tests.TriadCupTorus
+public import HodgeLadder.Relative.CrossChain
