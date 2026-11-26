@@ -2160,16 +2160,20 @@
     {
       "id": "local-class-cross-model",
       "title": "Model case of local-class-product in product form: on ℂ^a × ℂ^b, upstream's triad cap of the pulled-back normalized local class of ℂ^a with the cross product of the complex orientation classes, paired with the pulled-back normalized local class of ℂ^b, equals 1",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.CapCrossEvaluation",
+      "declarations": [
+        "HodgeLadder.Tests.capCross_complex_model"
+      ],
       "depends_on": [
         "cap-cross-evaluation",
         "cross-orientation"
       ],
-      "contributors": [],
-      "note": "Restated 2026-11-26 in product form (red team of cap-cross-evaluation, question (i) and change C4): on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) with leftProdSet {0}ᶜ _ and rightProdSet _ {0}ᶜ, the statement is that of HodgeLadder.Tests.capCross_complex_model (checked under cap-cross-evaluation-test, a three-line corollary of cap_cross_evaluation), so the maintainer can post this rung against that declaration. The earlier form on TopCat.of (Fin (a + b) → ℂ) with setA, setB, orient needed a naturality of upstream's triad cap along complexAppendMap (triad-cap-naturality) on top of relative-cross-triad-naturality; both are dropped from depends_on. The move to ℂ^{a+b} happens later, in local-class-product, on the single union pair (P × Q, A × Q ∪ P × B) ≅ (ℂ^{a+b}, ℂ^{a+b} ∖ 0): upstream's functoriality of relativeCohomologyMap and of the evaluation pairing suffice there, with cross_orientation_complex (s_a × s_b goes to the orientation class) and a short lemma that the pullback of normalizedRelativeCoclass z along an isomorphism of pairs is the normalized coclass of the preimage class (red team finding 5). The sign content of decision 0009 sits in cross_orientation_complex; the evaluation sits in cap-cross-evaluation. Spelling pitfall: name the spaces by abbrev or (Q := …) and give normalizedRelativeCoclass (X := puncturedPair ℂ k); with Q left implicit in prSndPair (TopCat.of (Fin a → ℂ)) ({0}ᶜ : Set (Fin b → ℂ)) elaboration hits a deterministic timeout at isDefEq (↑?Q =?= (Fin b → ℂ)), the same failure as an implicit ambient space in TopPair.ofSubset. Sketch: docs/sketches/local-class-product.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Restated 2026-11-26 in product form (red team of cap-cross-evaluation, question (i) and change C4): on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) with leftProdSet {0}ᶜ _ and rightProdSet _ {0}ᶜ, the statement is that of HodgeLadder.Tests.capCross_complex_model (checked under cap-cross-evaluation-test, a three-line corollary of cap_cross_evaluation), so the maintainer can post this rung against that declaration. The earlier form on TopCat.of (Fin (a + b) → ℂ) with setA, setB, orient needed a naturality of upstream's triad cap along complexAppendMap (triad-cap-naturality) on top of relative-cross-triad-naturality; both are dropped from depends_on. The move to ℂ^{a+b} happens later, in local-class-product, on the single union pair (P × Q, A × Q ∪ P × B) ≅ (ℂ^{a+b}, ℂ^{a+b} ∖ 0): upstream's functoriality of relativeCohomologyMap and of the evaluation pairing suffice there, with cross_orientation_complex (s_a × s_b goes to the orientation class) and a short lemma that the pullback of normalizedRelativeCoclass z along an isomorphism of pairs is the normalized coclass of the preimage class (red team finding 5). The sign content of decision 0009 sits in cross_orientation_complex; the evaluation sits in cap-cross-evaluation. Spelling pitfall: name the spaces by abbrev or (Q := …) and give normalizedRelativeCoclass (X := puncturedPair ℂ k); with Q left implicit in prSndPair (TopCat.of (Fin a → ℂ)) ({0}ᶜ : Set (Fin b → ℂ)) elaboration hits a deterministic timeout at isDefEq (↑?Q =?= (Fin b → ℂ)), the same failure as an implicit ambient space in TopPair.ofSubset. Sketch: docs/sketches/local-class-product.md. Checked 2026-11-26 by HodgeLadder.Tests.capCross_complex_model (merged in #134 under cap-cross-evaluation-test, red-teamed in docs/sketches/cap-cross-evaluation.redteam.md): the value is 1 for every a, b, exactly. The sign of the cross product of complex orientations (cross-orientation) enters in local-class-product, on the move to ℂ^{a+b}."
     },
     {
       "id": "triad-relative-cup",
