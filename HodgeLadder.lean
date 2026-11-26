@@ -93,3 +93,8 @@ public import HodgeLadder.Cup.OddDegree
 public import HodgeLadder.Tests.AlgebraicTorus
 public import HodgeLadder.Tests.AlgebraicTorusPoints
 public import HodgeLadder.Tests.OddDegreeTorus
+public import HodgeLadder.Cup.RestrictOpen
+public import HodgeLadder.Cup.SupportedOpen
+public import HodgeLadder.Cup.SupportedOpenClass
+public import HodgeLadder.Cup.SupportedOpenFinal
+public import HodgeLadder.Tests.SupportedOpenComparison

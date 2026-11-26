@@ -1840,6 +1840,102 @@
       "note": "Checked 2026-11-26: forgetRel (Φ α) = Ψ (forgetSupport α) on ⊤, no sign, so no degree twist. Route: exists_supported_rep, forgetSupport_named, step1_of_hom, and gen_forget_named_cocycle (stated for a general space; at the variety the same statement times out on the comparison of two spellings of the single complex)."
     },
     {
+      "id": "singular-restrict-open",
+      "title": "Upstream's cohomologyMap along the inclusion of an open V sends the singular class of a global cocycle to the class of its restriction to V",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.RestrictOpen",
+      "declarations": [
+        "HodgeLadder.Cup.isoTopOpen_inv_comp_inclusion",
+        "HodgeLadder.Cup.cohomologyMap_inclusion_singClass"
+      ],
+      "depends_on": [
+        "cup-top-open"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "No sign: both sides are precomposition with chain maps of continuous maps (V ⟶ ⊤ ⟶ X is the inclusion of V). Stated for a general space."
+    },
+    {
+      "id": "supported-open-rep",
+      "title": "On a general open V, every class of upstream's relH ℚ_X n (V ⊓ (X ∖ Z) ≤ V) is represented, through upstream's flasque supported-sections model at V, by Θ₁ of a relative cocycle, and the Hom-complex cocycle of that representative names the class",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedOpen",
+      "declarations": [
+        "HodgeLadder.Cup.flasqueModelOpen",
+        "HodgeLadder.Cup.supCocycleOpen",
+        "HodgeLadder.Cup.exists_supported_rep_open"
+      ],
+      "depends_on": [
+        "cup-singular-comparison",
+        "supported-singular-class",
+        "supported-step2-cocycle-class"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "exists_supported_rep with ⊤ replaced by V; the inputs homologyMap_rawMap_bijective and relHSupportedOfFlasque_mk were already general in V."
+    },
+    {
+      "id": "supported-open-sections-class",
+      "title": "On a general open V, through upstream's flasque model at V, the product supCupY α β of a class of the pair (V, V ⊓ (X ∖ Z)) with β ∈ H^q(X; ℚ) is the supported-sections class of z composed with right multiplication by b",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedOpenClass",
+      "declarations": [
+        "HodgeLadder.Cup.supCup_flasque_open"
+      ],
+      "depends_on": [
+        "supported-open-rep",
+        "supported-sections-class"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "No sign at this step. The product is supCupY with source the pair sheaf ℤ[V, V ⊓ (X ∖ Z)]; supCupY_class was already general in the source sheaf."
+    },
+    {
+      "id": "cup-comparison-supported-open",
+      "title": "On a general open V of X(ℂ), with W = V ⊓ (X ∖ Z): Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V), with Φ_V upstream's flasque supported-sections model at V followed by supportedRationalSingularSectionCohomologyEquivRelative at V, and β|_V upstream's cohomologyMap of Ψ β along the inclusion of V",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedOpenFinal",
+      "declarations": [
+        "HodgeLadder.Cup.cup_singular_comparison_open",
+        "HodgeLadder.Cup.cohomologyMap_inclusion_singClass_pair"
+      ],
+      "depends_on": [
+        "cup-singular-comparison",
+        "supported-open-sections-class",
+        "singular-restrict-open",
+        "supported-relative-cup",
+        "supported-named-cocycle-comp"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Exact, sign (−1)^{pq} as at V = ⊤ (from rightMulCochain); no sign from the supported models or the restriction to V. Domain is upstream's relH ℚ_X p (V ⊓ Z.compl ≤ V), the value at V of supportHOnOpenPresheaf; target H^n(V, V ⊓ (X ∖ Z); ℚ) on pairVU. At V = ⊤ this is a different spelling of cup_singular_comparison_supported (W = ⊤ ⊓ (X ∖ Z) there is Z.compl through top_inf_eq); the two are not identified in Lean. The section computation (supportedSection_eq_pairEval', pairSheafEvaluation_cocycleComp_rightMul') was already general in V."
+    },
+    {
+      "id": "cup-comparison-open-test",
+      "title": "Non-vacuity on ℙ¹: the supported comparison on a general open applies for every closed Z and every open V",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.SupportedOpenComparison",
+      "declarations": [
+        "HodgeLadder.Tests.projectiveLine_cup_singular_comparison_open"
+      ],
+      "depends_on": [
+        "cup-comparison-supported-open"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Hypotheses only: the test does not exhibit a nonzero class of a pair (V, V ⊓ (X ∖ Z)) with V ≠ ⊤, and q is arbitrary, so it does not see the sign."
+    },
+    {
       "id": "local-class-product",
       "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection",
       "status": "open",
@@ -1849,10 +1945,11 @@
       "depends_on": [
         "cup-singular-comparison",
         "supported-model-agreement",
-        "supported-forget-compat"
+        "supported-forget-compat",
+        "cup-comparison-supported-open"
       ],
       "contributors": [],
-      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009). Also needs a product of two supported classes, or the supported comparison on a general open V: supCup is defined only at V = ⊤ (red team 2026-11-26)."
+      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009). The supported comparison on a general open V is checked (cup-comparison-supported-open: Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V) for α in relH of (V, V ⊓ (X ∖ Z)) and β ∈ H^q(X; ℚ)); a product of two supported classes is not provided."
     },
     {
       "id": "cup-hodge-filtration",
