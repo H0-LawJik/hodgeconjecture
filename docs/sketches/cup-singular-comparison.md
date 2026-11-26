@@ -83,3 +83,13 @@ Progress: `named-cocycle-comp` is checked (`namedCocycle_comp_rightMul`; the sig
 Progress: `end-class-right-mult` is checked (`end_class_right_mult`). All inputs of `cup-singular-comparison` except step 3 (global sections to singular cochains, compared with the Tau Ceti cup on cochains) and `supported-cup` are now checked.
 
 Progress: `cup-global-comparison` is checked (`cup_global_comparison`). Through upstream's steps 1 and 2, `cup x y` goes to `(−1)^{pq}` times the class named by `a ∪ b`, in the same order: the prediction above holds at the level of global sections. What remains for `cup-singular-comparison` is `cup-step3` (step 3 to singular cohomology and `cupSing`) and the supported version.
+
+### Route for `cup-step3`
+
+Upstream's step 3 (`rationalSingularCochainHypercohomologyAddEquivCohomology` after step 2) goes from the cohomology of `Γ(S)` through `globalSectionsSingularCochainComplexIntIsoExtend` and `extendHomologyIso` to the global singular cochain sheaf complex, then back to singular cochains of `X(ℂ)` along `topOpenToGlobalSingularCochainSheafComplex` (a quasi-isomorphism through the plus-plus model of sheafification) and `singularCochainComplexIsoTopOpen`.
+
+| Step | Statement | Route |
+|---|---|---|
+| `step3-named-class` | step 3 sends the class named by a global cocycle `c` (on the open `⊤`) to the singular class of `c` transported along `singularCochainComplexIsoTopOpen` | the named class is the homology class of the sheafified global section `c`; `topOpenToGlobalSingularCochainSheafComplex` sends the raw cochain `c` to it, after `globalSingularCochainPlusPlusComplexIsoSheafComplex` is matched with `toSheafify` |
+| `cup-top-open` | `cupGlobal a b` (the Tau Ceti cup on cochains of the open `⊤`) corresponds to the cochain cup on `X(ℂ)` under `⊤ ≅ X(ℂ)` | Tau Ceti `singularCup_naturality` |
+| assembly | with `cup-global-comparison`: `cup x y ↦ (−1)^{pq} · cupSing x y` in upstream's singular cohomology | the two rows above and `cochain-cup-upstream` |
