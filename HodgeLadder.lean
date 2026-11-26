@@ -84,3 +84,4 @@ public import HodgeLadder.Cup.SupportedForget
 public import HodgeLadder.Cup.ConstantGenerator
 public import HodgeLadder.Cup.SupportedForgetGen
 public import HodgeLadder.Cup.SupportedForgetFinal
+public import HodgeLadder.Markman.CliffordSpin

@@ -32,7 +32,8 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `projective-line-class-nonzero` | test | checked | `projective-line-point`, `forget-support-exact`, `contractible-open-acyclic` | the class of a point is nonzero in H²(ℙ¹; ℚ); the degree-two non-vacuity test |
 | `projective-line-h2` | test | checked | `projective-line-class-nonzero` | dim H²(ℙ¹; ℚ) = 1 and it equals the span; one-dimensionality of H²_pt on the sheaf side |
 | `projective-line-test` | test | checked | `projective-line-h2`, `lefschetz-1-1`, `chern-classes-are-hodge` | Hdg^1(ℙ¹) = span, both one-dimensional; needs the point class to be Hodge |
-| `clifford-exterior-spin` | foundation | open | `lefschetz-1-1-equality` | Clifford algebra of the split form on H ⊕ H^∨ acting on ∧*H; for the Markman inventory (`docs/notes/2026-11-24-spinors-characters-tests.md`) |
+| `clifford-exterior-spin` | foundation | checked | `lefschetz-1-1-equality` | done in `HodgeLadder.Markman.CliffordSpin`: the Clifford algebra of the split form on Dual R M × M acts on ∧M by contraction plus wedge (`spinAction`), the generator squares to f x with sign +, and the action respects parity; for the Markman inventory (`docs/notes/2026-11-24-spinors-characters-tests.md`) |
+| `clifford-exterior-chevalley` | foundation | open | `clifford-exterior-spin` | Chevalley: `spinAction` is bijective for M finite free; needs a spanning set of 2^{2n} monomials for the Clifford algebra, absent from Mathlib at the pin |
 | `elliptic-product-test` | test | open | `lefschetz-1-1-equality` | dim Hdg^1(E₁ × E₂) = 2 + rank Hom(E₁, E₂) while h^{1,1} = 4; needs the cup product and Künneth for constant-sheaf cohomology (inventory §5) |
 | `cup-front` | front | open | `upstream-statement` | ring structure on H^*(X; ℚ), decision 0008 |
 | `rational-ext-equiv` | foundation | checked | `cup-front` | H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces |
@@ -100,7 +101,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 Done: M0 and M1 (`lefschetz-upstream-verify`, `nonvacuity-tests`, `lefschetz-port`, `divisor-chern-exact`, `lefschetz-1-1`, `lefschetz-1-1-equality`), the divisor chain behind it, and the ℙ¹ test (`projective-line-test`). The Markman inventory is written.
 
 1. Front `cup` (decision 0008): `rational-ext-equiv`, then `cup-product`, then `cup-graded-commutative` and `cycle-class-multiplicative`. It blocks M2 and M3 (inventory §4, gap 1).
-2. `clifford-exterior-spin` can start at the pin: pure linear algebra, a Mathlib candidate (inventory §5).
+2. `clifford-exterior-spin` is checked (the Clifford action on ∧*H with parity); `clifford-exterior-chevalley` (∧*H is the spin module) is next on this track.
 3. After the cup front: the inventory's target sequence T1 to T5 (§6), T1 first (Weil classes on abelian surfaces of Weil type). These rungs are not yet in the ledger; post them as each one's inputs exist. `markman-statement` stays open until then.
 4. `cycle-classes-are-hodge` can start now. `projective-space-test` for n ≥ 2 and `lefschetz-1-1-integral` are the remaining M1+ rungs.
 5. `hard-lefschetz` is the long pole for `dimension-le-three`; it also needs the cup product. Inventory before sub-rungs.
