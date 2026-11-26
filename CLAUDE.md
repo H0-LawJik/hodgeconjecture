@@ -11,7 +11,7 @@ A proof repository with a thin Python harness around it. There is one library (`
 - **Public.** Everything in this repository is public. Do not add credentials, private paths, personal email addresses, or references to other private projects. Commit with the GitHub noreply address (set per-repo in `.git/config`).
 - **Lean first.** A claim becomes a result only when it is a sorry-free Lean declaration that `tools/check.py` accepts with the three standard axioms (`propext`, `Classical.choice`, `Quot.sound`). Prose, sketches and Python prove nothing here; they organize the search.
 - **Statements of record are upstream.** Do not restate the conjecture or a variant that `Paul-Lez/HodgeConjecture` states; prove theorems whose types are those `Prop`s. No interface structures for missing objects (decision 0003). Do not add notation, instances or attributes that change how an upstream statement elaborates.
-- **Upstream-first.** General mathematics goes to Mathlib; statement-level definitions and sanity checks go to `Paul-Lez/HodgeConjecture`; this repository keeps proofs of variants, reductions, frontier statements, the ledger, falsification records and the literature map. Record anything kept locally that belongs upstream in `docs/gaps.md`.
+- **Local lemmas (decision 0011).** General lemmas the ladder needs are written and kept here; this repository does not open pull requests against Mathlib or `Paul-Lez/HodgeConjecture`. Use what Mathlib and upstream already have at the pin before writing a local copy, and list general local lemmas in `docs/gaps.md` "General lemmas kept local" so a pin bump can check them for clashes.
 - **Equality first.** Aim at non-vacuous equalities (decision 0004). Inclusions are steps; identities between classes are proved exactly, with the sign in the docstring and in `docs/conventions.md`; "up to a nonzero scalar" does not discharge an identity rung.
 - **Falsification.** Every checked rung gets a red-team pass covering vacuity, sign and normalization conventions (`docs/conventions.md`), and upstream definition drift between pins. Keep the October 2026 sign-error withdrawals (arXiv:2610.30976) in sight.
 - **Harness-neutral corpus.** `AGENTS.md`, `CONTRIBUTING.md` and `docs/` are written for any agent or person. Claude-Code-specific detail stays in this file and in `.claude/` (per-developer settings are gitignored).
@@ -61,7 +61,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `docs/conventions.md` | Register of sign and normalization conventions every statement and proof depends on; maintained by the red team. |
 | `docs/audits/` | Dated conformance audits against the literature. |
 | `docs/notes/` | Dated research notes: ideas reviewed against the literature, kept in corrected form, with what was set aside and why. A note can propose rungs; it is not a result. |
-| `docs/gaps.md` | Acknowledged gaps: local definitions to upstream, known weaknesses, dropped threads. |
+| `docs/gaps.md` | Acknowledged gaps: general lemmas kept local, known weaknesses, dropped threads. |
 | `docs/decisions/` | Architecture decision records, one decision per file, numbered; numbers are permanent. |
 | `.github/workflows/ci.yml` | Runs `tools/check.py` on pushes to `main` and on pull requests from forks (decision 0007). |
 | `.github/ISSUE_TEMPLATE/gap.md`, `.github/PULL_REQUEST_TEMPLATE.md` | Intake shapes for a new rung and for a proof. |
@@ -95,7 +95,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | **Prove a rung** | 1. Lean module under `HodgeLadder/` 2. `HodgeLadder.lean` import 3. `ledger/ladder.json`: status, module, declarations, contributors 4. `docs/roadmap.md` row 5. Status block above |
 | **Add a rung** | 1. `ledger/ladder.json` entry with `depends_on` 2. `docs/roadmap.md` row 3. open a GitHub issue from the gap template so outside agents can find it |
 | **Use a new upstream statement** | 1. confirm it exists at the pin 2. ledger rung with `kind` and the upstream declaration names 3. red-team pass 4. `docs/statement.md` if it is a new variant |
-| **Add a local definition Mathlib lacks** | 1. The module 2. `docs/gaps.md` "To upstream" table 3. Mathlib issue or Zulip thread link if one exists |
+| **Add a local definition Mathlib lacks** | 1. The module 2. `docs/gaps.md` "General lemmas kept local" table |
 | **Bump the upstream pin (and with it Lean and Mathlib)** | 1. red-team drift check of the definitions in `docs/conventions.md` 2. `lakefile.toml` (upstream rev, Mathlib rev) and `lean-toolchain` 3. `lake update`, commit `lake-manifest.json` 4. `ledger/ladder.json` toolchain block 5. `README.md` version line 6. handoff noting the drift result |
 | **Add or change a role or prompt** | 1. `docs/harness.md` roles table 2. `.claude/agents/<role>.md` 3. `AGENTS.md` if the outside-agent path changed 4. the skill that invokes it |
 | **Open or kill a front** | 1. `docs/decisions/` record 2. `docs/strategy.md` fronts table 3. ledger rung with `kind: "front"` 4. issue |
@@ -132,4 +132,4 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 - Do not commit `.lake/`, build products, or per-developer `.claude/settings.local.json` and `.mcp*.json`.
 - Do not edit `ledger/ladder.json` to `checked` without the declarations named in it existing and passing `tools/check.py`.
 - Do not reference private repositories, local filesystem paths, or other projects of the maintainer.
-- Do not edit anything under `.lake/packages/`; propose upstream changes as upstream pull requests.
+- Do not edit anything under `.lake/packages/`; write what the ladder needs locally (decision 0011).

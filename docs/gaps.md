@@ -2,7 +2,9 @@
 
 A rolling registry. Add an entry when a shortcut is taken or a thread is dropped; close it in the same file with the date and the commit that closed it.
 
-## To upstream to Mathlib
+## General lemmas kept local
+
+Decision 0011: these stay in this repository. A pin bump checks each row for a name clash or a new equivalent in Mathlib or upstream.
 
 | Local declaration | Module | Why local | Opened |
 |---|---|---|---|

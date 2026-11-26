@@ -49,12 +49,12 @@ A front is an approach with a named owner (a thinker agent or a person), a kill 
 
 Fronts that are not in this table do not exist yet. Adding one is a decision record plus a ledger rung.
 
-## Upstream-first
+## Where results live (decision 0011)
 
 | Kind of result | Where it goes |
 |---|---|
-| General mathematics (homological algebra, sheaves, manifolds) | Mathlib |
-| Definitions and lemmas the statement needs, sanity checks of the statement | `Paul-Lez/HodgeConjecture` |
+| Statements of record: the conjecture, its variants, the cycle class | `Paul-Lez/HodgeConjecture` at the pinned commit, imported and not restated (decision 0003) |
+| General mathematics the ladder needs that the pin lacks | this repository, listed in `docs/gaps.md` "General lemmas kept local" |
 | Proofs of the upstream variants, reductions, frontier statements, the ledger, falsification records, the literature map | this repository |
 
 ## What we will and will not say

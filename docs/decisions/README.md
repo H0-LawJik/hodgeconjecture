@@ -14,3 +14,4 @@ One decision per file, numbered in order of adoption. Numbers are stable; a supe
 | 0008 | Open the cup-product front | 2026-11-25 |
 | 0009 | Amend the cup-product front: comparison with the singular cup product | 2026-11-25 |
 | 0010 | Cycle classes multiply on the singular side; ℙ² is the first test case | 2026-11-26 |
+| 0011 | General lemmas stay in this repository | 2026-11-26 |

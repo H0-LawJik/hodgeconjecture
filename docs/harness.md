@@ -14,7 +14,7 @@ Claude proposes; Lean disposes. No agent in this harness can mark anything check
 | Thinker | `.claude/agents/hodge-thinker.md` | Writes a paper sketch for one rung into `docs/sketches/<id>.md` with citations from `docs/references.md`; proposes the Lean statement and the sub-lemmas | Claims a sketch is a proof; posts a statement without a red-team pass |
 | Red team (falsification) | `.claude/agents/hodge-red-team.md` | Attacks a proposed statement before it is posted and a checked rung after: is it the literature's statement, is it vacuous, is it provable for the wrong reason, which sign and normalization conventions it depends on, whether upstream definitions drifted between pins | Softens a statement to make it pass |
 | Prover | `.claude/agents/hodge-prover.md` | Takes one posted rung, writes one Lean file, runs the checker, opens the pull request | Changes the statement; touches a second rung; adds axioms |
-| Librarian | `.claude/agents/hodge-librarian.md` | Finds what Mathlib already has for a rung, names the exact declarations, flags what should go upstream | Writes proofs |
+| Librarian | `.claude/agents/hodge-librarian.md` | Finds what Mathlib already has for a rung, names the exact declarations, flags general lemmas to list in `docs/gaps.md` | Writes proofs |
 
 One person reviews statements. Review reads the statement and the sketch, not the proof.
 
