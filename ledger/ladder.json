@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-25",
+  "updated": "2026-11-26",
   "project": "hodgeconjecture",
   "repo": "H0-LawJik/hodgeconjecture",
   "toolchain": {
@@ -1483,10 +1483,19 @@
     {
       "id": "cup-singular-comparison",
       "title": "Upstream's sheaf–singular equivalence carries the supported cup product supCup to the relative singular cup product, with the sign fixed exactly (the absolute case is cup-singular-comparison-absolute)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedFinal",
+      "declarations": [
+        "HodgeLadder.Cup.cup_singular_comparison_supported",
+        "HodgeLadder.Cup.exists_supported_rep",
+        "HodgeLadder.Cup.supCup_flasque_chosen",
+        "HodgeLadder.Cup.supportedSection_eq_pairEval",
+        "HodgeLadder.Cup.cls_zsmul",
+        "HodgeLadder.Cup.exists_cls",
+        "HodgeLadder.Cup.globalSections_of_singClass",
+        "HodgeLadder.Cup.topOpen_singClass"
+      ],
       "depends_on": [
         "cup-singular-comparison-absolute",
         "supported-cup",
@@ -1496,8 +1505,23 @@
         "supported-singular-model",
         "supported-named-cocycle-comp"
       ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26 with the absolute case (cup-singular-comparison-absolute). Supported case: Φ (supCup α β) = (−1)^{pq} • relCupSing (Φ α) (Ψ β|⊤), Φ = upstream's flasque supported-sections model followed by supportedRationalSingularSectionCohomologyEquivRelative at V = ⊤, U = X ∖ Z (pair (⊤, ⊤ ⊓ (X ∖ Z))). Moving the statement to neighborhoodSupportComplementPair and to cohomology of X itself is the open rung cup-comparison-supported-pair."
+    },
+    {
+      "id": "cup-comparison-supported-pair",
+      "title": "relCupSing is natural for maps of pairs; the supported comparison stated on upstream's neighborhoodSupportComplementPair, through supportedRationalSingularSectionCohomologyEquivSupportComplement, with β on X",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-singular-comparison"
+      ],
       "contributors": [],
-      "note": "The absolute case is checked (cup-singular-comparison-absolute). Remaining: the supported version for H_[Z]^p(X; ℚ), through upstream's relative cohomology and a relative right multiplication or the Tau Ceti relative cup."
+      "note": "Transport of cup_singular_comparison_supported along openIntersectionPairIsoSupportComplement and Opens.inclusionTopIso."
     },
     {
       "id": "local-class-product",

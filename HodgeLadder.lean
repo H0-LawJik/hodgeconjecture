@@ -75,3 +75,4 @@ public import HodgeLadder.Cup.ConeMaps
 public import HodgeLadder.Cup.SupportedConeCompat
 public import HodgeLadder.Cup.RelCupCocycle
 public import HodgeLadder.Cup.SupportedRelCup
+public import HodgeLadder.Cup.SupportedFinal

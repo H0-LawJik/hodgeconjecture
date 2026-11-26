@@ -78,7 +78,8 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `relative-cup-cocycle` | foundation | checked | `relative-singular-cup` | `relCupSing` on cocycle classes; the relative cup forgets to the Alexander–Whitney cup |
 | `supported-relative-cup` | foundation | checked | `supported-singular-class`, `relative-singular-cup` | Upstream's supported singular equivalence sends the class of b acting on Θ₁ c to relCupSing [c] [b] |
 | `supported-singular-model` | foundation | checked | `relative-singular-cup` | The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing |
-| `cup-singular-comparison` | foundation | open | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
+| `cup-singular-comparison` | foundation | checked | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
+| `cup-comparison-supported-pair` | foundation | open | `cup-singular-comparison` | the supported comparison on `neighborhoodSupportComplementPair`, with `β` on `X`; needs naturality of `relCupSing` for maps of pairs |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |

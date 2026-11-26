@@ -88,3 +88,14 @@ Both ends use the same positive lift, so no sign is expected from the cones. Ups
 | `supported-relative-cup` | `Φ_rel` of the class of `b` acting on `Θ₁ c` is `relCupSing [c] [b]` | `relative-singular-cup`, the sheafification unit commutes with right multiplication |
 
 `supported-singular-model` is the conjunction of the last two rows. Its target pair is `openInclusionPair`. The final supported rung moves the result to `neighborhoodSupportComplementPair` through the pair isomorphism in `supportedRationalSingularSectionCohomologyEquivSupportComplement`, and this needs the naturality of `relCupSing` under maps of pairs.
+
+### Result (2026-11-26)
+
+`cup-singular-comparison` is checked for the supported case (`HodgeLadder/Cup/SupportedFinal.lean`, `cup_singular_comparison_supported`): `Φ (α ∪ β) = (−1)^{pq} · relCupSing (Φ α) (Ψ β)`, with `Φ` the flasque supported-sections model followed by `supportedRationalSingularSectionCohomologyEquivRelative` at `V = ⊤`, `U = X ∖ Z`. The route:
+
+1. `exists_supported_rep`: by `homologyMap_rawMap_bijective`, `Φ₁ α` is the class of `Θ₁ x` for a relative cocycle `x`; the Hom-complex cocycle `z` of `Θ₁ x` names `α` in the derived category (`relHSupportedOfFlasque_mk` and injectivity of the flasque model).
+2. `supCup_flasque_chosen` (`supported-sections-class` at upstream's chosen resolution): `Φ₁ (α ∪ β)` is the class of the supported cocycle of `cocycleComp z R_b`.
+3. `pairSheafEvaluation_cocycleComp_rightMul`: that cocycle's section is `(−1)^{pq}` times `b` acting on the section of `Θ₁ x`.
+4. `supported_relative_cup`: the supported singular equivalence sends it to `relCupSing`.
+
+Open: `cup-comparison-supported-pair` (the same statement on `neighborhoodSupportComplementPair` and with `β` on `X`).
