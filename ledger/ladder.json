@@ -1069,6 +1069,30 @@
       "note": "Checked 2026-11-25. cup x y = x followed by forgetEnd(e y) (ab-ext-yoneda); the bridge for x and for the cup product, and end-class-right-mult for y, give step 1 of the cup as step 1 of x followed by the class of R_b. The shifted-hom algebra is shiftedHom_cup_core, proved in any category with a shift by ℤ. Then cocycle-class-mul and named-cocycle-comp turn [z_a].[R_b] into (−1)^{pq}[z_{a∪b}], and step 2 on cocycle classes finishes. The sign is the one predicted in the sketch."
     },
     {
+      "id": "step3-named-class",
+      "title": "Upstream's full comparison (steps 1 to 3, chosen resolution) sends the class named by a global cocycle c to the singular class of c, defined through upstream's ordinarySingularCohomologyEquivGlobalRaw",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.Step3",
+      "declarations": [
+        "HodgeLadder.Cup.homologyMap_cls",
+        "HodgeLadder.Cup.homologyAddEquiv_cls",
+        "HodgeLadder.Cup.extendHomologyIso_cls",
+        "HodgeLadder.Cup.topOpenToGlobal_f",
+        "HodgeLadder.Cup.globalSectionsIso_named",
+        "HodgeLadder.Cup.extendXIso_globalSectionsIso",
+        "HodgeLadder.Cup.singClass",
+        "HodgeLadder.Cup.step3_named_class"
+      ],
+      "depends_on": [
+        "ext-class-right-mult"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Classes of explicit cycles (cls) are followed through homologyAddEquiv, the global-sections isomorphism, the extension isomorphism and extendHomologyIso; on elements, the named cocycle goes to the sheafified c at ⊤, which is also the image of the raw cochain c under topOpenToGlobalSingularCochainSheafComplex (upstream's plus-plus unit, matched with Mathlib's toSheafify by toSheafify_plusPlusIsoSheafify_hom)."
+    },
+    {
       "id": "cup-step3",
       "title": "Upstream's step 3 sends the global-section class named by a global cocycle c to the singular class of c, compatibly with cupGlobal and the Tau Ceti cup product cupSing",
       "status": "open",
@@ -1077,10 +1101,11 @@
       "declarations": [],
       "depends_on": [
         "cup-global-comparison",
-        "cochain-cup-upstream"
+        "cochain-cup-upstream",
+        "step3-named-class"
       ],
       "contributors": [],
-      "note": "Unfold globalSectionsSingularCochainComplexIntIsoExtend, extendHomologyIso and ordinaryRationalSingularCohomologyEquivGlobalSections on the named class; cupGlobal is rightMulApp on ⊤, which is the cochain cup of cochain-cup-upstream up to the dual-to-Hom isomorphism."
+      "note": "Remaining: cup-top-open, the cup on raw cochains of the open ⊤ (cupGlobal) against cupSing on X(ℂ) through ordinarySingularCohomologyEquivGlobalRaw and singularCochainComplexIsoTopOpen (Tau Ceti singularCup_naturality). step3-named-class is checked."
     },
     {
       "id": "cup-singular-comparison",
