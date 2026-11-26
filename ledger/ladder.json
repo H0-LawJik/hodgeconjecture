@@ -2466,19 +2466,58 @@
       "note": "Checked 2026-11-25. Transferred from Tau Ceti's graded commutativity of the singular cup (cupSing_gradedComm) through cup-singular-comparison-absolute: both comparisons carry (−1)^{pq} and Ψ is injective. Like the ring laws, the statement alone also holds for a square-zero product; cup-positive-degree-test is the non-vacuity check."
     },
     {
+      "id": "singular-unit",
+      "title": "The class oneSing of the constant 0-cocycle 1 is a natural two-sided unit of cupSing, nonzero on a nonempty space; Ψ(one X) = oneSing and one X = fieldCohomologyUnit ℚ X",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SingularUnit",
+      "declarations": [
+        "HodgeLadder.Cup.oneSing",
+        "HodgeLadder.Cup.cupSing_oneSing",
+        "HodgeLadder.Cup.oneSing_cupSing",
+        "HodgeLadder.Cup.cohomologyMap_oneSing",
+        "HodgeLadder.Cup.oneSing_ne_zero",
+        "HodgeLadder.Cup.rationalCohomologyAddEquivSingularCohomology_one",
+        "HodgeLadder.Cup.one_eq_fieldCohomologyUnit"
+      ],
+      "depends_on": [
+        "cochain-cup-upstream",
+        "cup-singular-comparison-absolute",
+        "one-is-kappa",
+        "cup-product"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Split out of fundamental-class-unit (red team change B). Unit laws from Tau Ceti's singularCup_constSingularCocycle_left/_right along cohIso; naturality from singularCohomologyMap_homologyπ_constSingularCocycle; Ψ(one X) = oneSing from cup_singular_comparison at p = 0 (sign (−1)^0), Ψ surjective and the right unit law, under [T2Space] and paracompact opens. General lemmas kept local: docs/gaps.md."
+    },
+    {
       "id": "fundamental-class-unit",
       "title": "The class of X is the unit: cycleComponentSheafClass X (genericPoint X.left) _ = one X in H⁰(X; ℚ)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.FundamentalClassUnit",
+      "declarations": [
+        "HodgeLadder.Tests.cycleComponentSheafClass_genericPoint_eq_one",
+        "HodgeLadder.Tests.cycleComponentSheafClass_genericPoint_ne_neg_one",
+        "HodgeLadder.Tests.exists_cycleComponentSheafClass_genericPoint_eq_smul_one",
+        "HodgeLadder.Tests.exists_mem_cycleComponentSmoothSupportAmbientOpen",
+        "HodgeLadder.Tests.forgetRel_eq_oneSing_of_standardLocalClass_zero",
+        "HodgeLadder.Tests.forgetRel_chartNormalProjectionCoclass_zero"
+      ],
       "depends_on": [
         "supported-forget-compat",
         "one-is-kappa",
-        "cycle-class-germ"
+        "cycle-class-germ",
+        "cup-singular-comparison-absolute",
+        "cochain-cup-upstream",
+        "supported-pair-forget",
+        "singular-unit"
       ],
-      "contributors": [],
-      "note": "Codimension-zero case of cycle-class-multiplicative and its smallest falsification test: upstream has [X] ≠ 0 (cycleComponentSheafClass_genericPoint_ne_zero), and [X] ∪ [X] = [X] forces [X] = 1. Statement elaborated. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Exact, sign +. [X] = c • 1 on the line H⁰; Ψ(1) = oneSing; at a point of X ∖ Z_sing the germ identity and supported-pair-forget give the restriction of Ψ[X] as oneSing; c = 1. Sign decided by upstream's normalization against the point with coefficient 1 (conventions row Degree-zero orientation and the unit); sign test [X] ≠ −1 checked. Kill criterion of decision 0010: fundamental-class-unit holds, so the front is not killed in codimension 0. Red team 2026-11-26: pass with changes (docs/sketches/fundamental-class-unit.redteam.md), implemented."
     },
     {
       "id": "normalization-singular",

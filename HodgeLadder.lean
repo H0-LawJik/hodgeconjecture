@@ -54,6 +54,7 @@ public import HodgeLadder.Cup.PullbackVariety
 public import HodgeLadder.Cup.Supported
 public import HodgeLadder.Cup.SupportedVariety
 public import HodgeLadder.Cup.SingularCup
+public import HodgeLadder.Cup.SingularUnit
 public import HodgeLadder.Cup.RightMult
 public import HodgeLadder.Cup.RightMultCocycle
 public import HodgeLadder.Cup.RightMultUnit
@@ -126,3 +127,4 @@ public import HodgeLadder.Relative.CrossTriadNaturality
 public import HodgeLadder.Tests.CrossTriadNaturality
 public import HodgeLadder.Cup.SupportedPairForget
 public import HodgeLadder.Tests.SupportedPairForget
+public import HodgeLadder.Tests.FundamentalClassUnit
