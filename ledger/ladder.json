@@ -1556,15 +1556,22 @@
     {
       "id": "supported-model-agreement",
       "title": "Φ agrees with upstream's cycle-class transport complexSupportInjectiveSectionCohomologyEquiv ∘ rationalSupportAddEquivSupportedInjectiveHomology",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedAgreement",
+      "declarations": [
+        "HodgeLadder.Cup.relHSupported_eq_flasque",
+        "HodgeLadder.Cup.iotaQ_comp_singularToConstantInjective",
+        "HodgeLadder.Cup.flasqueModel_agreement",
+        "HodgeLadder.Cup.transport_eq_flasqueModel"
+      ],
       "depends_on": [
         "cup-singular-comparison"
       ],
-      "contributors": [],
-      "note": "Red team 2026-11-26, finding 4. Expected to hold exactly: upstream's S → I map preserves the augmentation (constants_comp_singularToConstantInjectiveResolution)."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Exact, no scalar. relHSupported_eq_flasque: for any map of resolutions under the augmentations, upstream's K-injective supported model is the flasque model followed by the map on supported sections. At the variety (IsProjective, as upstream's comparison iso requires): upstream's cycle-class transport complexSupportInjectiveSectionCohomologyEquiv ∘ rationalSupportAddEquivSupportedInjectiveHomology equals supportedRationalSingularSectionCohomologyEquivSupportComplement ∘ flasqueModel."
     },
     {
       "id": "supported-forget-compat",
