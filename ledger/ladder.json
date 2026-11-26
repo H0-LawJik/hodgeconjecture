@@ -1574,6 +1574,25 @@
       "note": "Exact, no scalar. relHSupported_eq_flasque: for any map of resolutions under the augmentations, upstream's K-injective supported model is the flasque model followed by the map on supported sections. At the variety (IsProjective, as upstream's comparison iso requires): upstream's cycle-class transport complexSupportInjectiveSectionCohomologyEquiv ∘ rationalSupportAddEquivSupportedInjectiveHomology equals supportedRationalSingularSectionCohomologyEquivSupportComplement ∘ flasqueModel."
     },
     {
+      "id": "step1-of-hom",
+      "title": "If y followed by ι : ℚ_X[0] → S is the class of a Hom-complex cocycle w out of ℤ_X[0], upstream's step 1 of Ψ sends y to the class of w on the integer constant complex",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedForget",
+      "declarations": [
+        "HodgeLadder.Cup.shiftedHom_step1_core",
+        "HodgeLadder.Cup.step1_of_hom"
+      ],
+      "depends_on": [
+        "ext-derived-bridge",
+        "cocycle-class-mul"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Part of supported-forget-compat."
+    },
+    {
       "id": "supported-forget-compat",
       "title": "Forgetting the support commutes with Φ against Ψ: forgetRel (Φ α) = Ψ (forgetSupport α), with the sign fixed exactly",
       "status": "open",
@@ -1581,7 +1600,8 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-singular-comparison"
+        "cup-singular-comparison",
+        "step1-of-hom"
       ],
       "contributors": [],
       "note": "Red team 2026-11-26, finding 4: a degree twist ε(n) would be −1 in degree 2, which the two cup theorems do not fix."
