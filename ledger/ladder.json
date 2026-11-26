@@ -2010,16 +2010,55 @@
     {
       "id": "cross-orientation",
       "title": "The shuffle cross product of upstream's complex orientation classes of ℂ^a and ℂ^b is the complex orientation class of ℂ^{a+b} under Fin.append, sign +; real form s_m × s_n = s_{m+n}",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Local.CrossOrientation",
+      "declarations": [
+        "HodgeLadder.CrossOrientation.complexRealHomeomorph_finProdFinEquiv",
+        "HodgeLadder.CrossOrientation.complexRealHomeomorph_append",
+        "HodgeLadder.CrossOrientation.edgeMatrix_shuffleVertices",
+        "HodgeLadder.CrossOrientation.det_edgeMatrix_shuffleVertices",
+        "HodgeLadder.CrossOrientation.det_edgeMatrix_shuffleVertices_standard",
+        "HodgeLadder.CrossOrientation.sign_det_edgeMatrix_shuffleVertices_standard_mul",
+        "HodgeLadder.CrossOrientation.appendMap_mem",
+        "HodgeLadder.CrossOrientation.complexAppendMap_mem",
+        "HodgeLadder.CrossOrientation.appendMap_idShuffle",
+        "HodgeLadder.CrossOrientation.toSSetObjEquiv_affineShuffleMap",
+        "HodgeLadder.CrossOrientation.eq_idShuffle_of_shuffleBarycenter",
+        "HodgeLadder.CrossOrientation.relProj_shuffle_eq",
+        "HodgeLadder.CrossOrientation.shuffleBarycenter_mem_openPrism",
+        "HodgeLadder.CrossOrientation.cross_orientation_real",
+        "HodgeLadder.CrossOrientation.cross_orientation_complex",
+        "HodgeLadder.CrossOrientation.union_eq",
+        "HodgeLadder.CrossOrientation.complexAppendMap_mem_union",
+        "HodgeLadder.CrossOrientation.cross_orientation_orient"
+      ],
       "depends_on": [
         "real-affine-orientation",
         "relative-cross-chain"
       ],
-      "contributors": [],
-      "note": "The sign of the cross product of complex orientations asked for by decision 0009; expected + for every a, b, confirmed by the red team by hand and numerically (register row). Lean lemmas at the start of the rung: complexRealHomeomorph_append, complexRealHomeomorph (a + b) (Fin.append u v) = fun i => Fin.append (complexRealHomeomorph a u) (complexRealHomeomorph b v) (Fin.cast (Nat.add_mul a b 2) i) (statement elaborated 2026-11-26); and the identity-shuffle simplex of s_m × s_n has edge determinant det(s_m) · det(s_n). Sign-visible test (red team of relative-cross-chain, elaborated): with appendMap m n : TopCat.of (Fin m → ℝ) ⊗ TopCat.of (Fin n → ℝ) ⟶ TopCat.of (Fin (m + n) → ℝ), (u, v) ↦ Fin.append u v, the theorem relativeHomologyMap ℚ (m + n) (TopPair.ofSubsetHom (appendMap m n) (appendMap_mem m n)) (relCrossUnion (P := TopCat.of (Fin m → ℝ)) (Q := TopCat.of (Fin n → ℝ)) ({0}ᶜ) ({0}ᶜ) m n (standardLocalClass ℚ m) (standardLocalClass ℚ n)) = standardLocalClass ℚ (m + n); at m = n = 1 the right side is nonzero (standardLocalClass_ne_zero_of_pos 2), so it separates + from − and from 0. Inputs from relative-cross-chain: relCrossUnion_naturality, shuffleBilin_ι, shuffleChain_idShuffle_coeff. Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26, sign + for every m, n and every a, b, kernel-checked. Real form cross_orientation_real: the appendMap pushforward of relCrossUnion {0}ᶜ {0}ᶜ m n (standardLocalClass ℚ m) (standardLocalClass ℚ n) is standardLocalClass ℚ (m + n), exactly. Complex form cross_orientation_complex: the complexAppendMap pushforward of the cross product of standardComplexLocalClass ℚ a and standardComplexLocalClass ℚ b is (Nat.mul_add 2 a b) ▸ standardComplexLocalClass ℚ (a + b); cross_orientation_orient is the same identity on (ℂ^{a+b}, setA ∪ setB), equal to orient a b, the form local-class-cross-model reads. Signs: identity-shuffle coefficient +1 (shuffleChain_idShuffle_coeff); the identity-shuffle simplex is the affine simplex on (v_{min(k,m)}, w_{k−m}) (appendMap_idShuffle) with block upper triangular edge matrix, det E = det E(s_m) · det E(s_n) (det_edgeMatrix_shuffleVertices), so the class scalar is 1 (sign_det_edgeMatrix_shuffleVertices_standard_mul); every other simplex of Δ[m] ⊗ Δ[n], degenerate ones included, misses the barycenter (eq_idShuffle_of_shuffleBarycenter); consecutive (Re, Im) coordinates make the block identification the identity (complexRealHomeomorph_append); degree casts are read through HEq and carry no scalar. The real sign rests on two first-factor-first choices (idShuffle, Fin.append), each fixed by a checked or proved declaration; flipping one alone would give (−1)^{mn}. The complex sign is independent of the ℂ-linear identification ℂ^a × ℂ^b ≅ ℂ^{a+b} (upstream relativeHomologyMap_complexMatrix_standardComplexLocalClass); (−1)^{ab} needs a real-parts-first coordinate order, which upstream does not use. Non-vacuity: rung cross-orientation-test (real form separates + from − for 0 < m + n; complex right side nonzero for every a, b). Register row 'Cross product of complex orientations'. Red team: docs/sketches/cross-orientation.redteam.md (statement pass, pass with changes C1 to C3, implemented). Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "cross-orientation-test",
+      "title": "Non-vacuity of cross-orientation: over ℚ, standardLocalClass ℚ d is not its own negative for 0 < d, and the right side of cross_orientation_complex is nonzero for every a, b",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.CrossOrientation",
+      "declarations": [
+        "HodgeLadder.Tests.standardLocalClass_ne_neg_of_pos",
+        "HodgeLadder.Tests.cast_standardComplexLocalClass_ne_zero"
+      ],
+      "depends_on": [
+        "cross-orientation"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team on cross-orientation, change C1 (docs/sketches/cross-orientation.redteam.md, statement text verbatim). standardLocalClass_ne_neg_of_pos: from upstream's standardLocalClass_ne_zero_of_pos, so cross_orientation_real separates + from − whenever 0 < m + n, and both from 0. cast_standardComplexLocalClass_ne_zero: a cast lemma by subst and upstream's standardComplexLocalClass_ne_zero (a + b), so cross_orientation_complex is sign-visible at every (a, b), a = b = 0 included. Not tested: m + n = 0 in the real form, where the right side is the point class and − differs from + only through the coefficient ring."
     },
     {
       "id": "local-class-cross-model",

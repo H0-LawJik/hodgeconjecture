@@ -114,6 +114,8 @@ public import HodgeLadder.Normalization.ChartStep
 public import HodgeLadder.Normalization.Germ
 public import HodgeLadder.Glpos.PathConnected
 public import HodgeLadder.Local.RealAffineOrientation
+public import HodgeLadder.Local.CrossOrientation
+public import HodgeLadder.Tests.CrossOrientation
 public import HodgeLadder.Cup.TriadCup
 public import HodgeLadder.Tests.TriadCupTorus
 public import HodgeLadder.Relative.CrossChain

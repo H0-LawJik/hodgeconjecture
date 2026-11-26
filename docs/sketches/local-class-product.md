@@ -115,7 +115,7 @@ The declarations this plan uses from upstream's library `Other` are outside upst
 - **Build once.** A prover's first `lake build` of a file that imports them writes their `.olean` files into the shared package cache. Build them once, from one worktree, before parallel work on these rungs starts.
 - **`rfl` pins**, at the start of the first rung that uses them (`cap-cross-evaluation` or `triad-relative-cup-cap`): the formula of `capHom` (φ(front p-face) • back q-face) and `unionRelativeTriadCapCohomologyLinear` unfolded through `triadCapCohomologyLinear` and the inverse of the excision quasi-isomorphism.
 - **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. For `triad-relative-cup` (red team 2026-11-26): `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap`, `relativeChainProjection_empty_isIso`, `TopPair.ofSubset`, `TopPair.isoOfSubset`, `TopPair.ofSubsetHom`, `relativeChainProjection`, `relativeCohomologyMap`, `HomologicalComplex.linearDualMap`, `linearDualMap_comp`, `linearDualHomologyEquiv_naturality`, `TopPair.Homotopy.relativeChainProjection_naturality`.
-- **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. Added by `relative-cross-chain` (red team, section 8): the bodies of Tau Ceti `SSet.shuffleChain`, `SSet.stdSimplex.cone`, `prodCone`, `prodConeChain`, `SSet.shuffle`, `TopCat.shuffle` (`HodgeLadder.Relative.CrossChain` reads `cone` and `prodCone` through `import all`); Mathlib `TensorSigns (ComplexShape.down ℕ)`, `ιTensorObj`, the `ModuleCat` left unitor, `Functor.LaxMonoidal.μ TopCat.toSSet`; upstream `relativeChainFunctor`, `relativeChainProjection`, `TopPair.ofSubset`, `TopPair.ofSubsetHom`, `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadToUnionRelativeChainMap`, `triadToUnionRelativeHomologyMap`, and `TopPair.Homotopy.relativeChainProjectionComponentIsCokernel`, `relativeChainProjection_naturality`.
+- **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. Added by `relative-cross-chain` (red team, section 8): the bodies of Tau Ceti `SSet.shuffleChain`, `SSet.stdSimplex.cone`, `prodCone`, `prodConeChain`, `SSet.shuffle`, `TopCat.shuffle` (`HodgeLadder.Relative.CrossChain` reads `cone` and `prodCone` through `import all`); Mathlib `TensorSigns (ComplexShape.down ℕ)`, `ιTensorObj`, the `ModuleCat` left unitor, `Functor.LaxMonoidal.μ TopCat.toSSet`; upstream `relativeChainFunctor`, `relativeChainProjection`, `TopPair.ofSubset`, `TopPair.ofSubsetHom`, `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadToUnionRelativeChainMap`, `triadToUnionRelativeHomologyMap`, and `TopPair.Homotopy.relativeChainProjectionComponentIsCokernel`, `relativeChainProjection_naturality`. Added by `cross-orientation` (red team, section 8): `Complex.piBasisOneI` (`complexRealHomeomorph_finProdFinEquiv` unfolds it, so a reordering of upstream's real basis of ℂ^p breaks the build).
 
 ## Red-team changes (2026-11-26), as implemented
 
@@ -428,6 +428,124 @@ Exchanging `hzx` and `hzy` fails to elaborate, so the check is not vacuous. `cro
 - `rw` with chain-level lemmas failed when the goal mixed `TopPair.fst` with `TopCat.of (Fin d → ℝ)`, or the two `Ring ℚ` instance paths. `erw`, or `refine (lemma …).trans ?_`, works.
 - `relProj_ι_eq_zero` applied to a face with its implicit arguments left to unification hit the heartbeat limit. Naming the space and the simplex fixes it.
 - `pointPair` used before its definition was silently auto-bound and made two statements time out. Definitions now come first.
+
+## cross-orientation: statement
+
+Date: 2026-11-26. Phase 1 (statement), branch `track/cross-orientation` from `79df873`. File `HodgeLadder/Local/CrossOrientation.lean`, module `HodgeLadder.Local.CrossOrientation`, namespace `HodgeLadder.CrossOrientation`; not yet imported from `HodgeLadder.lean`. The brief's default path `HodgeLadder/Cross/Orientation.lean` splits the id at its hyphen; the file sits next to `HodgeLadder.Local.RealAffineOrientation`, whose lemmas it reads, and the maintainer picks the name when the rung is posted. `lake env lean` on the file takes about 5 s (warm cache). Status at the statement pass: ten declarations proved with the three standard axioms, three statements open. Statement red team: pass with changes (`docs/sketches/cross-orientation.redteam.md`). **Checked 2026-11-26** with the statements unchanged; see "cross-orientation: proofs" below.
+
+**Choices.** Coefficients ℚ, spaces in `TopCat.{0}`, the product `P ⊗ Q` of `relCrossUnion`, as in `relative-cross-chain`. The real form is the red team's sign-visible test of `relative-cross-chain` verbatim. The complex form uses upstream's classes as they stand, in degree `2 * k`, and reads the right side through `Nat.mul_add 2 a b : 2 * (a + b) = 2 * a + 2 * b`, the same `▸` cast upstream uses in `standardComplexLocalClass`. The block determinant is stated for any two vertex lists, so it is a block-triangular identity with no reference to s_d; the s_m × s_n instance is a corollary.
+
+### Statements
+
+```lean
+theorem complexRealHomeomorph_append (a b : ℕ) (u : Fin a → ℂ) (v : Fin b → ℂ) :
+    complexRealHomeomorph (a + b) (Fin.append u v) = fun i =>
+      Fin.append (complexRealHomeomorph a u) (complexRealHomeomorph b v)
+        (Fin.cast (Nat.add_mul a b 2) i)
+
+def shuffleVertices {m n : ℕ} (v : Fin (m + 1) → Fin m → ℝ) (w : Fin (n + 1) → Fin n → ℝ) :
+    Fin (m + n + 1) → Fin (m + n) → ℝ :=
+  fun k => Fin.append (v ⟨min k.val m, by omega⟩) (w ⟨k.val - m, by omega⟩)
+
+theorem det_edgeMatrix_shuffleVertices {m n : ℕ} (v : Fin (m + 1) → Fin m → ℝ)
+    (w : Fin (n + 1) → Fin n → ℝ) :
+    (edgeMatrix (shuffleVertices v w)).det = (edgeMatrix v).det * (edgeMatrix w).det
+
+theorem appendMap_idShuffle {m n : ℕ} (v : Fin (m + 1) → Fin m → ℝ)
+    (w : Fin (n + 1) → Fin n → ℝ) :
+    (((SSet.yonedaEquiv.symm (affineSingularSimplex v) ⊗ₘ
+          SSet.yonedaEquiv.symm (affineSingularSimplex w)) ≫
+        Functor.LaxMonoidal.μ TopCat.toSSet (TopCat.of (Fin m → ℝ)) (TopCat.of (Fin n → ℝ)) ≫
+          TopCat.toSSet.map (appendMap m n)).app _ (idShuffle m n (m + n) rfl)) =
+      affineSingularSimplex (shuffleVertices v w)
+
+theorem eq_idShuffle_of_shuffleBarycenter {m n : ℕ} (x : ((Δ[m] : SSet.{0}) ⊗ Δ[n]) _⦋m + n⦌)
+    (t : Fin (m + n + 1) → ℝ) (ht : ∀ k, 0 ≤ t k) (ht1 : ∑ k, t k = 1)
+    (h : ∑ k, t k • Fin.append (standardAffineSimplex m (StdSimplex.single (x.1 k)))
+        (standardAffineSimplex n (StdSimplex.single (x.2 k))) = shuffleBarycenter m n) :
+    x = idShuffle m n (m + n) rfl
+
+theorem cross_orientation_real (m n : ℕ) :
+    relativeHomologyMap ℚ (m + n) (TopPair.ofSubsetHom (appendMap m n) (appendMap_mem m n))
+      (relCrossUnion (P := TopCat.of (Fin m → ℝ)) (Q := TopCat.of (Fin n → ℝ))
+        ({0}ᶜ : Set (Fin m → ℝ)) ({0}ᶜ : Set (Fin n → ℝ)) m n
+        (standardLocalClass ℚ m) (standardLocalClass ℚ n)) =
+      standardLocalClass ℚ (m + n)
+
+theorem cross_orientation_complex (a b : ℕ) :
+    relativeHomologyMap ℚ (2 * a + 2 * b)
+      (TopPair.ofSubsetHom (complexAppendMap a b) (complexAppendMap_mem a b))
+      (relCrossUnion (P := TopCat.of (Fin a → ℂ)) (Q := TopCat.of (Fin b → ℂ))
+        ({0}ᶜ : Set (Fin a → ℂ)) ({0}ᶜ : Set (Fin b → ℂ)) (2 * a) (2 * b)
+        (standardComplexLocalClass ℚ a) (standardComplexLocalClass ℚ b)) =
+      (Nat.mul_add 2 a b) ▸ standardComplexLocalClass ℚ (a + b)
+```
+
+Local definitions: `appendMap m n` and `complexAppendMap a b`, `(u, v) ↦ Fin.append u v` from `TopCat.of (Fin m → 𝕜) ⊗ TopCat.of (Fin n → 𝕜)`; `appendMap_mem`, `complexAppendMap_mem` (the union of the two punctured products lands in the punctured target); `shuffleBarycenter m n`, the point ∑ₖ (1/(m + n + 1)) · `shuffleVertices` s_m s_n k.
+
+### Proved now
+
+| Declaration | Content |
+|---|---|
+| `complexRealHomeomorph_finProdFinEquiv` | coordinate `finProdFinEquiv (i, j)` of `complexRealHomeomorph p z` is `basisOneI.repr (z i) j` (Re for j = 0, Im for j = 1), from `Basis.repr_reindex_apply` and `smulTower'_repr_mk` |
+| `complexRealHomeomorph_append` | statement (1), by `Fin.addCases` on the complex index: index 2i + j of block a stays 2i + j, index 2(a + i) + j becomes 2a + (2i + j) |
+| `edgeMatrix_shuffleVertices` | E(σ_id) is `reindex finSumFinEquiv` of `fromBlocks E(v) B 0 E(w)`, B with every column v_m − v₀ |
+| `det_edgeMatrix_shuffleVertices` | statement (2): `det_reindex_self`, `det_fromBlocks_zero₂₁` |
+| `det_edgeMatrix_shuffleVertices_standard` | at s_m, s_n: (−1)^m (m + 1) · (−1)^n (n + 1) |
+| `sign_det_edgeMatrix_shuffleVertices_standard_mul` | sign(det E(σ_id)) · (−1)^{m+n} = 1, the scalar of `affineSimplex_homologyπ` at σ_id |
+| `appendMap_idShuffle` | the identity-shuffle singular simplex of two affine simplices, as `shuffleBilin_ι` writes it, pushed along `appendMap`, is the affine simplex on `shuffleVertices`, same vertex order (`Functor.Monoidal.μ_fst`, `μ_snd`, `toSSetObjEquiv`) |
+| `affineSimplexMap_map_apply`, `appendMap_mem`, `complexAppendMap_mem` | helpers |
+
+### Signs
+
+| Sign | Value | Source |
+|---|---|---|
+| block identification ℂ^a × ℂ^b → ℂ^{a+b} on real coordinates | identity, no permutation | `complexRealHomeomorph_append` (proved). With real parts first it would be a permutation of sign (−1)^{ab} |
+| identity-shuffle coefficient | +1 | `shuffleChain_idShuffle_coeff` (checked, `relative-cross-chain`) |
+| coefficient change ℚ ⊗ ℚ → ℚ | 1 ⊗ 1 ↦ 1 | `shuffleBilin_ι` (checked) |
+| vertex order of σ_id | (v_{min(k,m)}, w_{k−m}), first factor first | `appendMap_idShuffle` (proved), `idShuffle` |
+| det E(σ_id) | det E(v) · det E(w), no further sign | `det_edgeMatrix_shuffleVertices` (proved): block upper triangular because the first factor comes first in the vertex order and in the coordinates |
+| det E(s_d) | (−1)^d (d + 1) | `det_edgeMatrix_standardAffineSimplex` (checked) |
+| class of σ_id at a point of its open simplex | sign(det E(σ_id)) · (−1)^{m+n} = 1 times o_y | `affineSimplex_homologyπ` (checked), `sign_det_edgeMatrix_shuffleVertices_standard_mul` (proved) |
+| other shuffle simplices at the barycenter | 0 in C(ℝ^{m+n}, ℝ^{m+n} ∖ {y}) | `eq_idShuffle_of_shuffleBarycenter` (open); checked numerically below |
+| translation back to 0 | none | `relativeHomologyMap_point_eq_translate`, `relativeHomologyMap_translation_injective` (checked) |
+| degree casts p · 2 = 2 · p, 2(a + b) = 2a + 2b | none (transport along an equation of degrees) | to be proved by `subst` |
+
+Product of the signs: +1 for every m, n, so the real form is stated with +, and the complex form inherits it.
+
+**Numerical check** (Python, floating point with exact integer determinants, every pair 0 ≤ m, n ≤ 3, 16 cases): det E(σ_id) equals (−1)^m (m + 1) (−1)^n (n + 1) in all 16; the scalar sign(det E(σ_id)) · (−1)^{m+n} is 1 in all 16; and a linear program over every pair of monotone vertex maps (a, b) of length m + n + 1 other than the identity shuffle, degenerate ones included, finds no t ≥ 0 with ∑ t = 1 reaching the barycenter. That is the content of `eq_idShuffle_of_shuffleBarycenter` for those sizes.
+
+### Route for the proofs
+
+1. **`eq_idShuffle_of_shuffleBarycenter`.** The two components of the point have unique barycentric weights in s_m and s_n (`weights_eq_of_det_ne_zero`): α = (1/N, …, 1/N, (n + 1)/N) and β = ((m + 1)/N, 1/N, …, 1/N), N = m + n + 1. Since x.1 and x.2 are monotone, the set where x.1 ≤ i and the set where x.2 ≤ j are prefixes of Fin N, so the partial sums S_k = t₀ + … + t_k take the N values 1/N, 2/N, …, N/N at strictly increasing indices; there are N indices, so S_k = (k + 1)/N, and then x.1 k = min k m, x.2 k = k − m (`eq_idShuffle_iff`).
+2. **Only σ_id survives at y.** For the barycenter y: precomposing the chain map of the pair of affine simplices with ι_x and the projection to C(ℝ^{m+n}, ℝ^{m+n} ∖ {y}) gives 0 for x ≠ idShuffle (step 1 with t the weights of a point of the realized simplex; `relProj_ι_eq_zero`). Coproduct extensionality then writes the projected shuffle chain as `simplexCoeff (idShuffle)` followed by ι of σ_id, and `shuffleChain_idShuffle_coeff`, `shuffleBilin_ι`, `appendMap_idShuffle` turn it into the projected affine simplex σ_id with coefficient 1.
+3. **Real form.** Cycles of s_m, s_n on the complements of their open simplices (`exists_affineSimplex_openSimplex_cycle`); `relCrossUnion_homologyπ` gives their cross class; pushed by `appendMap` it lives on (ℝ^{m+n}, ℝ^{m+n} ∖ U), U = {z | first block ∈ openSimplex s_m, second block ∈ openSimplex s_n}, convex (`convex_openSimplex`, linear preimages), containing 0 (`zero_mem_openSimplex_standardAffineSimplex`) and y (its block weights are α and β, all positive). Its restriction at 0 is the left side of `cross_orientation_real`, by `relCrossUnion_naturality` along the support inclusions and `openSimplex_standard_restrict_zero`; at y it is o_y, by step 2, `affineSimplex_homologyπ` and `sign_det_edgeMatrix_shuffleVertices_standard_mul`. `relativeHomologyMap_point_eq_translate` and `relativeHomologyMap_translation_injective` finish.
+4. **Complex form.** `standardComplexLocalClass ℚ k` is the cast of the inverse of `standardComplexRealPairIso k` applied to `standardLocalClass ℚ (k * 2)`. Move both factors by `relCrossUnion_naturality` along the inverse homeomorphisms, with a degree-cast lemma for relCrossUnion (by `subst`); the square (complexRealHomeomorph a × complexRealHomeomorph b) then `appendMap (a * 2) (b * 2)` then the reindex along `Fin.cast (Nat.add_mul a b 2)` equals `complexAppendMap a b` then `complexRealHomeomorph (a + b)` is `complexRealHomeomorph_append`; `cross_orientation_real (a * 2) (b * 2)`; and the reindex sends `standardLocalClass ℚ d` to the cast of `standardLocalClass ℚ d'` for d = d' (by `subst`, the reindex is then the identity).
+
+### Checks for the red team
+
+- `rfl`, `simp`, `aesop`, `decide`, `trivial`, `grind`, `norm_num` and `exact?` fail on each of the three open statements (three errors per tactic, on a copy of the file).
+- `#print axioms`: the ten proved declarations and the four definitions use `propext`, `Classical.choice`, `Quot.sound` only.
+- Right sides are nonzero: `standardLocalClass_ne_zero_of_pos` for the real form when m + n > 0, and for the complex form `standardComplexLocalClass_ne_zero (a + b)` through a one-line cast lemma (elaborated in scratch, every a, b). So both identities separate + from − and from 0.
+- `python3 tools/check.py --no-build` rejects only the three `sorry`s of this file.
+
+Questions for the red team: (i) whether `eq_idShuffle_of_shuffleBarycenter` should read the realized point through `affineSimplexMap`, as `appendMap_idShuffle` does, or keep the explicit vertex sum; (ii) whether the complex form should also be stated with `orient`-style transport to `setA ∪ setB` for `local-class-cross-model`, or whether that rung does the transport; (iii) the file name.
+
+## cross-orientation: proofs
+
+Date: 2026-11-26. All three open statements are proved with the statements as posted, with the three standard axioms, in `HodgeLadder.Local.CrossOrientation`, now imported from `HodgeLadder.lean`; `lake env lean` on the file takes about 7 s. `python3 tools/check.py` exits 0. The sign is + in every case, kernel-checked; no proof step produced a −1 or a dependence on a, b.
+
+| Statement | Route as proved |
+|---|---|
+| `eq_idShuffle_of_shuffleBarycenter` | the red team's argument. `prefix_mass_eq`: barycentric weights regrouped along a vertex map (`sum_smul_comp_eq`) are unique (`weights_eq_of_det_ne_zero`), so both blocks give the t-mass of every vertex prefix. A predicate Q i k (x.1 k < i for i ≤ m, x.2 k < i − m above) is downward closed, hence `k < L i` with L i its count (`lowerSet_iff_lt_card`); its t-mass is i/N for all i ≤ N, so L i = i (`eq_of_prefix_values`), and `eq_idShuffle_iff` closes |
+| `relProj_shuffle_eq` | coproduct extensionality on the chains of Δ[m] ⊗ Δ[n]: the push along `affineShuffleMap` followed by the projection to C(ℝ^{m+n}, ℝ^{m+n} ∖ {y}) equals `simplexCoeff (idShuffle)` followed by the identity-shuffle simplex, because every other simplex misses y (`toSSetObjEquiv_affineShuffleMap`, the previous row, `relProj_ι_eq_zero`); then `shuffleChain_idShuffle_coeff` |
+| `cross_orientation_real` | open-simplex cycles of s_m, s_n; `relCrossUnion_naturality` along the support inclusions (`relCrossUnion_supportInclusion`) and `openSimplex_standard_restrict_zero` rewrite the left side as the restriction at 0 of the pushed class on the complement of `openPrism m n`; `relativeHomologyMap_translation_injective` and `relativeHomologyMap_point_eq_translate` move to y = `shuffleBarycenter m n` (`convex_openPrism`, `zero_mem_openPrism`, `shuffleBarycenter_mem_openPrism`); `relCrossUnion_homologyπ`, `shuffleBilin_ι`, `relProj_shuffle_eq`; `affineSimplex_homologyπ` with scalar `sign_det_edgeMatrix_shuffleVertices_standard_mul` = 1 |
+| `cross_orientation_complex` | `relCrossUnion_naturality` along (complexRealHomeomorph a)⁻¹, (complexRealHomeomorph b)⁻¹; the square of pair maps commutes by `complexRealHomeomorph_append`, through `reindexPair (Nat.add_mul a b 2)`; `cross_orientation_real (a * 2) (b * 2)`; the degree casts `Nat.mul_comm`, `Nat.mul_add`, `Nat.add_mul` are read through `HEq` (`rel_cast_heq`, `relHom_heq`, `relCrossUnion_heq`, `reindexPair_heq`), each proved by `subst`, so they carry no scalar |
+| `cross_orientation_orient` (C2) | `complexAppendMap_mem_union`, the identity map of pairs `isoOfSubset (Homeomorph.refl _)` with `union_eq`, and `cross_orientation_complex`; `setA`, `setB`, `orient` are defined here, as the red team asked, and `local-class-cross-model` should import them |
+
+C1: `HodgeLadder/Tests/CrossOrientation.lean` holds `standardLocalClass_ne_neg_of_pos` and `cast_standardComplexLocalClass_ne_zero` (the red team's text), under the new test rung `cross-orientation-test`; the checker resolves a rung's declarations against its own module, so the tests take a separate rung, as other test modules do. C3: the ledger note cites the verdict; `Complex.piBasisOneI` is on the drift list above.
+
+**What failed on the way.** `rw` with `relCrossUnion_naturality` on `supportInclusionPairMap` failed (keyed matching through `TopCat.of`) and `erw` timed out; a specialized lemma applied by `congrArg` works. Rewriting `relativeHomologyMap_comp` backwards on the cross class failed on a type that is correct only up to unfolding `crossUnionPair`; `relativeHomologyMap_homologyπ` applied twice by `.trans` works. Membership proofs written as `fun _ ha hb => ha (h hb)` with `h : Z ⊆ W` do not type-check at reducible transparency inside a rewrite motive; giving them as hypotheses avoids it.
 
 ## Sources
 
