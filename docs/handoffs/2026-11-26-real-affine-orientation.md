@@ -1,0 +1,23 @@
+# Handoff 2026-11-26: `real-affine-orientation`
+
+- Checked: `HodgeLadder/Local/RealAffineOrientation.lean` (namespace `HodgeLadder.RealAffine`), imported from the root, standard axioms only. The six statements the red team passed are unchanged.
+- Signs, with o_y = `standardLocalClass ℚ d` moved by x ↦ x + y and E(v) having columns v_{i+1} − v₀:
+  - det E(s_d) = (−1)^d (d + 1).
+  - x ↦ A x + c sends o_y to sign(det A) · o_{Ay+c} (`relativeHomologyMap_affinePointPairMap`).
+  - An affine d-simplex around y has class sign(det E(v)) · (−1)^d · o_y (`affineSimplex_homologyπ`). This is `standardLocalClass` itself at the reference simplex and y = 0.
+- Red-team changes 1 to 5, implemented:
+  - The reference pins.
+  - `relativeHomologyMap_translation_injective`.
+  - `affineSimplex_openSimplex_restrict` and `openSimplex_standard_restrict_zero`.
+  - The rebase on `main`, with a fit check against `relCrossUnion_homologyπ` recorded in the sketch.
+  - The `Hatcher2002` §2.2 row and the Sources line.
+- Route:
+  - The vertex swap R is computed on chains: R ∘ s_d = s_d ∘ (0 1), and the prism on 0, 1, 0, 2, …, d has relative boundary s_d ∘ (0 1) + s_d.
+  - det > 0 goes through the `glpos-path-connected` path and a homotopy of pairs. det < 0 goes through A = (A R⁻¹) R.
+  - Affine maps are handled by an identity of maps of pairs. Simplices are handled by transporting s_d with M = E(v) E(s_d)⁻¹ and moving the point inside the open reference simplex.
+- What took time:
+  - `rw` across `TopPair.fst` and `TopCat.of`, and across the two `Ring ℚ` paths. Use `erw` or `refine (h).trans ?_`.
+  - A face lemma that timed out until its implicit arguments were given.
+  - An auto-bound `pointPair` used before its definition.
+- Not done: the optional strengthenings (any coefficient ring, dropping `hv`). Neither is needed by `cross-orientation`.
+- Next move: `cross-orientation`, real form first, along the composition recorded in "real-affine-orientation: proofs" of `docs/sketches/local-class-product.md`. Its first lemmas are det E(σ_id) = det E(s_m) · det E(s_n) (block upper triangular) and that σ_id is an `affineSingularSimplex`.

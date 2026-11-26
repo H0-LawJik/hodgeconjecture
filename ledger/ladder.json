@@ -1913,15 +1913,38 @@
     {
       "id": "real-affine-orientation",
       "title": "An affine automorphism of ℝ^d acts on the transported local orientation class by the sign of its determinant; an affine d-simplex around y has class sign(det)·(−1)^d·standardLocalClass d",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Local.RealAffineOrientation",
+      "declarations": [
+        "HodgeLadder.RealAffine.det_edgeMatrix_standardAffineSimplex",
+        "HodgeLadder.RealAffine.sign_det_edgeMatrix_standardAffineSimplex_mul",
+        "HodgeLadder.RealAffine.det_vertexSwapMatrix",
+        "HodgeLadder.RealAffine.relativeHomologyMap_vertexSwap_standardLocalClass",
+        "HodgeLadder.RealAffine.relativeHomologyMap_realMatrix_standardLocalClass",
+        "HodgeLadder.RealAffine.relativeHomologyMap_affinePointPairMap",
+        "HodgeLadder.RealAffine.relativeHomologyMap_affinePairMap",
+        "HodgeLadder.RealAffine.relativeHomologyMap_translation_injective",
+        "HodgeLadder.RealAffine.relativeHomologyMap_point_eq_translate",
+        "HodgeLadder.RealAffine.convex_openSimplex",
+        "HodgeLadder.RealAffine.zero_mem_openSimplex_standardAffineSimplex",
+        "HodgeLadder.RealAffine.exists_affineSimplex_openSimplex_cycle",
+        "HodgeLadder.RealAffine.exists_affineSimplex_cycle",
+        "HodgeLadder.RealAffine.affineSimplex_homologyπ",
+        "HodgeLadder.RealAffine.affineSimplex_openSimplex_restrict",
+        "HodgeLadder.RealAffine.affineSingularSimplex_standardAffineSimplex",
+        "HodgeLadder.RealAffine.translationPointComplementPairMap_zero",
+        "HodgeLadder.RealAffine.exists_affineSimplex_cycle_standard",
+        "HodgeLadder.RealAffine.affineSimplex_homologyπ_standard",
+        "HodgeLadder.RealAffine.openSimplex_standard_restrict_zero"
+      ],
       "depends_on": [
         "glpos-path-connected"
       ],
-      "contributors": [],
-      "note": "Upstream's reference simplex has edge determinant (−1)^d (d+1) (hand derivation and exact rational check for d ≤ 7 by the red team). Lean lemma at the start of the rung: the edge determinant of standardAffineSimplex d (vertices e₀, …, e_{d−1}, (−1, …, −1)) is (−1)^d (d + 1). Inputs: standardOrientationBallClass_restrict, convexSupport_translation_ne (upstream Other). Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. With o_y = standardLocalClass ℚ d moved by translation x ↦ x + y, E(v) the edge matrix (column i = v_{i+1} − v₀) and matrices acting by mulVec: the reference simplex s_d (vertices e₀, …, e_{d−1}, (−1, …, −1)) has det E = (−1)^d (d + 1); x ↦ A x + c sends o_y to sign(det A) · o_{Ay+c}, exactly; an affine d-simplex with y in its open simplex has class sign(det E(v)) · (−1)^d · o_y, which is standardLocalClass itself at the reference simplex and y = 0 (affineSimplex_homologyπ_standard). Route: det > 0 by a path in {det > 0} (glpos-path-connected) and a homotopy of pairs; the vertex swap R (det −1) sends o₀ to −o₀ on chains, since R ∘ s_d = s_d ∘ (0 1) and s_d ∘ (0 1) + s_d is the relative boundary of s_d on the vertex sequence 0, 1, 0, 2, …, d; det < 0 by A = (A R⁻¹) R; the simplex case transports s_d by x ↦ E(v) E(s_d)⁻¹ x + c and moves the point inside the open reference simplex (upstream convexSupportTranslationPairHomotopy). For cross-orientation: exists_affineSimplex_openSimplex_cycle feeds hx, hy of relCrossUnion_homologyπ (fit check elaborated), affineSimplex_openSimplex_restrict and relativeHomologyMap_translation_injective handle the base point 0, which lies outside the open identity-shuffle simplex. Register row 'Real local orientation and affine maps'. Red team: docs/sketches/real-affine-orientation.redteam.md (pass with changes, implemented). Sketch: docs/sketches/local-class-product.md."
     },
     {
       "id": "relative-cross-chain",
