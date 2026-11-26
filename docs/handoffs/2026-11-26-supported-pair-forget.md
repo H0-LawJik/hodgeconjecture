@@ -1,0 +1,10 @@
+# Handoff 2026-11-26: `supported-pair-forget`
+
+- Checked: `HodgeLadder.Cup.forgetRel_supportedEquivPair` (a) and `HodgeLadder.Cup.supportedEquivPair_eq_transport` (b), rung `supported-pair-forget`, `HodgeLadder/Cup/SupportedPairForget.lean`; non-vacuity tests in `HodgeLadder/Tests/SupportedPairForget.lean`, new rung `supported-pair-forget-test`. Standard axioms only.
+- Content: on `TopPair.ofSubset (Z.compl : Set _)`, the pair of `triad-relative-cup`, (a) forgetRel ∘ Φ = Ψ ∘ forgetSupport with Ψ read on X; (b) Φ is upstream's transport at ⊤ pulled back along `ofSubsetIsoNeighborhoodTop`. Exact, no sign.
+- Phase 1: statements with `sorry`, red-teamed (`docs/sketches/supported-pair-forget.redteam.md`, pass with changes). Changes A to E done. A replaced `ofSubsetIsoNeighborhoodUniv` in (b) with `ofSubsetIsoNeighborhoodTop (Z : Closeds Y)`, whose endpoints match `supportedEquivPair` and upstream's transport, so `rw` works across it. B added `relativeCohomologyMap_inv_hom_apply`. C added the two tests. D and E are notes in the sketch and the ledger.
+- Proofs: four lines each, the red team's scratch proofs. (a) uses `forgetRel_relativeCohomologyMap` (new, dual of upstream's `relativeChainProjection_naturality`), `supported_forget_compat`, `fst_topOpen`. (b) uses `transport_eq_flasqueModel`, `relativeCohomologyMap_comp`, `ofSubsetIsoNeighborhoodTop_hom_comp_inv` (identity on points, `ext; rfl`).
+- Failed or avoided: the `Set`-spelled helper made (b) typecheck only at default transparency; `rw [← LinearMap.comp_apply]` and `rw [map_zero]` failed across it (red team finding 2).
+- Timing: module 29 s, tests 34 s with `lake env lean`, default heartbeats. The first `lake build` in a fresh worktree took about 15 minutes (`SupportedForget` about 5 of them).
+- Not done here: Status block in `CLAUDE.md` (left to the maintainer, parallel tracks).
+- Next move: `cycle-class-multiplicative-codim-zero`; state `unionComplIso` on `Closeds` in the `Z.compl` spelling (change D) when `cycle-class-multiplicative` is stated.

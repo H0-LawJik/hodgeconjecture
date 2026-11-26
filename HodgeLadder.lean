@@ -116,3 +116,5 @@ public import HodgeLadder.Glpos.PathConnected
 public import HodgeLadder.Cup.TriadCup
 public import HodgeLadder.Tests.TriadCupTorus
 public import HodgeLadder.Relative.CrossChain
+public import HodgeLadder.Cup.SupportedPairForget
+public import HodgeLadder.Tests.SupportedPairForget
