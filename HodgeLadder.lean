@@ -48,3 +48,4 @@ public import HodgeLadder.Cup.Supported
 public import HodgeLadder.Cup.SupportedVariety
 public import HodgeLadder.Cup.SingularCup
 public import HodgeLadder.Cup.RightMult
+public import HodgeLadder.Cup.RightMultCocycle
