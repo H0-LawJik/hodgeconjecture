@@ -56,3 +56,15 @@ Progress: `cocycle-class-comp` and `step2-cocycle-class` are checked. Upstream's
 Progress: `ext-class-right-mult` is checked in the form above (`globalSections_rightMul_iota`, with `fromSingleEquiv_rightMul_precomp` identifying the cocycle as the map sending 1 to b). The comparison step that remains before `cup-singular-comparison`: `iota-upstream`, matching `ι_ℤ` with upstream's `rationalToSingularCochainComplexInt` after `ℤ_X → ℚ_X`, so that `ε([b])` can be read off upstream's step 1.
 
 Progress: `iota-upstream` is checked (`iso_hom_iotaZ`), so `ext-class-right-mult` reads through upstream's own `rationalToSingularCochainComplexInt` after `ℤ_X → ℚ_X`.
+
+## Plan for the comparison itself (2026-11-25)
+
+`cocycle-class-mul` is checked: the derived class of `z.comp w` is the class of `z` followed by the class of `w`, with no sign. With `ext-class-right-mult` and `iota-upstream`, the comparison splits as follows. Write `z_a` for the cocycle `ℤ_X[0] → S_ℤ` of degree `p` naming a global `p`-cocycle `a` (`R_a ∘ ι_ℤ`).
+
+| Id | Statement | Route |
+|---|---|---|
+| `named-cocycle-comp` | `cocycleComp z_a R_b = (−1)^{pq} · z_{a ∪ b}` | degree-zero component out of `ℤ_X`, evaluated at `1`: `rightMulCochain` contributes `(−1)^{pq}`, and `r_b(a) = a ∪ b` on global sections |
+| `ab-ext-yoneda` | the Yoneda cup of `HodgeLadder.Cup.cup`, read in sheaves of abelian groups through `rationalCohomologyEquivExt` and upstream's step 1, is `α_x` followed by the endomorphism class of `y`; and that class, followed by `ι`, is `[R_b]` after `ι` when `y = [b]` | adjunction naturality for `ℚ ⊗ − ⊣ forget`; uniqueness of maps out of `ℚ_X` into complexes of `ℚ`-vector spaces after precomposition with `ℤ_X → ℚ_X` |
+| `cup-singular-comparison` | upstream's equivalence carries `cup x y` to the singular cup product | the two rows above, `cocycle-class-mul`, step 2 on cocycle classes, and step 3 (global sections to singular cochains) compared with the Tau Ceti cup on cochains |
+
+Expected result, unverified until the assembly is checked: in the same order, `cup x y ↦ (−1)^{pq} · (x ∪ y)`, where `x ∪ y` is the singular cup product. The sign comes only from `rightMulCochain`; `cup-positive-degree-test` checks it independently on ℙ¹ × ℙ¹, where p = q = 2 and the sign is `+1`. A product with `p` and `q` both odd distinguishes the two candidates; on a curve of positive genus, H¹ ⊗ H¹ → H² gives such a test.

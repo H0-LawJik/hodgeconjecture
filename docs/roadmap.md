@@ -49,7 +49,10 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `step2-cocycle-class` | foundation | checked | `cocycle-class-comp` | Upstream's step 2 sends the class of a Hom-complex cocycle z : ℤ[0] → S_ℤ to the homology class of the global section z names, for every K-injective resolution |
 | `ext-class-right-mult` | foundation | checked | `right-mult-unit`, `step2-cocycle-class` | r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution |
 | `iota-upstream` | foundation | checked | `ext-class-right-mult` | ι_ℤ composed with upstream's integer-constant isomorphism equals ℤ_X → ℚ_X followed by upstream's ι |
-| `cup-singular-comparison` | foundation | open | `ext-class-right-mult`, `iota-upstream`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
+| `cocycle-class-mul` | foundation | checked | `cocycle-class-comp` | The derived-category class of a composite of Hom-complex cocycles is the composite of their classes, with no sign |
+| `named-cocycle-comp` | foundation | open | `cocycle-class-mul`, `ext-class-right-mult` | The cocycle naming a composed with right multiplication by b is (−1)^{pq} times the cocycle naming a ∪ b |
+| `ab-ext-yoneda` | foundation | open | `iota-upstream` | The Yoneda cup read in sheaves of abelian groups through upstream's step 1 |
+| `cup-singular-comparison` | foundation | open | `named-cocycle-comp`, `ab-ext-yoneda`, `supported-cup` | Upstream's sheaf–singular equivalences carry the Yoneda cup product to the singular cup product, absolute and supported, with the sign fixed exactly |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
