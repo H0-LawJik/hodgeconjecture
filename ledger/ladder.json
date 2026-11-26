@@ -1156,6 +1156,60 @@
       "note": "Checked 2026-11-25. Every singular class is singClass of a global cocycle (exists_singClass); step 3 is injective, so step 1 of x is the class named by its cocycle; cup-global-comparison for upstream's chosen resolution gives step 2 of the cup; step3-named-class and cup-top-open finish. The sign (−1)^{pq} is rightMulCochain's, as predicted in the sketch; cup-positive-degree-test checks it independently."
     },
     {
+      "id": "relative-singular-cup",
+      "title": "The relative singular cup H^p(X, A) × H^q(X) → H^{p+q}(X, A) on upstream's RelativeCochainComplex, compatible with forgetting A and with cupSing",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-top-open"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md."
+    },
+    {
+      "id": "support-cone-right-mult",
+      "title": "Right multiplication by a global cocycle on upstream's natural singular support cone, as a Hom-complex cocycle compatible with the cone maps",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "right-mult-cocycle"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md."
+    },
+    {
+      "id": "support-ab-yoneda",
+      "title": "The supported cup supCup α y is α followed by forgetEnd (e y) in sheaves of abelian groups",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "ab-ext-yoneda",
+        "supported-cup"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md."
+    },
+    {
+      "id": "support-named-class",
+      "title": "Upstream's supported comparison sends the class named by a relative cocycle to its relative singular class",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "support-cone-right-mult",
+        "step3-named-class"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md."
+    },
+    {
       "id": "cup-singular-comparison",
       "title": "Upstream's sheaf–singular equivalence carries the supported cup product supCup to the relative singular cup product, with the sign fixed exactly (the absolute case is cup-singular-comparison-absolute)",
       "status": "open",
@@ -1164,7 +1218,11 @@
       "declarations": [],
       "depends_on": [
         "cup-singular-comparison-absolute",
-        "supported-cup"
+        "supported-cup",
+        "relative-singular-cup",
+        "support-cone-right-mult",
+        "support-ab-yoneda",
+        "support-named-class"
       ],
       "contributors": [],
       "note": "The absolute case is checked (cup-singular-comparison-absolute). Remaining: the supported version for H_[Z]^p(X; ℚ), through upstream's relative cohomology and a relative right multiplication or the Tau Ceti relative cup."

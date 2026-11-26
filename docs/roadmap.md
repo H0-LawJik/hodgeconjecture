@@ -61,6 +61,10 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-top-open` | foundation | checked | `step3-named-class`, `cochain-cup-upstream` | The singular cup of the singular classes of a and b is the singular class of a ∪ b |
 | `cup-step3` | foundation | checked | `cup-global-comparison`, `step3-named-class`, `cup-top-open` | Upstream's step 3 on named classes, compatible with cupGlobal and the singular cup |
 | `cup-singular-comparison-absolute` | foundation | checked | `cup-global-comparison`, `cup-step3` | Ψ(x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y) |
+| `relative-singular-cup` | foundation | open | `cup-top-open` | The relative singular cup H^p(X, A) × H^q(X) → H^{p+q}(X, A) on upstream's RelativeCochainComplex, compatible with forgetting A and with cupSing |
+| `support-cone-right-mult` | foundation | open | `right-mult-cocycle` | Right multiplication by a global cocycle on upstream's natural singular support cone, as a Hom-complex cocycle compatible with the cone maps |
+| `support-ab-yoneda` | foundation | open | `ab-ext-yoneda`, `supported-cup` | The supported cup supCup α y is α followed by forgetEnd (e y) in sheaves of abelian groups |
+| `support-named-class` | foundation | open | `support-cone-right-mult`, `step3-named-class` | Upstream's supported comparison sends the class named by a relative cocycle to its relative singular class |
 | `cup-singular-comparison` | foundation | open | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
