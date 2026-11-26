@@ -66,3 +66,25 @@ Right multiplication on supported sections is `sheafSectionsSupportedOutside` ap
 - `supported-step2-cocycle-class` checked (`HodgeLadder/Cup/SupportedStep2.lean`).
 - `supported-sections-class` checked (`HodgeLadder/Cup/SupportedClass.lean`). The argument is the absolute one with the hypercohomology bridge removed: the supported class `α` lives directly in `Ext(P, ℚ_X)`, so only `end-class-right-mult` and the shifted-hom algebra enter, and no sign appears at this step. The sign `(−1)^{pq}` enters in `supported-named-cocycle-comp`, as in the absolute case.
 - Still to show: every supported class is represented by a cocycle out of the pair sheaf. This follows from the bijectivity of upstream's flasque model together with `relHSupportedOfFlasque_mk`, and is part of the final supported rung.
+
+## Plan for `supported-singular-model` (2026-11-25)
+
+**Equivalence of record.** Upstream's cycle-class transport (`complexSupportInjectiveSectionCohomologyEquiv`, `Lemmas/AlgebraicGeometry/Cycle/Transport/CohomologySheaf.lean`) identifies supported cohomology with relative singular cohomology through supported sections followed by `supportedRationalSingularSectionCohomologyEquivSupportComplement`. The supported comparison uses the same route: `relHAddEquivSupportedSectionsHomologyOfFlasque` for `K = S`, then that equivalence at `V = ⊤`.
+
+**Shape of upstream's equivalence.** `supportedRationalSingularSectionCohomologyEquivRelative` is a chain of four maps:
+
+1. the positive lift `(inclusion, 0)` of the supported short exact sequence `Γ_Z(⊤, S) → S(⊤) → S(U)` into the restriction cone (`supportedSectionHomologyIsoRestrictionCone`);
+2. the extension isomorphism of cones (`sectionComplexRestrictionExtendConeIso`);
+3. the inverse of the raw-to-sheaf cone map (`openRawToSingularSheafRestrictionCone`, a quasi-isomorphism on paracompact Hausdorff opens);
+4. the raw cone to dual cochains, then the positive lift of the relative short exact sequence `C(X, U) → C(X) → C(U)` (`relativeCochainConeCohomologyEquivCanonical`).
+
+Both ends use the same positive lift, so no sign is expected from the cones. Upstream's `shortExactHomologyIsoCone_naturality` makes the comparison a naturality statement, with no element chase through the cones.
+
+| Id | Statement | Route |
+|---|---|---|
+| `supported-raw-map` | a map `Θ` of short complexes from the relative dual-cochain sequence of `(X, U)` (forgotten to abelian groups) to upstream's supported sequence of `S` over `⊤`, with `Θ₂`, `Θ₃` the raw-to-sheaf maps | `openRawSingularCochainComplexIntIsoDual`, `openRawToSingularCochainSheafComplex`, `supportRestrictionSectionsIntersectionIso` |
+| `supported-cone-compat` | upstream's maps 2 to 4 compose, on homology of the cones, to `mappingCone.map Θ₂ Θ₃` | chain-level identity of cone maps (`mappingCone` ext on `inl`, `inr`) |
+| `supported-singular-class` | `Φ_rel (H(Θ₁) [c]) = [c]` for a relative cocycle `c`; so `H(Θ₁)` is bijective | `shortExactHomologyIsoCone_naturality` and the row above |
+| `supported-relative-cup` | `Φ_rel` of the class of `b` acting on `Θ₁ c` is `relCupSing [c] [b]` | `relative-singular-cup`, the sheafification unit commutes with right multiplication |
+
+`supported-singular-model` is the conjunction of the last two rows. Its target pair is `openInclusionPair`. The final supported rung moves the result to `neighborhoodSupportComplementPair` through the pair isomorphism in `supportedRationalSingularSectionCohomologyEquivSupportComplement`, and this needs the naturality of `relCupSing` under maps of pairs.

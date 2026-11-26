@@ -1331,6 +1331,59 @@
       "note": "The section over V named by cocycleComp z R_b (evaluation at the generator of the pair sheaf) is (−1)^{pq} times right multiplication by b applied to the section named by z. Supported analogue of named-cocycle-comp."
     },
     {
+      "id": "supported-raw-map",
+      "title": "A map Θ of short complexes from the relative dual-cochain sequence of (X, U) to upstream's supported-sections sequence of the singular cochain sheaves over ⊤, with the raw-to-sheaf maps in the middle and last terms",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "relative-singular-cup"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+    },
+    {
+      "id": "supported-cone-compat",
+      "title": "Upstream's cone identifications in supportedRationalSingularSectionCohomologyEquivRelative compose, on cone homology, to the mapping-cone map of Θ",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-raw-map"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+    },
+    {
+      "id": "supported-singular-class",
+      "title": "Upstream's supported singular equivalence sends the class of Θ₁ c to the relative class of c, for every relative cocycle c",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-cone-compat"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+    },
+    {
+      "id": "supported-relative-cup",
+      "title": "Upstream's supported singular equivalence sends the class of b acting on Θ₁ c to relCupSing [c] [b]",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-singular-class",
+        "relative-singular-cup"
+      ],
+      "contributors": [],
+      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+    },
+    {
       "id": "supported-singular-model",
       "title": "The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing",
       "status": "open",
@@ -1338,7 +1391,9 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "relative-singular-cup"
+        "relative-singular-cup",
+        "supported-relative-cup",
+        "supported-singular-class"
       ],
       "contributors": [],
       "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
