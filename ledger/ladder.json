@@ -1496,7 +1496,9 @@
         "HodgeLadder.Cup.globalSections_of_singClass",
         "HodgeLadder.Cup.topOpen_singClass",
         "HodgeLadder.Cup.flasqueModel",
-        "HodgeLadder.Cup.supCocycle"
+        "HodgeLadder.Cup.supCocycle",
+        "HodgeLadder.Cup.supportedSection_eq_pairEval'",
+        "HodgeLadder.Cup.pairSheafEvaluation_cocycleComp_rightMul'"
       ],
       "depends_on": [
         "cup-singular-comparison-absolute",
@@ -1628,18 +1630,30 @@
     {
       "id": "supported-forget-compat",
       "title": "Forgetting the support commutes with Φ against Ψ: forgetRel (Φ α) = Ψ (forgetSupport α), with the sign fixed exactly",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedForgetFinal",
+      "declarations": [
+        "HodgeLadder.Cup.supported_forget_compat",
+        "HodgeLadder.Cup.forget_named_cocycle",
+        "HodgeLadder.Cup.gen_forget_named_cocycle",
+        "HodgeLadder.Cup.genForgetMap",
+        "HodgeLadder.Cup.genCocycle",
+        "HodgeLadder.Cup.fromSingleEquiv_precomp_single",
+        "HodgeLadder.Cup.cocycle_precomp_precomp",
+        "HodgeLadder.Cup.homologyMap_cyclesMk",
+        "HodgeLadder.Cup.homologyπ_cyclesMk_congr"
+      ],
       "depends_on": [
         "cup-singular-comparison",
         "step1-of-hom",
         "forget-support-cocycle",
         "constant-generator"
       ],
-      "contributors": [],
-      "note": "Red team 2026-11-26, finding 4. In progress on branch rung/supported-forget-compat-wip (HodgeLadder/Cup/SupportedForgetFinal.lean, one sorry): the main assembly is checked modulo forget_named_cocycle, whose remaining step times out when the section of the representative is stated at the variety (comparison of the two spellings of the single complex on the pair sheaf). Next move: state forget_named_cocycle for a general space, as for supportedSection_eq_pairEval', then specialize. See docs/handoffs/2026-11-26-supported-forget-compat.md."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-26: forgetRel (Φ α) = Ψ (forgetSupport α) on ⊤, no sign, so no degree twist. Route: exists_supported_rep, forgetSupport_named, step1_of_hom, and gen_forget_named_cocycle (stated for a general space; at the variety the same statement times out on the comparison of two spellings of the single complex)."
     },
     {
       "id": "local-class-product",

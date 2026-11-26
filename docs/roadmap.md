@@ -85,7 +85,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `step1-of-hom` | foundation | checked | `ext-derived-bridge`, `cocycle-class-mul` | `Ψ`'s step 1 on a class named by a cocycle out of `ℤ_X[0]` |
 | `forget-support-cocycle` | foundation | checked | | forgetting the support precomposes a cocycle representative with `ℤ_X → ℤ[X, X ∖ Z]` |
 | `constant-generator` | foundation | checked | | evaluation at `1` out of `ℤ_Y`; the terminal isomorphism sends the generator of `ℤ[⊤]` to `1` |
-| `supported-forget-compat` | foundation | open | `cup-singular-comparison` | forgetting the support commutes with `Φ` against `Ψ`, sign fixed |
+| `supported-forget-compat` | foundation | checked | `cup-singular-comparison` | forgetting the support commutes with `Φ` against `Ψ`, sign fixed |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
