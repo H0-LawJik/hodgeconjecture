@@ -262,6 +262,53 @@ Timing: `lake env lean HodgeLadder/Normalization/Germ.lean` 33 s wall (4 s impor
 
 Downstream use. `cycle-class-multiplicative`'s `htr` gives φ in the maximal atlas with Z = {first a coordinates = 0}; take E = ℂ^{d−a}, e = φ followed by the inverse of a coordinate splitting L, and `he` by `StructureGroupoid.mem_maximalAtlas_of_eqOnSource`, as in `adaptedChart_genericPoint`. That statement binds `{d} [SmoothOfRelativeDimension d X.hom]` where this rung uses `dim X.left`; the two connect by `obtain rfl := SmoothOfRelativeDimension.dim_eq (f := X.hom) d` (red team RT5, change I, not applied to the statement of `cycle-class-multiplicative`).
 
+## p2-witness: statement
+
+Rung `p2-witness`, checked 2026-11-26. The statements were fixed first and passed a statement red team with changes (`docs/sketches/p2-witness.redteam.md`); the changes are implemented. File `HodgeLadder/Tests/ProjectivePlane.lean`, module `HodgeLadder.Tests.ProjectivePlane`, next to the ℙ¹ witness, imported from `HodgeLadder.lean`.
+
+### Choice: every ℙⁿ, with ℙ² as an abbreviation
+
+The ℙ¹ proof generalizes to `Fin (n + 1)` with no new input, so the instances are stated for every n and `projective-space-test` can use them at any n. The plane is a separate abbreviation spelled with `Fin 3`, as in the rung title; `projectivePlane_eq : projectivePlane = projectiveSpace 2` is `rfl`, and instance search finds the general instances on `projectivePlane` by unifying `Fin 3` with `Fin (?n + 1)`.
+
+### The statements
+
+| Declaration | Statement | Status |
+|---|---|---|
+| `projectiveSpace n` | `Over.mk (ProjectiveSpace.toBase (Fin (n + 1)) (Spec ↧ℂ))`, an abbreviation | definition |
+| `projectivePlane` | `Over.mk (ProjectiveSpace.toBase (Fin 3) (Spec ↧ℂ))`, an abbreviation | definition |
+| `smooth_terminal_space n` | `SmoothOfRelativeDimension n (terminal.from (Proj (homogeneousSubmodule (Fin (n + 1)) (ULift ℤ))))` | proved |
+| instance `smoothOfRelativeDimension_projectiveSpace n` | `SmoothOfRelativeDimension n (projectiveSpace n).hom` | proved |
+| instance `smooth_projectiveSpace n` | `Smooth (projectiveSpace n).hom` | proved |
+| instance `isProjective_projectiveSpace n` | `IsProjective (projectiveSpace n).hom`, the identity presentation of dimension n | proved |
+| `isPullback_projectiveSpace n`, `okaIsoSpace n` | Oka's `ℙₒ(n; ℂ)` is the pullback defining upstream's object; the iso `ℙₒ(n; ℂ) ≅ (projectiveSpace n).left` | proved |
+| `okaIsoSpace_hom_toBase n`, `okaIsoSpace_hom_snd n` | `okaIsoSpace` lies over `Spec ℂ`; its second projection is Oka's coefficient change `ProjectiveSpace.map intToComplex` (red team finding 3, for moving L₀, L₁ and the chart x₂ ≠ 0 to upstream's side) | proved |
+| `irreducibleSpace_of_cover` | an irreducible open `U` and a cover by irreducible sets each meeting `U` give an irreducible space | proved |
+| instance `isIntegral_okaProjectiveSpace n` | `IsIntegral ℙₒ(n; ℂ)` | proved (route below) |
+| instance `isIntegral_projectiveSpace n` | `IsIntegral (projectiveSpace n).left` | proved (route below) |
+| `dim_projectiveSpace n` | `TopologicalSpace.dim (projectiveSpace n).left = n` | proved from the instances, by upstream's `SmoothOfRelativeDimension.dim_eq` |
+| `relativeDimension_projectiveSpace_eq n d` | `[SmoothOfRelativeDimension d (projectiveSpace n).hom] : d = n` (red team finding 4) | proved |
+| `projectivePlane_witness` | `IsIntegral projectivePlane.left ∧ SmoothOfRelativeDimension 2 projectivePlane.hom ∧ Smooth projectivePlane.hom ∧ IsProjective projectivePlane.hom` | `inferInstance` four times |
+| `projectivePlane_t2Space` | `T2Space (ComplexPoint projectivePlane)` | `inferInstance` (upstream) |
+| `projectivePlane_openParacompactSpace` | `∀ U : Opens (ComplexPoint projectivePlane), ParacompactSpace U` | upstream's `ComplexPoint.openParacompactSpace`; a theorem, to be installed as a local instance as in the ℙ¹ cup comparison |
+
+These are the instance forms the statements of record and `cycle-class-multiplicative-p2` bind: `[IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom]`, `{d} [SmoothOfRelativeDimension d X.hom]` with d = 2, and the cup comparison's `T2Space` and paracompact opens.
+
+### What instance search finds without the file
+
+With only the ℙ¹ witness and upstream's Hausdorff file imported, `inferInstance` on `Over.mk (ProjectiveSpace.toBase (Fin 3) (Spec ↧ℂ))` fails for `IsIntegral _.left`, `Smooth _.hom`, `SmoothOfRelativeDimension 2 _.hom`, `IsProjective _.hom` and `Nonempty _.left`, and succeeds for `T2Space (ComplexPoint _)` through upstream's `instT2SpaceProjectiveSpaceComplexPoint` (stated for every `Fin (n + 1)`). The ℙ¹ instances are stated on `Fin 2` and do not fire at `Fin 3`.
+
+### Route for integrality
+
+1. `ℙₒ(n; ℂ)` is reduced: each chart of Oka's affine open cover is `Spec ℂ[Y₁, …, Yₙ]` (`IsReduced.of_openCover`).
+2. Each standard open `U i` is irreducible, as the image of the irreducible `Spec ℂ[Y₁, …, Yₙ]` under the chart (`opensRange_chart`).
+3. `U 0` meets every `U i`: the point of chart 0 with all homogeneous coordinates 1 lies in `U i` (`chart_base_evalPoint_mem_U_iff`).
+4. A space with an irreducible open `U` and a cover by irreducible sets that each meet `U` is irreducible: every member lies in the closure of `U` (`subset_closure_inter_of_isPreirreducible_of_isOpen`), so that closure is the whole space. This replaces the two-chart lemma of the ℙ¹ witness, and the cover is `iSup_U`.
+5. Integral from irreducible and reduced (`isIntegral_of_irreducibleSpace_of_isReduced`), then transport along `okaIsoSpace n` (`isIntegral_of_isOpenImmersion`), with `Nonempty` from the image of a point of `ℙₒ(n; ℂ)`.
+
+Every declaration the ledger names checks with the standard axioms. One trap met on the way: while the `IsIntegral` instances were still `sorry`, a `Nonempty` argument was found through them, so the axioms of the transported proof were read with the sorried instances removed; the checked file supplies `Nonempty` explicitly.
+
+Timing: `lake env lean HodgeLadder/Tests/ProjectivePlane.lean` 5 s wall; default heartbeats.
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.

@@ -2328,15 +2328,28 @@
     {
       "id": "p2-witness",
       "title": "ℙ² over ℂ in upstream's sense (ProjectiveSpace.toBase (Fin 3) (Spec ℂ) as X : Over (Spec ↧ℂ)) is integral, smooth of relative dimension two and projective",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectivePlane",
+      "declarations": [
+        "HodgeLadder.Tests.projectivePlane_witness",
+        "HodgeLadder.Tests.isIntegral_projectiveSpace",
+        "HodgeLadder.Tests.okaIsoSpace",
+        "HodgeLadder.Tests.smooth_terminal_space",
+        "HodgeLadder.Tests.irreducibleSpace_of_cover",
+        "HodgeLadder.Tests.dim_projectiveSpace",
+        "HodgeLadder.Tests.relativeDimension_projectiveSpace_eq",
+        "HodgeLadder.Tests.projectivePlane_openParacompactSpace",
+        "HodgeLadder.Tests.okaIsoSpace_hom_toBase",
+        "HodgeLadder.Tests.okaIsoSpace_hom_snd"
+      ],
       "depends_on": [
         "projective-line-witness"
       ],
-      "contributors": [],
-      "note": "Decision 0010. Smoothness from smoothOfRelativeDimension_toSpec (any n, rung projective-line-witness); projective by definition; integrality needs the irreducibility argument for three standard charts (ℙ¹ used two). Also the first input of projective-space-test at n = 2. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26, stated for every ℙⁿ (Fin (n + 1)), ℙ² as projectivePlane with Fin 3. Smooth of relative dimension n: base change of Oka's ℙₒ(n; ULift ℤ) (smoothOfRelativeDimension_toSpec); projective: the identity presentation; integral: ℙₒ(n; ℂ) is reduced (charts) and irreducible (irreducibleSpace_of_cover: every standard chart is irreducible and meets the chart x₀ ≠ 0), transported along okaIsoSpace. dim = n and the relative dimension is unique. T2Space from upstream; paracompact opens from upstream's openParacompactSpace. Red team: pass with changes, implemented (docs/sketches/p2-witness.redteam.md). Also the integrality input of projective-space-test at every n."
     },
     {
       "id": "p2-lines-transversal",
