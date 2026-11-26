@@ -19,11 +19,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
+**2026-11-25 (supported comparison, singular model).** `supported-singular-class` checked, with `supported-raw-map`, `cone-map-lemmas`, `supported-cone-compat`, `supported-named-cocycle-comp`: upstream's supported singular equivalence sends the class of the sheafified relative cocycle `Θ₁ c` to the relative class of `c`, with no sign, and `H(Θ₁)` is bijective. **Next planned work:** `supported-relative-cup`, then the supported `cup-singular-comparison`.
+
 **2026-11-25 (supported comparison, sections).** `supported-sections-class` checked, with `supported-step2-cocycle-class`: through upstream's flasque supported-sections model, `supCup α β` is the class of α's cocycle composed with right multiplication by a cocycle naming β. The cone route (`support-cone-right-mult`, `support-named-class`) is dead. **Next planned work:** the supported analogue of `named-cocycle-comp`, `supported-singular-model`, then the supported `cup-singular-comparison`.
 
 **2026-11-25 (comparison, absolute).** `cup-singular-comparison-absolute` checked, with `step3-named-class`, `cup-top-open` and `cup-step3`: upstream's equivalence Ψ satisfies Ψ(x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y), same order. **Next planned work:** `cup-graded-commutative` (from this and `cupSing_gradedComm`), then the supported comparison and `local-class-product`.
-
-**2026-11-25 (comparison, global sections).** `cup-global-comparison` checked, with `iota-upstream`, `cocycle-class-mul`, `named-cocycle-comp`, `ab-ext-yoneda`, `kappa-cancel`, `one-is-kappa`, `ext-derived-bridge`, `end-class-right-mult`: through upstream's steps 1 and 2 the Yoneda cup goes to (−1)^{pq} times the cup of global cocycles, same order. **Next planned work:** `cup-step3`, then `cup-singular-comparison`.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 

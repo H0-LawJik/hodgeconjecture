@@ -1373,29 +1373,41 @@
     {
       "id": "supported-cone-compat",
       "title": "Upstream's cone identifications in supportedRationalSingularSectionCohomologyEquivRelative compose, on cone homology, to the mapping-cone map of Θ",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedConeCompat",
+      "declarations": [
+        "HodgeLadder.Cup.rawCone_compat"
+      ],
       "depends_on": [
         "supported-raw-map",
         "cone-map-lemmas"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "mappingCone.map Θ₂ Θ₃ followed by upstream's supportRestrictionSectionsConeIso and sectionComplexRestrictionExtendConeIso equals the inverse of openRawSingularRestrictionConeIsoRelative followed by openRawToSingularSheafRestrictionCone, as chain maps."
     },
     {
       "id": "supported-singular-class",
       "title": "Upstream's supported singular equivalence sends the class of Θ₁ c to the relative class of c, for every relative cocycle c",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "supported-cone-compat"
+      "module": "HodgeLadder.Cup.SupportedConeCompat",
+      "declarations": [
+        "HodgeLadder.Cup.relSeq_shortExact",
+        "HodgeLadder.Cup.supported_singular_class_hom",
+        "HodgeLadder.Cup.supported_singular_class",
+        "HodgeLadder.Cup.homologyMap_rawMap_bijective"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+      "depends_on": [
+        "supported-cone-compat",
+        "cone-map-lemmas"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "supportedRationalSingularSectionCohomologyEquivRelative X U V n (H(Θ₁) x) = relativeDualCochainCohomologyEquiv (mapHomologyIso x): no sign. H(Θ₁) is bijective. Hypotheses: X Hausdorff, every open paracompact."
     },
     {
       "id": "supported-relative-cup",

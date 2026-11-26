@@ -73,8 +73,8 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `supported-named-cocycle-comp` | foundation | checked | `named-cocycle-comp`, `supported-step2-cocycle-class` | the section named by `cocycleComp z R_b` is `(−1)^{pq}` times `b` acting on the section named by `z` |
 | `supported-raw-map` | foundation | checked | | A map Θ of short complexes from the relative dual-cochain sequence of (X, U) to upstream's supported-sections sequence of the singular cochain sheaves over ⊤, with the raw-to-sheaf maps in the middle and last terms |
 | `cone-map-lemmas` | foundation | checked | | `mapArrowHom` is `mappingCone.map`; exact functors commute with the cone comparison |
-| `supported-cone-compat` | foundation | open | `supported-raw-map` | Upstream's cone identifications in supportedRationalSingularSectionCohomologyEquivRelative compose, on cone homology, to the mapping-cone map of Θ |
-| `supported-singular-class` | foundation | open | `supported-cone-compat` | Upstream's supported singular equivalence sends the class of Θ₁ c to the relative class of c, for every relative cocycle c |
+| `supported-cone-compat` | foundation | checked | `supported-raw-map` | Upstream's cone identifications in supportedRationalSingularSectionCohomologyEquivRelative compose, on cone homology, to the mapping-cone map of Θ |
+| `supported-singular-class` | foundation | checked | `supported-cone-compat` | Upstream's supported singular equivalence sends the class of Θ₁ c to the relative class of c, for every relative cocycle c |
 | `supported-relative-cup` | foundation | open | `supported-singular-class`, `relative-singular-cup` | Upstream's supported singular equivalence sends the class of b acting on Θ₁ c to relCupSing [c] [b] |
 | `supported-singular-model` | foundation | open | `relative-singular-cup` | The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing |
 | `cup-singular-comparison` | foundation | open | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |

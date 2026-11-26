@@ -72,3 +72,4 @@ public import HodgeLadder.Cup.SupportedClass
 public import HodgeLadder.Cup.SupportedNamed
 public import HodgeLadder.Cup.SupportedRawMap
 public import HodgeLadder.Cup.ConeMaps
+public import HodgeLadder.Cup.SupportedConeCompat
