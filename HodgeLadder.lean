@@ -70,3 +70,4 @@ public import HodgeLadder.Tests.CupComparison
 public import HodgeLadder.Cup.SupportedStep2
 public import HodgeLadder.Cup.SupportedClass
 public import HodgeLadder.Cup.SupportedNamed
+public import HodgeLadder.Cup.SupportedRawMap

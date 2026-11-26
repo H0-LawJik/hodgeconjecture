@@ -1333,15 +1333,24 @@
     {
       "id": "supported-raw-map",
       "title": "A map Θ of short complexes from the relative dual-cochain sequence of (X, U) to upstream's supported-sections sequence of the singular cochain sheaves over ⊤, with the raw-to-sheaf maps in the middle and last terms",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "relative-singular-cup"
+      "module": "HodgeLadder.Cup.SupportedRawMap",
+      "declarations": [
+        "HodgeLadder.Cup.relSeq",
+        "HodgeLadder.Cup.supSeq",
+        "HodgeLadder.Cup.rawMapMid",
+        "HodgeLadder.Cup.rawMapEnd",
+        "HodgeLadder.Cup.rawMap_comm",
+        "HodgeLadder.Cup.supSeq_shortExact",
+        "HodgeLadder.Cup.rawMapStart'",
+        "HodgeLadder.Cup.rawMap"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+      "depends_on": [],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Θ : relSeq → supSeq for any opens U, V. The middle and last components are upstream's sheafification units of raw cochains, transported by the same isomorphisms that upstream's supportedRationalSingularSectionCohomologyEquivRelative uses; the first is the lift through the kernel given by upstream's short exactness for flasque complexes (T2, paracompact opens)."
     },
     {
       "id": "supported-cone-compat",
