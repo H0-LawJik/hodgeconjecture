@@ -65,6 +65,8 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `support-cone-right-mult` | foundation | open | `right-mult-cocycle` | Right multiplication by a global cocycle on upstream's natural singular support cone, as a Hom-complex cocycle compatible with the cone maps |
 | `support-ab-yoneda` | foundation | checked | `ab-ext-yoneda`, `supported-cup` | The supported cup supCup α y is α followed by forgetEnd (e y) in sheaves of abelian groups |
 | `support-named-class` | foundation | open | `support-cone-right-mult`, `step3-named-class` | Upstream's supported comparison sends the class named by a relative cocycle to its relative singular class |
+| `cup-comparison-projective-line` | test | checked | `cup-singular-comparison-absolute`, `cup-graded-commutative`, `projective-line-test` | The cup comparison and graded commutativity apply to upstream's ℙ¹ |
+| `cup-odd-degree-test` | test | open | `cup-singular-comparison-absolute` | A nonzero product of two classes in H¹(X; ℚ) |
 | `cup-singular-comparison` | foundation | open | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |

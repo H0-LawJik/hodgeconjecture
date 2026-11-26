@@ -1133,7 +1133,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-25 through step3-named-class (upstream's comparison sends the class named by c to singClass c) and cup-top-open (cupSing of singular classes is the singular class of cupGlobal)."
+      "note": "Checked 2026-11-25 through step3-named-class (upstream's comparison sends the class named by c to singClass c) and cup-top-open (cupSing of singular classes is the singular class of cupGlobal). step3_named_class lives in HodgeLadder.Cup.Step3, imported by the listed module."
     },
     {
       "id": "cup-singular-comparison-absolute",
@@ -1144,7 +1144,8 @@
       "declarations": [
         "HodgeLadder.Cup.exists_singClass",
         "HodgeLadder.Cup.cup_global_chosen",
-        "HodgeLadder.Cup.cup_singular_comparison"
+        "HodgeLadder.Cup.cup_singular_comparison",
+        "HodgeLadder.Cup.cup_singular_comparison_swap"
       ],
       "depends_on": [
         "cup-global-comparison",
@@ -1153,7 +1154,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-25. Every singular class is singClass of a global cocycle (exists_singClass); step 3 is injective, so step 1 of x is the class named by its cocycle; cup-global-comparison for upstream's chosen resolution gives step 2 of the cup; step3-named-class and cup-top-open finish. The sign (−1)^{pq} is rightMulCochain's, as predicted in the sketch; cup-positive-degree-test checks it independently."
+      "note": "Checked 2026-11-25. Every singular class is singClass of a global cocycle (exists_singClass); step 3 is injective, so step 1 of x is the class named by its cocycle; cup-global-comparison for upstream's chosen resolution gives step 2 of the cup; step3-named-class and cup-top-open finish. Sign-free form: Ψ (x ∪ y) = cupSing (Ψ y) (Ψ x) (cup_singular_comparison_swap), since Mathlib's Ext.comp is diagrammatic. Red team: pass with changes (docs/sketches/cup-singular-comparison-absolute.redteam.md); the hypotheses hold on upstream's ℙ¹ (cup-comparison-projective-line). The sign is fixed by the kernel proof; no computed instance yet has a nonzero product of two positive-degree classes (cup-odd-degree-test, cup-positive-degree-test)."
     },
     {
       "id": "relative-singular-cup",
@@ -1222,6 +1223,39 @@
       ],
       "contributors": [],
       "note": "docs/sketches/cup-singular-comparison-supported.md."
+    },
+    {
+      "id": "cup-comparison-projective-line",
+      "title": "The cup comparison and graded commutativity apply to upstream's ℙ¹: their four hypotheses hold there",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.CupComparison",
+      "declarations": [
+        "HodgeLadder.Tests.projectiveLine_cup_singular_comparison",
+        "HodgeLadder.Tests.projectiveLine_cup_gradedComm"
+      ],
+      "depends_on": [
+        "cup-singular-comparison-absolute",
+        "cup-graded-commutative",
+        "projective-line-test"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25 (red-team change). T2Space from upstream's IsProjective.complexPoint_t2Space; paracompact opens from upstream's theorem ComplexPoint.openParacompactSpace, supplied as a local instance."
+    },
+    {
+      "id": "cup-odd-degree-test",
+      "title": "A nonzero product of two classes in H¹(X; ℚ), on a curve of positive genus or an abelian surface",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-singular-comparison-absolute"
+      ],
+      "contributors": [],
+      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree."
     },
     {
       "id": "cup-singular-comparison",
