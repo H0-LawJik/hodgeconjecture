@@ -1158,15 +1158,24 @@
     {
       "id": "relative-singular-cup",
       "title": "The relative singular cup H^p(X, A) × H^q(X) → H^{p+q}(X, A) on upstream's RelativeCochainComplex, compatible with forgetting A and with cupSing",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "cup-top-open"
+      "module": "HodgeLadder.Cup.RelativeCup",
+      "declarations": [
+        "HodgeLadder.Cup.relDiagonal",
+        "HodgeLadder.Cup.relProj_relDiagonal",
+        "HodgeLadder.Cup.relCupSing",
+        "HodgeLadder.Cup.forgetRel",
+        "HodgeLadder.Cup.tcCup_eq",
+        "HodgeLadder.Cup.forgetRel_relCupSing"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md."
+      "depends_on": [
+        "cochain-cup-upstream"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. The Alexander–Whitney diagonal of X descends to a diagonal C(X, A) → C(X, A) ⊗ C(X) on upstream's relative chains (cokernel.desc; Tau Ceti's diagonal naturality for the embedding A → X makes the composite with C(A) vanish). relCupSing is Tau Ceti's generic cup along it, transported by dualIsoYoneda; cup_naturality along the projection gives forgetRel (relCupSing α β) = cupSing (forgetRel α) β."
     },
     {
       "id": "support-cone-right-mult",
