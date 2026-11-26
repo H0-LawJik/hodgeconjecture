@@ -76,3 +76,5 @@ public import HodgeLadder.Cup.SupportedConeCompat
 public import HodgeLadder.Cup.RelCupCocycle
 public import HodgeLadder.Cup.SupportedRelCup
 public import HodgeLadder.Cup.SupportedFinal
+public import HodgeLadder.Cup.RelCupNaturality
+public import HodgeLadder.Cup.SupportedPair
