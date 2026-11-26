@@ -1,0 +1,13 @@
+# Handoff 2026-11-26: general lemmas kept local
+
+- Goal: decision 0011. The general forms of lemmas prepared earlier as Mathlib and upstream drafts now live in this repository, in six modules under `HodgeLadder/General/`, imported from `HodgeLadder.lean`.
+- `HomComplex`: `cocycle_precomp_precomp`, `cocycle_postcomp_postcomp`, `fromSingleEquiv_ofHom_comp` (any degree `p`), `fromSingleEquiv_comp_ofHom`, `fromSingleEquiv_cocycle_precomp_single`. `Cup.cocycle_precomp_precomp` and `Cup.fromSingleEquiv_precomp_single` are one-line consequences.
+- `Homology`: `homologyπ_comp_mapHomologyIso_hom`, `cyclesMap_cyclesMk`, `homologyMap_homologyπ_cyclesMk` (concrete abelian categories, any complex shape), `mapHomologyIso_hom_comp_map_shiftIso_inv_app` (any shift, categories with homology). `Cup.homologyπ_mapHomologyIso_hom`, `Cup.homologyMap_cyclesMk` and `Cup.mapHomologyIso_shiftIso` derive from them.
+- `Ext`: `precompIsoAddEquiv`, `postcompIsoAddEquiv` (any `HasExt.{w}`); `Cup.extPrecompEquiv`, `Cup.extPostcompEquiv` are defined by them, and three `simp only` calls name the `_apply` lemmas.
+- `LocallyConstantSheaf`: the constant sheaf with value any abelian group `A` is `U ↦ LocallyConstant U A`, built on Mathlib's `LocallyConstant` with no topology on `A`, with evaluation lemmas. `Line.LocallyConstant` keeps `lcSheaf`, `constIsoLC` and adds `constIsoLC_trans_lcSheafIso`, which identifies `constIsoLC` with the case `A = ℤ`.
+- `FreeAbelianTerminal`: `freeAbelianSheafTerminalIso_hom_generator` on any site with a terminal object; `Cup.terminalIso_generator` derives from it.
+- `Codimension`: `codimensionCycleSubgroup_one`, `codimensionCycleSubgroup_inf_eq_bot`, `disjoint_codimensionCycleSubgroup` on upstream's subgroup (imports `Other.AlgebraicGeometry.Cycle.Codimension`).
+- Duplicates: `Tests.Acyclic.subsingleton_H_of_isFlasque` is now upstream's `TopCat.Sheaf.IsFlasque.subsingleton_cohomology_succ`, kept as a one-line restatement because `contractible-open-acyclic` names it. `subsingleton_H_cycles` stays: upstream's `cycles_isFlasque_of_exact_le` needs exactness in degree `0`, and here `Z⁰` is the resolved sheaf, which need not be flasque.
+- Unchanged: `Cup.CocycleClass` was already general; `ConeMaps`' two cone comparisons were already stated for any abelian categories; `mapExtendCanonicalIso_inv_f`, `mapArrowHom_eq_map` as before. No ledger rung changed.
+- The general lemmas carry no `simp` attribute except the evaluation lemmas of new definitions, so no existing `simp` call changes.
+- Next move: at the next pin bump, check the `docs/gaps.md` rows for name clashes (Mathlib's `Cocycle.comp`, upstream PRs #221 and #222).

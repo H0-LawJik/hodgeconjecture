@@ -2,6 +2,7 @@ module
 
 public import HodgeConjecture.Definitions.AlgebraicGeometry.Cohomology.GlobalSections
 public import HodgeConjecture.Mathlib.CategoryTheory.Sites.SheafCohomology.Pair
+public import HodgeLadder.General.FreeAbelianTerminal
 
 /-!
 # The section `1` of the constant sheaf and the generator of `ℤ[⊤]`
@@ -15,7 +16,8 @@ sheafification (`freeAbelianSheafHomAddEquiv`). Under upstream's `freeAbelianShe
 ## Main results
 
 * `HodgeLadder.Cup.integerConstantHomAddEquivGlobalSections_apply`,
-  `HodgeLadder.Cup.terminalIso_generator`
+  `HodgeLadder.Cup.terminalIso_generator` (from the general
+  `HodgeLadder.freeAbelianSheafTerminalIso_hom_generator`)
 -/
 
 @[expose] public noncomputable section
@@ -37,7 +39,8 @@ lemma integerConstantHomAddEquivGlobalSections_apply (F : TopCat.Sheaf AddCommGr
 
 set_option backward.isDefEq.respectTransparency false in
 /-- **Upstream's terminal isomorphism sends the generator of `ℤ[⊤]` to the section `1`**, read in
-`ULift ℤ`. -/
+`ℤ`. The case of the open `⊤` of `HodgeLadder.freeAbelianSheafTerminalIso_hom_generator`, with
+the value moved from `ULift ℤ` to `ℤ`. -/
 lemma terminalIso_generator :
     (CategoryTheory.Sheaf.freeAbelianSheafTerminalIso (J := Opens.grothendieckTopology Y)
         isTerminalTop).hom.hom.app (op ⊤)
@@ -45,16 +48,8 @@ lemma terminalIso_generator :
       ((TopCat.Sheaf.constantFunctor Y).map (AddEquiv.ulift (α := ℤ)).toAddCommGrpIso.inv).hom.app
         (op ⊤) ((toSheafify (Opens.grothendieckTopology Y)
           ((Functor.const _).obj (AddCommGrpCat.of ℤ))).app (op ⊤) (1 : ℤ)) := by
-  have hn : ∀ {P Q : (Opens Y)ᵒᵖ ⥤ AddCommGrpCat.{0}} (N : P ⟶ Q) (x : P.obj (op ⊤)),
-      (sheafifyMap (Opens.grothendieckTopology Y) N).app (op ⊤)
-        ((toSheafify (Opens.grothendieckTopology Y) P).app (op ⊤) x) =
-      (toSheafify (Opens.grothendieckTopology Y) Q).app (op ⊤) (N.app (op ⊤) x) := by
-    intro P Q N x
-    have h := congrArg (fun f => f.app (op ⊤)) (toSheafify_naturality (Opens.grothendieckTopology Y) N)
-    simp only [NatTrans.comp_app] at h
-    exact (ConcreteCategory.congr_hom h x).symm
-  unfold CategoryTheory.Sheaf.freeAbelianSheafTerminalIso CategoryTheory.Sheaf.freeAbelianSheafGenerator
-  erw [hn, hn]
+  rw [HodgeLadder.freeAbelianSheafTerminalIso_hom_generator]
+  erw [HodgeLadder.toSheafify_app_sheafifyMap_app]
   rfl
 
 end HodgeLadder.Cup

@@ -8,6 +8,7 @@ public import Mathlib.Topology.Instances.Int
 public import Mathlib.Topology.Algebra.Group.Basic
 public import Mathlib.Algebra.Category.Grp.Limits
 public import Mathlib.CategoryTheory.Sites.Whiskering
+public import HodgeLadder.General.LocallyConstantSheaf
 
 /-!
 # The constant sheaf `ℤ` as locally constant functions
@@ -17,13 +18,19 @@ builds the sheaf of continuous (that is, locally constant) `ℤ`-valued function
 two: the map from the constant presheaf is locally injective and locally surjective. Part of rung
 `unit-extension-of-invertible` (step B2).
 
+This is the case `A = ℤ` of `HodgeLadder.constantSheafIsoLocallyConstantSheaf`, written with
+continuous functions in place of Mathlib's `LocallyConstant`; `constIsoLC_trans_lcSheafIso`
+identifies the two.
+
 ## Main definitions
 
 * `HodgeLadder.lcSheaf`, `HodgeLadder.constIsoLC`
 
 ## Main results
 
-* `HodgeLadder.constIsoLC_hom_toSheafify`
+* `HodgeLadder.toSheafify_constToLCSheaf`
+* `HodgeLadder.lcSheafIsoLocallyConstantSheaf`, `HodgeLadder.constIsoLC_trans_lcSheafIso`:
+  comparison with the general `HodgeLadder.constantSheafIsoLocallyConstantSheaf`
 -/
 
 @[expose] public noncomputable section
@@ -102,6 +109,7 @@ instance constToLC_isLocallyInjective :
 def constToLCSheaf : TopCat.Sheaf.const Y (AddCommGrpCat.of ℤ) ⟶ lcSheaf Y :=
   ⟨sheafifyLift (Opens.grothendieckTopology Y) (constToLC Y) (lcSheaf Y).property⟩
 
+/-- `constToLCSheaf` restricts along the sheafification map to `constToLC`. -/
 lemma toSheafify_constToLCSheaf :
     toSheafify (Opens.grothendieckTopology Y)
         ((Functor.const (Opens Y)ᵒᵖ).obj (AddCommGrpCat.of ℤ)) ≫ (constToLCSheaf Y).hom =
@@ -132,5 +140,34 @@ instance isIso_constToLCSheaf : IsIso (constToLCSheaf Y) := by
 /-- **The constant sheaf `ℤ` is the sheaf of locally constant integer functions.** -/
 def constIsoLC : TopCat.Sheaf.const Y (AddCommGrpCat.of ℤ) ≅ lcSheaf Y :=
   asIso (constToLCSheaf Y)
+
+/-- Continuous integer functions are the locally constant ones: the presheaf `lcPresheaf Y` is
+`locallyConstantPresheaf Y ℤ`. -/
+def lcPresheafIsoLocallyConstantPresheaf : lcPresheaf Y ≅ locallyConstantPresheaf Y ℤ :=
+  NatIso.ofComponents (fun _ => AddEquiv.toAddCommGrpIso
+    { toFun f := ⟨f.1, (IsLocallyConstant.iff_continuous _).2 f.2⟩
+      invFun f := ⟨⇑(show LocallyConstant _ ℤ from f), (show LocallyConstant _ ℤ from f).continuous⟩
+      left_inv _ := rfl
+      right_inv _ := rfl
+      map_add' _ _ := rfl })
+    (fun _ => rfl)
+
+/-- The sheaf `lcSheaf Y` of continuous integer functions is the sheaf
+`locallyConstantSheaf Y ℤ` of locally constant integer functions. -/
+def lcSheafIsoLocallyConstantSheaf : lcSheaf Y ≅ locallyConstantSheaf Y ℤ :=
+  (fullyFaithfulSheafToPresheaf _ _).preimageIso (lcPresheafIsoLocallyConstantPresheaf Y)
+
+/-- **`constIsoLC` is the case `A = ℤ` of the general comparison**: followed by the identification
+of continuous and locally constant integer functions, it is
+`constantSheafIsoLocallyConstantSheaf Y ℤ`. -/
+theorem constIsoLC_trans_lcSheafIso :
+    constIsoLC Y ≪≫ lcSheafIsoLocallyConstantSheaf Y = constantSheafIsoLocallyConstantSheaf Y ℤ := by
+  apply Iso.ext
+  apply Sheaf.hom_ext
+  apply sheafify_hom_ext _ _ _ (locallyConstantSheaf Y ℤ).property
+  rw [constantSheafIsoLocallyConstantSheaf_hom, toSheafify_constantSheafToLocallyConstantSheaf_hom]
+  have h := congrArg (fun φ => φ ≫ (lcSheafIsoLocallyConstantSheaf Y).hom.hom)
+    (toSheafify_constToLCSheaf Y)
+  exact (Category.assoc _ _ _).symm.trans h
 
 end HodgeLadder

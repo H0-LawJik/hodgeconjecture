@@ -2,6 +2,7 @@ module
 
 public import HodgeLadder.Cup.Step3
 public import HodgeLadder.Cup.SingularCup
+public import HodgeLadder.General.Homology
 
 /-!
 # The cup product on the open `⊤` against the singular cup product
@@ -30,25 +31,12 @@ variable {C D : Type*} [Category C] [Category D] [HasZeroMorphisms C] [HasZeroMo
   (F : C ⥤ D) [F.PreservesZeroMorphisms] (S : ShortComplex C) [S.HasHomology]
   [(S.map F).HasHomology] [F.PreservesLeftHomologyOf S]
 
-set_option backward.isDefEq.respectTransparency false in
 /-- **`mapHomologyIso` on classes**: it sends the class of a cycle of `S.map F` to `F` of the class
-of the corresponding cycle of `S`. -/
+of the corresponding cycle of `S`. The general form is
+`HodgeLadder.Homology.homologyπ_comp_mapHomologyIso_hom`. -/
 lemma homologyπ_mapHomologyIso_hom :
-    (S.map F).homologyπ ≫ (S.mapHomologyIso F).hom = (S.mapCyclesIso F).hom ≫ F.map S.homologyπ := by
-  let hl := S.leftHomologyData
-  have key : hl.π ≫ hl.homologyIso.inv = hl.cyclesIso.inv ≫ S.homologyπ := by
-    rw [← cancel_epi hl.cyclesIso.hom, Iso.hom_inv_id_assoc, ← Category.assoc,
-      ← hl.homologyπ_comp_homologyIso_hom, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  have e1 := (hl.map F).homologyπ_comp_homologyIso_hom
-  have h1 : (S.mapHomologyIso F).hom =
-      (hl.map F).homologyIso.hom ≫ F.map hl.homologyIso.inv :=
-    congrArg Iso.hom (hl.mapHomologyIso_eq F)
-  have h2 : (S.mapCyclesIso F).hom = (hl.map F).cyclesIso.hom ≫ F.map hl.cyclesIso.inv :=
-    congrArg Iso.hom (hl.mapCyclesIso_eq F)
-  rw [h1, h2, (hl.map F).homologyπ_comp_homologyIso_hom_assoc, Category.assoc]
-  congr 1
-  rw [← F.map_comp, ← key, F.map_comp]
-  rfl
+    (S.map F).homologyπ ≫ (S.mapHomologyIso F).hom = (S.mapCyclesIso F).hom ≫ F.map S.homologyπ :=
+  HodgeLadder.Homology.homologyπ_comp_mapHomologyIso_hom F S
 
 end MapHomology
 

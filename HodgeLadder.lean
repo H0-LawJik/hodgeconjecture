@@ -3,6 +3,12 @@ module
 -- Library root. One `public import` per module. Statements of record come from the upstream
 -- `HodgeConjecture` library; this library holds proofs about them and checks on them.
 public import HodgeLadder.Basic
+public import HodgeLadder.General.HomComplex
+public import HodgeLadder.General.Homology
+public import HodgeLadder.General.Ext
+public import HodgeLadder.General.LocallyConstantSheaf
+public import HodgeLadder.General.FreeAbelianTerminal
+public import HodgeLadder.General.Codimension
 public import HodgeLadder.Upstream.Statements
 public import HodgeLadder.CycleClass.Pins
 public import HodgeLadder.CycleClass.Statements

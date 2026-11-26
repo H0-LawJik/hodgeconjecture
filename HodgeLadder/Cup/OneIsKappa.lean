@@ -88,7 +88,8 @@ theorem adj_tensorQSheafInt_comp_forgetQX :
 theorem rationalExtEquiv_kappa :
     rationalExtEquiv Y 0 (Abelian.Ext.mk₀ (kappaSheaf Y)) = oneExt Y := by
   simp only [rationalExtEquiv, AddEquiv.trans_apply, extPostcompEquiv, extPrecompEquiv,
-    AddEquiv.coe_mk, Equiv.coe_fn_mk, extEquivQ, Iso.symm_hom, oneExt]
+    HodgeLadder.Ext.postcompIsoAddEquiv_apply, HodgeLadder.Ext.precompIsoAddEquiv_apply,
+    extEquivQ, Iso.symm_hom, oneExt]
   rw [Abelian.Ext.mk₀_comp_mk₀, Adjunction.extEquiv_symm_mk₀, Abelian.Ext.mk₀_comp_mk₀]
   congr 1
   rw [Iso.inv_comp_eq, Category.comp_id, Equiv.symm_apply_eq, ← adj_tensorQSheafInt_comp_forgetQX,

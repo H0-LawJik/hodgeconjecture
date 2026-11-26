@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.HomotopyCategory.Pretriangulated
 public import HodgeConjecture.Definitions.Algebra.Homology.DerivedCategory.MappingCoconeShortExactNaturality
+public import HodgeLadder.General.Homology
 
 /-!
 # Maps of mapping cones from maps of arrows
@@ -75,9 +76,9 @@ lemma map_shiftedLiftShortComplex :
 
 variable [F.PreservesHomology]
 
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
-/-- **An exact functor commutes with the shift isomorphism of homology.** -/
+/-- **An exact functor commutes with the shift isomorphism of homology**, for the shift by `1`.
+The general form, for any shift, is
+`HodgeLadder.Homology.mapHomologyIso_hom_comp_map_shiftIso_inv_app`. -/
 lemma mapHomologyIso_shiftIso (K : CochainComplex C ℤ) (n n' : ℤ) (h : 1 + n = n') :
     (ShortComplex.mapHomologyIso (K.sc n') F).hom ≫
         F.map (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) 0).shiftIso
@@ -86,14 +87,8 @@ lemma mapHomologyIso_shiftIso (K : CochainComplex C ℤ) (n n' : ℤ) (h : 1 + n
           ((F.mapHomologicalComplex _).obj K) ≫
         HomologicalComplex.homologyMap
           (((F.mapHomologicalComplex (ComplexShape.up ℤ)).commShiftIso (1 : ℤ)).inv.app K) n ≫
-        (ShortComplex.mapHomologyIso ((K⟦(1 : ℤ)⟧).sc n) F).hom := by
-  simp only [Functor.shiftIso, Functor.ShiftSequence.shiftIso,
-    CochainComplex.ShiftSequence.shiftIso_inv_app]
-  rw [← ShortComplex.mapHomologyIso_hom_naturality]
-  change _ = ShortComplex.homologyMap _ ≫ ShortComplex.homologyMap _ ≫ _
-  rw [← Category.assoc, ← ShortComplex.homologyMap_comp]
-  congr 2
-  ext <;> simp [shiftShortComplexFunctorIso, HomologicalComplex.XIsoOfEq, eqToHom_map]
+        (ShortComplex.mapHomologyIso ((K⟦(1 : ℤ)⟧).sc n) F).hom :=
+  HodgeLadder.Homology.mapHomologyIso_hom_comp_map_shiftIso_inv_app F K 1 n n' h
 
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
