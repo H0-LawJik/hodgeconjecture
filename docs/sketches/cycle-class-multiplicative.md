@@ -44,7 +44,7 @@ It is the kill criterion of front `cup`: products of algebraic classes are the r
 1. Singular side. With `cup_singular_comparison` (sign (−1)^{(2a)(2b)} = 1), Ψ([Z] ∪ [W]) = cupSing (Ψ[Z]) (Ψ[W]).
 2. Supported lifts. Ψ[Z] = forgetRel (Φ_X α_Z) on (X, X ∖ Z), from `supported_forget_compat` moved to `TopPair.ofSubset` by `supportedEquivPair` (rung `cup-comparison-supported-pair`); α_Z = `cycleComponentSupportedInjectiveClass`.
 3. Relative product. By `triad-relative-cup`, cupSing (forgetRel a) (forgetRel b) = forgetRel (relCup2 a b) with relCup2 a b ∈ H^{2(a+b)}(X, (X ∖ Z) ∪ (X ∖ W)) = H^{2(a+b)}(X, X ∖ T), by `hT` through `unionComplIso` below, which is the identity on points and so carries no sign.
-4. Normalization on the singular side. Upstream's normalization iso N_T sends γ to the sheafified restriction to U_T = X ∖ T_sing of upstream's transport of γ (`normalization-singular`, Lean text below). Upstream's transport agrees with Φ_X after the pair isomorphisms (`transport_eq_flasqueModel`, `ofSubsetIsoNeighborhoodUniv` below).
+4. Normalization on the singular side. Upstream's normalization iso N_T sends γ to the sheafified restriction to U_T = X ∖ T_sing of upstream's transport of γ (`normalization-singular`, Lean text below). Upstream's transport agrees with Φ_X after the pair isomorphisms (`transport_eq_flasqueModel`; `supportedEquivPair_eq_transport` with `ofSubsetIsoNeighborhoodTop`, rung `supported-pair-forget`, checked).
 5. Germs. At y ∈ T(ℂ), shrink to a chart neighborhood inside Z_reg ∩ W_reg (`hxreg`, `hwreg`, `htr`). There the restriction of Φ_X α_Z is `chartNormalProjectionCoclass` for the chart derived from φ (`cycle-class-germ`: upstream's section is glued from charts, `smoothClosedSupportCoclassStalk_eq_chartGerm`, and any two analytic charts agree, `exists_open_chartNormalProjectionCoclass_eq`); likewise for W and T. A named step inside `cycle-class-germ`: move the chart φ of Mathlib's maximal atlas on X(ℂ) into upstream's E × (Fin c → ℂ) chart form on the complex points of the open subscheme X ∖ Z_sing, the form `chartNormalProjectionCoclass` takes. When T is a point (both first cases), upstream's `cycleComponentSupportedInjectiveClass_point_normalization` and `analyticComponentPointSupportedInjectiveCoclass_relative` (`Other`) give upstream's transport of α_T as an explicit relative coclass on (X, X ∖ T), so `cycle-class-germ` is needed there only for Z and W, and the point form cross-checks it at T.
 6. Local product. By naturality of relCup2 and `local-class-product`, the restriction of relCup2 (Φ_X α_Z) (Φ_X α_W) is the chart coclass of T. Off T both sections vanish. So N_T (Φ_X⁻¹ (relCup2 …)) is upstream's normalized section, and `cycleComponentSupportedInjectiveClass_unique` gives Φ_X⁻¹ (relCup2 …) = α_T.
 7. Forget the support of T and use injectivity of Ψ (an equivalence): [Z] ∪ [W] = [T].
@@ -97,7 +97,7 @@ theorem unionComplIso_fst_apply {Y : Type} [TopologicalSpace Y] {Z W T : Set Y}
     (hT : T = Z ∩ W) (y : Y) : TopPair.Hom.fst (unionComplIso hT).hom y = y
 ```
 
-`ofSubsetIsoNeighborhoodUniv` belongs to `supported-pair-forget`; `unionComplIso` to `cycle-class-multiplicative` itself.
+`ofSubsetIsoNeighborhoodUniv` belongs to `supported-pair-forget`, which states (b) with its `Closeds` form `ofSubsetIsoNeighborhoodTop`; `unionComplIso` belongs to `cycle-class-multiplicative` itself, to be stated on `Closeds` in the `Z.compl` spelling (section "supported-pair-forget: statement", change D).
 
 ## What exists (checked by `grep` at the pin)
 
@@ -124,7 +124,7 @@ The local sub-rungs (companion sketch). For ℙ¹ × ℙ¹ at the pin: no produc
 | `open-subscheme-chart-analytic` | a chart of the maximal analytic atlas of U(ℂ), lifted to X(ℂ), is in the maximal analytic atlas of X(ℂ) | `Point.evaluate_map`, `evaluate_openEquiv`; checked (`HodgeLadder.Normalization.ChartStep`) | |
 | `analytic-smooth-locus` | under a holomorphic chart adapted to Z, e.source ∩ Z lies in X ∖ Z_sing; removes `hyU` from `cycle-class-germ` | completion of the analytic and algebraic local rings of the reduced closure; not at the pin | `cycle-class-germ` |
 | `cycle-class-germ-point` | `cycle-class-germ` at a closed point and the chart of `adaptedChart_closedPoint`, cross-checked against upstream's point normalization | `cycleComponentSupportedInjectiveClass_point_normalization`, `analyticComponentPointSupportedInjectiveCoclass_relative` (`Other`) | `cycle-class-germ` |
-| `supported-pair-forget` | on (X, X ∖ Z): forgetRel ∘ `supportedEquivPair` = Ψ ∘ `forgetSupport`, and `supportedEquivPair` = upstream's transport after the pair isomorphisms (`ofSubsetIsoNeighborhoodUniv`), no sign | `supported_forget_compat`, `transport_eq_flasqueModel`, `topPairIso` | `supported-forget-compat`, `supported-model-agreement`, `cup-comparison-supported-pair` |
+| `supported-pair-forget` | on (X, X ∖ Z): forgetRel ∘ `supportedEquivPair` = Ψ ∘ `forgetSupport`, and `supportedEquivPair` = upstream's transport after the pair isomorphisms (`ofSubsetIsoNeighborhoodTop`), no sign | checked (`HodgeLadder.Cup.SupportedPairForget`); `supported_forget_compat`, `transport_eq_flasqueModel`, `topPairIso` | `supported-forget-compat`, `supported-model-agreement`, `cup-comparison-supported-pair` |
 | `cycle-class-multiplicative` | the theorem above | steps 1 to 7 | `local-class-product`, `triad-relative-cup`, `triad-relative-cup-naturality`, `normalization-singular`, `cycle-class-germ`, `supported-pair-forget`, `cup-singular-comparison-absolute`, `cup-singular-comparison`, `supported-model-agreement`, `supported-forget-compat`, `supported-open-naturality`, `supported-model-agreement-open` |
 | `cycle-class-multiplicative-codim-zero` | x = w = t = the generic point, a = b = 0 meet the hypotheses on every X, so [X] ∪ [X] = [X] | S5 for `hT`, `htr`; the missing lemma `cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤` for `hxreg` | `cycle-class-multiplicative` |
 | `affine-chart-analytic` | an open U ≅ 𝔸^d over Spec ℂ gives a chart of X(ℂ) in Mathlib's maximal analytic atlas, compatible with upstream's `localChart` | transition maps between algebraic and étale coordinates are regular, hence holomorphic | |
@@ -308,6 +308,40 @@ With only the ℙ¹ witness and upstream's Hausdorff file imported, `inferInstan
 Every declaration the ledger names checks with the standard axioms. One trap met on the way: while the `IsIntegral` instances were still `sorry`, a `Nonempty` argument was found through them, so the axioms of the transported proof were read with the sorried instances removed; the checked file supplies `Nonempty` explicitly.
 
 Timing: `lake env lean HodgeLadder/Tests/ProjectivePlane.lean` 5 s wall; default heartbeats.
+## supported-pair-forget: statement
+Date: 2026-11-26. Statements elaborated first with `sorry` bodies, red-teamed (`docs/sketches/supported-pair-forget.redteam.md`, pass with changes A to E, all implemented), then proved. Checked: module `HodgeLadder.Cup.SupportedPairForget`, rung `supported-pair-forget`, and the non-vacuity tests in `HodgeLadder.Tests.SupportedPairForget`, rung `supported-pair-forget-test`; both imported from `HodgeLadder.lean`. The ledger entry first had `"module": null` and a `file` hint `HodgeLadder/Supported/Pair/Forget.lean`; the module is now `HodgeLadder.Cup.SupportedPairForget`, next to `SupportedPair` and `SupportedForgetFinal` (change E). Imports: `HodgeLadder.Cup.SupportedPair`, `HodgeLadder.Cup.SupportedForgetFinal`, `HodgeLadder.Cup.SupportedAgreement`. `lake env lean` on the module: 29 s wall; on the test module, 34 s.
+Notation. X carries `[IsIntegral X.left] [Smooth X.hom]`; Z : `Closeds (ComplexPoint X)`; Φ = `supportedEquivPair X Z n`, landing in H^n(X, X ∖ Z; ℚ) for the pair `TopPair.ofSubset (X := TopCat.of (ComplexPoint X)) (Z.compl : Set _)`, the pair of `triad-relative-cup`; Ψ = `rationalCohomologyAddEquivSingularCohomology X n`; T α = `complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ n (rationalSupportAddEquivSupportedInjectiveHomology X Z n α)`, upstream's transport at ⊤, the form `normalization_singular` and `cycle-class-germ` use.
+### The two statements
+```lean
+theorem forgetRel_supportedEquivPair [T2Space (ComplexPoint X)]
+    [∀ U : Opens (ComplexPoint X), ParacompactSpace U] (n : ℕ) (α : H_[Z]^n(X; ℚ)) :
+    forgetRel (TopPair.ofSubset (X := TopCat.of (ComplexPoint X)) (Z.compl : Set (ComplexPoint X)))
+        n (supportedEquivPair X Z n α) =
+      rationalCohomologyAddEquivSingularCohomology X n (forgetSupport ℚ X Z n α)
+theorem supportedEquivPair_eq_transport [IsProjective X.hom]
+    [∀ U : Opens (ComplexPoint X), ParacompactSpace U] (n : ℕ) (α : H_[Z]^n(X; ℚ)) :
+    supportedEquivPair X Z n α =
+      relativeCohomologyMap ℚ n (ofSubsetIsoNeighborhoodTop Z).hom
+        (complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ n
+          (rationalSupportAddEquivSupportedInjectiveHomology X Z n α))
+```
+In words: (a) forgetting the subspace after Φ is Ψ after forgetting the support, with Ψ read on X itself (the checked `supported_forget_compat` reads it on the open ⊤ through `singularCochainComplexIsoTopOpen`); (b) Φ is upstream's transport T, pulled back along the identity of points from (X, X ∖ Z) to upstream's (⊤, ⊤ ∖ Z). Both are exact, with no sign and no scalar. (b) needs `IsProjective` because upstream's transport does; the `T2Space` instance that Φ needs is then upstream's `IsProjective.complexPoint_t2Space`.
+Spelling (change A). The statement first used `ofSubsetIsoNeighborhoodUniv (Z : Set _)`, whose domain `TopPair.ofSubset (↑Z)ᶜ` agrees with Φ's codomain `TopPair.ofSubset ↑Z.compl` only at default transparency (`Closeds.compl` is a plain `def`), so `rw` failed across it. `ofSubsetIsoNeighborhoodTop` spells its domain as Φ's codomain and its codomain as T's target, and plain `rw` works in the downstream tests. Row "Pair spellings of (X, X ∖ Z)" of `docs/conventions.md` records the four spellings.
+Trivial proofs fail (scratch file inside the worktree, deleted): for each statement `rfl` (not definitionally equal), `simp` (unsolved goal), and the checked statement it moves (`exact supported_forget_compat X Z n α`, `exact transport_eq_flasqueModel X Z n α`: type mismatch).
+### Helpers
+| Declaration | Statement | Proof |
+| `ofSubsetIsoNeighborhoodTop` | for Z : `Closeds Y`, `TopPair.ofSubset (Z.compl : Set Y) ≅ neighborhoodSupportComplementPair ((⊤ : Opens Y) : Set Y) Z` | `TopPair.isoOfSubset (Homeomorph.Set.univ Y).symm (fun _ => Iff.rfl)` (upstream `isoOfSubset`) |
+| `ofSubsetIsoNeighborhoodTop_fst_apply` | `(TopPair.Hom.fst (ofSubsetIsoNeighborhoodTop Z).hom y).1 = y` | `rfl` |
+| `ofSubsetIsoNeighborhoodTop_hom_comp_inv` | `(ofSubsetIsoNeighborhoodTop Z).hom ≫ (openIntersectionPairIsoSupportComplement (TopCat.of Y) Z Z.isClosed ⊤).inv = (topPairIso (TopCat.of Y) Z.compl).hom` | ext on both components, `rfl`: the three maps are the identity on points |
+| `ofSubsetIsoNeighborhoodUniv`, `_fst_apply` | the same identity for S : `Set Y`, (Y, Y ∖ S) ≅ (univ, univ ∖ S), kept for consumers spelled with sets | as above |
+| `relativeCohomologyMap_inv_hom_apply` | `relativeCohomologyMap ℚ n e.inv (relativeCohomologyMap ℚ n e.hom x) = x` for an iso of pairs e (change B) | `relativeCohomologyMap_comp`, `e.inv_hom_id`, `relativeCohomologyMap_id` |
+| `forgetRel_relativeCohomologyMap` | for f : P ⟶ P', `forgetRel P n (relativeCohomologyMap ℚ n f x) = homologyMap (linearDualMap (fstChainMap f)) n (forgetRel P' n x)` | dual of upstream's `relativeChainProjection_naturality`, 8 lines |
+### The proofs, as checked
+(a). `forgetRel_relativeCohomologyMap` along `topPairIso`, applied to R (flasqueModel X Z n α) with R upstream's `supportedRationalSingularSectionCohomologyEquivRelative … Z.compl ⊤ n`; then `supported_forget_compat X Z n α` and `fst_topOpen`. Four lines.
+(b). `transport_eq_flasqueModel`; `congrArg (relativeCohomologyMap ℚ n ·)` of `ofSubsetIsoNeighborhoodTop_hom_comp_inv Z`, split by `relativeCohomologyMap_comp`; `LinearMap.congr_fun`. Four lines. Upstream's `…SupportComplement` unfolds to R followed by `relativeCohomologyMap ℚ n (openIntersectionPairIsoSupportComplement _ Z Z.isClosed ⊤).inv`, which the last step uses by unfolding.
+Sign audit: every map in both proofs is either an upstream equivalence already in the checked statements or a pullback along a pair isomorphism that is the identity on points; the chain-level dual of an identity map is the identity, so no sign can enter.
+Non-vacuity (change C, rung `supported-pair-forget-test`): `supportedEquivPair_supportedClass_ne_zero` (Φ [Z_x] ≠ 0 for every scheme point x, so both sides of (b) are nonzero) and `forgetRel_supportedEquivPair_genericPoint_ne_zero` (the left side of (a) is nonzero at the generic point, in degree 0).
+Downstream spelling (change D, for `cycle-class-multiplicative`). State `unionComplIso` for `Z W T : Closeds Y` with `hT : T = Z ⊓ W`, on `TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y)`, so that it meets `relCup2` of two Φ-classes term for term, and spell the pairs of `triad-relative-cup` so that `A := (Z.compl : Set Y)` is accepted without unfolding. The `Set` form in "Glue statements" above is superseded by this one; also recorded in the ledger note of `cycle-class-multiplicative`.
 
 ## Sources
 

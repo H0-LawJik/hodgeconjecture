@@ -2375,17 +2375,48 @@
     {
       "id": "supported-pair-forget",
       "title": "On (X, X ∖ Z): forgetRel ∘ supportedEquivPair = Ψ ∘ forgetSupport, and supportedEquivPair agrees with upstream's transport after the pair isomorphisms, with no sign",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedPairForget",
+      "declarations": [
+        "HodgeLadder.Cup.forgetRel_supportedEquivPair",
+        "HodgeLadder.Cup.supportedEquivPair_eq_transport",
+        "HodgeLadder.Cup.ofSubsetIsoNeighborhoodTop",
+        "HodgeLadder.Cup.ofSubsetIsoNeighborhoodTop_fst_apply",
+        "HodgeLadder.Cup.ofSubsetIsoNeighborhoodTop_hom_comp_inv",
+        "HodgeLadder.Cup.ofSubsetIsoNeighborhoodUniv",
+        "HodgeLadder.Cup.ofSubsetIsoNeighborhoodUniv_fst_apply",
+        "HodgeLadder.Cup.relativeCohomologyMap_inv_hom_apply",
+        "HodgeLadder.Cup.forgetRel_relativeCohomologyMap"
+      ],
       "depends_on": [
         "supported-forget-compat",
         "supported-model-agreement",
         "cup-comparison-supported-pair"
       ],
-      "contributors": [],
-      "note": "Moves the checked ⊤-statements to TopPair.ofSubset, where triad-relative-cup is stated. The identification TopPair.ofSubset (X ∖ S) ≅ neighborhoodSupportComplementPair univ S is a lemma that is the identity on points (ofSubsetIsoNeighborhoodUniv in the sketch, statement elaborated). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. (a) forgetRel_supportedEquivPair: forgetRel (supportedEquivPair X Z n α) = Ψ (forgetSupport α) on TopPair.ofSubset (Z.compl : Set _), Ψ read on X itself; no sign, no IsProjective. (b) supportedEquivPair_eq_transport: supportedEquivPair X Z n α = relativeCohomologyMap (ofSubsetIsoNeighborhoodTop Z).hom (complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ n (rationalSupportAddEquivSupportedInjectiveHomology X Z n α)), upstream's transport in the spelling of normalization_singular; no sign. ofSubsetIsoNeighborhoodTop (Z : Closeds Y) : TopPair.ofSubset (Z.compl : Set Y) ≅ neighborhoodSupportComplementPair ((⊤ : Opens Y) : Set Y) Z is the identity on points (_fst_apply by rfl, _hom_comp_inv by ext; rfl against topPairIso); its endpoints are spelled as the declarations it connects, so rw works across it (red team finding 2, change A; conventions row Pair spellings of (X, X ∖ Z)). ofSubsetIsoNeighborhoodUniv (S : Set Y) is the same identity for Set-spelled consumers. Route: (a) forgetRel_relativeCohomologyMap (dual of upstream's relativeChainProjection_naturality) along topPairIso, supported_forget_compat, fst_topOpen; (b) transport_eq_flasqueModel, relativeCohomologyMap_comp, ofSubsetIsoNeighborhoodTop_hom_comp_inv. Non-vacuity: rung supported-pair-forget-test. Sketch: docs/sketches/cycle-class-multiplicative.md, section supported-pair-forget: statement; red team 2026-11-26: pass with changes (docs/sketches/supported-pair-forget.redteam.md)."
+    },
+    {
+      "id": "supported-pair-forget-test",
+      "title": "Non-vacuity of supported-pair-forget: supportedEquivPair of upstream's supported cycle class is nonzero for every component, and forgetRel of it is nonzero at the generic point",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.SupportedPairForget",
+      "declarations": [
+        "HodgeLadder.Tests.supportedEquivPair_supportedClass_ne_zero",
+        "HodgeLadder.Tests.forgetRel_supportedEquivPair_genericPoint_ne_zero"
+      ],
+      "depends_on": [
+        "supported-pair-forget",
+        "cycle-class-germ"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team on supported-pair-forget, change C. (b): supportedEquivPair X Z_x (2p) [Z_x] ≠ 0 for every scheme point x, from supportedEquivPair_eq_transport, relativeCohomologyMap_inv_hom_apply along ofSubsetIsoNeighborhoodTop and toSheaf_transport_supportedClass_ne_zero; both sides of (b) are nonzero. (a): at the generic point, forgetRel (supportedEquivPair [X]) ≠ 0 in H⁰, from forgetRel_supportedEquivPair, injectivity of Ψ, upstream's forgetSupport_injective_of_eq_top with cycleComponentAnalyticClosedSupport_genericPoint_eq_top (Other) and normalization_genericPoint_ne_zero; both sides of (a) are nonzero. Every smooth integral projective X over ℂ, Spec ℂ among them (exists_smooth_projective_integral). Not tested: (a) in positive degree."
     },
     {
       "id": "cycle-class-multiplicative",
@@ -2409,7 +2440,7 @@
         "supported-model-agreement-open"
       ],
       "contributors": [],
-      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md. Spelling (red team on supported-pair-forget, finding 6, change D): state unionComplIso for Z W T : Closeds Y with hT : T = Z ⊓ W, on TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y), and spell the pairs of triad-relative-cup so that A := (Z.compl : Set Y) is accepted without unfolding Closeds.compl; conventions row Pair spellings of (X, X ∖ Z)."
     },
     {
       "id": "cycle-class-multiplicative-codim-zero",
