@@ -560,7 +560,7 @@
     },
     {
       "id": "clifford-exterior-spin",
-      "title": "The Clifford algebra of the split form on H ⊕ H^∨ acts on the exterior algebra ∧*H as its spin module, compatible with parity",
+      "title": "The Clifford algebra of the split form on H^∨ ⊕ H acts on ∧*H by contraction plus wedge, with v² = q(v) (sign +, no factor 2), compatibly with parity",
       "status": "checked",
       "kind": "foundation",
       "module": "HodgeLadder.Markman.CliffordSpin",
@@ -577,7 +577,11 @@
         "HodgeLadder.spinAction_ι_one",
         "HodgeLadder.spinAction_ι_dual_ι",
         "HodgeLadder.spinAction_mem_evenOdd",
-        "HodgeLadder.spinAction_mem_exteriorParity"
+        "HodgeLadder.spinAction_mem_exteriorParity",
+        "HodgeLadder.spinGen",
+        "HodgeLadder.spinGen_polar",
+        "HodgeLadder.spinAction_unique",
+        "HodgeLadder.ι_not_mem_exteriorParity_zero"
       ],
       "depends_on": [
         "lefschetz-1-1-equality"
@@ -585,11 +589,11 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-26, for any module M over a commutative ring R. V = Module.Dual R M × M with QuadraticForm.dualProd R M, Q (f, x) = f x. spinGen (f, x) = contractLeft f + left multiplication by ι x on ExteriorAlgebra R M = CliffordAlgebra 0; spinGen_mul_self: its square is algebraMap (f x), sign +, no factor 2 (from contractLeft_ι_mul, contractLeft_contractLeft, ι_sq_zero). spinAction := CliffordAlgebra.lift, an algebra hom CliffordAlgebra (dualProd R M) →ₐ[R] Module.End R (ExteriorAlgebra R M), with simp lemmas on generators. Parity: elements of evenOdd (dualProd R M) i map exteriorParity R M j (the supremum of ⋀[R]^k M over k ≡ j mod 2, equal to evenOdd 0 j) into exteriorParity R M (i + j). Mathlib at the pin has contractLeft and evenOdd but no such action under another name. Non-vacuity: spinAction_ι_one (ι (f, x) sends 1 to ι x) and spinAction_ι_dual_ι (f sends ι m to f m). Chevalley's isomorphism for M finite free is the separate rung clifford-exterior-chevalley. Research note 2026-11-24 §1 (Chevalley1954, Mukai1981)."
+      "note": "Checked 2026-11-26, for any module M over a commutative ring R. V = Module.Dual R M × M with QuadraticForm.dualProd R M, Q (f, x) = f x. spinGen (f, x) = contractLeft f + left multiplication by ι x on ExteriorAlgebra R M = CliffordAlgebra 0; spinGen_mul_self: its square is algebraMap (f x), sign +, no factor 2 (from contractLeft_ι_mul, contractLeft_contractLeft, ι_sq_zero). spinAction := CliffordAlgebra.lift, an algebra hom CliffordAlgebra (dualProd R M) →ₐ[R] Module.End R (ExteriorAlgebra R M), with simp lemmas on generators. Parity: elements of evenOdd (dualProd R M) i map exteriorParity R M j (the supremum of ⋀[R]^k M over k ≡ j mod 2, equal to evenOdd 0 j) into exteriorParity R M (i + j). Mathlib at the pin has contractLeft and evenOdd but no such action under another name. Non-vacuity: spinAction_ι_one (ι (f, x) sends 1 to ι x) and spinAction_ι_dual_ι (f sends ι m to f m). Chevalley's isomorphism for M finite free is the separate rung clifford-exterior-chevalley. Research note 2026-11-24 §1 (Chevalley1954, Mukai1981). Red team 2026-11-26: pass with changes, implemented (docs/sketches/clifford-exterior-spin.redteam.md). The dependency on lefschetz-1-1-equality is a sequencing dependency only (decision 0003); the mathematics uses Mathlib alone. Calling ∧*H the spin module rests on Cl(V) ≅ End(∧*H), rung clifford-exterior-chevalley."
     },
     {
       "id": "clifford-exterior-chevalley",
-      "title": "Chevalley: for M finite free, the spin action CliffordAlgebra (dualProd R M) → End(∧M) is an isomorphism",
+      "title": "∧*H is the spin module: for M finite free, spinAction is an isomorphism Cl(H^∨ ⊕ H) ≅ End(∧*H) (Chevalley)",
       "status": "open",
       "kind": "foundation",
       "module": null,
@@ -598,7 +602,7 @@
         "clifford-exterior-spin"
       ],
       "contributors": [],
-      "note": "Target: Function.Bijective (HodgeLadder.spinAction R M) for M finite free over a commutative ring, or an AlgEquiv built from it (Chevalley1954). Not attempted in the clifford-exterior-spin session. Mathlib at the pin has a basis of the exterior algebra (Module.Basis.ExteriorAlgebra) and no basis or rank bound for a general Clifford algebra. One route: show the ordered monomials in a basis of Dual × M span the Clifford algebra (at most 2^{2n} elements), show the action hits every matrix unit of End(∧M) in the exterior basis (surjectivity), and conclude with the Orzech property of commutative rings (a surjection from a module spanned by 2^{2n} elements onto a free module of rank 2^{2n} is injective)."
+      "note": "Target: Function.Bijective (HodgeLadder.spinAction R M) for M finite free over a commutative ring, or an AlgEquiv built from it (Chevalley1954). Not attempted in the clifford-exterior-spin session. Mathlib at the pin has a basis of the exterior algebra (Module.Basis.ExteriorAlgebra) and no basis or rank bound for a general Clifford algebra. One route: show the ordered monomials in a basis of Dual × M span the Clifford algebra (at most 2^{2n} elements), show the action hits every matrix unit of End(∧M) in the exterior basis (surjectivity), and conclude with the Orzech property of commutative rings (a surjection from a module spanned by 2^{2n} elements onto a free module of rank 2^{2n} is injective). Second route for spanning (red team): induct on rank with dualProdProdIsometry and CliffordAlgebra.prodEquiv, reducing to rank 1; injectivity from OrzechProperty.bijective_of_surjective_of_finrank_le."
     },
     {
       "id": "elliptic-product-test",

@@ -101,7 +101,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 Done: M0 and M1 (`lefschetz-upstream-verify`, `nonvacuity-tests`, `lefschetz-port`, `divisor-chern-exact`, `lefschetz-1-1`, `lefschetz-1-1-equality`), the divisor chain behind it, and the ℙ¹ test (`projective-line-test`). The Markman inventory is written.
 
 1. Front `cup` (decision 0008): `rational-ext-equiv`, then `cup-product`, then `cup-graded-commutative` and `cycle-class-multiplicative`. It blocks M2 and M3 (inventory §4, gap 1).
-2. `clifford-exterior-spin` can start at the pin: pure linear algebra, a Mathlib candidate (inventory §5).
+2. `clifford-exterior-spin` is checked (the Clifford action on ∧*H with parity); `clifford-exterior-chevalley` (∧*H is the spin module) is next on this track.
 3. After the cup front: the inventory's target sequence T1 to T5 (§6), T1 first (Weil classes on abelian surfaces of Weil type). These rungs are not yet in the ledger; post them as each one's inputs exist. `markman-statement` stays open until then.
 4. `cycle-classes-are-hodge` can start now. `projective-space-test` for n ≥ 2 and `lefschetz-1-1-integral` are the remaining M1+ rungs.
 5. `hard-lefschetz` is the long pole for `dimension-le-three`; it also needs the cup product. Inventory before sub-rungs.

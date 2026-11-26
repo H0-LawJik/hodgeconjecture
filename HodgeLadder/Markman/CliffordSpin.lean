@@ -41,7 +41,8 @@ separate rung (`clifford-exterior-chevalley`).
 * `HodgeLadder.spinGen_mul_self`: `(spinGen v)² = Q v`.
 * `HodgeLadder.spinAction_ι`, `HodgeLadder.spinAction_ι_apply`, `HodgeLadder.spinAction_ι_dual`,
   `HodgeLadder.spinAction_ι_vec`: values on generators.
-* `HodgeLadder.spinAction_mem_evenOdd`, `HodgeLadder.spinAction_mem_exteriorParity`: parity.
+* `HodgeLadder.spinAction_mem_evenOdd`, `HodgeLadder.spinAction_mem_exteriorParity`, `HodgeLadder.spinGen_polar`,
+  `HodgeLadder.spinAction_unique`, `HodgeLadder.ι_not_mem_exteriorParity_zero`: parity.
 -/
 
 @[expose] public section
@@ -229,5 +230,35 @@ theorem spinAction_mem_exteriorParity {i j : ZMod 2}
     spinAction R M x y ∈ exteriorParity R M (i + j) := by
   rw [exteriorParity_eq_evenOdd] at hy ⊢
   exact spinAction_mem_evenOdd R M hx hy
+
+/-- **The polarized Clifford relation** for the action of generators:
+`v w + w v = v.1 (w.2) + w.1 (v.2)`, the bilinear form of the split form. -/
+theorem spinGen_polar (v w : Module.Dual R M × M) :
+    spinGen R M v * spinGen R M w + spinGen R M w * spinGen R M v =
+      algebraMap R _ (v.1 w.2 + w.1 v.2) := by
+  have h := spinGen_mul_self R M (v + w)
+  rw [map_add, add_mul, mul_add, mul_add, spinGen_mul_self, spinGen_mul_self] at h
+  simp only [QuadraticForm.dualProd_apply, Prod.fst_add, Prod.snd_add, LinearMap.add_apply, map_add]
+    at h
+  have h' := congrArg (fun t => t - algebraMap R (Module.End R (ExteriorAlgebra R M)) (v.1 v.2) -
+    algebraMap R (Module.End R (ExteriorAlgebra R M)) (w.1 w.2)) h
+  rw [map_add]
+  convert h' using 1 <;> abel
+
+/-- **Uniqueness**: an algebra homomorphism that agrees with `spinGen` on generators is
+`spinAction`. -/
+theorem spinAction_unique
+    (φ : CliffordAlgebra (QuadraticForm.dualProd R M) →ₐ[R] Module.End R (ExteriorAlgebra R M))
+    (h : ∀ v, φ (ι _ v) = spinGen R M v) : φ = spinAction R M :=
+  CliffordAlgebra.hom_ext (LinearMap.ext fun v => by simp [h])
+
+/-- **The parity parts are proper**: a nonzero vector is odd and not even. -/
+theorem ι_not_mem_exteriorParity_zero {m : M} (hm : ExteriorAlgebra.ι R m ≠ 0) :
+    ExteriorAlgebra.ι R m ∉ exteriorParity R M 0 := by
+  intro h0
+  rw [exteriorParity_eq_evenOdd] at h0
+  have h1 : ExteriorAlgebra.ι R m ∈ evenOdd (0 : QuadraticForm R M) 1 := ι_mem_evenOdd_one _ m
+  have hd := (evenOdd_isCompl (0 : QuadraticForm R M)).disjoint
+  exact hm ((Submodule.disjoint_def.mp hd) _ h0 h1)
 
 end HodgeLadder
