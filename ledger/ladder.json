@@ -779,6 +779,45 @@
       "note": "Checked 2026-11-25. For a global singular q-cocycle b, right multiplication c ↦ c ∪ b|_U (Tau Ceti cupCochain along the Alexander–Whitney diagonal of U) on upstream's singular cochain presheaves is natural under restriction (alexanderWhitneyDiagonal_naturality, cupCochain_naturality) and commutes with the coboundary in degrees n ↦ n + q (Leibniz rule, δb = 0); sheafified, it commutes with the sheaf coboundary. The shift sign (−1)^{nq} needed for a map into S•[q] is left to ext-class-right-mult."
     },
     {
+      "id": "right-mult-cocycle",
+      "title": "Right multiplication by a global cocycle as a degree-q cocycle of the Hom complex Hom(S_ℤ, S_ℤ), components (−1)^{pq} r_p",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.RightMultCocycle",
+      "declarations": [
+        "HodgeLadder.Cup.rightMulCochain",
+        "HodgeLadder.Cup.rightMulCochain_δ",
+        "HodgeLadder.Cup.rightMulCocycle",
+        "HodgeLadder.Cup.rightMulHom"
+      ],
+      "depends_on": [
+        "cochain-sheaf-right-mult"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. On S_ℤ = S.extend embeddingUpNat, the Hom-complex cochain with components (−1)^{pq} · rightMulSheaf b in source degree p ≥ 0 and 0 below has δ = 0: the two terms of Mathlib's δ formula cancel by r ≫ d = d ≫ r and (−1)^{q+1}(−1)^{(p+1)q} = −(−1)^{pq}. Cocycle.equivHomShift gives the chain map rightMulHom : S_ℤ ⟶ S_ℤ⟦q⟧ with Mathlib's shift signs."
+    },
+    {
+      "id": "right-mult-unit",
+      "title": "ι ≫ R_b is the Hom-complex cocycle of the global section b",
+      "status": "open",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.RightMult",
+      "declarations": [
+        "HodgeLadder.Cup.rightMul",
+        "HodgeLadder.Cup.rightMulApp_naturality",
+        "HodgeLadder.Cup.rightMul_comp_coboundary",
+        "HodgeLadder.Cup.rightMulSheaf",
+        "HodgeLadder.Cup.rightMulSheaf_comp_coboundary"
+      ],
+      "depends_on": [
+        "right-mult-cocycle"
+      ],
+      "contributors": [],
+      "note": "1 ∪ b = b on cochains (cupCochain_constCochain_left) and the sheafification unit."
+    },
+    {
       "id": "ext-class-right-mult",
       "title": "r_b ∘ ι = ι[q] ∘ ε([b]) in the derived category, for ι : ℚ_X → S• the singular-cochain resolution",
       "status": "open",
@@ -786,10 +825,10 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cochain-sheaf-right-mult"
+        "right-mult-unit"
       ],
       "contributors": [],
-      "note": "Step 1 of upstream's equivalence unfolded at degree q. docs/sketches/cup-singular-comparison.md."
+      "note": "Upstream's step 2 sends the class of the cocycle of b to [b], and ι[q] ∘ ε([b]) = R_b ∘ ι in the derived category. docs/sketches/cup-singular-comparison.md, refinement."
     },
     {
       "id": "cup-singular-comparison",
