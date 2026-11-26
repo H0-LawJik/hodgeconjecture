@@ -37,8 +37,8 @@ open AlgebraicGeometry AlgebraicGeometry.ComplexPoint
 
 variable (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom]
 
-/-- Every open of `X(ℂ)` is paracompact (upstream's `openParacompactSpace`), as the transport
-needs. -/
+/-- Every open of `X(ℂ)` is paracompact (upstream's `openParacompactSpace`). Kept to match the
+statement fixed in the sketch; at the pin the transport provides this instance itself. -/
 local instance : ∀ V : Opens (ComplexPoint X), ParacompactSpace V := openParacompactSpace X
 
 /-- Upstream's normalization isomorphism of a supported cycle class `a ∈ H^{2p}_Z(X; ℚ)` is the
