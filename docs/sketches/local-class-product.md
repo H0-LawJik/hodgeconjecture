@@ -80,7 +80,7 @@ Proposed register row for the red team: "Cross product of complex orientations |
 
 ## What is missing
 
-Path-connectedness of GL⁺_d(ℝ); the real local-orientation sign of an affine map; the shuffle cross product on pairs; the relative-relative cup `relCup2` (upstream's triad file says it stops short of the customary triad pairing; it supplies excision, and the cup is new); the dual of the triad quasi-isomorphism over ℚ (look in upstream `HodgeConjecture.Lemmas.AlgebraicTopology.Singular.Excision.Field` first).
+Path-connectedness of GL⁺_d(ℝ) (checked since 2026-11-26 as `glpos-path-connected`); the real local-orientation sign of an affine map; the shuffle cross product on pairs; the relative-relative cup `relCup2` (upstream's triad file says it stops short of the customary triad pairing; it supplies excision, and the cup is new); the dual of the triad quasi-isomorphism over ℚ (look in upstream `HodgeConjecture.Lemmas.AlgebraicTopology.Singular.Excision.Field` first).
 
 ## Sub-rungs
 
@@ -128,6 +128,44 @@ Verdict `docs/sketches/cycle-class-multiplicative.redteam.md`, pass with changes
 | H: `Other` declarations marked, pins, drift list, build once | "What exists", "Pins and drift" |
 | I: hand computations 1 to 5 as Lean lemmas inside named rungs | sub-rungs table; `complexRealHomeomorph_append`; ledger notes of `real-affine-orientation`, `relative-cross-chain`, `cross-orientation`, `cap-cross-evaluation`, `triad-relative-cup-cap` |
 | unnormalized chains in `cap-cross-evaluation` | proof idea, step 4 |
+
+## glpos-path-connected: statement
+
+Checked 2026-11-26 in `HodgeLadder.Glpos.PathConnected` by the route below; statement red team `docs/sketches/glpos-path-connected.redteam.md` (pass with changes C1 to C3, implemented). The statement is unchanged from the one posted for the red team.
+
+```lean
+theorem HodgeLadder.Glpos.joinedIn_one_of_det_pos {n : Type*} [Fintype n] [DecidableEq n]
+    {A : Matrix n n ℝ} (hA : 0 < A.det) :
+    JoinedIn {M : Matrix n n ℝ | 0 < M.det} 1 A
+
+theorem HodgeLadder.Glpos.isPathConnected_setOf_det_pos {n : Type*} [Fintype n] [DecidableEq n] :
+    IsPathConnected {M : Matrix n n ℝ | 0 < M.det}
+```
+
+The second is a corollary of the first: `⟨1, by simp, fun _ hA ↦ joinedIn_one_of_det_pos hA⟩`. Tests in the same module: `not_joinedIn_det_ne_zero_fin_one` (the `det ≠ 0` form fails at `Fin 1` for `diagonal ![-1]`) and `joinedIn_one_diagonal_neg_one_neg_one`. Classical source: [`Hall2015`; section unverified].
+
+**Why this form.** `real-affine-orientation` follows upstream's complex proof in `HodgeConjecture.Lemmas.AlgebraicTopology.LocalHomology.ComplexClassLinearInvariance`: `complexMatrixPuncturedPairHomotopy` takes a path `C(unitInterval, Matrix (Fin d) (Fin d) ℂ)` from `1` to `A` with `det ≠ 0` at each `t` and returns a homotopy of punctured pairs from the identity to the map of `A`. From `h : JoinedIn {M | 0 < M.det} 1 A` the real version gets `h.somePath : Path 1 A` (a continuous map from the unit interval, with `source` and `target`) and `h.somePath_mem t : 0 < (h.somePath t).det`, hence `det ≠ 0` by `ne_of_gt`. The path starts at `1`, the direction upstream's homotopy uses. The ambient space is `Matrix n n ℝ` with its product topology, where `mulVec` and `Continuous.matrix_det` live, so the consumer needs no coercion out of a subtype or a group of units. A general finite index type costs nothing; the consumer takes `n = Fin d`.
+
+| Alternative | Why set aside |
+|---|---|
+| `PathConnectedSpace (Matrix.GLPos n ℝ)` | the units topology and two coercions back to matrices stand between the statement and `mulVec`; it follows from the matrix form if a later rung wants it |
+| a local structure `RealIsotopyToOne A`, copying upstream's `ComplexIsotopyToOne` | a new local structure for data `JoinedIn` already packages |
+| a negative-determinant clause (`A` joined to a fixed reflection within `det < 0`) | the consumer derives it: for a reflection `R` with `R * R = 1`, apply the rung to `R * A` and map the path by left multiplication by `R` (`JoinedIn.map`) |
+
+**What the pin has.** Mathlib: the subgroup `Matrix.GLPos` (`mem_glpos`, `GLPos.det_ne_zero`), with no connectedness result; `JoinedIn.trans`, `JoinedIn.mono`, `JoinedIn.map`, `JoinedIn.mul` (pointwise product of paths, via `Path.mul`), `Continuous.matrix_det`; the transvection decomposition `Matrix.Pivot.exists_list_transvec_mul_diagonal_mul_list_transvec` and the inductions `Matrix.diagonal_transvection_induction` (diagonal case with `det (diagonal D) = det M`) and `Matrix.diagonal_transvection_induction_of_det_ne_zero`. `IsPathConnected` appears for balls, spheres, complements of subspaces and unitary balls in C⋆-algebras, none for real matrices of positive determinant (grep of `.lake/packages/mathlib/Mathlib` for `GLPos`, `GL⁺`, `IsPathConnected`, `JoinedIn`). Upstream has the complex analogue `Matrix.nonempty_complexIsotopyToOne` (invertible complex matrices, diagonal entries joined to 1 by `exp (t * log z)`). Over ℝ a negative diagonal entry has no such path, and that sign bookkeeping is the new part.
+
+**Proof route.** Write S = {M | 0 < M.det}.
+
+1. Products: from `JoinedIn S 1 A` and `JoinedIn S 1 B` get `JoinedIn S 1 (A * B)` by `JoinedIn.mul` and `JoinedIn.mono`, since `S * S ⊆ S` (`det_mul`, `mul_pos`).
+2. Transvections: `s ↦ transvection i j (s * c)` has determinant 1 (`det_transvection_of_ne`), as in upstream's complex proof.
+3. Induction: `diagonal_transvection_induction` with `P M := 0 < M.det ∧ JoinedIn S 1 M`; the diagonal case has `∏ D i = det A > 0`.
+4. Positive diagonals: the straight line `t ↦ diagonal (fun i ↦ (1 - t) + t * D i)` has positive entries, so positive determinant.
+5. Sign flip: for `i ≠ j`, `W = transvection i j (-1) * transvection j i 1 * transvection i j (-1)` is the quarter turn in the (i, j)-plane and `W * W` is the diagonal matrix with −1 at i and j and 1 elsewhere. By steps 1 and 2 it is joined to 1 in S; left multiplication by `diagonal D` (`JoinedIn.map`, determinant > 0) joins `diagonal D` to `diagonal D'`, with `D'` equal to `D` with the entries at i and j negated. In Lean this identity is `quarterTurn_mul_self`, at general `n`, by entrywise case analysis.
+6. Strong induction on the number of negative entries of `D`: two or more, apply step 5 to two of them; exactly one is impossible since the product would be negative; none is step 4.
+
+A rotation path `θ ↦ R_{ij}(θ)` in step 5 needs the determinant of a plane rotation inside a general `n × n` matrix, more work than step 2 on six transvections. QR with the connectedness of SO(n) is longer.
+
+**Checks for the red team.** `rfl`, `trivial`, `simp`, `aesop`, `decide`, `grind`, `exact?` and `exact JoinedIn.refl _` fail on the statement. The hypothesis holds for `A = 1`. The variant with `det ≠ 0` in place of `0 < det` is false (the diagonal matrix with one entry −1 is separated from 1 by the intermediate value theorem on `det` along a path), which a red team can state as a negative check. For empty `n` the determinant is 1 and both sides are trivial; nothing in the consumer uses that case. Both declarations are listed in `docs/gaps.md` "General lemmas kept local" (decision 0011); the ledger module is `HodgeLadder.Glpos.PathConnected` (the brief's default path splits the id at every hyphen).
 
 ## Sources
 
