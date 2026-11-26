@@ -81,3 +81,4 @@ public import HodgeLadder.Cup.SupportedPair
 public import HodgeLadder.Tests.SupportedComparison
 public import HodgeLadder.Cup.SupportedAgreement
 public import HodgeLadder.Cup.SupportedForget
+public import HodgeLadder.Cup.ConstantGenerator
