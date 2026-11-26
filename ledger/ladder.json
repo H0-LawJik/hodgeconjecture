@@ -1005,15 +1005,20 @@
     {
       "id": "ext-derived-bridge",
       "title": "Mathlib's Ext classes between constant sheaves and upstream's Hypercohomology classes agree in the derived category of sheaves of abelian groups on X(ℂ), through single versus extended complexes and upstream's ULift identification",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.ExtBridge",
+      "declarations": [
+        "HodgeLadder.Cup.hyperEquiv_hom",
+        "HodgeLadder.Cup.hyperEquiv_hom_comp"
+      ],
       "depends_on": [
         "one-is-kappa"
       ],
-      "contributors": [],
-      "note": "Map both to DerivedCategory through SmallShiftedHom.equiv with Q (universe-independent); constantIntegerSheafComplexIntIsoSingleULift and extendSingleIso supply the object isomorphisms."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Public restatement of upstream's private hypercohomologyAddEquivConstantCohomology_hom: in the derived category, the Ext class of α is α preceded by the inverse of the source comparison (constantIntegerSheafComplexIntIsoSingleULift) and followed by the target comparison (constantFieldSheafComplexIntIsoSingle). Needs upstream's local HasExt.{0} instance repeated, and the site HasDerivedCategory instance defined as the analytic one, or unification of the two sheaf spellings times out."
     },
     {
       "id": "end-class-right-mult",
