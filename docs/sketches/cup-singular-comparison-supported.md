@@ -69,7 +69,7 @@ Right multiplication on supported sections is `sheafSectionsSupportedOutside` ap
 
 ## Plan for `supported-singular-model` (2026-11-25)
 
-**Equivalence of record.** Upstream's cycle-class transport (`complexSupportInjectiveSectionCohomologyEquiv`, `Lemmas/AlgebraicGeometry/Cycle/Transport/CohomologySheaf.lean`) identifies supported cohomology with relative singular cohomology through supported sections followed by `supportedRationalSingularSectionCohomologyEquivSupportComplement`. The supported comparison uses the same route: `relHAddEquivSupportedSectionsHomologyOfFlasque` for `K = S`, then that equivalence at `V = ⊤`.
+**Equivalence used here.** Upstream's cycle-class transport (`complexSupportInjectiveSectionCohomologyEquiv`, `Lemmas/AlgebraicGeometry/Cycle/Transport/CohomologySheaf.lean`) identifies supported cohomology with relative singular cohomology through supported sections followed by `supportedRationalSingularSectionCohomologyEquivSupportComplement`. The supported comparison uses the same route: `relHAddEquivSupportedSectionsHomologyOfFlasque` for `K = S`, then that equivalence at `V = ⊤`.
 
 **Shape of upstream's equivalence.** `supportedRationalSingularSectionCohomologyEquivRelative` is a chain of four maps:
 

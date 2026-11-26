@@ -19,7 +19,7 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
-**2026-11-26 (comparison, supported).** `cup-singular-comparison` checked: with `cup-singular-comparison-absolute`, the supported case `Φ (α ∪ β) = (−1)^{pq} · relCupSing (Φ α) (Ψ β)` holds for upstream's flasque supported-sections model followed by `supportedRationalSingularSectionCohomologyEquivRelative`. **Next planned work:** red-team pass on the supported comparison, `cup-comparison-supported-pair`, then `local-class-product`.
+**2026-11-26 (comparison, supported).** `cup-singular-comparison` checked: with `cup-singular-comparison-absolute`, the supported case `Φ (α ∪ β) = (−1)^{pq} · relCupSing (Φ α) (Ψ β)` holds for upstream's flasque supported-sections model followed by `supportedRationalSingularSectionCohomologyEquivRelative`. Red team: pass with changes, implemented; `cup-comparison-supported-pair` checked. **Next planned work:** `supported-model-agreement`, `supported-forget-compat`, then the route choice for `local-class-product`.
 
 **2026-11-25 (supported comparison, relative cup).** `supported-singular-model` checked, with `supported-relative-cup`, `relative-cup-cocycle`: upstream's supported singular equivalence carries right multiplication by a global cocycle on supported sections to `relCupSing`, with no sign. **Next planned work:** the supported `cup-singular-comparison`: combine with `supCup_supportedSections` and `pairSheafEvaluation_cocycleComp_rightMul` at `V = ⊤`, `U = X ∖ Z`, then transport to `neighborhoodSupportComplementPair`.
 
