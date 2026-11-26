@@ -1353,6 +1353,24 @@
       "note": "Θ : relSeq → supSeq for any opens U, V. The middle and last components are upstream's sheafification units of raw cochains, transported by the same isomorphisms that upstream's supportedRationalSingularSectionCohomologyEquivRelative uses; the first is the lift through the kernel given by upstream's short exactness for flasque complexes (T2, paracompact opens)."
     },
     {
+      "id": "cone-map-lemmas",
+      "title": "homotopyCofiber.mapArrowHom is mappingCone.map for cochain complexes over ℤ; an exact functor commutes with the shifted lift into the cone, with the shift isomorphism of homology, and with upstream's shortExactHomologyIsoCone",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.ConeMaps",
+      "declarations": [
+        "HodgeLadder.Cup.mapArrowHom_eq_map",
+        "HodgeLadder.Cup.map_shiftedLiftShortComplex",
+        "HodgeLadder.Cup.mapHomologyIso_shiftIso",
+        "HodgeLadder.Cup.map_shortExactHomologyIsoCone"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "General homological algebra; Mathlib or upstream candidates (docs/gaps.md)."
+    },
+    {
       "id": "supported-cone-compat",
       "title": "Upstream's cone identifications in supportedRationalSingularSectionCohomologyEquivRelative compose, on cone homology, to the mapping-cone map of Θ",
       "status": "open",
@@ -1360,7 +1378,8 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "supported-raw-map"
+        "supported-raw-map",
+        "cone-map-lemmas"
       ],
       "contributors": [],
       "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
