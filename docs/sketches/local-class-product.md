@@ -809,6 +809,109 @@ All 33 are `rfl` except `cap_chainOfSimplex_eq`, `triadRelativeChainProjection_t
 
 **Proved after the red team** (2026-11-26). `triadEval_relCup2`, with the helpers `relativeCochainCohomologyEquiv_symm_homologyπ` and `relativeCohomologyEquivDualHomology_triadCapCohomologyLinear_homologyπ`, is proved along the route of the verdict `docs/sketches/triad-relative-cup-cap.redteam.md` (Appendix A): one bridge lemma on the cap side, both pairings through the port's `HomologicalComplex.linearDualHomologyEquiv_homologyπ_apply`. The rung is `checked`. The seven pins of Appendix B are in `HodgeLadder.Cup.TriadCapPins` (rung `triad-cap-pins`; the subspace-map pin is `triadSubspaceChainMap_pin`, to stay distinct from `HodgeLadder.Relative.triadSubspaceChainMap_eq`), and the non-vacuity corollary of Appendix C is `HodgeLadder.Tests.exists_eval_relCup2_ne_zero` (rung `triad-relative-cup-cap-test`).
 
+## triad-relative-cup-naturality: statement
+
+Statement phase, 2026-11-26. Module `HodgeLadder/Cup/TriadCupNaturality.lean` (the ledger's `file` hint `HodgeLadder/Triad/Relative/Cup/Naturality.lean` is replaced by this path, next to `TriadCup.lean`; the ledger's `module` is set when the rung is proved). One `sorry`, in `relCup2_naturality`; everything else in the file is proved and uses the three standard axioms (`#print axioms`), with `relCup2_naturality_of_fst` and `relCup2_restrict` proved from `relCup2_naturality`. The file is not imported from `HodgeLadder.lean`. Imports, as checked: `HodgeLadder.Cup.TriadCup`, `HodgeLadder.Relative.CrossTriadNaturality`, upstream `HodgeConjecture.Definitions.AlgebraicTopology.LocalHomology.FundamentalClass` (for `neighborhoodSupportComplementPair`), Mathlib `Topology.Sets.Closeds`. The statement phase also imported `HodgeLadder.Cup.SupportedPairForget` and upstream's `NormalProjectionCoclass` definitions; both went with the compatibility lemma (red team, change 2). All are all built in the shared cache. `lake env lean` on the file: about 10 s.
+
+**Statements.** For `X X' : TopCat.{0}`:
+
+```lean
+theorem relCup2_naturality (f : X' ⟶ X) {A B : Set X} {A' B' : Set X'}
+    (hA : IsOpen A) (hB : IsOpen B) (hA' : IsOpen A') (hB' : IsOpen B')
+    (hfA : ∀ x ∈ A', f x ∈ A) (hfB : ∀ x ∈ B', f x ∈ B) {p q : ℕ}
+    (a : RelativeCohomology ℚ (TopPair.ofSubset A) p)
+    (b : RelativeCohomology ℚ (TopPair.ofSubset B) q) (n : ℕ) (h : p + q = n) :
+    relativeCohomologyMap ℚ n (TopPair.ofSubsetHom f (HodgeLadder.Relative.triadMap_mem_union f hfA hfB))
+        (relCup2 X A B hA hB a b n h) =
+      relCup2 X' A' B' hA' hB'
+        (relativeCohomologyMap ℚ p (TopPair.ofSubsetHom f hfA) a)
+        (relativeCohomologyMap ℚ q (TopPair.ofSubsetHom f hfB) b) n h
+
+theorem relCup2_naturality_of_fst (f : X' ⟶ X) {A B : Set X} {A' B' : Set X'}
+    (hA : IsOpen A) (hB : IsOpen B) (hA' : IsOpen A') (hB' : IsOpen B')
+    (gA : TopPair.ofSubset A' ⟶ TopPair.ofSubset A)
+    (gB : TopPair.ofSubset B' ⟶ TopPair.ofSubset B)
+    (g : TopPair.ofSubset (A' ∪ B') ⟶ TopPair.ofSubset (A ∪ B))
+    (hgA : TopPair.Hom.fst gA = f) (hgB : TopPair.Hom.fst gB = f) (hg : TopPair.Hom.fst g = f)
+    {p q : ℕ} (a : RelativeCohomology ℚ (TopPair.ofSubset A) p)
+    (b : RelativeCohomology ℚ (TopPair.ofSubset B) q) (n : ℕ) (h : p + q = n) :
+    relativeCohomologyMap ℚ n g (relCup2 X A B hA hB a b n h) =
+      relCup2 X' A' B' hA' hB' (relativeCohomologyMap ℚ p gA a)
+        (relativeCohomologyMap ℚ q gB b) n h
+```
+
+Restriction, for `Y : Type` with a topology, `V : Set Y` (any subset) and `Z W : Closeds Y`, in the spelling of the supported comparison on Y (`Z.compl`, as `supported-pair-forget` asks) and of upstream's `neighborhoodSupportComplementPair V Z` on V:
+
+```lean
+theorem relCup2_restrict (V : Set Y) (Z W : Closeds Y) {p q : ℕ}
+    (a : RelativeCohomology ℚ (TopPair.ofSubset (X := TopCat.of Y) (Z.compl : Set Y)) p)
+    (b : RelativeCohomology ℚ (TopPair.ofSubset (X := TopCat.of Y) (W.compl : Set Y)) q)
+    (n : ℕ) (h : p + q = n) :
+    relativeCohomologyMap ℚ n
+        (TopPair.ofSubsetHom (subsetInclusion V)
+          (HodgeLadder.Relative.triadMap_mem_union (subsetInclusion V) (mem_compl_of_neighborhood V Z)
+            (mem_compl_of_neighborhood V W)) :
+          TopPair.ofSubset ({w : V | w.1 ∉ (Z : Set Y)} ∪ {w : V | w.1 ∉ (W : Set Y)}) ⟶
+            TopPair.ofSubset (X := TopCat.of Y) ((Z.compl : Set Y) ∪ (W.compl : Set Y)))
+        (relCup2 (TopCat.of Y) (Z.compl : Set Y) (W.compl : Set Y) Z.compl.isOpen W.compl.isOpen
+          a b n h) =
+      relCup2 (TopCat.of V) {w : V | w.1 ∉ (Z : Set Y)} {w : V | w.1 ∉ (W : Set Y)}
+        (isOpen_neighborhoodComplement V Z) (isOpen_neighborhoodComplement V W)
+        (relativeCohomologyMap ℚ p (restrictToNeighborhood V Z) a)
+        (relativeCohomologyMap ℚ q (restrictToNeighborhood V W) b) n h
+```
+
+`restrictToNeighborhood V Z : neighborhoodSupportComplementPair V Z ⟶ TopPair.ofSubset Z.compl` is `TopPair.ofSubsetHom` of the inclusion of V. `neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv` (proved, `ext` and `rfl`; moved to `cycle-class-multiplicative`, stated over V : Set Y, red team change 2) says that upstream's restriction from ⊤ to an open V, followed by the inverse of `ofSubsetIsoNeighborhoodTop Z`, is `restrictToNeighborhood V Z`; that is the form in which `cycle-class-germ` (`transport_supportedClass_eq_chartNormalProjectionCoclass`) delivers restricted classes.
+
+**Proved now.**
+
+| Declaration | Content |
+|---|---|
+| `mem_of_pairHom`, `eq_ofSubsetHom`, `eq_ofSubsetHom_of_fst` | a map of `TopPair.ofSubset` pairs maps the subspace into the subspace and equals `TopPair.ofSubsetHom` of its ambient map (the subspace map is forced, since the inclusion is injective) |
+| `mem_union_of_mem` | f(A') ⊆ A and f(B') ⊆ B give f(A' ∪ B') ⊆ A ∪ B; replaced by `Relative.triadMap_mem_union` |
+| `triadChainsMap f hfA hfB` | C(X')/(C(A') + C(B')) → C(X)/(C(A) + C(B)), `cokernel.map` of the chain map of f and `biprod.map` of the chain maps of its restrictions. The same chain map as `HodgeLadder.Relative.triadChainMap` (module `HodgeLadder.Relative.CrossTriadNaturality`, parallel rung `relative-cross-triad-naturality`, built there as `cokernel.desc` of C(f) ≫ π). Kept local for the statement phase, then replaced by `Relative.triadChainMap`; an `abbrev` would leave a rewrite seam (red team, finding 3) |
+| `triadProj_triadChainsMap` | π' ≫ `triadChainsMap` = C(f) ≫ π |
+| `triadChainsMap_triadDiagonal` | `triadChainsMap` ≫ `triadDiagonal X A B` = `triadDiagonal X' A' B'` ≫ (f_A ⊗ f_B), with f_A, f_B the relative chain maps of `ofSubsetHom f hfA`, `ofSubsetHom f hfB`; from Tau Ceti's `alexanderWhitneyDiagonal_naturality` and upstream's `relativeChainProjection_naturality`, checked through the epimorphism π' |
+| `triadChainsMap_triadToUnion` | `triadChainsMap` ≫ τ = τ' ≫ f_{A∪B}, for τ upstream's `triadToUnionRelativeChainMap` (induced by the identity of C(X)) |
+| `relCup2_naturality_of_fst`, `relCup2_restrict` | from `relCup2_naturality` by `eq_ofSubsetHom_of_fst`; `relCup2_restrict` is the instance f = inclusion of V |
+
+**Signs.** None. Every map in the square is induced by f on chains (`triadChainsMap`, f_A, f_B, f_{A∪B}); the cup is Tau Ceti's `cup` along the two triad diagonals with the same μ = `(λ_ _).hom`, whose naturality `cup_naturality` carries no sign; `dualIsoYoneda` has no degree sign (register row "Triad relative cup product"). The factor order is preserved: the A factor stays first on both sides.
+
+**Route for the proof** (about 30 lines, the pattern of `relCupSing_naturality` with one excision square added).
+
+1. Apply the injective `(triadExcisionCoh X' A' B' hA' hB' n).hom`, then the injective `(triadCohIso X' A' B' n).hom`.
+2. Left side: `triadExcisionCoh'.hom ∘ relativeCohomologyMap f_{A∪B}` is the dual of τ' ≫ f_{A∪B} = `triadChainsMap` ≫ τ (`triadChainsMap_triadToUnion`, `linearDualMap_comp`), so it is the pullback along `triadChainsMap` after `triadExcisionCoh.hom`; the latter cancels the `inv` in `relCup2`.
+3. Move to Tau Ceti cochains by `homologyMap_dualIsoYoneda_apply`; right side by `relCohIso_map` on a and b.
+4. `cup_naturality` with e = `triadChainsMap`, D = `triadDiagonal X A B`, D' = `triadDiagonal X' A' B'`, f = f_A, g = f_B and the square `triadChainsMap_triadDiagonal`.
+
+**Consumer fit** (elaborated in scratch inside the worktree, deleted).
+
+- `local-class-product` step 7: f = the normal projection w ↦ (e w).2 : V → ℂ^{a+b} of a chart e : M → E × ℂ^{a+b}, A' = {w | w ∉ Z}, B' = {w | w ∉ W}, A = `setA a b`, B = `setB a b` (the `TopPair.ofSubset (X := TopCat.of (Fin (a + b) → ℂ))` spelling of `projA`); `relCup2_naturality` applies term for term.
+- `cycle-class-multiplicative` step 6: for V : Opens Y and classes on `TopPair.ofSubset Z.compl`, `TopPair.ofSubset W.compl`, the restrictions in the form `neighborhoodSupportInclusionPairMap … ≫ (ofSubsetIsoNeighborhoodTop Z).inv` become `restrictToNeighborhood` by one `rw`, and `relCup2_restrict` closes the goal (4.7 s). Through `relCup2_naturality_of_fst` with the composites as gA, gB and `rfl` for their ambient maps, elaboration exceeded 200000 heartbeats; the `rw` route is the one to use.
+
+**Checks for the red team.**
+
+- `rfl`, `simp`, `aesop`, `decide`, `grind` fail on `relCup2_naturality`; `exact?` finds only the statement itself.
+- `python3 tools/check.py --no-build` rejects only the one `sorry` of this file.
+- Hypotheses: `hA'`, `hB'` are needed only to form `relCup2` on X' (excision on X'); f need not be open or injective, and A' may be smaller than f⁻¹(A). The union map's membership proof is `HodgeLadder.Relative.triadMap_mem_union f hfA hfB`; by proof irrelevance any other proof gives the same map, so consumers with their own proof still match.
+- Non-vacuity: at f = 𝟙, A' = A, B' = B the statement is `relCup2 a b = relCup2 a b` after `relativeCohomologyMap_id`; the content is for maps that move the subspaces, as in step 7, where the right side becomes the chart coclass product.
+
+Questions for the red team: (i) whether `relCup2_restrict` should take V : Opens Y, the form of step 6, or keep any subset; (ii) whether the union on V should be stated directly as `neighborhoodSupportComplementPair V (Z ∩ W)` (it is `unionComplIso`'s job in `cycle-class-multiplicative`); (iii) whether `SupportedPairForget` is acceptable as an import of a triad module, or the compatibility lemma should move to the consumer.
+
+## triad-relative-cup-naturality: proofs
+
+Date: 2026-11-26. Checked in `HodgeLadder.Cup.TriadCupNaturality`, imported from `HodgeLadder.lean`; `lake env lean` on the file takes about 8 s and `python3 tools/check.py` exits 0. The statements are as posted. The union membership proof is now `HodgeLadder.Relative.triadMap_mem_union`, the same map by proof irrelevance. Red team `docs/sketches/triad-relative-cup-naturality.redteam.md`: pass with changes; changes 1 to 4 and 6 are implemented, and change 5 (optional swap test) is skipped.
+
+| Change | Where it is now |
+|---|---|
+| 1: one triad chain map | `ambientChainMap`, `triadChainsMap`, `triadProj_triadChainsMap`, `triadChainsMap_triadToUnion`, `mem_union_of_mem` deleted; the proof uses `Relative.triadChainMap`, `Relative.triadChainMap_triadToUnionRelativeChainMap`, `Relative.triadMap_mem_union`; the diagonal square is `triadChainMap_triadDiagonal`; conventions row "Map of triads on triad chains" updated |
+| 2: no supported stack in the triad module | `SupportedPairForget` import dropped; `neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv` (over V : Set Y) recorded for `cycle-class-multiplicative` (sketch "Glue statements", ledger note) |
+| 3: step-6 glue | `unionComplIso` (`Closeds` form), `unionComplIsoNeighborhood`, `unionComplIso_restrict`, same places; recompiled against the checked module |
+| 4: general lemmas | `mem_of_pairHom`, `eq_ofSubsetHom`, `eq_ofSubsetHom_of_fst` in `docs/gaps.md` "General lemmas kept local" (decision 0011) |
+| 6: sketch text | the statement section above |
+
+Proof of `relCup2_naturality`: the red team's text (verdict, section 3) with the merged names. It applies the injective `triadExcisionCoh` and `triadCohIso` on X', turns the union pullback into the dual of `Relative.triadChainMap` through the excision square, cancels the `inv`s of `relCup2` (the `triadCohIso` cancellation stated as `e4`, since `erw [Iso.inv_hom_id_apply]` does not fire there), and ends with Tau Ceti's `cup_naturality` along `triadChainMap_triadDiagonal`, with the two classes named, which avoids a ring-instance mismatch. No sign appears in any step.
+
 ## Sources
 
 `Hatcher2002` (§3.2 relative cup, §3.B cross products), `MilnorStasheff1974` (Thom class of a product, complex orientation; section numbers unverified), `Bredon1993` (cross and cap products; unverified), `Dold1972` (Koszul sign conventions; unverified), `Fulton1998` ch. 19 (why: the cycle map is a ring homomorphism; numbering unverified). The determinant (−1)^d (d + 1) is checked in Lean (`det_edgeMatrix_standardAffineSimplex`). The block determinant is a hand computation with an exact check for 1 ≤ m, n ≤ 4 (red team of `real-affine-orientation`); it is to be checked in Lean in `cross-orientation`.

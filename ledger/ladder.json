@@ -2205,15 +2205,30 @@
     {
       "id": "triad-relative-cup-naturality",
       "title": "relCup2 is natural for maps of triads: for f : X' → X with f(A') ⊆ A and f(B') ⊆ B, A, B, A', B' open, the pullback along f of relCup2 a b is relCup2 (f* a) (f* b), with no sign",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "triad-relative-cup"
+      "module": "HodgeLadder.Cup.TriadCupNaturality",
+      "declarations": [
+        "HodgeLadder.Cup.relCup2_naturality",
+        "HodgeLadder.Cup.relCup2_naturality_of_fst",
+        "HodgeLadder.Cup.relCup2_restrict",
+        "HodgeLadder.Cup.triadChainMap_triadDiagonal",
+        "HodgeLadder.Cup.mem_of_pairHom",
+        "HodgeLadder.Cup.eq_ofSubsetHom",
+        "HodgeLadder.Cup.eq_ofSubsetHom_of_fst",
+        "HodgeLadder.Cup.subsetInclusion",
+        "HodgeLadder.Cup.mem_compl_of_neighborhood",
+        "HodgeLadder.Cup.restrictToNeighborhood",
+        "HodgeLadder.Cup.isOpen_neighborhoodComplement"
       ],
-      "contributors": [],
-      "note": "Used in local-class-product (step 7, along chartNormalProjectionPair) and in cycle-class-multiplicative (step 6, restriction to chart neighbourhoods). Split from triad-relative-cup (red team finding 15). Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "depends_on": [
+        "triad-relative-cup",
+        "relative-cross-triad-naturality"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Exact, no sign, A factor first on both sides: for f : X' ⟶ X with f(A') ⊆ A, f(B') ⊆ B, all four open, relativeCohomologyMap along TopPair.ofSubsetHom f (Relative.triadMap_mem_union f hfA hfB) of relCup2 a b is relCup2 of the pullbacks along TopPair.ofSubsetHom f hfA and f hfB (relCup2_naturality). Proof: injectivity of triadExcisionCoh on X', the excision square Relative.triadChainMap_triadToUnionRelativeChainMap, the diagonal square triadChainMap_triadDiagonal (Alexander–Whitney naturality), Tau Ceti cup_naturality. The chain map is the canonical Relative.triadChainMap of relative-cross-triad-naturality; no local copy. relCup2_naturality_of_fst covers every map of TopPair.ofSubset pairs with a common ambient map (eq_ofSubsetHom); relCup2_restrict is the restriction to any V : Set Y in the Z.compl spelling on Y and the neighborhoodSupportComplementPair spelling on V (restrictToNeighborhood), the form of cycle-class-multiplicative step 6. Consumers: local-class-product step 7 (normal projection of a chart, term for term) and cycle-class-multiplicative step 6 (glue lemmas recorded in that rung's note). Classes must be typed on Z.compl, not (↑Z)ᶜ (conventions row Pair spellings). Register row: Triad relative cup naturality. Sketch: docs/sketches/local-class-product.md, section triad-relative-cup-naturality; red team 2026-11-26: pass with changes, implemented (docs/sketches/triad-relative-cup-naturality.redteam.md). Optional test rung (red team change 5, skipped): the coordinate swap on the punctured square, after a pullback lemma for windingClass exists."
     },
     {
       "id": "triad-cap-pins",
@@ -2719,7 +2734,7 @@
         "supported-model-agreement-open"
       ],
       "contributors": [],
-      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md. Spelling (red team on supported-pair-forget, finding 6, change D): state unionComplIso for Z W T : Closeds Y with hT : T = Z ⊓ W, on TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y), and spell the pairs of triad-relative-cup so that A := (Z.compl : Set Y) is accepted without unfolding Closeds.compl; conventions row Pair spellings of (X, X ∖ Z)."
+      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md. Spelling (red team on supported-pair-forget, finding 6, change D): state unionComplIso for Z W T : Closeds Y with hT : T = Z ⊓ W, on TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y), and spell the pairs of triad-relative-cup so that A := (Z.compl : Set Y) is accepted without unfolding Closeds.compl; conventions row Pair spellings of (X, X ∖ Z). Step 6 glue (red team on triad-relative-cup-naturality, changes 2 and 3; exact Lean in docs/sketches/cycle-class-multiplicative.md section Glue statements): add here neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv (V : Set Y, Z : Closeds Y: upstream's restriction from ⊤ followed by (ofSubsetIsoNeighborhoodTop Z).inv is restrictToNeighborhood V Z, by ext and rfl), unionComplIso in Closeds form (hT : T = Z ⊓ W), unionComplIsoNeighborhood V hT ((V; V ∖ Z ∪ V ∖ W) ≅ neighborhoodSupportComplementPair V T, identity of V) and unionComplIso_restrict (the square restrictToNeighborhood V T ≫ (unionComplIso hT).inv = (unionComplIsoNeighborhood V hT).inv ≫ ofSubsetHom (subsetInclusion V) _). With them step 6 closes from relCup2_restrict by two rw lines (red-team scratch RT3)."
     },
     {
       "id": "cycle-class-multiplicative-codim-zero",
