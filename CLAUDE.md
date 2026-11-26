@@ -19,11 +19,11 @@ A proof repository with a thin Python harness around it. There is one library (`
 
 ## Status
 
+**2026-11-25 (supported comparison, relative cup).** `supported-singular-model` checked, with `supported-relative-cup`, `relative-cup-cocycle`: upstream's supported singular equivalence carries right multiplication by a global cocycle on supported sections to `relCupSing`, with no sign. **Next planned work:** the supported `cup-singular-comparison`: combine with `supCup_supportedSections` and `pairSheafEvaluation_cocycleComp_rightMul` at `V = ⊤`, `U = X ∖ Z`, then transport to `neighborhoodSupportComplementPair`.
+
 **2026-11-25 (supported comparison, singular model).** `supported-singular-class` checked, with `supported-raw-map`, `cone-map-lemmas`, `supported-cone-compat`, `supported-named-cocycle-comp`: upstream's supported singular equivalence sends the class of the sheafified relative cocycle `Θ₁ c` to the relative class of `c`, with no sign, and `H(Θ₁)` is bijective. **Next planned work:** `supported-relative-cup`, then the supported `cup-singular-comparison`.
 
 **2026-11-25 (supported comparison, sections).** `supported-sections-class` checked, with `supported-step2-cocycle-class`: through upstream's flasque supported-sections model, `supCup α β` is the class of α's cocycle composed with right multiplication by a cocycle naming β. The cone route (`support-cone-right-mult`, `support-named-class`) is dead. **Next planned work:** the supported analogue of `named-cocycle-comp`, `supported-singular-model`, then the supported `cup-singular-comparison`.
-
-**2026-11-25 (comparison, absolute).** `cup-singular-comparison-absolute` checked, with `step3-named-class`, `cup-top-open` and `cup-step3`: upstream's equivalence Ψ satisfies Ψ(x ∪ y) = (−1)^{pq} · cupSing (Ψ x) (Ψ y), same order. **Next planned work:** `cup-graded-commutative` (from this and `cupSing_gradedComm`), then the supported comparison and `local-class-product`.
 
 Keep this block to one paragraph per state change, newest first, and trim anything older than three entries into `docs/decisions/` or the git log.
 

@@ -1431,32 +1431,54 @@
     {
       "id": "supported-relative-cup",
       "title": "Upstream's supported singular equivalence sends the class of b acting on Θ₁ c to relCupSing [c] [b]",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedRelCup",
+      "declarations": [
+        "HodgeLadder.Cup.mapExtendCanonicalIso_inv_f",
+        "HodgeLadder.Cup.rawMapMid_apply",
+        "HodgeLadder.Cup.relCupDual",
+        "HodgeLadder.Cup.relProj_relCupDual",
+        "HodgeLadder.Cup.toSheafify_rightMul",
+        "HodgeLadder.Cup.relCupInt",
+        "HodgeLadder.Cup.relSeq_f_apply",
+        "HodgeLadder.Cup.extend_d_zero_iff",
+        "HodgeLadder.Cup.relDualEquiv_cls",
+        "HodgeLadder.Cup.relCupDual_iCycles",
+        "HodgeLadder.Cup.rawMap_comm₁₂_apply",
+        "HodgeLadder.Cup.rawMap_relCupInt",
+        "HodgeLadder.Cup.supported_relative_cup"
+      ],
       "depends_on": [
         "supported-singular-class",
         "relative-singular-cup",
         "relative-cup-cocycle"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, plan for supported-singular-model."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Φ_rel (class of s') = relCupSing (Φ_rel (class of Θ₁ x)) [b|V] when the section of s' is b acting on the section of Θ₁ x; no sign. Hypotheses: X Hausdorff, every open paracompact."
     },
     {
       "id": "supported-singular-model",
       "title": "The cohomology of the sections of the singular cochain sheaves supported in Z is relative singular cohomology H^n(X, X ∖ Z), compatibly with relCupSing",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cup.SupportedRelCup",
+      "declarations": [
+        "HodgeLadder.Cup.supported_singular_class",
+        "HodgeLadder.Cup.homologyMap_rawMap_bijective",
+        "HodgeLadder.Cup.supported_relative_cup"
+      ],
       "depends_on": [
         "relative-singular-cup",
         "supported-relative-cup",
         "supported-singular-class"
       ],
-      "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison-supported.md, revision."
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Conjunction of supported-singular-class and supported-relative-cup: upstream's supported singular equivalence (supportedRationalSingularSectionCohomologyEquivRelative) identifies the cohomology of supported sections with H^n(V, V ⊓ U), every class comes from a relative cocycle, and right multiplication by a global cocycle goes to relCupSing."
     },
     {
       "id": "cup-singular-comparison",
