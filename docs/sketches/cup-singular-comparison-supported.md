@@ -29,3 +29,21 @@ The absolute proof transfers once right multiplication is defined on the cone: `
 
 - The support cone is shifted by `−1`; the shift sign of `CochainComplex.mappingCone` enters the comparison, and the predicted sign `(−1)^{pq}` may acquire a further factor. Register the cone convention in `docs/conventions.md` before posting the target statement.
 - Upstream's raw cone uses top-open cochains of `X ∖ Z` (pushforward), so `cup-top-open` needs a relative version through the open `X ∖ Z` as well as `⊤`.
+
+## Revision (2026-11-25): the cone route fails, use supported sections
+
+Reading upstream further shows two problems with the route above.
+
+- The support cone is `Cone(S → j_* I_U)` with `I_U` a chosen injective resolution of `ℚ_U` (`complementSingularToInjectiveResolution`). Right multiplication is defined on `S` and on the singular cochains of the complement, not on `I_U`, and mapping cones are not functorial in the derived category. So `support-cone-right-mult` is retired.
+- `supCup` is defined on `H_[Z]^n(X; ℚ) = relH`, the `Ext` out of the pair sheaf, while `rationalCohomologyWithSupportAddEquivSingular` starts from `RationalCohomologyWithSupport`, the hypercohomology of the cone. The two models of cohomology with support are different objects at the pin.
+
+Upstream's statement library has a strict model for `relH`: `relHAddEquivSupportedSectionsHomologyOfFlasque` (`Definitions/AlgebraicTopology/Support/CohomologyFlasqueModel.lean`) identifies `relH` with the cohomology of the sections supported in `Z` of a flasque resolution `F[0] → K` with mono augmentation. For `K = S_ℤ` (flasque, `singularCochainSheafComplexInt_isFlasque`; mono, `rationalToSingularCochainComplexInt_mono`), right multiplication by a global cocycle preserves supported sections, so the absolute argument transfers without cones.
+
+| Id | Statement | Route |
+|---|---|---|
+| `supported-sections-right-mult` | `R_b` preserves the sections of `S` supported in `Z`, as a map of complexes `Γ_Z(S) → Γ_Z(S)[q]` | supported sections are the kernel of restriction to `X ∖ Z`; `rightMulApp_naturality` |
+| `supported-sections-class` | through `relHAddEquivSupportedSectionsHomologyOfFlasque`, `supCup α y` is the class of the supported cocycle of `α` times `b` | as `cup-global-comparison`, with `relH` in place of `H` and `support-ab-yoneda` |
+| `supported-singular-model` | the cohomology of `Γ_Z(S)` is relative singular cohomology `H^n(X, X ∖ Z)`, compatibly with `relCupSing` | upstream `Other/AlgebraicTopology/Support/SingularCohomologySheafComparison.lean`; `relative-singular-cup` |
+| `cup-singular-comparison` (supported) | `supCup` against `relCupSing` through the composite of the two models | the three rows above |
+
+Which equivalence `H_[Z]^n(X; ℚ) ≃ H^n(X, X ∖ Z)` is the one of record for the supported statement is a decision for the orchestrator: the composite above, or upstream's cone equivalence after a separate identification of `relH` with `RationalCohomologyWithSupport`.

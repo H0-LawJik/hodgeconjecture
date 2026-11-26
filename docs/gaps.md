@@ -41,6 +41,7 @@ A rolling registry. Add an entry when a shortcut is taken or a thread is dropped
 | Own foundations for stating the conjecture (`de-rham`, `complex-analytic-space`, `hodge-decomposition`, `cycle-class`) | Upstream already defines them on real objects (decision 0003) | 2026-11-24 |
 | Port duplicate of `CategoryTheory.Sheaf.H.δ` (red team M1) | Removed; `holomorphicFirstChernClass` uses Mathlib's `Sheaf.H.δ hS 1 2 rfl`, same body | 2026-11-24 |
 | Staged modules `ChernWindingRawBoundary`, `HolomorphicExponentialSupportWinding` (red team L3) | No counterpart at the verified head and no importer; deleted | 2026-11-24 |
+| `support-cone-right-mult`, `support-named-class` | right multiplication does not act on upstream's support cone, whose target is a chosen injective resolution of the complement; replaced by the supported-sections route | 2026-11-25 |
 
 ## Dropped threads
 
