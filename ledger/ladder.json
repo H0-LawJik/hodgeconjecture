@@ -942,16 +942,38 @@
     },
     {
       "id": "ab-ext-yoneda",
-      "title": "The Yoneda cup, read in sheaves of abelian groups through rationalCohomologyEquivExt and upstream's step 1, is α_x followed by the endomorphism class of y, which after ι is [R_b] after ι when y = [b]",
+      "title": "The Yoneda cup product in sheaves of abelian groups: α ∪ β = α followed by forgetEnd(e β), the endomorphism class of ℚ_Y obtained by forgetting the ℚ-structure of e β; in particular β = 1 followed by forgetEnd(e β)",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.AbYoneda",
+      "declarations": [
+        "HodgeLadder.Cup.forgetEnd",
+        "HodgeLadder.Cup.rationalExtEquiv_comp_forgetEnd",
+        "HodgeLadder.Cup.cupY_eq_comp_forgetEnd",
+        "HodgeLadder.Cup.eq_oneY_comp_forgetEnd"
+      ],
+      "depends_on": [
+        "cup-product"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Checked 2026-11-25. Ext algebra over Mathlib's Adjunction.extEquiv_symm_naturality_right for ℚ ⊗ − ⊣ forget: the forgetQX conjugations cancel and the adjunction moves y.mapExactFunctor forget past the transport. The second half of the original statement (the endomorphism class of [b], followed by ι, is ι followed by R_b) is the open rung end-class-right-mult."
+    },
+    {
+      "id": "end-class-right-mult",
+      "title": "For y = e[b], forgetEnd y followed by ι[q] equals ι followed by the class of R_b, in the derived category of sheaves of abelian groups on X(ℂ)",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
+        "ab-ext-yoneda",
+        "ext-class-right-mult",
         "iota-upstream"
       ],
       "contributors": [],
-      "note": "docs/sketches/cup-singular-comparison.md, plan for the comparison."
+      "note": "Both sides agree after precomposition with ℤ_X → ℚ_X (eq_oneY_comp_forgetEnd and ext-class-right-mult, once Sheaf.H's ULift ℤ source and upstream's Hypercohomology are identified). Cancelling ℤ_X → ℚ_X needs S to be a complex of ℚ-vector-space sheaves (sheafification commutes with forgetting ℚ) and the adjunction ℚ ⊗ − ⊣ forget on derived categories, under which ℚ ⊗ (ℤ_X → ℚ_X) is an isomorphism."
     },
     {
       "id": "cup-singular-comparison",
@@ -966,7 +988,8 @@
         "iota-upstream",
         "cocycle-class-mul",
         "named-cocycle-comp",
-        "ab-ext-yoneda"
+        "ab-ext-yoneda",
+        "end-class-right-mult"
       ],
       "contributors": [],
       "note": "The go/no-go rung of the front (decision 0009). Needs a backport of Tau Ceti Cup/Basic, GradedCommutativity and Cup/Relative into port/ and the cochain isomorphism dualIsoYoneda. Sign heuristic (unchecked): α ≫ β maps to ±(b ∪ a). Sketch and sub-rungs: docs/sketches/cup-singular-comparison.md (right multiplication by a global cocycle; supported version as a later sub-rung)."
