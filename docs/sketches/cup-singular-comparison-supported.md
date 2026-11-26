@@ -113,3 +113,27 @@ The red team (`cup-singular-comparison-supported.redteam.md`) passed the compari
 | ℙ¹ test | `cup-comparison-supported-test` (q = 0, so it does not see the sign) |
 
 The comparison also holds on `H^n(X, X ∖ Z; ℚ)` itself, with `Ψ β` on `X` (`cup-comparison-supported-pair`).
+
+### The comparison on a general open (2026-11-26)
+
+`local-class-product` works with upstream's normalized local classes, which live on small opens, so the comparison is moved from `V = ⊤` to a general open `V` of `X(ℂ)`, with `W = V ⊓ (X ∖ Z)` and classes in upstream's `relH ℚ_X n (W ≤ V)` (the value at `V` of `supportHOnOpenPresheaf`). The product is `supCupY α β`: it is defined for any source sheaf, here the pair sheaf `ℤ[V, W]`, so no new definition is needed. Most of the route was already general in `V` (`rawMap`, `supported_singular_class`, `homologyMap_rawMap_bijective`, `supported_relative_cup`, `supCupY_class`, `relHSupportedOfFlasque_mk`, `pairEval`, `supportedSection_eq_pairEval'`, `pairSheafEvaluation_cocycleComp_rightMul'`).
+
+| Id | Statement | Lean |
+|---|---|---|
+| `singular-restrict-open` | upstream's `cohomologyMap` along `V ⟶ X` sends `singClass b` to the class of `b` restricted to `V`, no sign | `cohomologyMap_inclusion_singClass` (general space) |
+| `supported-open-rep` | every class of `(V, W)` is represented by `Θ₁ x` for a relative cocycle `x`, and the cocycle of `Θ₁ x` names it | `exists_supported_rep_open`, `flasqueModelOpen`, `supCocycleOpen` |
+| `supported-open-sections-class` | through the flasque model at `V`, `supCupY α β` is the class of `cocycleComp z R_b` | `supCup_flasque_open` |
+| `cup-comparison-supported-open` | `Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β\|_V)`, `β\|_V = cohomologyMap (Opens.inclusion' V) (Ψ β)` | `cup_singular_comparison_open` |
+
+The same timeout lesson applied twice. The statement needs the space of `Opens.inclusion' V` given explicitly (`X := TopCat.of (ComplexPoint X)`); left implicit, unification against `↧(ComplexPoint X)` runs out of heartbeats. The restriction lemma at the variety compares `(Opens.toTopCat _).obj V` with the first space of `pairVU`, which times out; it is stated for a general space with the `openInclusionPair` spelling of `pairVU` (`cohomologyMap_inclusion_singClass_pair`, now in `RestrictOpen.lean`) and applied with `Y` explicit.
+
+The red team on this section (`cup-comparison-supported-open.redteam.md`) passed it with changes, all implemented:
+
+| Id | Statement | Lean |
+|---|---|---|
+| `cup-comparison-supported-open` | the theorem for any `W` with `V ⊓ (X ∖ Z) = W`; at `(⊤, X ∖ Z)` it is `cup_singular_comparison_supported` verbatim, the pullback along the inclusion of `⊤` being the top-open transport (no sign) | `cup_singular_comparison_open_of_eq`, `cohomologyMap_inclusion_top`, `cup_singular_comparison_supported_of_open` |
+| `cup-comparison-open-test` | on upstream's chart neighborhood `T` of a smooth closed subvariety, `Φ_T⁻¹` of the normal coclass is nonzero and both sides at `β = 1` are nonzero; on ℙ¹ with a complex point, in degree 2 | `cup_comparison_open_nonzero`, `projectiveLine_cup_comparison_open_nonzero` |
+| `supported-open-naturality` | `Φ_{V'} ∘ relH.restrict = relativeCohomologyMap (openInclusionPairMap …) ∘ Φ_V`, and `relH.restrict (α ∪ β) = (relH.restrict α) ∪ β`; no sign | `comparisonOpen_restrict`, `relH_restrict_supCupY` |
+| `supported-model-agreement-open` | upstream's transport `complexSupportInjectiveSectionCohomologyEquiv X Z V` after the injective model at `V` is `Φ_V` followed by `openIntersectionPairIsoSupportComplement` | `flasqueModelOpen_agreement`, `transport_eq_flasqueModelOpen`, `transport_eq_comparisonOpen` |
+
+The two spellings of `W` at `V = ⊤` (`⊤ ⊓ (X ∖ Z)` against `X ∖ Z`) are propositionally equal and give different types; upstream's flasque model takes `(W, hW)`, so the comparison generalized over `(W, hW)` reduces to the `rfl` case by `subst`. What `local-class-product` still lacks at a general `V`: a product of two supported classes (or `β ∈ H^q(V)`), and the move from `pairVU` to `neighborhoodSupportComplementPair V Z`.

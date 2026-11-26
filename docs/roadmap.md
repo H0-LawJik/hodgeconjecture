@@ -94,7 +94,14 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `forget-support-cocycle` | foundation | checked | | forgetting the support precomposes a cocycle representative with `ℤ_X → ℤ[X, X ∖ Z]` |
 | `constant-generator` | foundation | checked | | evaluation at `1` out of `ℤ_Y`; the terminal isomorphism sends the generator of `ℤ[⊤]` to `1` |
 | `supported-forget-compat` | foundation | checked | `cup-singular-comparison` | forgetting the support commutes with `Φ` against `Ψ`, sign fixed |
-| `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
+| `singular-restrict-open` | foundation | checked | `cup-top-open` | upstream's `cohomologyMap` along `V ⟶ X` sends the singular class of a global cocycle to the class of its restriction to `V` |
+| `supported-open-rep` | foundation | checked | `cup-singular-comparison` | every class of the pair `(V, V ⊓ (X ∖ Z))` has a relative-cocycle representative through upstream's flasque model at `V` |
+| `supported-open-sections-class` | foundation | checked | `supported-open-rep`, `supported-sections-class` | on a general open `V`, `α ∪ β` is the supported-sections class of the representative composed with right multiplication |
+| `cup-comparison-supported-open` | foundation | checked | `supported-open-sections-class`, `singular-restrict-open` | `Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β\|_V)` on a general open `V` |
+| `cup-comparison-open-test` | test | checked | `cup-comparison-supported-open` | ℙ¹: the comparison on a general open applies for every closed `Z` and open `V`; on upstream's chart neighborhood of a smooth closed subvariety (on ℙ¹, of a point) it is a nonzero identity at `β = 1` |
+| `supported-open-naturality` | foundation | checked | `supported-open-rep`, `supported-cup` | `Φ_V` is natural in `V` against `relativeCohomologyMap (openInclusionPairMap …)`, and restriction of pairs commutes with `α ∪ β`; no sign |
+| `supported-model-agreement-open` | foundation | checked | `supported-model-agreement`, `supported-open-rep` | `Φ_V` agrees with upstream's cycle-class transport at `V`, through `openIntersectionPairIsoSupportComplement` |
+| `local-class-product` | foundation | open | `cup-singular-comparison`, `supported-open-naturality`, `supported-model-agreement-open` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
 | `cup-positive-degree-test` | test | open | `cup-pullback`, `cycle-class-multiplicative` | On ℙ¹ × ℙ¹, pr₁*[pt] ∪ pr₂*[pt] ≠ 0 |
 | `cup-graded-commutative` | foundation | checked | `cup-singular-comparison-absolute` | α ∪ β = (−1)^{pq} β ∪ α |
