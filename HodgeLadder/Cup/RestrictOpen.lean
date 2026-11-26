@@ -12,7 +12,8 @@ inclusion `V ⟶ Y` sends the singular class of `b` (`singClass`) to the class o
 
 ## Main results
 
-* `HodgeLadder.Cup.isoTopOpen_inv_comp_inclusion`, `HodgeLadder.Cup.cohomologyMap_inclusion_singClass`
+* `HodgeLadder.Cup.isoTopOpen_inv_comp_inclusion`, `HodgeLadder.Cup.cohomologyMap_inclusion_singClass`,
+  `HodgeLadder.Cup.cohomologyMap_inclusion_singClass_pair`
 -/
 
 @[expose] public noncomputable section
@@ -71,5 +72,20 @@ theorem cohomologyMap_inclusion_singClass {q : ℕ} (b : OpenCochains ℚ Y (op 
     b (q + 1) (by simp) hb
   erw [e1, e2]
   rfl
+
+set_option backward.isDefEq.respectTransparency false in
+/-- `cohomologyMap_inclusion_singClass` with the target spelled as the first space of upstream's
+pair `(V, V ⊓ U)` (`openInclusionPair`), for a general space; applied at a variety, comparing the
+two spellings there times out. -/
+lemma cohomologyMap_inclusion_singClass_pair (U : Opens Y) {q : ℕ} (b : OpenCochains ℚ Y (op ⊤) q)
+    (hb : (singularCochainCoboundary ℚ Y q).app (op ⊤) b = 0)
+    (hbV : (SingularChainComplex ℚ (openInclusionPair Y (Opens.infLELeft V U)).fst
+      ).linearDualCochainComplex.d q (q + 1) (resQ b (op V)) = 0) :
+    cohomologyMap ℚ q (Opens.inclusion' V) (singClass b hb) =
+      (SingularChainComplex ℚ (openInclusionPair Y (Opens.infLELeft V U)).fst
+        ).linearDualCochainComplex.homologyπ q
+        ((SingularChainComplex ℚ (openInclusionPair Y (Opens.infLELeft V U)).fst
+          ).linearDualCochainComplex.cyclesMk (resQ b (op V)) (q + 1) (by simp) hbV) :=
+  cohomologyMap_inclusion_singClass V b hb hbV
 
 end HodgeLadder.Cup

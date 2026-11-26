@@ -1847,7 +1847,8 @@
       "module": "HodgeLadder.Cup.RestrictOpen",
       "declarations": [
         "HodgeLadder.Cup.isoTopOpen_inv_comp_inclusion",
-        "HodgeLadder.Cup.cohomologyMap_inclusion_singClass"
+        "HodgeLadder.Cup.cohomologyMap_inclusion_singClass",
+        "HodgeLadder.Cup.cohomologyMap_inclusion_singClass_pair"
       ],
       "depends_on": [
         "cup-top-open"
@@ -1855,7 +1856,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "No sign: both sides are precomposition with chain maps of continuous maps (V ⟶ ⊤ ⟶ X is the inclusion of V). Stated for a general space."
+      "note": "No sign: both sides are precomposition with chain maps of continuous maps (V ⟶ ⊤ ⟶ X is the inclusion of V). Stated for a general space. cohomologyMap_inclusion_singClass_pair is the same lemma with the target spelled as the first space of upstream's openInclusionPair (V, V ⊓ U), the spelling cup_singular_comparison_open needs."
     },
     {
       "id": "supported-open-rep",
@@ -1901,10 +1902,12 @@
       "title": "On a general open V of X(ℂ), with W = V ⊓ (X ∖ Z): Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V), with Φ_V upstream's flasque supported-sections model at V followed by supportedRationalSingularSectionCohomologyEquivRelative at V, and β|_V upstream's cohomologyMap of Ψ β along the inclusion of V",
       "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.Cup.SupportedOpenFinal",
+      "module": "HodgeLadder.Cup.SupportedOpenTop",
       "declarations": [
         "HodgeLadder.Cup.cup_singular_comparison_open",
-        "HodgeLadder.Cup.cohomologyMap_inclusion_singClass_pair"
+        "HodgeLadder.Cup.cup_singular_comparison_open_of_eq",
+        "HodgeLadder.Cup.cohomologyMap_inclusion_top",
+        "HodgeLadder.Cup.cup_singular_comparison_supported_of_open"
       ],
       "depends_on": [
         "cup-singular-comparison",
@@ -1916,16 +1919,19 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Exact, sign (−1)^{pq} as at V = ⊤ (from rightMulCochain); no sign from the supported models or the restriction to V. Domain is upstream's relH ℚ_X p (V ⊓ Z.compl ≤ V), the value at V of supportHOnOpenPresheaf; target H^n(V, V ⊓ (X ∖ Z); ℚ) on pairVU. At V = ⊤ this is a different spelling of cup_singular_comparison_supported (W = ⊤ ⊓ (X ∖ Z) there is Z.compl through top_inf_eq); the two are not identified in Lean. The section computation (supportedSection_eq_pairEval', pairSheafEvaluation_cocycleComp_rightMul') was already general in V."
+      "note": "Exact, sign (−1)^{pq} as at V = ⊤ (from rightMulCochain); no sign from the supported models or the restriction to V. Domain is upstream's relH ℚ_X p (V ⊓ Z.compl ≤ V), the value at V of supportHOnOpenPresheaf; target H^n(V, V ⊓ (X ∖ Z); ℚ) on pairVU. The main theorem is in HodgeLadder.Cup.SupportedOpenFinal; the module named here imports it. At V = ⊤ the second open is spelled ⊤ ⊓ (X ∖ Z) against Z.compl in cup_singular_comparison_supported (propositionally equal, different types); cup_singular_comparison_open_of_eq states the theorem for any W with V ⊓ (X ∖ Z) = W, as upstream's flasque model does, and cup_singular_comparison_supported_of_open recovers cup_singular_comparison_supported verbatim from it at (⊤, Z.compl, top_inf_eq), with cohomologyMap_inclusion_top (pullback along the inclusion of ⊤ is the top-open transport, no sign). β is global (β ∈ H^q(X; ℚ)), weaker than the literature's β ∈ H^q(V). The section computation (supportedSection_eq_pairEval', pairSheafEvaluation_cocycleComp_rightMul') was already general in V."
     },
     {
       "id": "cup-comparison-open-test",
-      "title": "Non-vacuity on ℙ¹: the supported comparison on a general open applies for every closed Z and every open V",
+      "title": "Non-vacuity: the supported comparison on a general open applies on ℙ¹ for every closed Z and open V, and is a nonzero identity on upstream's chart neighborhood of a smooth closed subvariety",
       "status": "checked",
       "kind": "test",
       "module": "HodgeLadder.Tests.SupportedOpenComparison",
       "declarations": [
-        "HodgeLadder.Tests.projectiveLine_cup_singular_comparison_open"
+        "HodgeLadder.Tests.projectiveLine_cup_singular_comparison_open",
+        "HodgeLadder.Tests.cup_comparison_open_nonzero",
+        "HodgeLadder.Tests.isClosedImmersion_complexPoint",
+        "HodgeLadder.Tests.projectiveLine_cup_comparison_open_nonzero"
       ],
       "depends_on": [
         "cup-comparison-supported-open"
@@ -1933,7 +1939,47 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Hypotheses only: the test does not exhibit a nonzero class of a pair (V, V ⊓ (X ∖ Z)) with V ≠ ⊤, and q is arbitrary, so it does not see the sign."
+      "note": "projectiveLine_cup_singular_comparison_open: the hypotheses hold on ℙ¹ for every Z and V. cup_comparison_open_nonzero: for a closed immersion i : Y → X of smooth varieties (dimensions m, d), Z = i(Y(ℂ)) and T = upstream's smoothClosedSupportNeighborhood, the class α = Φ_T⁻¹ of upstream's smoothClosedSupportNormalCoclass (moved along openIntersectionPairIsoSupportComplement) is nonzero in degree 2(d − m), and both sides of the theorem at β = 1 are nonzero. projectiveLine_cup_comparison_open_nonzero: the same on ℙ¹ with Y = Spec ℂ and i a complex point z₀ (a closed immersion as a section of the separated structure map), degree 2; upstream's instNonemptyComplexPoint (library Other) supplies a point. Not tested: q = 0 throughout, so the sign (−1)^{pq} is 1 and stays untested; T ≠ ⊤ is not proved; the product of two supported classes is not exercised."
+    },
+    {
+      "id": "supported-open-naturality",
+      "title": "Φ_V is natural in V: Φ_{V'} ∘ relH.restrict = relativeCohomologyMap (openInclusionPairMap …) ∘ Φ_V for V' ≤ V, and relH.restrict commutes with the product with an absolute class",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedOpenNaturality",
+      "declarations": [
+        "HodgeLadder.Cup.relH_restrict_supCupY",
+        "HodgeLadder.Cup.comparisonOpen_restrict"
+      ],
+      "depends_on": [
+        "supported-open-rep",
+        "supported-cup"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Exact, no sign. comparisonOpen_restrict: upstream's relHAddEquivSupportedSectionsHomologyOfFlasque_restrict at U' = U = X ∖ Z, supportedSectionsRestriction_refl, supportedRationalSingularSectionCohomologyEquivRelative_naturality. relH_restrict_supCupY: comp_supCupY₀, for a general space and any map of pairs of opens. With relCupSing_naturality and upstream's cohomologyMap_comp the identity of cup-comparison-supported-open is natural in V."
+    },
+    {
+      "id": "supported-model-agreement-open",
+      "title": "On a general open V, Φ_V agrees with upstream's cycle-class transport complexSupportInjectiveSectionCohomologyEquiv X Z V after upstream's injective model at V, through openIntersectionPairIsoSupportComplement",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Cup.SupportedAgreementOpen",
+      "declarations": [
+        "HodgeLadder.Cup.injectiveModelOpen",
+        "HodgeLadder.Cup.flasqueModelOpen_agreement",
+        "HodgeLadder.Cup.transport_eq_flasqueModelOpen",
+        "HodgeLadder.Cup.transport_eq_comparisonOpen"
+      ],
+      "depends_on": [
+        "supported-model-agreement",
+        "supported-open-rep"
+      ],
+      "contributors": [
+        "H0-LawJik"
+      ],
+      "note": "Exact, no sign. supported-model-agreement with ⊤ replaced by V. injectiveModelOpen is upstream's relHAddEquivSupportedSectionsHomology at (Z.compl, V, V ⊓ Z.compl, rfl) for upstream's ambient injective resolution (the at-V form of rationalSupportAddEquivSupportedInjectiveHomology, which is ⊤-only). flasqueModelOpen_agreement from relHSupported_eq_flasque (already general in (U, V, W, hW)); transport_eq_comparisonOpen: transport ∘ injective model = relativeCohomologyMap (openIntersectionPairIsoSupportComplement …).inv ∘ Φ_V. IsProjective, as upstream's comparison iso requires."
     },
     {
       "id": "local-class-product",
@@ -1946,10 +1992,12 @@
         "cup-singular-comparison",
         "supported-model-agreement",
         "supported-forget-compat",
-        "cup-comparison-supported-open"
+        "cup-comparison-supported-open",
+        "supported-open-naturality",
+        "supported-model-agreement-open"
       ],
       "contributors": [],
-      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009). The supported comparison on a general open V is checked (cup-comparison-supported-open: Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V) for α in relH of (V, V ⊓ (X ∖ Z)) and β ∈ H^q(X; ℚ)); a product of two supported classes is not provided."
+      "note": "Pairs to 1 with the product orientation; needs the sign of the cross product of complex orientations (decision 0009). The supported comparison on a general open V is checked (cup-comparison-supported-open: Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β|_V) for α in relH of (V, V ⊓ (X ∖ Z)) and β ∈ H^q(X; ℚ)); Φ_V is natural in V and agrees with upstream's transport at V (supported-open-naturality, supported-model-agreement-open). Still missing: (a) a product of two supported classes, or a version with β ∈ H^q(V), since α ∪ β keeps the support of α only; (b) the move from pairVU (V, V ⊓ (X ∖ Z)) to upstream's neighborhoodSupportComplementPair V Z, where the normalized local classes live: one relCupSing_naturality along openIntersectionPairIsoSupportComplement, whose first component is 𝟙 (TopCat.of V)."
     },
     {
       "id": "cup-hodge-filtration",

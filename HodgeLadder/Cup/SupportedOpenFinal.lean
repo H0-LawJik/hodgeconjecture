@@ -20,8 +20,7 @@ product" and "Supported comparison Φ".
 
 ## Main results
 
-* `HodgeLadder.Cup.cup_singular_comparison_open`,
-  `HodgeLadder.Cup.cohomologyMap_inclusion_singClass_pair`
+* `HodgeLadder.Cup.cup_singular_comparison_open`
 -/
 
 @[expose] public noncomputable section
@@ -33,26 +32,6 @@ attribute [local implicit_reducible] TopCat.Sheaf TopCat.instCategorySheaf._aux_
   TopCat.instCategorySheaf._aux_3 TopCat.instCategorySheaf._aux_5
 
 namespace HodgeLadder.Cup
-
-section General
-
-variable {Y : TopCat.{0}} (U V : Opens Y)
-
-set_option backward.isDefEq.respectTransparency false in
-/-- `cohomologyMap_inclusion_singClass` with the target spelled as the first space of the pair
-`(V, V ⊓ U)`, for a general space (at the variety the comparison of the two spellings times
-out). -/
-lemma cohomologyMap_inclusion_singClass_pair {q : ℕ} (b : OpenCochains ℚ Y (op ⊤) q)
-    (hb : (singularCochainCoboundary ℚ Y q).app (op ⊤) b = 0)
-    (hbV : (SingularChainComplex ℚ (pairVU Y U V).fst).linearDualCochainComplex.d q (q + 1)
-      (resQ b (op V)) = 0) :
-    cohomologyMap ℚ q (Opens.inclusion' V) (singClass b hb) =
-      (SingularChainComplex ℚ (pairVU Y U V).fst).linearDualCochainComplex.homologyπ q
-        ((SingularChainComplex ℚ (pairVU Y U V).fst).linearDualCochainComplex.cyclesMk
-          (resQ b (op V)) (q + 1) (by simp) hbV) :=
-  cohomologyMap_inclusion_singClass V b hb hbV
-
-end General
 
 section Variety
 
@@ -177,7 +156,7 @@ theorem cup_singular_comparison_open {p q : ℕ}
         ((SingularChainComplex ℚ (pairVU (TopCat.of (ComplexPoint X)) Z.compl V).fst
           ).linearDualCochainComplex.cyclesMk (resQ b (op V)) (q + 1) (by simp) hbV) := by
     rw [← hβb]
-    exact cohomologyMap_inclusion_singClass_pair (Y := TopCat.of (ComplexPoint X)) Z.compl V b hb hbV
+    exact cohomologyMap_inclusion_singClass_pair (Y := TopCat.of (ComplexPoint X)) V Z.compl b hb hbV
   have hR : relCupSing (pairVU (TopCat.of (ComplexPoint X)) Z.compl V)
       (supportedRationalSingularSectionCohomologyEquivRelative (TopCat.of (ComplexPoint X)) Z.compl V p
         (cls (supSeq (TopCat.of (ComplexPoint X)) Z.compl V).X₁ (p : ℤ) ((p : ℤ) + 1) (by simp) s₀
