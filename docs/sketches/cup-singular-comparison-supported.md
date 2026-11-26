@@ -113,3 +113,16 @@ The red team (`cup-singular-comparison-supported.redteam.md`) passed the compari
 | ℙ¹ test | `cup-comparison-supported-test` (q = 0, so it does not see the sign) |
 
 The comparison also holds on `H^n(X, X ∖ Z; ℚ)` itself, with `Ψ β` on `X` (`cup-comparison-supported-pair`).
+
+### The comparison on a general open (2026-11-26)
+
+`local-class-product` works with upstream's normalized local classes, which live on small opens, so the comparison is moved from `V = ⊤` to a general open `V` of `X(ℂ)`, with `W = V ⊓ (X ∖ Z)` and classes in upstream's `relH ℚ_X n (W ≤ V)` (the value at `V` of `supportHOnOpenPresheaf`). The product is `supCupY α β`: it is defined for any source sheaf, here the pair sheaf `ℤ[V, W]`, so no new definition is needed. Most of the route was already general in `V` (`rawMap`, `supported_singular_class`, `homologyMap_rawMap_bijective`, `supported_relative_cup`, `supCupY_class`, `relHSupportedOfFlasque_mk`, `pairEval`, `supportedSection_eq_pairEval'`, `pairSheafEvaluation_cocycleComp_rightMul'`).
+
+| Id | Statement | Lean |
+|---|---|---|
+| `singular-restrict-open` | upstream's `cohomologyMap` along `V ⟶ X` sends `singClass b` to the class of `b` restricted to `V`, no sign | `cohomologyMap_inclusion_singClass` (general space) |
+| `supported-open-rep` | every class of `(V, W)` is represented by `Θ₁ x` for a relative cocycle `x`, and the cocycle of `Θ₁ x` names it | `exists_supported_rep_open`, `flasqueModelOpen`, `supCocycleOpen` |
+| `supported-open-sections-class` | through the flasque model at `V`, `supCupY α β` is the class of `cocycleComp z R_b` | `supCup_flasque_open` |
+| `cup-comparison-supported-open` | `Φ_V (α ∪ β) = (−1)^{pq} · relCupSing (Φ_V α) (β\|_V)`, `β\|_V = cohomologyMap (Opens.inclusion' V) (Ψ β)` | `cup_singular_comparison_open` |
+
+The same timeout lesson applied twice. The statement needs the space of `Opens.inclusion' V` given explicitly (`X := TopCat.of (ComplexPoint X)`); left implicit, unification against `↧(ComplexPoint X)` runs out of heartbeats. The restriction lemma at the variety compares `(Opens.toTopCat _).obj V` with the first space of `pairVU`, which times out; it is stated for a general space with the `pairVU` spelling (`cohomologyMap_inclusion_singClass_pair`) and applied with `Y` explicit.
