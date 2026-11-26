@@ -1984,15 +1984,67 @@
     {
       "id": "relative-cross-triad-naturality",
       "title": "Naturality of the relative cross product at the triad level: a map of triads induces a chain map of upstream's sum-relative triad complexes, compatible with the comparison to the union pair, and relCross commutes with it, no sign",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Relative.CrossTriadNaturality",
+      "declarations": [
+        "HodgeLadder.Relative.triadChainMap",
+        "HodgeLadder.Relative.triadRelativeChainProjection_triadChainMap",
+        "HodgeLadder.Relative.triadMap_mem_union",
+        "HodgeLadder.Relative.triadChainMap_triadToUnionRelativeChainMap",
+        "HodgeLadder.Relative.triadToUnionRelativeHomologyMap_triadChainMap",
+        "HodgeLadder.Relative.relCross_naturality",
+        "HodgeLadder.Relative.triadChainMap_id",
+        "HodgeLadder.Relative.triadChainMap_comp",
+        "HodgeLadder.Relative.singChainFunctor_map_eq_chainComplexMap",
+        "HodgeLadder.Relative.triadSubspaceChainMap_eq",
+        "HodgeLadder.Relative.subsetLeft_triadRelativeChainProjection",
+        "HodgeLadder.Relative.subsetRight_triadRelativeChainProjection",
+        "HodgeLadder.Relative.singChainFunctor_map_subset",
+        "HodgeLadder.Relative.triadSubspaceChainMap_map_triadRelativeChainProjection"
+      ],
+      "depends_on": [
+        "relative-cross-chain"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Exact, no sign, no openness: a map of triads f : (X; A, B) → (Y; A', B') induces triadChainMap f hA hB : triadRelativeChainComplex ℚ X A B ⟶ triadRelativeChainComplex ℚ Y A' B', the cokernel.desc of singChainFunctor.map f (equal by rfl to SSet.chainComplexMap (TopCat.toSSet.map f) _, singChainFunctor_map_eq_chainComplexMap) followed by the target triad projection; it is functorial (triadChainMap_id, triadChainMap_comp) and commutes with upstream's comparison to the union pair along TopPair.ofSubsetHom f (triadMap_mem_union f hA hB), on chains (triadChainMap_triadToUnionRelativeChainMap) and on homology (triadToUnionRelativeHomologyMap_triadChainMap). relCross_naturality: relCross A' B' m n (f_* x) (g_* y) = homologyMap (triadChainMap (f ⊗ₘ g) _ _) (m + n) (relCross A B m n x y), proved on representatives from exists_triadCycle_shuffle, relCross_homologyπ and shB_naturality. relCrossUnion_naturality (checked in relative-cross-chain) is rederived from relCross_naturality and triadToUnionRelativeHomologyMap_triadChainMap in four lines in red-team scratch (the membership proofs triadMap_mem_union (f ⊗ₘ g) … and tensorHom_mem_union f g hf hg give the same map of pairs by proof irrelevance); the rederivation is recorded, not added as a declaration. triadChainMap is the canonical triad chain map: triad-relative-cup-naturality is to import it. Naturality of upstream's triad cap under triadChainMap is the new rung triad-cap-naturality. Non-vacuity: relative-cross-triad-naturality-test. Register rows: Relative homology cross product, Map of triads on triad chains. Sketch: docs/sketches/local-class-product.md, sections relative-cross-triad-naturality; red team 2026-11-26: pass with changes (docs/sketches/relative-cross-triad-naturality.redteam.md)."
+    },
+    {
+      "id": "relative-cross-triad-naturality-test",
+      "title": "Non-vacuity of relative-cross-triad-naturality: orient a b is the comparison image of the triad push-forward of relCross of the complex orientation classes along complexAppendMap, and that push-forward is nonzero for every a, b",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.CrossTriadNaturality",
+      "declarations": [
+        "HodgeLadder.Tests.complexAppendMap_mem_setA",
+        "HodgeLadder.Tests.complexAppendMap_mem_setB",
+        "HodgeLadder.Tests.orient_eq_triadToUnion_triadChainMap",
+        "HodgeLadder.Tests.orient_ne_zero",
+        "HodgeLadder.Tests.triadChainMap_relCross_orientation_ne_zero"
+      ],
+      "depends_on": [
+        "relative-cross-triad-naturality",
+        "cross-orientation"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team of relative-cross-triad-naturality, change 4 (docs/sketches/relative-cross-triad-naturality.redteam.md, text verbatim). orient_eq_triadToUnion_triadChainMap: from triadToUnionRelativeHomologyMap_triadChainMap and cross_orientation_orient, closing by rfl; it is the shape local-class-cross-model reads on its cap route. orient_ne_zero: upstream's standardComplexLocalClass_ne_zero (a + b) through the inverse of the identity isomorphism of pairs and a degree-cast lemma by subst. So triadChainMap and relCross_naturality are not vacuous along a map that is not the identity, already at a = 0, b = 1."
+    },
+    {
+      "id": "triad-cap-naturality",
+      "title": "Projection formula for upstream's triad cap under a map of triads: triadCapCohomologyLinear ℚ Y A' B' p q α (f^triad_* z) = f_*(triadCapCohomologyLinear ℚ X A B p q (f^* α) z), no sign; the same for unionRelativeTriadCapCohomologyLinear given excision on both triads",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "relative-cross-chain"
+        "relative-cross-triad-naturality"
       ],
       "contributors": [],
-      "note": "Statements elaborated by the red team of relative-cross-chain (docs/sketches/relative-cross-chain.redteam.md, change 2; text also in docs/sketches/local-class-product.md, section relative-cross-chain: statement): triadChainMap f hA hB : triadRelativeChainComplex ℚ X A B ⟶ triadRelativeChainComplex ℚ Y A' B' (cokernel.desc of the chain map of f followed by the triad projection; the obligation holds by biprod extensionality and naturality of the subspace inclusions), triadRelativeChainProjection_triadChainMap (cokernel.π_desc), triadChainMap_triadToUnionRelativeChainMap (compatibility with upstream's comparison along TopPair.ofSubsetHom f (union_mem f hA hB)), and relCross_naturality: relCross A' B' m n (relativeHomologyMap (ofSubsetHom f hf) x) (relativeHomologyMap (ofSubsetHom g hg) y) = homologyMap (triadChainMap (f ⊗ₘ g) _ _) (m + n) (relCross A B m n x y). Needed by local-class-cross-model as stated. Route: on representatives from shB_naturality and relCross_homologyπ. Not attempted."
+      "note": "Statements elaborated by the red team of relative-cross-triad-naturality (docs/sketches/relative-cross-triad-naturality.redteam.md, change 3; text also in docs/sketches/local-class-product.md): triadCapCohomologyLinear_triadChainMap (f : X ⟶ Y, hA, hB, p q, α : RelativeCohomology ℚ (TopPair.ofSubset A') p, z : TriadRelativeHomology ℚ X A B (p + q); left side triadCapCohomologyLinear ℚ Y A' B' p q α ((homologyMap (triadChainMap f hA hB) (p + q)).hom z), right side relativeHomologyMap ℚ q (TopPair.ofSubsetHom f hB) (triadCapCohomologyLinear ℚ X A B p q (relativeCohomologyMap ℚ p (TopPair.ofSubsetHom f hA) α) z)) and unionRelativeTriadCapCohomologyLinear_naturality (with hX, hY : QuasiIso of upstream's comparisons, z : RelativeHomology ℚ (TopPair.ofSubset (A ∪ B)) (p + q) pushed along TopPair.ofSubsetHom f (triadMap_mem_union f hA hB)). The union form follows from the triad form in five lines (red-team scratch). Route for the triad form: the chain-level identity by cancelling the triad projection, triadRelativeChainProjection_triadCapHom, relativeChainProjection_naturality, relativeCochainToAbsolute_relativeCochainMap and Simplicial.cap_naturality, as upstream's relativeCapHom_naturality; then homology through triadCapShortComplexHom. The cohomology argument also needs naturality of upstream's relativeCochainCohomologyEquiv, which upstream lacks (it has the absolute cochainCohomologyEquiv_naturality only); prove it here as a linearDualMap naturality, modelled on linearDualHomologyEquiv_naturality. Sign: none expected; the (−1)^p factors on the outer terms of triadCapShortComplexHomSucc appear identically on both sides. Register row: Triad cap product. Needed by the cap route of local-class-cross-model. Not attempted."
     },
     {
       "id": "cap-cross-evaluation",
@@ -2070,10 +2122,11 @@
       "depends_on": [
         "cap-cross-evaluation",
         "cross-orientation",
-        "relative-cross-triad-naturality"
+        "relative-cross-triad-naturality",
+        "triad-cap-naturality"
       ],
       "contributors": [],
-      "note": "Statement elaborated against upstream's unionRelativeTriadCapCohomologyLinear and triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other, compiled from copies by the red team); the helper definitions setA, setB, projA, projB, u, orient are recorded in the sketch. Spell the ambient space (X := TopCat.of _) in every TopPair.ofSubset: left implicit, elaboration exceeds 200000 heartbeats. The case a = b = 1 is the first sign-visible falsification test of front cup. As stated on TopCat.of (Fin (a + b) → ℂ) it needs relative-cross-triad-naturality (to move relCross along the Fin.append homeomorphism at the triad level) and also naturality of upstream's triad cap under triadChainMap, which upstream lacks; restating the model on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) avoids both (red team of relative-cross-chain). Not attempted. Sketch: docs/sketches/local-class-product.md."
+      "note": "Statement elaborated against upstream's unionRelativeTriadCapCohomologyLinear and triadToUnionRelativeChainMap_quasiIso_of_isOpen (library Other, compiled from copies by the red team); the helper definitions setA, setB, projA, projB, u, orient are recorded in the sketch. Spell the ambient space (X := TopCat.of _) in every TopPair.ofSubset: left implicit, elaboration exceeds 200000 heartbeats. The case a = b = 1 is the first sign-visible falsification test of front cup. As stated on TopCat.of (Fin (a + b) → ℂ) (the cap route) it needs relative-cross-triad-naturality (checked: relCross_naturality, triadToUnionRelativeHomologyMap_triadChainMap; orient a b is the comparison image of the triad push-forward of relCross along complexAppendMap, HodgeLadder.Tests.orient_eq_triadToUnion_triadChainMap) and triad-cap-naturality (naturality of upstream's triad cap under triadChainMap, open). Alternative cup-side route, avoiding triad-cap-naturality and the triad-level push-forward (red team of relative-cross-triad-naturality): state the cap model on TopCat.of (Fin a → ℂ) ⊗ TopCat.of (Fin b → ℂ) with leftProdSet {0}ᶜ _ and rightProdSet _ {0}ᶜ (both open, so excision holds), where cap-cross-evaluation applies directly; pass to relCup2 on the product by triad-relative-cup-cap; pull relCup2 on ℂ^{a+b} back along complexAppendMap by triad-relative-cup-naturality; and pair with orient a b = h_*(relCrossUnion x y) (cross_orientation_orient) by naturality of the evaluation pairing ⟨γ, h_* c⟩ = ⟨h^* γ, c⟩. That route puts the whole transport on triad-relative-cup-naturality and triad-relative-cup-cap, both open. The thinker chooses; if the cup route is taken, drop triad-cap-naturality from depends_on. Not attempted. Sketch: docs/sketches/local-class-product.md."
     },
     {
       "id": "triad-relative-cup",

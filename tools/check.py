@@ -129,10 +129,12 @@ def check_axioms(data: dict) -> None:
     seen = {}
     # Lean wraps long axiom lists across lines; match on the joined text.
     flat = " ".join(r.stdout.split())
-    for m in re.finditer(r"'(.+?)' depends on axioms: \[(.*?)\]", flat):
-        seen[m.group(1)] = {a.strip() for a in m.group(2).split(",") if a.strip()}
-    for m in re.finditer(r"'(.+?)' does not depend on any axioms", flat):
-        seen[m.group(1)] = set()
+    # One pass over both report forms; a name has no whitespace, so a match cannot run from one
+    # report into the next (an axiom-free declaration after another report used to be missed).
+    for m in re.finditer(
+            r"'(\S+?)' (?:depends on axioms: \[(.*?)\]|does not depend on any axioms)", flat):
+        axioms = m.group(2) or ""
+        seen[m.group(1)] = {a.strip() for a in axioms.split(",") if a.strip()}
     for _, d in decls:
         if d not in seen:
             reject(f"axioms: no report for {d}")

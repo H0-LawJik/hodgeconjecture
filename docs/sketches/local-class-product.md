@@ -115,7 +115,7 @@ The declarations this plan uses from upstream's library `Other` are outside upst
 - **Build once.** A prover's first `lake build` of a file that imports them writes their `.olean` files into the shared package cache. Build them once, from one worktree, before parallel work on these rungs starts.
 - **`rfl` pins**, at the start of the first rung that uses them (`cap-cross-evaluation` or `triad-relative-cup-cap`): the formula of `capHom` (φ(front p-face) • back q-face) and `unionRelativeTriadCapCohomologyLinear` unfolded through `triadCapCohomologyLinear` and the inverse of the excision quasi-isomorphism.
 - **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. For `triad-relative-cup` (red team 2026-11-26): `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap`, `relativeChainProjection_empty_isIso`, `TopPair.ofSubset`, `TopPair.isoOfSubset`, `TopPair.ofSubsetHom`, `relativeChainProjection`, `relativeCohomologyMap`, `HomologicalComplex.linearDualMap`, `linearDualMap_comp`, `linearDualHomologyEquiv_naturality`, `TopPair.Homotopy.relativeChainProjection_naturality`.
-- **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. Added by `relative-cross-chain` (red team, section 8): the bodies of Tau Ceti `SSet.shuffleChain`, `SSet.stdSimplex.cone`, `prodCone`, `prodConeChain`, `SSet.shuffle`, `TopCat.shuffle` (`HodgeLadder.Relative.CrossChain` reads `cone` and `prodCone` through `import all`); Mathlib `TensorSigns (ComplexShape.down ℕ)`, `ιTensorObj`, the `ModuleCat` left unitor, `Functor.LaxMonoidal.μ TopCat.toSSet`; upstream `relativeChainFunctor`, `relativeChainProjection`, `TopPair.ofSubset`, `TopPair.ofSubsetHom`, `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadToUnionRelativeChainMap`, `triadToUnionRelativeHomologyMap`, and `TopPair.Homotopy.relativeChainProjectionComponentIsCokernel`, `relativeChainProjection_naturality`. Added by `cross-orientation` (red team, section 8): `Complex.piBasisOneI` (`complexRealHomeomorph_finProdFinEquiv` unfolds it, so a reordering of upstream's real basis of ℂ^p breaks the build).
+- **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. Added by `relative-cross-chain` (red team, section 8): the bodies of Tau Ceti `SSet.shuffleChain`, `SSet.stdSimplex.cone`, `prodCone`, `prodConeChain`, `SSet.shuffle`, `TopCat.shuffle` (`HodgeLadder.Relative.CrossChain` reads `cone` and `prodCone` through `import all`); Mathlib `TensorSigns (ComplexShape.down ℕ)`, `ιTensorObj`, the `ModuleCat` left unitor, `Functor.LaxMonoidal.μ TopCat.toSSet`; upstream `relativeChainFunctor`, `relativeChainProjection`, `TopPair.ofSubset`, `TopPair.ofSubsetHom`, `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadToUnionRelativeChainMap`, `triadToUnionRelativeHomologyMap`, and `TopPair.Homotopy.relativeChainProjectionComponentIsCokernel`, `relativeChainProjection_naturality`. Added by `cross-orientation` (red team, section 8): `Complex.piBasisOneI` (`complexRealHomeomorph_finProdFinEquiv` unfolds it, so a reordering of upstream's real basis of ℂ^p breaks the build). Added by `relative-cross-triad-naturality` (red team, section 8): upstream `singularChainComplexFunctor` (the `rfl` of `singChainFunctor_map_eq_chainComplexMap`), `chainPairFunctor`, `TopPair.ofSubset` (`.map`, `.snd`), `TopPair.ofSubsetHom`, `TopPair.Hom.snd`, `triadSubspaceChainMap` (the `rfl` of `triadSubspaceChainMap_eq` reads its `biprod.desc` body), `triadSubspaceChainMap_triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap`, `TopPair.Homotopy.relativeChainProjection_naturality`.
 
 ## Red-team changes (2026-11-26), as implemented
 
@@ -546,6 +546,114 @@ Date: 2026-11-26. All three open statements are proved with the statements as po
 C1: `HodgeLadder/Tests/CrossOrientation.lean` holds `standardLocalClass_ne_neg_of_pos` and `cast_standardComplexLocalClass_ne_zero` (the red team's text), under the new test rung `cross-orientation-test`; the checker resolves a rung's declarations against its own module, so the tests take a separate rung, as other test modules do. C3: the ledger note cites the verdict; `Complex.piBasisOneI` is on the drift list above.
 
 **What failed on the way.** `rw` with `relCrossUnion_naturality` on `supportInclusionPairMap` failed (keyed matching through `TopCat.of`) and `erw` timed out; a specialized lemma applied by `congrArg` works. Rewriting `relativeHomologyMap_comp` backwards on the cross class failed on a type that is correct only up to unfolding `crossUnionPair`; `relativeHomologyMap_homologyπ` applied twice by `.trans` works. Membership proofs written as `fun _ ha hb => ha (h hb)` with `h : Z ⊆ W` do not type-check at reducible transparency inside a rewrite motive; giving them as hypotheses avoids it.
+
+## relative-cross-triad-naturality: statement
+
+Date: 2026-11-26. Phase 1 (statement), branch `track/relative-cross-triad-naturality` from `c486870`. File `HodgeLadder/Relative/CrossTriadNaturality.lean`, module `HodgeLadder.Relative.CrossTriadNaturality`, namespace `HodgeLadder.Relative`, flat beside `HodgeLadder.Relative.CrossChain`; not yet imported from `HodgeLadder.lean`. The ledger's `file` hint reads `HodgeLadder/Relative/Cross/Triad/Naturality.lean`; the maintainer picks one name when the rung is posted. `lake env lean` on the file takes 4 to 6 seconds (wall clock, warm cache). Status: every declaration below is proved, with the three standard axioms (`#print axioms` on a scratch copy, deleted); the file has no `sorry`. Red team: pass with changes (`docs/sketches/relative-cross-triad-naturality.redteam.md`). **Checked 2026-11-26** (section "relative-cross-triad-naturality: red-team changes, as implemented" below). `union_mem` was renamed `triadMap_mem_union` (change 1); the text below uses the new name.
+
+**Statements.** They are the red team's change 2 (`docs/sketches/relative-cross-chain.redteam.md`) with one refinement: the ambient chain map is written `singChainFunctor.map f` (the abbreviation of `HodgeLadder.Relative.CrossChain`) where the red team wrote `SSet.chainComplexMap (TopCat.toSSet.map f) (ModuleCat.of ℚ ℚ)`. The two are equal by `rfl` (`singChainFunctor_map_eq_chainComplexMap`, in the file), and the first form is the one `shB_naturality` and upstream's `relativeChainProjection_naturality` use, so rewriting works without `erw`.
+
+```lean
+def triadChainMap {X Y : TopCat.{0}} (f : X ⟶ Y) {A B : Set X} {A' B' : Set Y}
+    (hA : ∀ a ∈ A, f a ∈ A') (hB : ∀ b ∈ B, f b ∈ B') :
+    triadRelativeChainComplex ℚ X A B ⟶ triadRelativeChainComplex ℚ Y A' B' :=
+  cokernel.desc _ (singChainFunctor.map f ≫ triadRelativeChainProjection ℚ Y A' B')
+    (triadSubspaceChainMap_map_triadRelativeChainProjection f hA hB)
+
+@[reassoc]
+lemma triadRelativeChainProjection_triadChainMap {X Y : TopCat.{0}} (f : X ⟶ Y)
+    {A B : Set X} {A' B' : Set Y} (hA : ∀ a ∈ A, f a ∈ A') (hB : ∀ b ∈ B, f b ∈ B') :
+    triadRelativeChainProjection ℚ X A B ≫ triadChainMap f hA hB =
+      singChainFunctor.map f ≫ triadRelativeChainProjection ℚ Y A' B' :=
+  cokernel.π_desc _ _ _
+
+lemma triadMap_mem_union {X Y : TopCat.{0}} (f : X ⟶ Y)
+    {A B : Set X} {A' B' : Set Y} (hA : ∀ a ∈ A, f a ∈ A') (hB : ∀ b ∈ B, f b ∈ B') :
+    ∀ x ∈ A ∪ B, f x ∈ A' ∪ B'
+
+lemma triadChainMap_triadToUnionRelativeChainMap {X Y : TopCat.{0}} (f : X ⟶ Y)
+    {A B : Set X} {A' B' : Set Y} (hA : ∀ a ∈ A, f a ∈ A') (hB : ∀ b ∈ B, f b ∈ B') :
+    triadChainMap f hA hB ≫ triadToUnionRelativeChainMap ℚ Y A' B' =
+      triadToUnionRelativeChainMap ℚ X A B ≫
+        (relativeChainFunctor ℚ).map (TopPair.ofSubsetHom f (triadMap_mem_union f hA hB))
+
+theorem relCross_naturality {P P' Q Q' : TopCat.{0}} (f : P ⟶ P') (g : Q ⟶ Q')
+    {A : Set P} {A' : Set P'} {B : Set Q} {B' : Set Q'}
+    (hf : ∀ a ∈ A, f a ∈ A') (hg : ∀ b ∈ B, g b ∈ B') {m n : ℕ}
+    (x : RelativeHomology ℚ (TopPair.ofSubset A) m)
+    (y : RelativeHomology ℚ (TopPair.ofSubset B) n) :
+    relCross A' B' m n (relativeHomologyMap ℚ m (TopPair.ofSubsetHom f hf) x)
+        (relativeHomologyMap ℚ n (TopPair.ofSubsetHom g hg) y) =
+      (HomologicalComplex.homologyMap
+        (triadChainMap (f ⊗ₘ g) (A' := leftProdSet A' Q') (B' := rightProdSet P' B')
+          (fun _ hz => hf _ hz) (fun _ hz => hg _ hz)) (m + n)).hom
+        (relCross A B m n x y)
+```
+
+Added beyond change 2, all proved: `triadChainMap_id` (the identity of `X` gives `𝟙`) and `triadChainMap_comp` (a composite of maps of triads gives the composite), which a consumer moving the cross product along a chain of homeomorphisms uses; the helpers `triadSubspaceChainMap_eq` (upstream's `C(A) ⊞ C(B) ⟶ C(X)` as a `biprod.desc` of singular chain maps, `rfl`), `subsetLeft_triadRelativeChainProjection`, `subsetRight_triadRelativeChainProjection` (chains of A, of B vanish in the triad complex, for any triad), `singChainFunctor_map_subset` (the chain map of f restricted to S ⟶ S'), and `triadSubspaceChainMap_map_triadRelativeChainProjection` (the descent obligation).
+
+**Trivial proofs fail** (scratch copy, deleted): `rfl` and `simp` on `triadChainMap_triadToUnionRelativeChainMap` (`rfl` fails, `simp` makes no progress); `simp` and `rfl` on `triadChainMap f hA hB = 0` (no progress, not definitional); `rfl`, `simp [relCross, triadChainMap]` and `aesop` on `relCross_naturality` (all fail, goals remain at the `Exists.choose` of `relCross`). Non-vacuity of the chain map: `triadChainMap_id` makes it the identity at `f = 𝟙`, so it is nonzero whenever the triad complex is.
+
+**Signs.** None enters. `triadChainMap` is the cokernel descent of the singular chain map of f, which carries no sign; the comparison is the cokernel descent of the identity; and the naturality is the chain-level identity `shB_naturality` (Tau Ceti's `TopCat.shuffle_naturality` with coefficient naturality) read through `relCross_homologyπ`. Register row "Relative homology cross product" covers it; no new row.
+
+**Route as proved.**
+
+| Statement | Route |
+|---|---|
+| descent obligation | `biprod.hom_ext'`; on each summand, the chain map of `(TopPair.ofSubset S).map ≫ f` factors through `(TopPair.ofSubset S').map` (`ext; rfl` on spaces), and chains of `S'` vanish in the target triad complex |
+| `triadRelativeChainProjection_triadChainMap` | `cokernel.π_desc` |
+| `triadChainMap_id`, `triadChainMap_comp`, `triadChainMap_triadToUnionRelativeChainMap` | cancel the epimorphism `triadRelativeChainProjection` (an instance through `inferInstanceAs (Epi (cokernel.π _))`), then the projection lemma, upstream's `triadRelativeChainProjection_triadToUnionRelativeChainMap` and `TopPair.Homotopy.relativeChainProjection_naturality` |
+| `relCross_naturality` | on representatives, as `relCrossUnion_naturality`: lift both classes to ambient chains, take triad cycles from `exists_triadCycle_shuffle` on both sides, apply `relCross_homologyπ` twice, and compare the cycles by `moduleCat_iCycles_injective`, `shB_naturality` and the projection lemma |
+
+**What failed on the way.** `rw [biprod.inl_desc_assoc]` on upstream's `triadSubspaceChainMap` fails: its summands are typed through `(chainPairFunctor ℚ).obj (TopPair.ofSubset A)).left`, and `erw` there times out. Restating it as `biprod.desc (singChainFunctor.map _) (singChainFunctor.map _)` by `rfl` and closing each summand by `Eq.trans` works. `rw` with lemmas whose middle object is `(TopPair.ofSubset S).fst` (syntactically not `X`) fails on motive types; composing equalities by `congrArg (_ ≫ ·)` and `Category.assoc` in term mode works.
+
+**Downstream use.** `local-class-cross-model`, in its current form on `TopCat.of (Fin (a + b) → ℂ)` with `setA`, `setB`, moves `relCross` along the `Fin.append` homeomorphism with `relCross_naturality` and `triadChainMap_comp`, and moves the comparison with `triadChainMap_triadToUnionRelativeChainMap`. It still needs naturality of upstream's triad cap under `triadChainMap`, which this rung does not state (red team of `relative-cross-chain`, question (i)). Parallel track `triad-relative-cup-naturality` works on `relCup2`; if it needs a chain map of triad complexes for a map of triads, `triadChainMap` here is that map (same `cokernel.desc`), and it should import this module or `HodgeLadder.Relative.CrossTriadNaturality` should move both into one file when the two rungs are posted.
+
+**Questions for the red team.** (i) Is the `singChainFunctor.map f` form acceptable in place of `SSet.chainComplexMap (TopCat.toSSet.map f) _` (equal by `rfl`, lemma in the file)? (ii) File name: flat `CrossTriadNaturality.lean` or the ledger's `Cross/Triad/Naturality.lean`. (iii) Should `relCrossUnion_naturality` be rederived here from `relCross_naturality` and the compatibility lemma, or left as the independent proof in `CrossChain`?
+
+## relative-cross-triad-naturality: red-team changes, as implemented
+
+Verdict `docs/sketches/relative-cross-triad-naturality.redteam.md`, pass with changes, none weakening a statement. Answers to the prover's questions: the `singChainFunctor.map f` form is accepted; the flat file name `HodgeLadder/Relative/CrossTriadNaturality.lean` is kept (ledger `module` set, which fixes the `file` hint of `tools/next.py`); `relCrossUnion_naturality` stays as checked, and its rederivation from `relCross_naturality` (red-team scratch, four lines) is recorded in the ledger note only.
+
+| Change | Where it is now |
+|---|---|
+| 1: rename `union_mem` to `triadMap_mem_union` | `HodgeLadder.Relative.CrossTriadNaturality` |
+| 2: homology form of the comparison lemma | `triadToUnionRelativeHomologyMap_triadChainMap`, the red team's text verbatim |
+| 3: new rung `triad-cap-naturality` | ledger (open, foundation, depends on this rung), roadmap row; added to the `depends_on` of `local-class-cross-model`, whose note now records the cup-side route that avoids it |
+| 4: non-vacuity along `complexAppendMap` | `HodgeLadder/Tests/CrossTriadNaturality.lean`, rung `relative-cross-triad-naturality-test`: `complexAppendMap_mem_setA`, `complexAppendMap_mem_setB`, `orient_eq_triadToUnion_triadChainMap`, `orient_ne_zero`, `triadChainMap_relCross_orientation_ne_zero` |
+| 5: one chain map | `triadChainMap` is the canonical map; `triad-relative-cup-naturality` imports it after this rung merges |
+| 6: ledger, drift list, gaps | ledger `checked`; drift list in "Pins and drift" above; `docs/gaps.md` "General lemmas kept local" |
+
+Statements of `triad-cap-naturality` (change 3, elaborated by the red team at the pin):
+
+```lean
+theorem triadCapCohomologyLinear_triadChainMap {X Y : TopCat.{0}} (f : X ⟶ Y)
+    {A B : Set X} {A' B' : Set Y} (hA : ∀ a ∈ A, f a ∈ A') (hB : ∀ b ∈ B, f b ∈ B') (p q : ℕ)
+    (α : RelativeCohomology ℚ (TopPair.ofSubset A') p)
+    (z : TriadRelativeHomology ℚ X A B (p + q)) :
+    triadCapCohomologyLinear ℚ Y A' B' p q α
+        ((HomologicalComplex.homologyMap (triadChainMap f hA hB) (p + q)).hom z) =
+      relativeHomologyMap ℚ q (TopPair.ofSubsetHom f hB)
+        (triadCapCohomologyLinear ℚ X A B p q
+          (relativeCohomologyMap ℚ p (TopPair.ofSubsetHom f hA) α) z)
+
+theorem unionRelativeTriadCapCohomologyLinear_naturality {X Y : TopCat.{0}} (f : X ⟶ Y)
+    {A B : Set X} {A' B' : Set Y} (hA : ∀ a ∈ A, f a ∈ A') (hB : ∀ b ∈ B, f b ∈ B') (p q : ℕ)
+    (hX : QuasiIso (triadToUnionRelativeChainMap ℚ X A B))
+    (hY : QuasiIso (triadToUnionRelativeChainMap ℚ Y A' B'))
+    (α : RelativeCohomology ℚ (TopPair.ofSubset A') p)
+    (z : RelativeHomology ℚ (TopPair.ofSubset (A ∪ B)) (p + q)) :
+    unionRelativeTriadCapCohomologyLinear ℚ Y A' B' p q hY α
+        (relativeHomologyMap ℚ (p + q)
+          (TopPair.ofSubsetHom f (triadMap_mem_union f hA hB)) z) =
+      relativeHomologyMap ℚ q (TopPair.ofSubsetHom f hB)
+        (unionRelativeTriadCapCohomologyLinear ℚ X A B p q hX
+          (relativeCohomologyMap ℚ p (TopPair.ofSubsetHom f hA) α) z)
+```
+
+The proof also needs naturality of upstream's `relativeCochainCohomologyEquiv`, which the pin lacks (it has the absolute `cochainCohomologyEquiv_naturality` only).
+
+`lake env lean` takes about 5 seconds on each of the two files. `python3 tools/check.py` exits 0 with both modules imported from `HodgeLadder.lean`.
 
 ## Sources
 
