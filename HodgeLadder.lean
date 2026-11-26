@@ -79,3 +79,4 @@ public import HodgeLadder.Cup.SupportedFinal
 public import HodgeLadder.Cup.RelCupNaturality
 public import HodgeLadder.Cup.SupportedPair
 public import HodgeLadder.Tests.SupportedComparison
+public import HodgeLadder.Cup.SupportedAgreement

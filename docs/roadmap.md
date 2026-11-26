@@ -81,7 +81,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-singular-comparison` | foundation | checked | `cup-singular-comparison-absolute`, `supported-cup` | The supported cup product against the relative singular cup product |
 | `cup-comparison-supported-pair` | foundation | checked | `cup-singular-comparison` | the supported comparison on `H^n(X, X ∖ Z; ℚ)` (`TopPair.ofSubset`), with `Ψ β` on `X`; `relCupSing` is natural for maps of pairs |
 | `cup-comparison-supported-test` | test | checked | `cup-comparison-supported-pair` | ℙ¹: the supported comparison applies for every closed `Z`; the class of a point times `1` is nonzero |
-| `supported-model-agreement` | foundation | open | `cup-singular-comparison` | `Φ` agrees with upstream's cycle-class transport |
+| `supported-model-agreement` | foundation | checked | `cup-singular-comparison` | `Φ` agrees with upstream's cycle-class transport |
 | `supported-forget-compat` | foundation | open | `cup-singular-comparison` | forgetting the support commutes with `Φ` against `Ψ`, sign fixed |
 | `local-class-product` | foundation | open | `cup-singular-comparison` | The product of normalized local classes of transversal components is the normalized local class of the intersection |
 | `cup-hodge-filtration` | foundation | open | `cup-product` | Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes |
