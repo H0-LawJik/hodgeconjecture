@@ -59,6 +59,15 @@ Output is one line per check, `ACCEPTED (...)` or `REJECTED (...)`, so a CI log 
 
 Point an agent at [`AGENTS.md`](AGENTS.md), or read it yourself. Open issues labeled `rung` are the posted steps. One rung per pull request; credit goes to the GitHub handle on the merged pull request and into the ledger.
 
+## Credits
+
+- Statements of record: [Paul-Lez/HodgeConjecture](https://github.com/Paul-Lez/HodgeConjecture) and its contributors. The Lefschetz (1,1) stack under `port/LefschetzPort/` is ported from its pull requests; provenance in [`docs/port-lefschetz.md`](docs/port-lefschetz.md).
+- Files under `port/LefschetzPort/TauCeti/`: the [Tau Ceti project](https://github.com/TauCetiProject/TauCeti) (Apache 2.0), copied with their headers; provenance in [`docs/port-tauceti.md`](docs/port-tauceti.md).
+- [Mathlib](https://github.com/leanprover-community/mathlib4), throughout.
+- Ladder, proofs and documents: [H0-LawJik](https://github.com/H0-LawJik), written with Claude Code assistance.
+
+Questions and contact: open a GitHub issue.
+
 ## License
 
 Apache 2.0, matching Mathlib, so anything useful here can move upstream.
