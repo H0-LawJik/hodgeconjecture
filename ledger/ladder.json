@@ -2831,10 +2831,31 @@
     {
       "id": "cycle-class-multiplicative",
       "title": "The cycle class map is multiplicative for a transversal intersection with one integral component: [Z] ∪ [W] = [T], sign +",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Cycle.Multiplicative",
+      "declarations": [
+        "HodgeLadder.Cycle.neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv",
+        "HodgeLadder.Cycle.restrictToNeighborhood_comp_ofSubsetIsoNeighborhoodTop_hom",
+        "HodgeLadder.Cycle.unionComplIso",
+        "HodgeLadder.Cycle.unionComplIso_fst_apply",
+        "HodgeLadder.Cycle.mem_iff_of_eq_inf",
+        "HodgeLadder.Cycle.unionComplIso_restrict",
+        "HodgeLadder.Cycle.forgetRel_unionComplIso",
+        "HodgeLadder.Cycle.restrict_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.Cycle.normalSplit",
+        "HodgeLadder.Cycle.splitChart",
+        "HodgeLadder.Cycle.splitChart_mem_maximalAtlas",
+        "HodgeLadder.Cycle.relativeCohomologyMap_apply_apply",
+        "HodgeLadder.Cycle.restrict_supportedEquivPair",
+        "HodgeLadder.Cycle.cup_forgetSupport_of_product",
+        "HodgeLadder.Cycle.transport_restrict_of_supportedEquivPair_eq",
+        "HodgeLadder.Cycle.closeds_eq_inf_of_coe_eq",
+        "HodgeLadder.Cycle.germ_transport_eq_of_chart",
+        "HodgeLadder.Cycle.normalization_eq_coclassSection_of_product",
+        "HodgeLadder.Cycle.eq_supportedInjectiveClass_of_product",
+        "HodgeLadder.Cycle.cycleComponentSheafClass_cup_of_transversal"
+      ],
       "depends_on": [
         "local-class-product",
         "triad-relative-cup",
@@ -2845,12 +2866,12 @@
         "cup-singular-comparison-absolute",
         "cup-singular-comparison",
         "supported-model-agreement",
-        "supported-forget-compat",
-        "supported-open-naturality",
-        "supported-model-agreement-open"
+        "supported-forget-compat"
       ],
-      "contributors": [],
-      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md. Spelling (red team on supported-pair-forget, finding 6, change D): state unionComplIso for Z W T : Closeds Y with hT : T = Z ⊓ W, on TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y), and spell the pairs of triad-relative-cup so that A := (Z.compl : Set Y) is accepted without unfolding Closeds.compl; conventions row Pair spellings of (X, X ∖ Z). Step 6 glue (red team on triad-relative-cup-naturality, changes 2 and 3; exact Lean in docs/sketches/cycle-class-multiplicative.md section Glue statements): add here neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv (V : Set Y, Z : Closeds Y: upstream's restriction from ⊤ followed by (ofSubsetIsoNeighborhoodTop Z).inv is restrictToNeighborhood V Z, by ext and rfl), unionComplIso in Closeds form (hT : T = Z ⊓ W), mem_iff_of_eq_inf (hT gives ∀ y ∈ V, y ∈ T ↔ y ∈ Z ∧ y ∈ W) and unionComplIso_restrict (the square restrictToNeighborhood V T ≫ (unionComplIso hT).inv = (chartUnionIso V (mem_iff_of_eq_inf V hT)).inv ≫ ofSubsetHom (subsetInclusion V) _). The pair iso on V is local-class-product's checked HodgeLadder.LocalClassProduct.chartUnionIso (red team of local-class-product, C4); the earlier unionComplIsoNeighborhood V hT equals it by rfl. With them step 6 closes from relCup2_restrict by two rw lines (red-team scratch RT3), then chartNormalProjectionCoclass_eq_relCup2. Point-form seam: when T is a point and its class is read from upstream's point form, matching it with the chart coclass of eT built from φ is an orientation step (exists_open_chartNormalProjectionCoclass_eq; cycle-class-germ-point), owned by this rung."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Checked: cycleComponentSheafClass_cup_of_transversal, [Z] ∪ [W] = [T] in H^{2(a+b)}(X; ℚ) for upstream's cycle classes and the Yoneda cup, exact, sign +, standard axioms. Statement as elaborated in the sketch (hT on complex points, hxreg, hwreg, htr in Mathlib's ω-maximal atlas over ℂ), unchanged. Route (decision 0010): the product of the two supported lifts is relCup2 (Φ_Z [Z]) (Φ_W [W]) on upstream's triad excision, read on (X, X ∖ T) by unionComplIso (identity of X); γ with Φ_T γ equal to it comes from surjectivity of Φ_T; cup_forgetSupport_of_product gives Ψ([Z] ∪ [W]) = (−1)^{(2a)(2b)} • Ψ(forget γ) (forgetRel_supportedEquivPair, forgetRel_relCup2, cup_singular_comparison'; the general lemma keeps (−1)^{pq} for all p, q); germ_transport_eq_of_chart computes the germ of the transport of γ at each y ∈ T(ℂ) by cycle-class-germ for the three charts split from φ (normalSplit, ℂ-linear) and chartNormalProjectionCoclass_eq_relCup2 (local sign +); TopCat.Presheaf.section_ext on U_T and upstream's cycleComponentSupportedInjectiveClass_unique give γ = [T]_supp. Restriction to small opens goes through supportedEquivPair_eq_transport at ⊤ and upstream's restriction maps; the general-V rungs are not used. Sign chain: (−1)^{(2a)(2b)} = 1 (computed) times the local + of local-class-product; a local − would give −[T]. Statement and proof red team: pass with changes (docs/sketches/cycle-class-multiplicative.final.redteam.md), implemented; conventions row Transversal product of cycle classes. First instance checked: cycle-class-multiplicative-p2. Sign-visible tests still open: cycle-class-multiplicative-codim-zero, p2-point-class-nonzero, cup-positive-degree-test-p2. Stronger open versions: cycle-class-multiplicative-no-reg, cycle-class-multiplicative-generic. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cycle-class-multiplicative-codim-zero",
@@ -2864,6 +2885,33 @@
       ],
       "contributors": [],
       "note": "Cheapest instance showing the hypotheses can be met in Lean (red team finding 11). hT from cycleComponentAnalyticClosedSupport_genericPoint_eq_top (Other); htr from Mathlib's IsManifold.chart_mem_maximalAtlas and mem_chart_source (red team scratch S5). Missing lemma, proved inside the rung: cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤ (the reduced closure of the generic point is X, which is smooth). Both sides are nonzero by cycleComponentSheafClass_genericPoint_ne_zero (Other). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "cycle-class-multiplicative-no-reg",
+      "title": "cycle-class-multiplicative without hxreg and hwreg: [Z] ∪ [W] = [T] for Z, W meeting transversally along T in holomorphic charts",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cycle-class-multiplicative",
+        "analytic-smooth-locus"
+      ],
+      "contributors": [],
+      "note": "Final red team of cycle-class-multiplicative, change F. Statement: cycleComponentSheafClass_cup_of_transversal with the hypotheses hxreg and hwreg removed (X, x, w, t, hx, hw, ht, hd, hT and htr exactly as there). Mathematics: htr makes Z and W complex submanifolds near each point of T(ℂ), and a reduced variety whose analytic germ is a submanifold is regular there, so hxreg and hwreg follow from htr; that implication is rung analytic-smooth-locus, not at the pin. Route: analytic-smooth-locus gives hxreg, hwreg, then the checked theorem. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "cycle-class-multiplicative-generic",
+      "title": "[Z] ∪ [W] = [T] when Z and W meet transversally only at the generic point of T (Z, W possibly singular at special points of T)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cycle-class-multiplicative"
+      ],
+      "contributors": [],
+      "note": "Final red team of cycle-class-multiplicative, change F, section 1 (ii). Statement: as cycleComponentSheafClass_cup_of_transversal, with hxreg, hwreg and htr required only on a nonempty open subset of T(ℂ) (for example: ∃ O : Opens (ComplexPoint X), (O ∩ T(ℂ)).Nonempty ∧ ∀ y ∈ O ∩ T(ℂ), y ∈ U_x ∧ y ∈ U_w ∧ ∃ φ as in htr at y), and hT unchanged. This is a stronger theorem the germ route does not reach: at a point of T where Z is singular upstream's [Z] is not a chart coclass. Needs a separate argument, for example that a section of the sheaf 𝓗^{2(a+b)}_T over U_T is determined on a dense open of T (lowest-degree purity along T_reg). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "affine-chart-analytic",
@@ -3019,16 +3067,21 @@
     {
       "id": "cycle-class-multiplicative-p2",
       "title": "On ℙ², [L₀] ∪ [L₁] = [[0 : 0 : 1]] for the coordinate lines L₀ = {x₀ = 0}, L₁ = {x₁ = 0}",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.CycleClassMultiplicativeP2",
+      "declarations": [
+        "HodgeLadder.Tests.coheight_planeOrigin_add",
+        "HodgeLadder.Tests.planeLines_cup_eq_planeOrigin"
+      ],
       "depends_on": [
         "cycle-class-multiplicative",
         "p2-lines-transversal"
       ],
-      "contributors": [],
-      "note": "First transversal case (decision 0010, before ℙ¹ × ℙ¹). T is a point: upstream's cycleComponentSupportedInjectiveClass_point_normalization and analyticComponentPointSupportedInjectiveCoclass_relative (Other) give its class as an explicit relative coclass on (X, X ∖ T), a cross-check of cycle-class-germ at T. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "First transversal case (decision 0010, before ℙ¹ × ℙ¹). Checked: planeLines_cup_eq_planeOrigin, cup [planeLine 0] [planeLine 1] (2 * (1 + 1)) = [planeOrigin] on projectivePlane, exact, sign +, by cycleComponentSheafClass_cup_of_transversal with d = 2, a = b = 1 and the hypotheses of p2-lines-transversal (planeOrigin_support_eq_inter, planeOrigin_support_subset_smoothSupportAmbientOpen 0 and 1, planeLines_transversal). The only adaptation is ht: coheight_planeOrigin_add states coheight planeOrigin = ↑1 + ↑1 (rw [coheight_planeOrigin]; rfl). From the final red team of cycle-class-multiplicative (change A, scratch RT2). The sign is visible only with [pt] ≠ 0 (p2-point-class-nonzero, open). Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cup-positive-degree-test-p2",
