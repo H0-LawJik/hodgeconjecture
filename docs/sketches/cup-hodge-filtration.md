@@ -605,7 +605,7 @@ The sketch estimated `betti-additive-naturality` at about 730 lines of copied bo
 | `simplicial-complex-span` | foundation | checked | | `HodgeLadder.simplicialComplexSpan`, `HodgeLadder.SimplicialComplexSpan` |
 | `de-rham-rational-span` | foundation | checked | `betti-additive-naturality`, `simplicial-complex-span` | `HodgeLadder.deRhamRationalSpan`, `HodgeLadder.span_range_fieldToDeRhamCohomology_rat`, `HodgeLadder.DeRhamRationalSpan`, `HodgeLadder.deRhamRationalSpan_of_simplicialComplexSpan`, and the steps above |
 | `de-rham-rational-independent` | foundation | checked | `betti-additive-naturality`, `de-rham-rational-span` | `HodgeLadder.Hodge.DeRhamRationalIndependent`: `linearIndependent_fieldToDeRhamCohomology_rat` and the three companion theorems |
-| `de-rham-p2-top-rank` | test | open | `de-rham-rational-span`, `cycle-class-sign-test-p2`, `de-rham-injective` | `Module.finrank ℂ H_dR^4(projectivePlane) = 1` |
+| `de-rham-p2-top-rank` | test | checked | `de-rham-rational-base-change`, `cycle-class-sign-test-p2` | `HodgeLadder.Tests.finrank_deRham_four_projectivePlane : Module.finrank ℂ H_dR^4(projectivePlane) = 1` |
 
 ## de-rham-rational-independent: statement
 Date: 2026-11-27. Phase 1 (statement and proof), then the red team (`docs/sketches/de-rham-rational-independent.redteam.md`, pass with changes, all implemented). Module `HodgeLadder.Hodge.DeRhamRationalIndependent`, imported from `HodgeLadder.lean`. Proposed by the red team of `de-rham-rational-span` (finding 1). Input of T1: with `de-rham-rational-span` it gives `ℂ ⊗_ℚ H^n(X; ℚ) ≅ H_dR^n(X)`, and so `dim_ℂ H^1_dR = dim_ℚ H^1(X; ℚ)` for the eigenspace count.
@@ -658,3 +658,49 @@ The plan of the statement section used the quotient `ℂ ⧸ W`, a Baer extensio
 `#print axioms` on `simplicialComplexSpan`, `deRhamRationalSpan`, `span_range_fieldToDeRhamCohomology_rat` and the four step theorems: `[propext, Classical.choice, Quot.sound]`. Trivial proofs fail: after `intro`, `simp` makes no progress on `SimplicialComplexSpan` and leaves the span goal of `DeRhamRationalSpan` open. Measured: `lake env lean` on the proof module 8 to 13 s wall; `lake build HodgeLadder` after the change 31 s; `python3 tools/check.py` 22 s on the warm build, all checks accepted.
 ### For the red team
 Red team verdict: pass with changes (`docs/sketches/simplicial-complex-span.redteam.md`); the three `set_option backward.isDefEq.respectTransparency false` lines were measured unneeded and deleted, `cochainEval` and `linearDualCoefficientChange_zero` were added to the ledger, and the gaps row names the `SSet` ambiguity case. Attack points given to it: (a) the docstring claim that `SimplicialComplexSpan` is unchanged (diff of `SimplicialCochainSpan.lean` is docstrings only); (b) degree `0`, where the Baer step is skipped and `P ∘ c = c` is read from `ChainComplex.next_nat_zero` and the shape of the integral complex; (c) that `ratScaled (b i)` with `b i ∈ W ⊆ ℂ` is the posted `ratScaled z`, with no ring-map or ℚ-linearity assumption on `λᵢ`; (d) whether the general lemmas (`cochainEval`, the three `linearDualCoefficientChange` lemmas) clash with names in the port or upstream at the pin (`docs/gaps.md` row).
+
+## de-rham-rational-base-change and de-rham-p2-top-rank: checked
+Date: 2026-11-27. Two modules, both imported from `HodgeLadder.lean`: `HodgeLadder.Hodge.DeRhamRationalBaseChange` (imports `DeRhamRationalIndependent` only) and `HodgeLadder.Tests.DeRhamP2TopRank` (imports the base-change module and `CycleClassSignTestP2`). The checked module of `de-rham-rational-independent` is unchanged. A separate module was chosen over appending to it: `DeRhamRationalIndependent` already imports `simplicialComplexSpan` through `DeRhamRationalSpan`, so either place compiles, and the new module keeps the checked file and its red-team record as they were.
+### Statements
+```lean
+theorem bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] (n : ℕ) :
+    Function.Bijective (LinearMap.liftBaseChange ℂ (fieldToDeRhamCohomologyLinear ℚ X n))
+theorem finrank_deRham_eq_finrank_rat (X : Over (Spec ↧ℂ)) [IsIntegral X.left]
+    [Smooth X.hom] [IsProjective X.hom] (n : ℕ) :
+    Module.finrank ℂ H_dR^n(X) = Module.finrank ℚ H^n(X; ℚ)
+def deRhamBaseChangeEquiv (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom]
+    [IsProjective X.hom] (n : ℕ) : ℂ ⊗[ℚ] H^n(X; ℚ) ≃ₗ[ℂ] H_dR^n(X)
+theorem deRhamBaseChangeEquiv_tmul ... (c : ℂ) (m : H^n(X; ℚ)) :
+    deRhamBaseChangeEquiv X n (c ⊗ₜ m) = c • fieldToDeRhamCohomology ℚ X n m
+theorem Tests.finrank_deRham_four_projectivePlane :
+    Module.finrank ℂ H_dR^4(projectivePlane) = 1
+```
+The first two carry the target names of the ledger note. In every statement `H_dR^n(X)` has upstream's `deRhamHypercohomologyComplexModule` (read off with `pp.explicit` on the ℙ² theorem); neither file declares an instance.
+### Proofs
+| Declaration | Proof |
+|---|---|
+| `bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat` | `bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan X simplicialComplexSpan n` |
+| `finrank_deRham_eq_finrank_rat` | `finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan X simplicialComplexSpan n` |
+| `deRhamBaseChangeEquiv` | `LinearEquiv.ofBijective` of the bijection |
+| `deRhamBaseChangeEquiv_tmul` | `LinearMap.liftBaseChange_tmul`, then `rfl` (`fieldToDeRhamCohomologyLinear` is `fieldToDeRhamCohomology` as a linear map) |
+| `Tests.planeDegreeLinearEquiv` | `LinearEquiv.ofBijective planeDegree.toRatLinearMap planeDegree_bijective`: an additive map of ℚ-vector spaces is ℚ-linear, for any ℚ-module structures |
+| `Tests.finrank_rat_H_four_projectivePlane` | `planeDegreeLinearEquiv.finrank_eq.trans (Module.finrank_self ℚ)`; `H^(2 * 2)` and `H^4` agree by elaboration |
+| `Tests.finrank_deRham_four_projectivePlane` | `(finrank_deRham_eq_finrank_rat projectivePlane 4).trans finrank_rat_H_four_projectivePlane` |
+### Instances
+None missing. ℙ² is `Over.mk (ProjectiveSpace.toBase (Fin 3) (Spec ↧ℂ))`, and `HodgeLadder.Tests.ProjectivePlane` gives `isIntegral_projectiveSpace`, `smooth_projectiveSpace` and `isProjective_projectiveSpace` for `projectiveSpace n`; instance search finds them at `n = 2` through `Fin (2 + 1) = Fin 3`.
+### What it tests
+`finrank` is `0` on an infinite-dimensional space, so `finrank_ℂ H_dR⁴(ℙ²) = 1` gives both `H_dR⁴(ℙ²) ≠ 0` and finite-dimensionality: the span of `de-rham-rational-span` cannot hold for a degenerate reason in this degree (red team of `de-rham-rational-span`, section 7b). The proof reads `finrank_deRham_eq_finrank_rat` and `planeDegree_bijective` only, and the ledger lists exactly `de-rham-rational-base-change` and `cycle-class-sign-test-p2`. The value also follows from `span_range_fieldToDeRhamCohomology_rat`, `fieldToDeRhamCohomology_rat_injective` and `planeDegreeLinearEquiv` without `de-rham-rational-independent` (red team scratch RT4), so the test does not exercise ℂ-independence. Every Betti number of ℙ² is at most `1`, so this test does not separate ℂ-independence from ℚ-injectivity; the `gm2` test of finding 7b is posted as `de-rham-rational-independent-test-gm2`; its input, ℚ-independence of the two winding classes, follows from `gm2_cup_ne_zero`, `add_cup`, `cup_add` and `cup_gradedComm` (red team of `de-rham-rational-base-change`, finding 7).
+### What is checked
+`#print axioms` on all seven declarations: `[propext, Classical.choice, Quot.sound]`. Trivial proofs fail on `Module.finrank ℂ H_dR^4(projectivePlane) = 1`: `rfl` (type mismatch), `decide` (stuck at `Nat.beq`), `simp` (no progress), `trivial`, `aesop`. `simp` leaves the goal open on `finrank_ℚ H⁴(ℙ²; ℚ) = 1`, on the rank equality and on bijectivity for general `X`.
+### After the red team
+Verdict: pass with changes (`docs/sketches/de-rham-rational-base-change.redteam.md`), no statement or proof changed. Implemented: the dependency list of `de-rham-p2-top-rank` (change A), the scope sentence on the ℙ² test in its ledger note and module docstring (B), the `gm2` sentence (C), and "checked in `HodgeLadder.Hodge.DeRhamRationalBaseChange`" in place of "stated" in two docstrings of `HodgeLadder.Hodge.DeRhamRationalIndependent` (D). The red team added the conventions row "Base change ℂ ⊗_ℚ M and the rank of an infinite-dimensional space".
+
+Two new rungs:
+
+| Id | Kind | Status | Depends on | Content |
+|---|---|---|---|---|
+| `de-rham-rational-independent-test-gm2` | test | checked | `de-rham-rational-independent`, `cup-odd-degree-gm2`, `cup-graded-commutative`, `cup-product` | `HodgeLadder.Tests.DeRhamRationalIndependentGm2`: `linearIndependent_windingClasses_gm2` (ℚ-independence of `x₁`, `x₂` in `H¹(gm2; ℚ)`, from `cup_self_eq_zero_gm2` and `gm2_cup_ne_zero`) and `linearIndependent_deRham_windingClasses_gm2` (their de Rham images are ℂ-independent) |
+| `rational-cohomology-finite-dimensional` | foundation | open | `lefschetz-port` | `FiniteDimensional ℚ H^n(X; ℚ)` for smooth projective integral `X`, from `module_finite_singularHomology`, Ψ and universal coefficients; with `deRhamBaseChangeEquiv` it gives `FiniteDimensional ℂ H_dR^n(X)`, which T1's eigenspace count needs |
+
+The `gm2` proof is the red team's scratch proof (finding 7), with renamed declarations. Its step `x ∪ x = 0` in degree one reads the sign `-1` of `cup_gradedComm` in degree `(1, 1)`; with sign `+1` the identity would be `x ∪ x = x ∪ x` and the step would fail. `gm2` is smooth and integral, not projective, so the test goes through `linearIndependent_fieldToDeRhamCohomology_rat_of_smooth` and probes `de-rham-rational-independent` only.

@@ -43,7 +43,7 @@ with singular cohomology is not needed.
 * `HodgeLadder.bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan`,
   `HodgeLadder.finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan`: the same for smooth
   projective integral `X`, conditional on `SimplicialComplexSpan` (rung
-  `de-rham-rational-base-change`, stated).
+  `de-rham-rational-base-change`, checked in `HodgeLadder.Hodge.DeRhamRationalBaseChange`).
 -/
 
 @[expose] public noncomputable section
@@ -163,7 +163,9 @@ theorem injective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat [IsIntegral X
     Function.Injective (LinearMap.liftBaseChange ℂ (fieldToDeRhamCohomologyLinear ℚ X n)) :=
   injective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_smooth X n
 
-/-! ### Toward the base-change identity (rung `de-rham-rational-base-change`, stated) -/
+/-! ### Toward the base-change identity
+
+Rung `de-rham-rational-base-change`, checked in `HodgeLadder.Hodge.DeRhamRationalBaseChange`. -/
 
 /-- Given the span equality of rung `de-rham-rational-span` for one `X` and degree `n`, the
 `ℂ`-linear extension `ℂ ⊗_ℚ H^n(X(ℂ); ℚ) → H_dR^n(X)`, `c ⊗ m ↦ c • ι m`, is bijective. -/
