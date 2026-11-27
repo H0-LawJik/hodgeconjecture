@@ -143,6 +143,7 @@ public import HodgeLadder.Cycle.MultiplicativeNoReg
 public import HodgeLadder.Tests.CycleClassMultiplicativeP2
 public import HodgeLadder.Tests.ProjectivePlanePoint
 public import HodgeLadder.Tests.CupPositiveDegreeP2
+public import HodgeLadder.Tests.CycleClassSignTestP2
 public import HodgeLadder.Tests.ClassProduct
 public import HodgeLadder.Tests.CycleClassMultiplicativeCodimZero
 public import HodgeLadder.Hodge.CupFiltration

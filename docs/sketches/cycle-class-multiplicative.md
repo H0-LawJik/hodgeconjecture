@@ -1253,6 +1253,121 @@ theorem singularBoundarySectionCohomology_isZero_of_lt (x : X.left) {p : ℕ}
 end HodgeLadder.Normalization
 ```
 
+## cycle-class-sign-test-p2: statement
+
+Date: 2026-11-26 (statement and proofs), 2026-11-27 (checked). Statement, route and proofs written in one session; the statement and proof red team passed it with changes A to E and G (`docs/sketches/cycle-class-sign-test-p2.redteam.md`), all implemented; F (an unconditional singular reading) is skipped, since it would add kernel time. File `HodgeLadder/Tests/CycleClassSignTestP2.lean`, module `HodgeLadder.Tests.CycleClassSignTestP2`, next to `ProjectivePlanePoint` and `CycleClassMultiplicativeP2`, imported from `HodgeLadder.lean`. The ledger's derived `file` hint `HodgeLadder/Cycle/Class/Sign/Test/P2.lean` is superseded. Imports: `HodgeLadder.Tests.ProjectivePlanePoint`, `HodgeLadder.Tests.CycleClassMultiplicativeP2` (for the corollary only), upstream `Other.AlgebraicGeometry.Cycle.Component.PointClassNormalization`, `Other.AlgebraicGeometry.ComplexPoint.CoclassOrientation`, `Other.AlgebraicTopology.Singular.Sheaf.ChainStalk` (all built in the shared cache), and `meta import Lean` for the guard.
+
+### Degree evidence
+
+The degree is computed, with no orientation or definition chosen in this file: deg [pt] = +1 (`planeDegree_planeOrigin`). With the checked `planeLines_cup_eq_planeOrigin`, deg ([L₀] ∪ [L₁]) = +1 (`planeDegree_planeLines_cup`), the literature's value for two lines of ℙ² meeting in one point [`Hatcher2002` §3.2, the cohomology ring of ℂP²; `Fulton1998` ch. 8, numbering unverified]. deg (−[pt]) = −1, so [L₀] ∪ [L₁] ≠ −[pt] (`planeLines_cup_ne_neg_planeOrigin`).
+
+### Route chosen, and why
+
+Route (a). Candidates (b) and (c) are closed at the pin: there is no degree or trace map H⁴(X; ℚ) → ℚ upstream, and no global class [ℙ²] ∈ H₄(ℙ²(ℂ); ℚ). Building [ℙ²] from charts (route (b)) needs the overlap compatibility of `complexLocalOrientation` that upstream's `LocalOrientation` header leaves to a separate naturality theorem, and a Mayer–Vietoris argument in singular homology; neither exists. Route (a) costs one more degree of the checked Mayer–Vietoris computation of `p2-point-class-nonzero`, and the rest is upstream's own transport. The vanishing is proved in every degree q + 3 at once, with the same three covers.
+
+| Step | Map | Declaration | Source |
+|---|---|---|---|
+| 1 | H⁴(ℙ²; ℚ) ≅ H⁴_Z(ℙ²; ℚ), Z = {pt} = `planeOriginSupport` | `planeOriginForgetEquiv`, inverse of `forgetSupport` | `forgetSupport_planeOrigin_bijective`: injective from H³(ℙ²(ℂ) ∖ pt) = 0 (checked), surjective from H⁴(ℙ²(ℂ) ∖ pt) = 0 (`subsingleton_H'_compl_planeOrigin 1`), both by `forget-support-exact` |
+| 2 | H⁴_Z(ℙ²; ℚ) → H⁴(⊤, ⊤ ∖ Z; ℚ) | inside `planeOriginLocalize` | upstream `rationalSupportAddEquivSupportedInjectiveHomology`, then `complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ 4` (the transport 𝒯 of `cycle-class-germ`) |
+| 3 | H⁴(⊤, ⊤ ∖ Z; ℚ) → H⁴(ℙ²(ℂ), ℙ²(ℂ) ∖ {pt}; ℚ) | `planeOriginPairMap`, pullback | `pointToNeighborhoodSupportPairMap`: the identity on points, for S ⊆ {y}; inverse to upstream's `neighborhoodSupportToPointPairMap` when y ∈ S (`pointToNeighborhoodSupportPairMap_comp_toPoint`, `toPoint_comp_pointToNeighborhoodSupportPairMap`) |
+| 4 | H⁴(ℙ²(ℂ), ℙ²(ℂ) ∖ {pt}; ℚ) → ℚ | `planeOriginEvaluation` | upstream `relativeCohomologyEquivDualHomology`, applied to `complexLocalOrientation projectivePlane 2 planeOriginPoint` |
+
+`planeDegree` is 4 ∘ 3 ∘ 2 ∘ 1, an `AddMonoidHom`. Signs: none. Steps 1 to 3 are additive equivalences or pullbacks along identities of points; step 4 is evaluation.
+
+### The statements
+
+```lean
+theorem subsingleton_H'_compl_planeOrigin (q : ℕ) :
+    Subsingleton (Sheaf.H' planeConst (q + 3) planeOriginSupport.compl)
+
+theorem forgetSupport_planeOrigin_bijective :
+    Function.Bijective (forgetSupport ℚ projectivePlane planeOriginSupport (2 * 2))
+
+def planeDegree : H^(2 * 2)(projectivePlane; ℚ) →+ ℚ
+
+theorem planeDegree_forgetSupport (a : H_[planeOriginSupport]^(2 * 2)(projectivePlane; ℚ)) :
+    planeDegree (forgetSupport ℚ projectivePlane planeOriginSupport (2 * 2) a) =
+      planeOriginEvaluation (planeOriginLocalize a)
+
+theorem planeDegree_planeOrigin :
+    planeDegree (cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin) = 1
+
+theorem planeDegree_planeLines_cup :
+    planeDegree (HodgeLadder.Cup.cup
+        (cycleComponentSheafClass projectivePlane (planeLine 0) (coheight_planeLine 0))
+        (cycleComponentSheafClass projectivePlane (planeLine 1) (coheight_planeLine 1))
+        (2 * (1 + 1)) (by ring)) = 1
+
+theorem planeDegree_bijective : Function.Bijective planeDegree
+
+theorem planeDegree_eq_one_iff (α : H^(2 * 2)(projectivePlane; ℚ)) :
+    planeDegree α = 1 ↔
+      α = cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin
+
+theorem planeDegree_neg_planeOrigin :
+    planeDegree (-cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin) = -1
+
+theorem planeLines_cup_ne_neg_planeOrigin :
+    HodgeLadder.Cup.cup
+        (cycleComponentSheafClass projectivePlane (planeLine 0) (coheight_planeLine 0))
+        (cycleComponentSheafClass projectivePlane (planeLine 1) (coheight_planeLine 1))
+        (2 * (1 + 1)) (by ring) ≠
+      -cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin
+
+theorem planeDegree_eq_eval_of_restrict
+    (μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2))
+    (hμ : (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
+      complexLocalOrientation projectivePlane 2 planeOriginPoint)
+    (α : H^(2 * 2)(projectivePlane; ℚ)) :
+    planeDegree α = cohomologyEquivDualHomology ℚ (TopCat.of (ComplexPoint projectivePlane))
+      (2 * 2) (rationalCohomologyAddEquivSingularCohomology projectivePlane (2 * 2) α) μ
+```
+
+Well-definedness is `forgetSupport_planeOrigin_bijective` (the lift in step 1 exists and is unique) with `planeDegree_forgetSupport` (on a supported class the degree is the evaluation of its local class, no choice). `planeDegree_bijective` says H⁴(ℙ²; ℚ) is a line and the degree is an isomorphism onto ℚ: injectivity of step 4 from `span_complexLocalOrientation_eq_top`, surjectivity from rational multiples of `analyticPointLocalCoclass`. `planeDegree_eq_eval_of_restrict` is the agreement with the literature's definition deg α = ⟨α, [ℙ²]⟩: a fundamental class restricts to the local orientation at each point [`Hatcher2002` §3.3, recalled, unverified], and the lemma says that any μ with that restriction at pt computes the degree. Its hypothesis is not discharged (no such μ at the pin). Its proof uses the ladder's `forgetRel_supportedEquivPair` and `supportedEquivPair_eq_transport` (rung `supported-pair-forget`) and upstream `cohomologyEquivDualHomology_forgetSupport`, `relativeCohomologyEquivDualHomology_relativeCohomologyMap`, `relativeChainProjection_supportInclusion`.
+
+### The proof of deg [pt] = 1, as checked
+
+`cycleComponentSheafClass_eq_forgetSupport` (upstream, `rfl`) and `planeDegree_forgetSupport` reduce the degree to the evaluation of the transported supported class. Upstream's `cycleComponentSupportedInjectiveClass_point_normalization` (d = 2, `coheight_planeOrigin`), `AddEquiv.apply_symm_apply` and `analyticComponentPointSupportedInjectiveCoclass_relative` make the transport `analyticComponentPointRelativeCoclass`, the pullback of `analyticPointLocalCoclass projectivePlane 2 w` along `neighborhoodSupportToPointPairMap`, with w a complex point of the component (from upstream `range_cycleComponentMap`); w = `planeOriginPoint` by `planeOrigin_support_eq_singleton`. The two pullbacks compose to the identity (`relativeCohomologyMap_pointToNeighborhood_toPoint`), and upstream's `analyticPointLocalCoclass_apply_complexLocalOrientation` gives 1. About 40 lines.
+
+### What the test shows, and what it does not
+
+- It shows that upstream's [pt], read through upstream's own transport and evaluated on upstream's complex local orientation, has degree +1, and that the degree is a bijection, so it separates [pt] from −[pt]. With the exact identity [L₀] ∪ [L₁] = [pt], the product of the two line classes has degree +1, the literature's value.
+- The value 1 is close to upstream's normalization: upstream defines `analyticPointLocalCoclass` as the normalized dual of `analyticPointLocalHomologyClass`, which is `complexLocalOrientation` by `rfl` (`analyticPointLocalHomologyClass_eq_complexLocalOrientation`). On that path only upstream's point normalization of the supported class could carry a sign (its substantive step is `smoothClosedPointNormalModelPairMap_localClass`): the inverse of `forgetSupport` is applied to its own image, the pair maps compose to the identity, and the transport T enters both the normalization of [pt] and the degree, so a sign in T would cancel. A sign in T against Ψ shows only through `planeDegree_eq_eval_of_restrict`, where `forgetRel_supportedEquivPair` excludes it.
+- It does not recompute [L₀] ∪ [L₁] by a second route: the degree of the cup product is read through the checked identity. An independent computation of the cup product (a second route through the singular cup product in charts) is not attempted.
+- It does not test independence of the point. The degree uses the local orientation at pt only; that it equals the evaluation on a global orientation class is `planeDegree_eq_eval_of_restrict`, conditional on such a class. If upstream's local orientations were incoherent between points, a degree read at another point could differ in sign; the missing naturality theorem of upstream's `LocalOrientation` header is what would exclude it.
+- It does not test the orientation of ℂ² itself: `complexLocalOrientation` is `localClassOfChart` of `standardComplexLocalClass`, pinned by the rows "Complex orientation of ℂ^p" and "Fundamental-class normalization" of `docs/conventions.md` and by `cross-orientation`, `real-affine-orientation`.
+
+### Independence, guarded
+
+The degree and `planeDegree_planeOrigin` use no part of the multiplicativity proof. The module imports it (through `CycleClassMultiplicativeP2`, for `planeDegree_planeLines_cup`), so a guard on the import list cannot express that; a `run_cmd` at the end of the file walks the constants of this file reachable from `planeDegree`, `planeDegree_planeOrigin`, `planeDegree_bijective` and `planeDegree_forgetSupport` (types and values) and judges each imported constant by its module, since imported theorem bodies are not visible under the module system; it fails the build if that module is, or imports directly or transitively, `HodgeLadder.Cycle.Multiplicative`, `HodgeLadder.Tests.CycleClassMultiplicativeP2`, `HodgeLadder.Local.ClassProduct` or `HodgeLadder.Normalization.Germ`. It also fails if any of those modules is missing from the import closure (stale guard), and if the walk from `planeDegree_planeLines_cup` meets no such module (blind guard, the positive control); the red team checked a transitive control with only `HodgeLadder.Local.ClassProduct` forbidden. Shared with the multiplicativity proof: upstream's transport `complexSupportInjectiveSectionCohomologyEquiv`, `forgetSupport`, the supported class `cycleComponentSupportedInjectiveClass`; `planeDegree_eq_eval_of_restrict` also shares `supported-pair-forget`.
+
+### What is proved
+
+Everything; the file has no open proof. `#print axioms` on all 24 declarations (red team RT1, and `tools/check.py` once the ledger names them): `propext`, `Classical.choice`, `Quot.sound`. Helpers: `planeOriginSupport` (abbrev), `planeOriginForgetEquiv`, `pointToNeighborhoodSupportPairMap` with its two composition lemmas and the two `relativeCohomologyMap` corollaries, `planeOriginPairMap`, `planeOriginLocalize`, `planeOriginEvaluation`, `planeOriginSupportInclusion`, `planeOriginPairMap_eq_comp`, `relativeHomologyMap_planeOriginSupportInclusion_projection`, `relativeHomologyMap_planeOriginPairMap_orientation`. `pointToNeighborhoodSupportPairMap` and its lemmas are general facts about pairs (any space, S ⊆ {y}); phase 2 lists them in `docs/gaps.md`, "General lemmas kept local".
+
+### Failed trivial proofs
+
+Scratch file inside the worktree, deleted. On `planeDegree [pt] = 1`: `rfl` (fails: the sides do not unfold to each other), `simp`, `norm_num`, `simp [planeDegree, planeOriginEvaluation, planeOriginLocalize]` (unsolved goals), `decide` (fails to reduce). On `planeDegree [pt] = −1`: `simp` fails, and `planeDegree [pt] ≠ −1` is proved from the rung by `rw` and `norm_num`. `infer_instance` fails on H⁴ of the complement; `simp` fails on `planeDegree_bijective`.
+
+### Timing
+
+`lake env lean` on the file: 4 min 18 s wall in two runs, default heartbeats. Kernel type checking is 195 s of it, in nine declarations: `planeOriginForgetEquiv` 43 s, `planeDegree_bijective` 37 s, `planeOriginLocalize` 30 s, `planeDegree_forgetSupport` 27 s, `planeDegree` 16 s, `planeDegree_planeOrigin` 15 s, three more near 6 s each (`-Dtrace.profiler`). Elaboration and tactics take about 10 s, the guard 5 s. The longest test module before this one took 96 s. Scratch measurements point at the types: the kernel takes 1 s to check the bare type `H^4(projectivePlane; ℚ)`, 2 s to check `forgetSupport ℚ projectivePlane ⊤ 4`, and 2.5 s more when that map is restated with the notation's types (upstream states `forgetSupport` for a field K, so its ℚ instances come by a different path). Dropping the type ascription of `planeOriginForgetEquiv` moved the cost into `planeDegree` and `planeDegree_forgetSupport` (4 min 44 s in total), so it was reverted. Cutting the kernel time is a phase 2 item.
+
+### Red-team changes (2026-11-27), as implemented
+
+| Change | What | Where |
+|---|---|---|
+| A | the guard judges imported constants by module and import closure, since imported theorem bodies are not visible under the module system; it needs no fuel | end of the Lean file; section "Independence, guarded" |
+| B | ledger title and note say what the test establishes: upstream's [pt] has degree 1 for this degree map, H⁴(ℙ²; ℚ) ≅ ℚ, and with ε = +1 from `cup-singular-comparison` the scalars of the two line classes multiply to 1; no independent sign check at a = b = 1 | `ledger/ladder.json`, this rung and `cycle-class-multiplicative-codim-zero` |
+| C | `planeLines_cup_ne_neg_planeOrigin` follows from `cycle-class-multiplicative-p2` and `p2-point-class-nonzero` alone; the value 1 is upstream's | docstrings, section header, module docstring |
+| D | only upstream's point normalization could carry a sign on the path; a sign in T would cancel | section "What the test shows, and what it does not" |
+| E | the kernel time of the module | `docs/gaps.md`, "Known weaknesses" |
+| G | new open rung `p2-fundamental-class`, which would discharge the hypothesis of `planeDegree_eq_eval_of_restrict` | ledger, roadmap |
+
+### For the red team
+
+(1) Is evaluation of the supported lift on the local orientation at one point an acceptable degree map, given `planeDegree_eq_eval_of_restrict` and `planeDegree_bijective`, or should the rung wait for a global class? (2) Vacuity: the degree is nonzero and bijective; `deg [pt] = 1` passes through `forgetSupport⁻¹` and upstream's point normalization, so a sign anywhere on that path shows. (3) The closeness of the value to upstream's definition of `analyticPointLocalCoclass` (third bullet above): is the test strong enough to post as `test`? (4) Drift: upstream `cycleComponentSupportedInjectiveClass_point_normalization`, `analyticComponentPointSupportedInjectiveCoclass_relative`, `analyticPointLocalCoclass_apply_complexLocalOrientation`, `complexLocalOrientation`, `span_complexLocalOrientation_eq_top`, `neighborhoodSupportToPointPairMap`, `supportInclusionPairMap`, `relativeChainProjection_supportInclusion`, `cohomologyEquivDualHomology_forgetSupport`, `range_cycleComponentMap`, `cycleComponentSheafClass_eq_forgetSupport` (an `rfl`); the ladder's `forgetSupport_injective_of_subsingleton`, `forgetSupport_surjective_of_subsingleton`, the Mayer–Vietoris pieces of `ProjectivePlanePoint.lean`, `supportedEquivPair_eq_transport`, `forgetRel_supportedEquivPair`.
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.
