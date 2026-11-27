@@ -9,6 +9,7 @@ public import HodgeLadder.General.Ext
 public import HodgeLadder.General.LocallyConstantSheaf
 public import HodgeLadder.General.FreeAbelianTerminal
 public import HodgeLadder.General.Codimension
+public import HodgeLadder.General.SimplicialCochainSpan
 public import HodgeLadder.Upstream.Statements
 public import HodgeLadder.CycleClass.Pins
 public import HodgeLadder.CycleClass.Statements
@@ -157,6 +158,7 @@ public import HodgeLadder.Hodge.WedgePresheaf
 public import HodgeLadder.Cup.RationalExtHom
 public import HodgeLadder.Hodge.RationalHypercohomology
 public import HodgeLadder.Hodge.DeRhamInjective
+public import HodgeLadder.Hodge.DeRhamRationalSpan
 public import HodgeLadder.Hodge.PairingProduct
 public import HodgeLadder.Hodge.RationalDeRhamComplex
 public import HodgeLadder.Tests.DeRhamUnitNonzero

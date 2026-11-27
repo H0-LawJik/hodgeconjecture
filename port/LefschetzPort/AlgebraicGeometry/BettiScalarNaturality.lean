@@ -14,8 +14,8 @@ public import LefschetzPort.Supplement.AnalyticExt
 # Naturality of the scalar Betti comparison in the coefficient ring
 
 The identification of constant-sheaf cohomology with coefficients in `R` with ordinary singular
-cohomology with coefficients in `R` is natural in `R`: a ring homomorphism `f : R →+* S` acts
-on the sheaf-theoretic side through the constant sheaf morphism `constantCoefficientSheafMap`,
+cohomology with coefficients in `R` is natural in the coefficients: an additive map
+`f : R →+ S` (for example a ring homomorphism) acts on the sheaf-theoretic side through the constant sheaf morphism `constantCoefficientSheafMap`,
 and on the singular side through postcomposition with `f` on cochains. This file proves that
 the comparison equivalences intertwine these two actions, one naturality square per factor of
 the comparison.
@@ -27,7 +27,7 @@ open CategoryTheory Limits TopologicalSpace
 
 namespace AlgebraicTopology.Singular.HereditarilyParacompact
 
-variable {R S : Type} [CommRing R] [CommRing S] (f : R →+* S)
+variable {R S : Type} [CommRing R] [CommRing S] (f : R →+ S)
   (Y : TopCat.{0}) [ParacompactSpace Y] [T2Space Y] (n : ℕ)
 
 /-- The identification of ordinary singular cohomology with the cohomology of global sections
@@ -62,7 +62,7 @@ namespace AlgebraicGeometry.ComplexPoint
 
 open Point
 
-variable (X : Over (Spec ↧ℂ)) {R S : Type} [CommRing R] [CommRing S] (f : R →+* S)
+variable (X : Over (Spec ↧ℂ)) {R S : Type} [CommRing R] [CommRing S] (f : R →+ S)
 
 /-- Step 1: the postcomposition equivalence along the constant-to-singular resolution is
 natural in the coefficient ring. -/

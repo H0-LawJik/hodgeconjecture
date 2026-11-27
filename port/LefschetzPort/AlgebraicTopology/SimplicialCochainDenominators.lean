@@ -143,13 +143,13 @@ lemma ratEval_d_eq_zero (c : Module.Dual ℚ ((X.chainComplex (ModuleCat.of ℚ 
 /-- Evaluation of an integral cochain, after change of coefficients, is the cast of its values. -/
 lemma ratEval_dualCoefficientChange (b : Module.Dual ℤ ((X.chainComplex (ModuleCat.of ℤ ℤ)).X n))
     (z : (X.chainComplex (ModuleCat.of ℤ ℤ)).X n) :
-    ratEval X n (dualCoefficientChange (Int.castRingHom ℚ) X n b) z = (b z : ℚ) := by
-  have : ratEval X n (dualCoefficientChange (Int.castRingHom ℚ) X n b) =
+    ratEval X n (dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b) z = (b z : ℚ) := by
+  have : ratEval X n (dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b) =
       (Algebra.linearMap ℤ ℚ) ∘ₗ b := by
     apply intChains_hom_ext
     intro x
     rw [ratEval_chainOfSimplex]
-    have h := congrFun (dualToFun_dualCoefficientChange (Int.castRingHom ℚ) X n b) x
+    have h := congrFun (dualToFun_dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b) x
     simp only [dualToFun_apply, Function.comp_apply] at h
     rw [h]
     simp
@@ -183,30 +183,32 @@ cochain. -/
 lemma exists_intCochain_of_integral (c : Module.Dual ℚ ((X.chainComplex (ModuleCat.of ℚ ℚ)).X n))
     (h : ∀ z, ∃ m : ℤ, (m : ℚ) = ratEval X n c z) :
     ∃ b : Module.Dual ℤ ((X.chainComplex (ModuleCat.of ℤ ℤ)).X n),
-      dualCoefficientChange (Int.castRingHom ℚ) X n b = c := by
+      dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b = c := by
   refine ⟨dualOfFun ℤ X n (fun x ↦ (h (chainOfSimplex ℤ X n x)).choose), ?_⟩
   apply dualToFun_injective ℚ X n
   rw [dualToFun_dualCoefficientChange, dualToFun_dualOfFun]
   funext x
-  simp only [Function.comp_apply, eq_intCast, dualToFun_apply]
+  simp only [Function.comp_apply, RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass,
+    eq_intCast, dualToFun_apply]
   rw [(h (chainOfSimplex ℤ X n x)).choose_spec, ratEval_chainOfSimplex]
 
 lemma dualCoefficientChange_injective :
-    Function.Injective (dualCoefficientChange (Int.castRingHom ℚ) X n) := by
+    Function.Injective (dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n) := by
   intro b b' h
   apply dualToFun_injective ℤ X n
   have h' := congrArg (dualToFun ℚ X n) h
   rw [dualToFun_dualCoefficientChange, dualToFun_dualCoefficientChange] at h'
   funext x
   have := congrFun h' x
-  simp only [Function.comp_apply, eq_intCast, Int.cast_inj] at this
+  simp only [Function.comp_apply, RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass,
+    eq_intCast, Int.cast_inj] at this
   exact this
 
 /-- An integral cochain whose rationalisation is a cocycle is a cocycle. -/
 lemma dualMap_d_eq_zero_of_dualCoefficientChange
     (b : Module.Dual ℤ ((X.chainComplex (ModuleCat.of ℤ ℤ)).X n))
     (hb : ((X.chainComplex (ModuleCat.of ℚ ℚ)).d (n + 1) n).hom.dualMap
-      (dualCoefficientChange (Int.castRingHom ℚ) X n b) = 0) :
+      (dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b) = 0) :
     ((X.chainComplex (ModuleCat.of ℤ ℤ)).d (n + 1) n).hom.dualMap b = 0 := by
   apply dualCoefficientChange_injective X (n + 1)
   rw [dualCoefficientChange_dualMap_d, hb, map_zero]
@@ -231,7 +233,7 @@ theorem exists_integral_cocycle_succ (k : ℕ)
     ∃ (b : Module.Dual ℤ ((X.chainComplex (ModuleCat.of ℤ ℤ)).X (k + 1)))
       (e : Module.Dual ℚ ((X.chainComplex (ModuleCat.of ℚ ℚ)).X k)),
       ((X.chainComplex (ModuleCat.of ℤ ℤ)).d (k + 2) (k + 1)).hom.dualMap b = 0 ∧
-      dualCoefficientChange (Int.castRingHom ℚ) X (k + 1) b =
+      dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X (k + 1) b =
         c - ((X.chainComplex (ModuleCat.of ℚ ℚ)).d (k + 1) k).hom.dualMap e := by
   obtain ⟨d, hd⟩ : ∃ d, d = ((X.chainComplex (ModuleCat.of ℤ ℤ)).d (k + 1) k).hom := ⟨_, rfl⟩
   rw [← hd] at hint
@@ -380,7 +382,8 @@ theorem exists_integer_multiple_of_finite_homology (n : ℕ)
     ∃ (m : ℤ) (β : (((forget₂ (ModuleCat.{0} ℤ) AddCommGrpCat).mapHomologicalComplex
       (ComplexShape.up ℕ)).obj (X.chainComplex (ModuleCat.of ℤ ℤ)).linearDualCochainComplex).homology
         n), m ≠ 0 ∧
-      HomologicalComplex.homologyMap (linearDualCoefficientChange (Int.castRingHom ℚ) X) n β =
+      HomologicalComplex.homologyMap
+        (linearDualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X) n β =
         m • α := by
   let Kℤ := X.chainComplex (ModuleCat.of ℤ ℤ)
   let Kℚ := X.chainComplex (ModuleCat.of ℚ ℚ)
@@ -388,7 +391,7 @@ theorem exists_integer_multiple_of_finite_homology (n : ℕ)
     (ComplexShape.up ℕ)).obj Kℤ.linearDualCochainComplex
   let Dℚ := ((forget₂ (ModuleCat.{0} ℚ) AddCommGrpCat).mapHomologicalComplex
     (ComplexShape.up ℕ)).obj Kℚ.linearDualCochainComplex
-  let θ : Dℤ ⟶ Dℚ := linearDualCoefficientChange (Int.castRingHom ℚ) X
+  let θ : Dℤ ⟶ Dℚ := linearDualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X
   obtain ⟨ζ, hζ⟩ := (AddCommGrpCat.epi_iff_surjective (Dℚ.homologyπ n)).mp inferInstance α
   let c : Module.Dual ℚ (Kℚ.X n) := forgetDualElem Kℚ n ((Dℚ.iCycles n).hom ζ)
   have hc : (Kℚ.d (n + 1) n).hom.dualMap c = 0 := by
@@ -398,7 +401,7 @@ theorem exists_integer_multiple_of_finite_homology (n : ℕ)
   obtain ⟨m, hm, hint⟩ := exists_integer_multiple_ratEval X n c hc
   have key : ∃ (b : Module.Dual ℤ (Kℤ.X n)) (w : Dℚ.cycles n),
       (Kℤ.d (n + 1) n).hom.dualMap b = 0 ∧ (Dℚ.homologyπ n).hom w = 0 ∧
-      dualCoefficientChange (Int.castRingHom ℚ) X n b =
+      dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b =
         (m : ℚ) • c - forgetDualElem Kℚ n ((Dℚ.iCycles n).hom w) := by
     cases n with
     | zero =>
@@ -444,7 +447,7 @@ theorem exists_integer_multiple_of_finite_homology (n : ℕ)
     change (Dℚ.iCycles n).hom ((HomologicalComplex.cyclesMap θ n).hom ζb) =
       (Dℚ.iCycles n).hom (m • ζ - w)
     rw [this, hζb, map_sub, map_zsmul]
-    change dualCoefficientChange (Int.castRingHom ℚ) X n b =
+    change dualCoefficientChange (Int.castRingHom ℚ).toAddMonoidHom X n b =
       m • c - forgetDualElem Kℚ n ((Dℚ.iCycles n).hom w)
     rw [hbw, Int.cast_smul_eq_zsmul]
   change (HomologicalComplex.homologyMap θ n).hom ((Dℤ.homologyπ n).hom ζb) = m • α
