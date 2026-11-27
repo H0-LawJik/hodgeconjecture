@@ -3061,18 +3061,28 @@
     {
       "id": "simplicial-complex-span",
       "title": "For a simplicial set with finitely generated integral homology in degree n, every complex cohomology class of the algebraic-dual cochain complex is a finite sum of rational classes pushed along q ↦ z q",
-      "status": "stated",
+      "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.General.SimplicialCochainSpan",
+      "module": "HodgeLadder.General.SimplicialCochainSpanProof",
       "declarations": [
+        "HodgeLadder.simplicialComplexSpan",
         "HodgeLadder.SimplicialComplexSpan",
-        "HodgeLadder.ratScaled"
+        "HodgeLadder.ratScaled",
+        "HodgeLadder.exists_finiteDimensional_cochainEval_mem",
+        "HodgeLadder.exists_sum_ratScaled_eq",
+        "HodgeLadder.exists_dualMap_d_eq_of_cochainEval",
+        "HodgeLadder.homologyMap_linearDualCoefficientChange_eq",
+        "HodgeLadder.linearDualCoefficientChange_comp",
+        "HodgeLadder.linearDualCoefficientChange_add",
+        "HodgeLadder.cochainEval_dualCoefficientChange",
+        "HodgeLadder.cochainEval",
+        "HodgeLadder.linearDualCoefficientChange_zero"
       ],
       "depends_on": [],
       "contributors": [
         "claude-code"
       ],
-      "note": "Stated 2026-11-27 as a Prop. Proof plan (docs/sketches/cup-hodge-filtration.md, section de-rham-rational-span: statement): the values of a complex cocycle on integral cycles span a finite-dimensional ℚ-subspace W ⊆ ℂ; Baer's criterion for the divisible group ℂ ⧸ W makes the cocycle cohomologous to a W-valued one; its coordinates in a ℚ-basis of W are rational cocycles. Adapts the port's SimplicialCochainDenominators (ℤ ⊆ ℚ replaced by W ⊆ ℂ). A general lemma kept local (decision 0011)."
+      "note": "Checked 2026-11-27: simplicialComplexSpan : SimplicialComplexSpan, standard axioms, in HodgeLadder.General.SimplicialCochainSpanProof (the Prop and ratScaled stay in HodgeLadder.General.SimplicialCochainSpan). Route: the values of a complex cocycle c on integral cycles factor through the finitely generated H_n(Y; ℤ), so they lie in a finite-dimensional ℚ-subspace W ⊆ ℂ; a ℚ-linear projection onto W followed by coordinates in a ℚ-basis gives additive λ_i : ℂ → ℚ and w_i ∈ ℂ with Σ w_i λ_i(x) = x on W; call the sum P. P ∘ c − c vanishes on integral cycles, so it is a coboundary (Baer's criterion for the divisible group ℂ, extending from integral boundaries to chains one degree down; in degree 0 it is zero), and [c] = (P)_*[c] = Σ (ratScaled w_i)_* (λ_i)_* [c] by additivity and functoriality of linearDualCoefficientChange. This replaces the planned quotient ℂ ⧸ W by a projection; no universal coefficient theorem is used. A general lemma kept local (decision 0011). Red team 2026-11-27: docs/sketches/simplicial-complex-span.redteam.md (pass with changes, all implemented)."
     },
     {
       "id": "de-rham-rational-independent",
@@ -3131,10 +3141,12 @@
     {
       "id": "de-rham-rational-span",
       "title": "The de Rham images of rational classes span: Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤ for projective X (input of T1)",
-      "status": "stated",
+      "status": "checked",
       "kind": "foundation",
       "module": "HodgeLadder.Hodge.DeRhamRationalSpan",
       "declarations": [
+        "HodgeLadder.deRhamRationalSpan",
+        "HodgeLadder.span_range_fieldToDeRhamCohomology_rat",
         "HodgeLadder.DeRhamRationalSpan",
         "HodgeLadder.deRhamRationalSpan_of_simplicialComplexSpan",
         "HodgeLadder.span_range_fieldToDeRhamCohomology_rat_of_simplicialComplexSpan",
@@ -3150,7 +3162,7 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "Stated 2026-11-27: DeRhamRationalSpan is the statement as a Prop, and deRhamRationalSpan_of_simplicialComplexSpan proves it from SimplicialComplexSpan with the standard axioms. Route: z • ι β is the de Rham image of the class pushed along ratScaled z (q ↦ z q), exactly; the port's Betti comparison, natural in additive maps (betti-additive-naturality), carries the cochain statement SimplicialComplexSpan to sheaf cohomology; IsProjective supplies T2Space, openParacompactSpace and module_finite_singularHomology. span_range_fieldToDeRhamCohomology_rat_of_simplicialComplexSpan takes these three inputs as hypotheses, the hook for dropping projectivity. Span statement: insensitive to the ℂ-action's conjugation and to nonzero scalars on ι. The surjectivity half of ℂ ⊗_ℚ H^n(X; ℚ) ≅ H_dR^n(X); the other half is de-rham-rational-independent. When simplicial-complex-span is checked, add the unconditional theorem and mark this rung checked. Red team 2026-11-27: docs/sketches/de-rham-rational-span.redteam.md. Sketch: docs/sketches/cup-hodge-filtration.md, section de-rham-rational-span: statement."
+      "note": "Checked 2026-11-27: deRhamRationalSpan : DeRhamRationalSpan and span_range_fieldToDeRhamCohomology_rat (one X, one n), from deRhamRationalSpan_of_simplicialComplexSpan and simplicialComplexSpan (rung simplicial-complex-span), standard axioms. Route: z • ι β is the de Rham image of the class pushed along ratScaled z (q ↦ z q), exactly; the port's Betti comparison, natural in additive maps (betti-additive-naturality), carries the cochain statement SimplicialComplexSpan to sheaf cohomology; IsProjective supplies T2Space, openParacompactSpace and module_finite_singularHomology. span_range_fieldToDeRhamCohomology_rat_of_simplicialComplexSpan takes these three inputs as hypotheses, the hook for dropping projectivity. Span statement: insensitive to the ℂ-action's conjugation and to nonzero scalars on ι. The surjectivity half of ℂ ⊗_ℚ H^n(X; ℚ) ≅ H_dR^n(X); the other half is de-rham-rational-independent. Red team 2026-11-27: docs/sketches/de-rham-rational-span.redteam.md. Sketch: docs/sketches/cup-hodge-filtration.md, section de-rham-rational-span: statement."
     },
     {
       "id": "cup-positive-degree-test",

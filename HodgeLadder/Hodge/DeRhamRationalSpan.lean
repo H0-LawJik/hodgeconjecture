@@ -1,6 +1,6 @@
 module
 
-public import HodgeLadder.General.SimplicialCochainSpan
+public import HodgeLadder.General.SimplicialCochainSpanProof
 public import LefschetzPort.AlgebraicGeometry.ProjectiveFiniteHomology
 public import LefschetzPort.AlgebraicGeometry.BettiScalarNaturality
 public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.ProjectiveParacompact
@@ -8,7 +8,7 @@ public import HodgeConjecture.Lemmas.AlgebraicGeometry.ComplexPoint.ProjectivePa
 /-!
 # The de Rham images of rational classes span de Rham cohomology
 
-Rung `de-rham-rational-span` (stated), an input of target T1 of the Markman inventory
+Rung `de-rham-rational-span` (checked), an input of target T1 of the Markman inventory
 (`docs/sketches/cup-hodge-filtration.md`, section "de-rham-rational-span: statement"; red team
 `docs/sketches/de-rham-rational-span.redteam.md`). For a smooth projective integral scheme `X`
 over `ℂ`, the complex span of the image of upstream's
@@ -25,13 +25,15 @@ is `z • ι β`.
 2. Comparison (rung `betti-additive-naturality`, checked): the port's
    `scalarCohomologyEquivOrdinarySingularCohomology_coefficientChange`, natural in additive maps
    of coefficients since the port's generalization from ring maps.
-3. Cochains (rung `simplicial-complex-span`, stated): `HodgeLadder.SimplicialComplexSpan`.
+3. Cochains (rung `simplicial-complex-span`, checked): `HodgeLadder.simplicialComplexSpan`
+   proves `HodgeLadder.SimplicialComplexSpan`
+   (module `HodgeLadder.General.SimplicialCochainSpanProof`).
 4. Finiteness: the port's `module_finite_singularHomology` (the analytic space of a smooth
    projective variety is a compact manifold).
 
 `mem_closure_ratScaled` assembles 2 and 3 under explicit Hausdorff, paracompactness and
 finite-homology hypotheses; `deRhamRationalSpan_of_simplicialComplexSpan` supplies them from
-`IsProjective` with 4 and applies 1.
+`IsProjective` with 4 and applies 1; `deRhamRationalSpan` discharges `SimplicialComplexSpan` by 3.
 
 ## Main definitions
 
@@ -46,6 +48,9 @@ finite-homology hypotheses; `deRhamRationalSpan_of_simplicialComplexSpan` suppli
   `X` with the topological inputs as hypotheses (no projectivity).
 * `HodgeLadder.deRhamRationalSpan_of_simplicialComplexSpan`:
   `SimplicialComplexSpan → DeRhamRationalSpan`.
+* `HodgeLadder.deRhamRationalSpan : DeRhamRationalSpan`, unconditional.
+* `HodgeLadder.span_range_fieldToDeRhamCohomology_rat`: the span for one smooth projective
+  integral `X` and one degree `n`.
 -/
 
 @[expose] public noncomputable section
@@ -54,8 +59,8 @@ open CategoryTheory Limits TopologicalSpace AlgebraicGeometry ComplexPoint
 
 namespace HodgeLadder
 
-/-- **Rung `de-rham-rational-span`** (stated). For every smooth projective integral scheme `X`
-over `ℂ` and every degree `n`, the complex span of the image of
+/-- **Rung `de-rham-rational-span`** (checked, `deRhamRationalSpan`). For every smooth
+projective integral scheme `X` over `ℂ` and every degree `n`, the complex span of the image of
 `ι : H^n(X(ℂ); ℚ) → H_dR^n(X)` is all of `H_dR^n(X)`. -/
 def DeRhamRationalSpan : Prop :=
   ∀ (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] (n : ℕ),
@@ -209,5 +214,18 @@ theorem deRhamRationalSpan_of_simplicialComplexSpan (hS : SimplicialComplexSpan)
   let : Module.Finite ℤ ((AlgebraicTopology.Singular.SingularChainComplex ℤ
       (TopCat.of (ComplexPoint X))).homology n) := module_finite_singularHomology X n
   exact span_range_fieldToDeRhamCohomology_rat_of_simplicialComplexSpan X n hS
+
+/-- **Rung `de-rham-rational-span`.** For every smooth projective integral `X` over `ℂ` and every
+degree `n`, the complex span of the image of `ι : H^n(X(ℂ); ℚ) → H_dR^n(X)` is all of
+`H_dR^n(X)`. -/
+theorem deRhamRationalSpan : DeRhamRationalSpan :=
+  deRhamRationalSpan_of_simplicialComplexSpan simplicialComplexSpan
+
+/-- The span for one smooth projective integral `X` and one degree `n`:
+`Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤`. -/
+theorem span_range_fieldToDeRhamCohomology_rat [IsIntegral X.left] [Smooth X.hom]
+    [IsProjective X.hom] (n : ℕ) :
+    Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤ :=
+  deRhamRationalSpan X n
 
 end HodgeLadder
