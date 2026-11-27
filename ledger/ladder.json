@@ -3077,15 +3077,41 @@
     {
       "id": "de-rham-rational-independent",
       "title": "ℚ-independent rational classes have ℂ-independent de Rham images: LinearIndependent ℚ v → LinearIndependent ℂ (fieldToDeRhamCohomology ℚ X n ∘ v) for projective X",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.DeRhamRationalIndependent",
+      "declarations": [
+        "HodgeLadder.linearIndependent_fieldToDeRhamCohomology_rat",
+        "HodgeLadder.linearIndependent_fieldToDeRhamCohomology_rat_of_smooth",
+        "HodgeLadder.injective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat",
+        "HodgeLadder.injective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_smooth",
+        "HodgeLadder.bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_span",
+        "HodgeLadder.finrank_deRham_eq_finrank_rat_of_span",
+        "HodgeLadder.bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan",
+        "HodgeLadder.finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan"
+      ],
+      "depends_on": [
+        "betti-additive-naturality",
+        "de-rham-rational-span"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27, standard axioms. The `_of_smooth` theorems need only IsIntegral and Smooth; IsProjective is unused, and no finiteness, Hausdorffness or comparison with singular cohomology enters. Route: a ℚ-linear functional φ : ℂ → ℚ is an additive map of coefficients; pushing a relation Σ zᵢ • ι vᵢ = 0, read in complex constant cohomology through smul_hypercohomologyMap_fieldToHolomorphicDeRhamComplexInt and complexConstantCohomologyDeRhamAddEquiv, along φ gives Σ φ(zᵢ) • vᵢ = 0. Uses the port's additive constantCoefficientSheafComplexIntMap (generalized in betti-additive-naturality; that rung's comparison theorem is not used) and the checked step-1 lemma of de-rham-rational-span (not SimplicialComplexSpan). Independence over ℂ, insensitive to conjugating the ℂ-action and to nonzero scalars on ι. Red team 2026-11-27: docs/sketches/de-rham-rational-independent.redteam.md. The module also holds the base-change identity in conditional form (red team finding 7): bijectivity of liftBaseChange and finrank ℂ H_dR^n = finrank ℚ H^n(X; ℚ) from the span equality for one X (_of_span), and for projective X from SimplicialComplexSpan (_of_simplicialComplexSpan); the unconditional forms are rung de-rham-rational-base-change."
+    },
+    {
+      "id": "de-rham-rational-base-change",
+      "title": "The base-change identity: LinearMap.liftBaseChange ℂ (fieldToDeRhamCohomologyLinear ℚ X n) is bijective, and Module.finrank ℂ H_dR^n(X) = Module.finrank ℚ H^n(X; ℚ), for smooth projective integral X",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "betti-additive-naturality"
+        "de-rham-rational-independent",
+        "simplicial-complex-span"
       ],
       "contributors": [],
-      "note": "Red team of de-rham-rational-span, finding 1. Statement: theorem linearIndependent_fieldToDeRhamCohomology_rat (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] (n : ℕ) {ι : Type} {v : ι → H^n(X; ℚ)} (hv : LinearIndependent ℚ v) : LinearIndependent ℂ (fieldToDeRhamCohomology ℚ X n ∘ v); equivalently Function.Injective (LinearMap.liftBaseChange ℂ (fieldToDeRhamCohomologyLinear ℚ X n)). With de-rham-rational-span it gives ℂ ⊗_ℚ H^n(X; ℚ) ≅ H_dR^n(X), and so dim_ℂ H^1_dR = dim_ℚ H^1(X; ℚ) for T1's eigenspace count. de-rham-injective gives injectivity over ℚ only. Route: a ℚ-linear functional ℂ → ℚ is an additive map, so the generalized comparison carries a complex relation to a rational one; no finiteness of homology. Use the Prop-and-conditional pattern."
+      "note": "Red team of de-rham-rational-independent, finding 7. The conditional forms are checked in HodgeLadder.Hodge.DeRhamRationalIndependent: bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan and finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan take hS : SimplicialComplexSpan; the _of_span versions take the span equality for one X. simplicial-complex-span is about to land as checked; once it does, the unconditional theorems are one-line applications, and this rung can be checked in the same module (target names bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat, finrank_deRham_eq_finrank_rat). T1's eigenspace count reads the rank equality; de-rham-p2-top-rank can then depend on it. Optional sharper test (red team finding 7b, not posted): every Betti number of ℙ² is at most 1, so the singleton [pt] does not separate ℂ-independence from ℚ-injectivity (de-rham-injective). A separating test needs two ℚ-independent classes in one degree: on HodgeLadder.Tests.gm2 (smooth integral, not projective, so through linearIndependent_fieldToDeRhamCohomology_rat_of_smooth), LinearIndependent ℂ (fieldToDeRhamCohomology ℚ gm2 1 ∘ ![sheafWindingClass gm2 gmCoordOne gmCoordOne_ne_zero, sheafWindingClass gm2 gmCoordTwo gmCoordTwo_ne_zero]). Its missing input is ℚ-independence of the two winding classes in H^1(gm2; ℚ), which the ladder lacks (gm2_cup_ne_zero and gm2_cup_swap_ne give nonvanishing and x₁ ≠ x₂ only)."
     },
     {
       "id": "de-rham-p2-top-rank",
