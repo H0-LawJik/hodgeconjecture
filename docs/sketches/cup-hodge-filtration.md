@@ -112,7 +112,7 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `wedge-presheaf` | `formWedge` descends to `HolomorphicForm X d U`, natural under `holomorphicFormRestriction` | checked |
 | `wedge-sheafify` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ` through the monoidal sheafification | open |
 | `wedge-sheaf-map` | `deRhamWedge` a morphism of complexes, `filteredWedge p q` compatible with inclusions, unit law | open |
-| `derived-tensor-bounded` | additive `T_B` with `Q ⋙ T_B ≅ tensorRight B ⋙ Q`, natural in `B` | open |
+| `derived-tensor-bounded` | additive `T_B` with `Q ⋙ T_B ≅ tensorRightComplex Y B ⋙ Q`, natural in `B`; generic unit iso | checked |
 | `pairing-product` | `pairProduct`, naturality, biadditivity, `pairProduct λ x y = y.comp x` on `ℚ_X[0]` | open |
 | `de-rham-injective` | `Function.Injective (fieldToDeRhamCohomology ℚ X n)` | open |
 | `de-rham-cup` | `deRhamCup`, bilinearity, `fieldToDeRhamCohomology_cup` | open |
@@ -148,6 +148,41 @@ Trivial proofs fail: `rfl` and `simp` on naturality, and `simp` on the Leibniz r
 Questions for the red team. (1) Is a pointwise naturality statement enough for `wedge-sheafify`, or should it be the equation of bilinear maps `(holomorphicWedge X d V p q).compl₁₂ (res i p) (res i q) = (holomorphicWedge X d U p q).compr₂ (res i (p + q))`? (2) Is `holomorphicFormCast` by `h ▸ LinearMap.id` the right transport, against a `Submodule.mapQ` of `LinearEquiv.ofEq` on `⋀^m = ⋀^n`? (3) The unit laws are included for step 2 of the construction (`1 ∧ ω = ω`); check that they are in scope for this rung.
 
 Red team 2026-11-27 (`docs/sketches/wedge-presheaf.redteam.md`): pass with changes, all implemented. Answers: the pointwise naturality is primary, with the bilinear-map form `holomorphicWedge_compr₂_restriction` added; the transport `h ▸ LinearMap.id` stays, with five lemmas proved by `subst h; rfl` (`holomorphicFormCast_trans`, `holomorphicFormRestriction_holomorphicFormCast`, `holomorphicFormDifferential_holomorphicFormCast`, `eqToHom_apply_eq_holomorphicFormCast`, `XIsoOfEq_hom_app_eq_holomorphicFormCast`); the unit laws are in scope. Added tests: `holomorphicWedge_ofConstant_one_ne_zero` (`[1] ∧ [1] ≠ 0` on a nonempty open) and `holomorphicWedge_ofFunction` (degree zero is multiplication of functions). The module is imported from `HodgeLadder.lean` and the rung is checked.
+## derived-tensor-bounded: statement
+Module `HodgeLadder.Hodge.DerivedTensorBounded` (file `HodgeLadder/Hodge/DerivedTensorBounded.lean`, imported from `HodgeLadder.lean`; the ledger rung `derived-tensor-bounded` names this module). Checked: every declaration below is proved with the three standard axioms. Red team: `docs/sketches/derived-tensor-bounded.redteam.md`, pass with changes, implemented (the two `rfl` pins against `Functor.map₂CochainComplex`, the generic unit iso).
+Two layers. The generic layer works for any bifunctor `F : C₁ ⥤ C₂ ⥤ D` of abelian categories, additive in each variable, with `[HasDerivedCategory C₁] [HasDerivedCategory D]` as arguments (no choice of model) and the inversion of quasi-isomorphisms as a hypothesis `hB`. The sheaf layer sets `F = curriedTensor (ShQ Y)` and discharges `hB` with `tensorBoundedQuasiIso_holds`.
+| Declaration | Statement |
+|---|---|
+| `mapBifunctorRight F B` | `CochainComplex C₁ ℤ ⥤ CochainComplex D ℤ`, `K ↦ mapBifunctor K B F (.up ℤ)`, `f ↦ mapBifunctorMap f (𝟙 B) F (.up ℤ)`; needs `[∀ K, HasMapBifunctor K B F (.up ℤ)]` |
+| `mapBifunctorRightMap F φ` | for `φ : B ⟶ B'`, the natural transformation with components `mapBifunctorMap (𝟙 K) φ F (.up ℤ)`; `_id`, `_comp` |
+| `mapBifunctorRight_additive` | instance `(mapBifunctorRight F B).Additive` |
+| `mapBifunctorRight_eq_map₂CochainComplex`, `mapBifunctorRightMap_eq_map₂CochainComplex` | `mapBifunctorRight F B = F.map₂CochainComplex.flip.obj B` and `mapBifunctorRightMap F φ = F.map₂CochainComplex.flip.map φ`, both `rfl` |
+| `derivedMapBifunctorRight F B hB` | `Localization.lift (mapBifunctorRight F B ⋙ Q) hB Q : DerivedCategory C₁ ⥤ DerivedCategory D`, for `hB : (quasiIso C₁ (.up ℤ)).IsInvertedBy (mapBifunctorRight F B ⋙ Q)` |
+| `derivedMapBifunctorRightFacIso F B hB` | `Q ⋙ derivedMapBifunctorRight F B hB ≅ mapBifunctorRight F B ⋙ Q` (`Localization.fac`) |
+| `derivedMapBifunctorRight_additive` | instance `(derivedMapBifunctorRight F B hB).Additive` |
+| `derivedMapBifunctorRightMap F hB hB' φ` | `derivedMapBifunctorRight F B hB ⟶ derivedMapBifunctorRight F B' hB'` (`Localization.liftNatTrans`) |
+| `derivedMapBifunctorRightMap_fac` | `whiskerLeft Q (T φ) ≫ (facIso B').hom = (facIso B).hom ≫ whiskerRight (mapBifunctorRightMap F φ) Q` |
+| `derivedMapBifunctorRightMap_app` | `(T φ).app (Q.obj K) = (facIso B).hom.app K ≫ Q.map ((mapBifunctorRightMap F φ).app K) ≫ (facIso B').inv.app K` |
+| `derivedMapBifunctorRightMap_unique` | any `τ` satisfying the `_fac` square equals `T φ` |
+| `derivedMapBifunctorRightMap_id`, `_comp` | `T (𝟙 B) = 𝟙`, `T (φ ≫ ψ) = T φ ≫ T ψ` |
+| `derivedMapBifunctorRightIsoId F B hB ρ`, `_hom_app` | for one abelian `C` and `ρ : mapBifunctorRight F B ≅ 𝟭`, an iso `derivedMapBifunctorRight F B hB ≅ 𝟭` (`Localization.liftNatIso`) with component `(facIso B).hom.app K ≫ Q.map (ρ.hom.app K)` at `Q.obj K` |
+| `tensorRightComplex Y B`, `tensorRightComplexMap Y φ` | `mapBifunctorRight (curriedTensor (ShQ Y)) B` and its map; `_obj`, `_map`, `_app` pin them by `rfl` to `HomologicalComplex.tensorObj K B`, `tensorHom f (𝟙 B)`, `tensorHom (𝟙 K) φ` |
+| `tensorRightComplex_isInvertedBy Y B a b` | `[B.IsStrictlyGE a] [B.IsStrictlyLE b]`: `(quasiIso (ShQ Y) (.up ℤ)).IsInvertedBy (tensorRightComplex Y B ⋙ Q)` |
+| `derivedTensorRight Y B a b` | `T_B : DerivedCategory (ShQ Y) ⥤ DerivedCategory (ShQ Y)`; `derivedTensorRight_bounds`: independent of `a, b` (`rfl`) |
+| `derivedTensorRightFacIso Y B a b` | `Q ⋙ T_B ≅ tensorRightComplex Y B ⋙ Q` |
+| `derivedTensorRight_additive` | instance `(derivedTensorRight Y B a b).Additive` |
+| `derivedTensorRightMap Y a b a' b' φ` | `T_B ⟶ T_{B'}` for `φ : B ⟶ B'`; `_fac`, `_app`, `_unique`, `_id`, `_comp` as in the generic layer |
+**Signs.** None. `T_B` is built on unshifted objects; no `CommShift` structure is defined or used (red team finding 6). The only convention is Mathlib's tensor product of complexes (conventions row "Tensor product of ℤ-indexed cochain complexes and its shifts": ε₁ = 1, ε₂(p, q) = (−1)^p), which enters through `tensorObj` and is pinned by `tensorRightComplex_obj`. The components of `T_φ` are `Q.map (𝟙_K ⊗ φ)` conjugated by the factorization isos, with no scalar.
+**Route for additivity.** Simpler than finding 6: `Localization.functor_additive_iff` along `Qh` (left calculus of fractions on `HomotopyCategory.quasiIso`) reduces to `Qh ⋙ T_B`; precomposed with the quotient `CochainComplex ⥤ HomotopyCategory` it is isomorphic, through `quotientCompQhIso` and the factorization iso, to `tensorRightComplex Y B ⋙ Q`, which is additive; `Functor.additive_of_full_essSurj_comp` along the quotient (full, essentially surjective) concludes. The descent of `− ⊗ B` to the homotopy category (`mapBifunctorMapHomotopy₁`) is unnecessary.
+**Choices for the red team.**
+1. `tensorRightComplex` plays the role of `tensorRight B`. Mathlib's `MonoidalCategory` instance on complexes asks for `HasTensor` on all pairs plus the associator conditions `HasGoodTensor₁₂`, `HasGoodTensor₂₃` on all triples; the functor is defined directly and pinned to `tensorObj`, `tensorHom` by `rfl`.
+2. Boundedness is an argument (`a b` with `IsStrictlyGE`, `IsStrictlyLE`), used only to discharge `hB`; mathematically `− ⊗ B` is exact on all complexes of sheaves of `ℚ`-vector spaces, but the checked input `tensor-bounded-quasi-iso` covers bounded `B`.
+3. `HasDerivedCategory (ShQ Y)` is an instance argument, so the statements hold for every model, including the `HasDerivedCategory.standard` instance used elsewhere.
+4. Not stated: `T_B` additive in `φ` (`T_{φ + ψ} = T_φ + T_ψ`), not needed. The sheaf unit iso `T_{𝟙} ≅ 𝟭` (from `derivedMapBifunctorRightIsoId` with `ρ` built from `HomologicalComplex.rightUnitor` and its naturality in `K`) is left to `pairing-product`, whose last clause needs it (ledger note there).
+**Trivial proofs fail.** Checked in scratch: with the instance `derivedMapBifunctorRight_additive` removed, `infer_instance` finds no `Additive` instance; `rfl` fails for `derivedMapBifunctorRightMap_app` and for `derivedMapBifunctorRightMap_id`; `simp` with the definitions unfolded leaves `derivedMapBifunctorRightMap_app` open.
+**Instance findings and timings.**
+- `inferInstance` for `(derivedTensorRight Y B a b).Additive` ran over five minutes without an answer; the instance is given as a term. All `HasMapBifunctor` instances on `CochainComplex (ShQ Y) ℤ` are passed by name (`hasB := hasB_shQ Y B`), from `shQ_hasCoproducts`.
+- Kernel cost: each declaration that applies the generic homological layer at `ShQ Y` spends about 2.5 s per distinct application in kernel type checking (`tensorRightComplex_map` 18 s, `tensorRightComplex_isInvertedBy` 18 s, `derivedTensorRightMap_app` 11 s). Diagnostics show the kernel unfolding `HasMapBifunctor` and `mapBifunctorHomologicalComplexObj` to compare two `HasZeroMorphisms (ShQ Y)` instances: the one found by search (`ObjectProperty.instHasZeroMorphismsFullSubcategory`, through `Functor.FullyFaithful.hasZeroMorphisms`) and the one derived from `sheafIsAbelian` (`Preadditive.preadditiveHasZeroMorphisms`). Local high-priority instances for the `Abelian` path did not remove it. Stating `HasMapBifunctorRight` in the abelian context removed the cost from `hasB_shQ`. The whole file takes about two minutes with `lake env lean`; downstream rungs pay the same per application.
 
 ## What T1 needs from this rung
 
