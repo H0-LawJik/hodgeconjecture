@@ -2747,13 +2747,29 @@
     {
       "id": "complex-point-nonempty",
       "title": "A smooth integral scheme over ℂ has a complex point: Nonempty (ComplexPoint X) from IsIntegral X.left and Smooth X.hom",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [],
-      "contributors": [],
-      "note": "Red team of de-rham-unit-nonzero, change 5 (optional). Route: X.left is nonempty (integral) and locally of finite type over ℂ (smooth implies locally of finite presentation); an affine open Spec A with A a nonzero finitely generated ℂ-algebra has a maximal ideal with residue field ℂ by the Nullstellensatz, which gives a morphism Spec ℂ ⟶ X over Spec ℂ. With it the Nonempty (ComplexPoint X) arguments of fieldToHolomorphicDeRhamComplexInt_ne_zero, rationalDeRhamUnit_ne_zero and the sign separations can be dropped. Not needed for the ladder."
+      "module": "HodgeLadder.Tests.ComplexPointNonempty",
+      "declarations": [
+        "HodgeLadder.nonempty_complexPoint",
+        "HodgeLadder.nonempty_complexPoint_of_locallyOfFiniteType",
+        "HodgeLadder.nonempty_complexPoint_iff",
+        "HodgeLadder.Tests.fieldToHolomorphicDeRhamComplexInt_ne_zero'",
+        "HodgeLadder.Tests.rationalDeRhamUnit_ne_zero'",
+        "HodgeLadder.Tests.nsmul_fieldToHolomorphicDeRhamComplexInt_ne_zero'",
+        "HodgeLadder.Tests.fieldToHolomorphicDeRhamComplexInt_ne_neg'",
+        "HodgeLadder.Tests.rationalDeRhamUnit_ne_neg'",
+        "HodgeLadder.wedgeSheaf_ne_zero'",
+        "HodgeLadder.Tests.not_nonempty_complexPoint_empty"
+      ],
+      "depends_on": [
+        "de-rham-unit-nonzero",
+        "wedge-sheafify"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Red team of de-rham-unit-nonzero, change 5 (optional; not needed for the ladder). Weaker hypotheses than posted: Nonempty X.left and LocallyOfFiniteType X.hom suffice (nonempty_complexPoint_of_locallyOfFiniteType), and under LocallyOfFiniteType the two are equivalent (nonempty_complexPoint_iff). Route: LocallyOfFiniteType.jacobsonSpace makes X.left a Jacobson space, nonempty_inter_closedPoints gives a closed point, and Mathlib's pointEquivClosedPoint (ℂ algebraically closed; the residue field of a closed point is finite over ℂ) turns it into a section Spec ℂ ⟶ X.left of X.hom. The posted statement nonempty_complexPoint follows (IsIntegral gives Nonempty, Smooth gives LocallyOfFiniteType). The three lemmas sit in the light module HodgeLadder.General.ComplexPoint, which imports no Other module and no ladder module. Upstream's instance AlgebraicGeometry.ComplexPoint.instNonemptyComplexPoint (Other.AlgebraicGeometry.ComplexPoint.ProjectiveConnected) proves nonempty_complexPoint by inferInstance and is already in the library root's closure (through HodgeLadder.Tests.CodimensionZero); the local copy is kept for the weaker hypothesis Nonempty X.left, the iff, and the light import (decision 0011). Corollaries drop the Nonempty (ComplexPoint X) argument of the de-rham-unit-nonzero general forms (unit nonzero, rational unit nonzero, non-torsion form, both sign separations) and of wedgeSheaf_ne_zero (wedge-sheafify), on every smooth integral X, in HodgeLadder.Tests.ComplexPointNonempty; where upstream's instance is imported the unprimed originals already apply, so the primed forms record that the hypothesis is removable. not_nonempty_complexPoint_empty: the empty scheme over Spec ℂ has no complex point, so Nonempty X.left cannot be dropped. Red team pass with changes (`docs/sketches/complex-point-nonempty.redteam.md`)."
     },
     {
       "id": "wedge-presheaf",
