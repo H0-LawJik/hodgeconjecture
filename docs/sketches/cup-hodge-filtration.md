@@ -184,6 +184,34 @@ Two layers. The generic layer works for any bifunctor `F : C₁ ⥤ C₂ ⥤ D` 
 - `inferInstance` for `(derivedTensorRight Y B a b).Additive` ran over five minutes without an answer; the instance is given as a term. All `HasMapBifunctor` instances on `CochainComplex (ShQ Y) ℤ` are passed by name (`hasB := hasB_shQ Y B`), from `shQ_hasCoproducts`.
 - Kernel cost: each declaration that applies the generic homological layer at `ShQ Y` spends about 2.5 s per distinct application in kernel type checking (`tensorRightComplex_map` 18 s, `tensorRightComplex_isInvertedBy` 18 s, `derivedTensorRightMap_app` 11 s). Diagnostics show the kernel unfolding `HasMapBifunctor` and `mapBifunctorHomologicalComplexObj` to compare two `HasZeroMorphisms (ShQ Y)` instances: the one found by search (`ObjectProperty.instHasZeroMorphismsFullSubcategory`, through `Functor.FullyFaithful.hasZeroMorphisms`) and the one derived from `sheafIsAbelian` (`Preadditive.preadditiveHasZeroMorphisms`). Local high-priority instances for the `Abelian` path did not remove it. Stating `HasMapBifunctorRight` in the abelian context removed the cost from `hasB_shQ`. The whole file takes about two minutes with `lake env lean`; downstream rungs pay the same per application.
 
+## de-rham-injective: statement
+
+Module `HodgeLadder.Hodge.DeRhamInjective` (new, not yet imported from the root). Red team 7b and recommended change 9 ask for it: the ℙ² test `deRhamCup (ι [L₀]) (ι [L₁]) ≠ 0` follows from a nonzero rational cup through this rung and `fieldToDeRhamCohomology_cup`.
+
+```lean
+theorem HodgeLadder.fieldToDeRhamCohomology_rat_injective (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] (n : ℕ) :
+    Function.Injective (fieldToDeRhamCohomology ℚ X n)
+
+theorem HodgeLadder.ker_fieldToDeRhamCohomologyLinear_rat (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] (n : ℕ) :
+    LinearMap.ker (fieldToDeRhamCohomologyLinear ℚ X n) = ⊥
+```
+
+**Hypotheses.** `IsIntegral X.left` and `Smooth X.hom` are exactly the instance arguments of upstream's `fieldToDeRhamCohomology`; `n : ℕ` is its degree argument. There is no other hypothesis: no properness, no finite type beyond smoothness, no finite-dimensionality of `H^n(X; ℚ)`. The `Algebra ℚ ℂ` instance is the one found by search (`DivisionRing.toRatAlgebra`), the same one upstream's `hodgeClasses ℚ X p` elaborates with.
+
+**Proof.** One line: upstream's `AlgebraicGeometry.ComplexPoint.fieldToDeRhamCohomology_injective ℚ X n`, in its `Other` library (`Other.AlgebraicGeometry.Hodge.Filtration`, built at the pin, already imported by `HodgeLadder.Cup.SingularUnit`). Its route is the one in the ledger note. `ι` factors as `fieldToComplexCohomology ℚ X n : H^n(X; ℚ) → H^n(X; ℂ)` followed by `complexConstantCohomologyDeRhamEquiv X n` (`fieldToDeRhamCohomology_factor`, from `hypercohomologyMap_comp_apply`). The equivalence comes from the holomorphic Poincaré lemma. The first map has the left inverse `complexToFieldCohomology ℚ X n` (`complexToFieldCohomology_leftInverse`), the hypercohomology map of the constant-sheaf map of `complexToFieldLinear ℚ : ℂ →ₗ[ℚ] ℚ`, a retraction of `algebraMap ℚ ℂ` chosen with `Classical.choose` from `LinearMap.exists_leftInverse_of_injective`. The kernel form is `LinearMap.ker_eq_bot`.
+
+**Axioms.** Both declarations: `propext`, `Classical.choice`, `Quot.sound` (`#print axioms`, scratch).
+
+**Non-vacuity.** The hypotheses hold for `Spec ℂ` (rung `nonvacuity-tests`). For smooth projective integral `X`, `HodgeLadder.Tests.hodge_zero_ne_bot` gives a nonzero class in `H^0(X; ℚ)`, so there the conclusion separates elements of a nonzero group. Injectivity is a strict condition: the zero map, for one, fails it on any nonzero `H^n(X; ℚ)`.
+
+**General lemma (decision 0011).** None added. Upstream states the result for every field `K` with `[Algebra K ℂ]`; this rung pins it at `K = ℚ` under a ladder name. Nothing goes to `docs/gaps.md`.
+
+**Path.** The ledger's generated path is `HodgeLadder/De/Rham/Injective.lean`; the module sits under `HodgeLadder/Hodge/` next to `Conjugation` and `CupFiltration`. Set `module` in the ledger to `HodgeLadder.Hodge.DeRhamInjective` when the rung is posted.
+
+**Timings.** `lake env lean` on the file: 19 s wall. `lake build HodgeLadder.Hodge.DeRhamInjective`: 5 s for the module.
+
 ## What T1 needs from this rung
 
 T1 (Weil classes on an abelian surface of Weil type, `docs/notes/2026-11-25-markman-inventory.md` §6) shows that a rational class `w ∈ W_K` has `ι w ∈ F^1`. Its complexification is a combination of products of classes in `H^{1,0} ⊂ F^1` and `H^{0,1} ⊂ F^0`, which are complex, not rational. T1 therefore needs (a) for complex classes, the ℂ-bilinearity of `deRhamCup`, and `fieldToDeRhamCohomology_cup`, more than (b). The conjugate condition comes for free, since `w` is rational. T1 also needs `H^1_dR = F^1 ⊕ conj F^1` on an abelian surface (outside this front), antisymmetry of `deRhamCup` on `H^1` (`de-rham-cup-antisymm-h1`) and the span of the rational image (`de-rham-rational-span`). This is why (a) keeps the id `cup-hodge-filtration` and (b) has its own id.

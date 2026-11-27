@@ -154,3 +154,4 @@ public import HodgeLadder.Hodge.WedgeDescends
 public import HodgeLadder.Hodge.WedgePresheaf
 public import HodgeLadder.Cup.RationalExtHom
 public import HodgeLadder.Hodge.RationalHypercohomology
+public import HodgeLadder.Hodge.DeRhamInjective

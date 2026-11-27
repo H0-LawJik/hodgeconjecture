@@ -131,7 +131,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `wedge-sheaf-map` | foundation | open | `wedge-sheafify`, `form-wedge-leibniz` | the wedge as a morphism of complexes, F^p ⊗ F^q ⟶ F^{p+q}, unit law |
 | `derived-tensor-bounded` | foundation | checked | `tensor-bounded-quasi-iso` | additive derived functor `derivedTensorRight` of − ⊗ B on D(ShQ) for bounded B, by `Localization.lift`, natural in chain maps of B; generic layer `derivedMapBifunctorRight` with unit iso |
 | `pairing-product` | foundation | open | `derived-tensor-bounded` | pairProduct m x y := y ≫ (x ⊗ B)⟦b⟧ ≫ m; on ℚ_X[0] it is y.comp x |
-| `de-rham-injective` | foundation | open | | `fieldToDeRhamCohomology ℚ X n` is injective |
+| `de-rham-injective` | foundation | checked | | `fieldToDeRhamCohomology ℚ X n` is injective |
 | `de-rham-cup` | foundation | open | `pairing-product`, `wedge-sheaf-map`, `rational-hypercohomology-equiv` | deRhamCup x y := pairProduct μ y x, ℂ-bilinear; ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign |
 | `de-rham-cup-test-p2` | test | open | `de-rham-cup`, `de-rham-injective`, `cup-positive-degree-test-p2` | deRhamCup (ι [L₀]) (ι [L₁]) ≠ 0 on ℙ² |
 | `cup-hodge-filtration` | foundation | open | `de-rham-cup`, `wedge-sheaf-map`, `de-rham-cup-test-p2` | deRhamCup (F^p) (F^q) ⊆ F^{p+q} for complex classes, statement (a), needed by T1 |

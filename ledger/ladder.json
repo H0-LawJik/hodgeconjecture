@@ -2804,13 +2804,18 @@
     {
       "id": "de-rham-injective",
       "title": "The rational-to-de Rham map is injective: Function.Injective (fieldToDeRhamCohomology ℚ X n)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.DeRhamInjective",
+      "declarations": [
+        "HodgeLadder.fieldToDeRhamCohomology_rat_injective",
+        "HodgeLadder.ker_fieldToDeRhamCohomologyLinear_rat"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "A ℚ-linear retraction ℂ → ℚ gives a left inverse on constant complexes; complexConstantCohomologyDeRhamEquiv is a bijection (red team 7b)."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "A ℚ-linear retraction ℂ → ℚ gives a left inverse on constant complexes; complexConstantCohomologyDeRhamEquiv is a bijection (red team 7b). Checked 2026-11-27: the ℚ case of upstream's AlgebraicGeometry.ComplexPoint.fieldToDeRhamCohomology_injective (library Other, Hodge/Filtration.lean), which proves the route in this note for every field with an algebra map to ℂ; the hypotheses are exactly those of fieldToDeRhamCohomology (IsIntegral X.left, Smooth X.hom), every n. Drift: that Other lemma."
     },
     {
       "id": "de-rham-cup",
