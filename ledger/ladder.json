@@ -2623,17 +2623,25 @@
     {
       "id": "wedge-descends",
       "title": "The wedge of algebraic forms descends to upstream's holomorphic forms: chartEvaluationKernel is a two-sided ideal for formWedge",
-      "status": "stated",
+      "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.Hodge.CupFiltration",
+      "module": "HodgeLadder.Hodge.WedgeDescends",
       "declarations": [
-        "HodgeLadder.WedgeDescends"
+        "HodgeLadder.WedgeDescends",
+        "HodgeLadder.wedgeDescends",
+        "HodgeLadder.chartExtMap",
+        "HodgeLadder.chartPointForm",
+        "HodgeLadder.pairingDual_chartPointForm",
+        "HodgeLadder.chartPointForm_eq_zero_iff",
+        "HodgeLadder.mem_chartEvaluationKernel_iff_chartExtMap"
       ],
       "depends_on": [
         "form-wedge-leibniz"
       ],
-      "contributors": [],
-      "note": "Both sides stated (red team finding 8; graded commutativity of ⋀ is not at the pin). Route: pointwise chart evaluation factors through an algebra map ⋀ Ω_{𝒪(U)} → ⋀ (ℂ^d)^* followed by upstream's wedgeCovectors."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26, both sides, statement unchanged (HodgeLadder.WedgeDescends in HodgeLadder.Hodge.CupFiltration). Route: per chart z, ExteriorAlgebra.lift of upstream's chartDerivation gives an 𝒪(U)-algebra map chartExtMap : ⋀ Ω_{𝒪(U)} → (D → ⋀_ℂ (ℂ^d)^*); at y ∈ D its degree-p value pairs under Mathlib's exteriorPower.pairingDual to upstream's chartEvaluation (determinants transposed, Matrix.det_transpose), and pairingDual is bijective for ℂ^d, so θ is in chartEvaluationKernel iff chartExtMap θ vanishes everywhere. Both sides then follow from map_mul; no graded commutativity used."
     },
     {
       "id": "tensor-bounded-quasi-iso",

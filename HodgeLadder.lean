@@ -145,3 +145,4 @@ public import HodgeLadder.Tests.ClassProduct
 public import HodgeLadder.Tests.CycleClassMultiplicativeCodimZero
 public import HodgeLadder.Hodge.CupFiltration
 public import HodgeLadder.Tests.HodgeCupP2
+public import HodgeLadder.Hodge.WedgeDescends

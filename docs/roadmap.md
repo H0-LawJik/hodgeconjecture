@@ -123,7 +123,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `cup-hodge-reduction` | foundation | checked | `cup-product`, `chern-classes-are-hodge` | products of Hodge classes are Hodge once rational classes in F^p, F^q have products in F^{p+q}; F^p = ⊤ for p ≤ 0, Hdg^0 = ⊤; `HodgeLadder.Hodge.CupFiltration`; `docs/sketches/cup-hodge-filtration.md` |
 | `form-wedge-leibniz` | foundation | checked | | d(θ ∧ η) = dθ ∧ η + (−1)^p θ ∧ dη on upstream's algebraic forms, Mathlib's Koszul sign |
 | `rational-hypercohomology-equiv` | foundation | open | `rational-ext-equiv`, `ext-derived-bridge` | ℍ^n(X; forget C) ≃+ Hom_{D(ShQ)}(ℚ_X[0], C[n]), natural in C, agreeing with `rationalExtEquiv`; first sub-rung of `cup-hodge-filtration` |
-| `wedge-descends` | foundation | stated | `form-wedge-leibniz` | `chartEvaluationKernel` is a two-sided ideal for `formWedge` (`HodgeLadder.WedgeDescends`) |
+| `wedge-descends` | foundation | checked | `form-wedge-leibniz` | `chartEvaluationKernel` is a two-sided ideal for `formWedge` (`HodgeLadder.wedgeDescends : HodgeLadder.WedgeDescends`, both sides, through the algebra map `chartExtMap` and Mathlib's `pairingDual`) |
 | `tensor-bounded-quasi-iso` | foundation | stated | `sheaf-tensor-exact` | f ⊗ 𝟙_M is a quasi-isomorphism for bounded M in complexes of ShQ (`HodgeLadder.TensorBoundedQuasiIso`) |
 | `rational-de-rham-complex` | foundation | open | `sheaf-tensor-exact` | Ω•_ℚ in sheaves of ℚ-vector spaces with forget(Ω•_ℚ) ≅ Ω•(X), its truncations and unit |
 | `wedge-presheaf` | foundation | open | `wedge-descends` | wedge on `HolomorphicForm X d U`, natural under restriction |
