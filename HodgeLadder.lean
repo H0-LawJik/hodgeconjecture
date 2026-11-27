@@ -152,3 +152,5 @@ public import HodgeLadder.Hodge.DerivedTensorBounded
 public import HodgeLadder.Tests.HodgeCupP2
 public import HodgeLadder.Hodge.WedgeDescends
 public import HodgeLadder.Hodge.WedgePresheaf
+public import HodgeLadder.Cup.RationalExtHom
+public import HodgeLadder.Hodge.RationalHypercohomology
