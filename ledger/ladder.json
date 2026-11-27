@@ -2656,15 +2656,42 @@
     {
       "id": "cycle-class-germ-point",
       "title": "At a closed point and the chart of adaptedChart_closedPoint, the conclusion of cycle-class-germ, cross-checked against upstream's point-class normalization",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "cycle-class-germ"
+      "module": "HodgeLadder.Tests.CycleClassGermPoint",
+      "declarations": [
+        "HodgeLadder.Tests.CycleClassGermPoint.closedPointChartLinear",
+        "HodgeLadder.Tests.CycleClassGermPoint.closedPointChart",
+        "HodgeLadder.Tests.CycleClassGermPoint.closedPointChart_source",
+        "HodgeLadder.Tests.CycleClassGermPoint.closedPointChart_apply_snd",
+        "HodgeLadder.Tests.CycleClassGermPoint.mem_closedPointChart_source",
+        "HodgeLadder.Tests.CycleClassGermPoint.coheight_underlying",
+        "HodgeLadder.Tests.CycleClassGermPoint.closedPointChart_mem_maximalAtlas",
+        "HodgeLadder.Tests.CycleClassGermPoint.closedPointChart_support",
+        "HodgeLadder.Tests.CycleClassGermPoint.mem_smoothSupportAmbientOpen_closedPoint",
+        "HodgeLadder.Tests.CycleClassGermPoint.transport_supportedClass_eq_pointRelativeCoclass",
+        "HodgeLadder.Tests.CycleClassGermPoint.normal_eq_zero_of_translate",
+        "HodgeLadder.Tests.CycleClassGermPoint.chart_flattenedSupportHomeomorph",
+        "HodgeLadder.Tests.CycleClassGermPoint.flattenedTargetPairMap",
+        "HodgeLadder.Tests.CycleClassGermPoint.flattenedTargetPairMap_comp_inclusion",
+        "HodgeLadder.Tests.CycleClassGermPoint.flattenedTargetPairMap_localClass",
+        "HodgeLadder.Tests.CycleClassGermPoint.normalFiber_toPoint",
+        "HodgeLadder.Tests.CycleClassGermPoint.normalClass_toPoint_eq_localClassOfChart",
+        "HodgeLadder.Tests.CycleClassGermPoint.normalizedCoclass_toPoint_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.Tests.CycleClassGermPoint.chartNormalProjectionCoclass_ne_zero_of_mem",
+        "HodgeLadder.Tests.CycleClassGermPoint.chartNormalProjectionCoclass_closedPointChart_ne_zero",
+        "HodgeLadder.Tests.CycleClassGermPoint.pointRelativeCoclass_restrict_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.Tests.CycleClassGermPoint.transport_restrict_eq_pointRelativeCoclass_restrict_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.Tests.CycleClassGermPoint.transport_supportedClass_eq_chartNormalProjectionCoclass_closedPoint"
       ],
-      "contributors": [],
-      "note": "Red team on cycle-class-germ, change H. A test with an independent code path: upstream's cycleComponentSupportedInjectiveClass_point_normalization and analyticComponentPointSupportedInjectiveCoclass_relative (Other) give the left side at a closed point as analyticComponentPointRelativeCoclass, built from the older analyticPointLocalCoclass; the rung at the chart of adaptedChart_closedPoint then says that class restricts to the chart coclass. Not attempted."
+      "depends_on": [
+        "cycle-class-germ",
+        "open-subscheme-chart-analytic"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. Exact, no sign, no scalar, at p = dim X: at the chart closedPointChart X y₀ (the chart of adaptedChart_closedPoint, chartAt y₀ translated, tangential factor ℂ⁰), upstream's old point coclass analyticComponentPointRelativeCoclass (from analyticPointLocalCoclass) restricts on the flattened neighbourhood of y₀ to chartNormalProjectionCoclass; with upstream's point normalization (transport_supportedClass_eq_pointRelativeCoclass) this gives the conclusion of cycle-class-germ at that chart by a second route. The proof does not use cycle-class-germ: the module imports neither HodgeLadder.Normalization.Germ nor HodgeLadder.Normalization.Singular, and a run_cmd guard at the end of the file fails the build if it does or if the rung's proof uses the chart step (exists_open_chartNormalProjectionCoclass_eq, exists_open_complexDifferentiable_localClass_invariance, smoothClosedSupportCoclassStalk_eq_chartGerm, analyticAt_transition_of_factor, analyticAt_transition_of_mem_maximalAtlas); both positive controls fail the build. cycle-class-germ stays in depends_on only because the comparison corollaries restate its conclusion; no declaration here uses it. The proof's own ladder dependency is open-subscheme-chart-analytic (ChartStep, atlas lemmas translate_mem, trans_mem_maximalAtlas). Route: chartNormalProjectionCoclass_unique on the flattened neighbourhood; the normal class goes to localClassOfChart of localChart X d y₀ (radial compression, translation by chartAt y₀ y₀, chartTargetPointPairMap_localClass, centeredComplexUnivBall_preserves_standardComplexLocalClass), proved for an abstract chart and specialized; cycleComponentMap X x z generalized and substituted by y₀. Shared with cycle-class-germ: the coclass-section definition of [Z], standardComplexLocalClass, normalizedRelativeCoclass; not shared: normalization_singular, the stalk as chart germ, the open-subscheme lift, the chart step, the tangential matching. An error in the orientation of ℂ^d would cancel between the routes; it is pinned by cross-orientation and real-affine-orientation. Non-vacuity: the right side is nonzero on every admissible W (chartNormalProjectionCoclass_closedPointChart_ne_zero). Conventions: rows Complex orientation of ℂ^p, Fundamental-class normalization, Point local coclass, Holomorphic adapted chart. Other inputs for the drift list: cycleComponentSupportedInjectiveClass_point_normalization, analyticComponentPointSupportedInjectiveCoclass_relative, analyticComponentPointRelativeCoclass, analyticComponentPointSupportedInjectiveCoclass, analyticPointLocalCoclass, analyticPointLocalHomologyClass, analyticPointLocalHomologyClass_ne_zero, neighborhoodSupportToPointPairMap, neighborhoodSupportInclusionPairMap_toPoint, cycleComponentSupport_eq_singleton_of_coheight_eq_dimension, range_cycleComponentMap, chartTargetPointPairMap_localClass, chartTargetInverseAtSourcePairMap, translationPointComplementPairMap, localClassOfChart. Red team 2026-11-26: statement pass with changes (docs/sketches/cycle-class-germ-point.redteam.md), changes 1 to 5 implemented, change 6 (shared chart module) skipped."
     },
     {
       "id": "supported-pair-forget",
