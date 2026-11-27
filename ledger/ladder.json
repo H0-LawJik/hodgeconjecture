@@ -2720,16 +2720,40 @@
     {
       "id": "de-rham-unit-nonzero",
       "title": "Upstream's unit is nonzero on a point: fieldToHolomorphicDeRhamComplexInt ℚ HodgeLadder.Tests.point ≠ 0, hence rationalDeRhamUnit HodgeLadder.Tests.point ≠ 0",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.DeRhamUnitNonzero",
+      "declarations": [
+        "HodgeLadder.Tests.fieldToHolomorphicDeRhamComplexInt_point_ne_zero",
+        "HodgeLadder.Tests.rationalDeRhamUnit_point_ne_zero",
+        "HodgeLadder.Tests.fieldToHolomorphicDeRhamComplexInt_ne_zero",
+        "HodgeLadder.Tests.rationalDeRhamUnit_ne_zero",
+        "HodgeLadder.Tests.fieldToHolomorphicFormZeroSheaf_ne_zero",
+        "HodgeLadder.Tests.holomorphicFormOfConstant_ne_zero",
+        "HodgeLadder.Tests.nsmul_fieldToHolomorphicFormZeroSheaf_ne_zero",
+        "HodgeLadder.Tests.nsmul_fieldToHolomorphicDeRhamComplexInt_ne_zero",
+        "HodgeLadder.Tests.fieldToHolomorphicDeRhamComplexInt_ne_neg",
+        "HodgeLadder.Tests.rationalDeRhamUnit_ne_neg"
+      ],
       "depends_on": [
         "rational-de-rham-complex",
         "nonvacuity-tests"
       ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Red team of rational-de-rham-complex, change 7 (section 7b): the smallest test that fails if the unit lemma holds for a trivial reason. General forms on every smooth integral X with a complex point and every field K with Algebra K ℂ: the degree-zero map K_X ⟶ ℂ_X ⟶ Ω⁰ is nonzero by a stalk argument (stalkFunctor_map_unit_toSheafify_isIso, germ of [1], chart evaluation), and the complex statement reduces to it through homFromSingleExtend_f_zero. The corollary for rationalDeRhamUnit follows from forget_rationalDeRhamUnit (forgetUnitComplexIso an isomorphism). Non-torsion forms n • ι ≠ 0 for n ≠ 0 give the sign separations ι ≠ −ι and rationalDeRhamUnit X ≠ −rationalDeRhamUnit X (red team change 4), so the unit lemma is false for the negated unit. A sanity check of upstream definitions; the reproved half of upstream's private holomorphicFormOfConstant_injective is kept local (decision 0011). Red team: docs/sketches/de-rham-unit-nonzero.redteam.md, pass with changes, implemented. Nonempty (ComplexPoint X) is an argument; deriving it is rung complex-point-nonempty."
+    },
+    {
+      "id": "complex-point-nonempty",
+      "title": "A smooth integral scheme over ℂ has a complex point: Nonempty (ComplexPoint X) from IsIntegral X.left and Smooth X.hom",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
       "contributors": [],
-      "note": "Red team of rational-de-rham-complex, change 7 (section 7b): the smallest test that fails if the unit lemma holds for a trivial reason. The corollary for rationalDeRhamUnit follows from forget_rationalDeRhamUnit (forget faithful, forgetUnitComplexIso an isomorphism). Upstream's ingredient holomorphicFormOfConstant_injective (nonempty opens) is private; a sanity check of an upstream definition, to be offered upstream."
+      "note": "Red team of de-rham-unit-nonzero, change 5 (optional). Route: X.left is nonempty (integral) and locally of finite type over ℂ (smooth implies locally of finite presentation); an affine open Spec A with A a nonzero finitely generated ℂ-algebra has a maximal ideal with residue field ℂ by the Nullstellensatz, which gives a morphism Spec ℂ ⟶ X over Spec ℂ. With it the Nonempty (ComplexPoint X) arguments of fieldToHolomorphicDeRhamComplexInt_ne_zero, rationalDeRhamUnit_ne_zero and the sign separations can be dropped. Not needed for the ladder."
     },
     {
       "id": "wedge-presheaf",
@@ -2791,7 +2815,7 @@
         "form-wedge-leibniz"
       ],
       "contributors": [],
-      "note": "Chain-map check on ιTensorObj components with formWedge_differential; no sign twist."
+      "note": "Chain-map check on ιTensorObj components with formWedge_differential; no sign twist. Nonvacuity of the wedge (red team of de-rham-unit-nonzero, section 7b, two routes to wedgeSheaf X d 0 0 ≠ 0): either repeat the stalk argument of fieldToHolomorphicFormZeroSheaf_ne_zero in ModuleCat ℚ with the presheaf wedge at (0, 0) and the germ of [1] ⊗ [1], closing by the presheaf unit law [1] ∧ [1] = [1] of wedge-presheaf and holomorphicFormOfConstant_ne_zero; or, once this rung has the sheaf unit law (𝟙 ⊗ u) ≫ μ = ρ, note that μ = 0 would make the right unitor zero, so Ω⁰_ℚ would be a zero object, contradicting rationalConstantsToFormsSheaf X d ≠ 0 (the degree-zero half of rationalDeRhamUnit_ne_zero)."
     },
     {
       "id": "derived-tensor-bounded",
