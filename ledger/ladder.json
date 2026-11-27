@@ -2646,17 +2646,22 @@
     {
       "id": "tensor-bounded-quasi-iso",
       "title": "Tensoring with a bounded complex of sheaves of ℚ-vector spaces preserves quasi-isomorphisms",
-      "status": "stated",
+      "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.Hodge.CupFiltration",
+      "module": "HodgeLadder.Hodge.TensorBoundedQuasiIso",
       "declarations": [
-        "HodgeLadder.TensorBoundedQuasiIso"
+        "HodgeLadder.TensorBoundedQuasiIso",
+        "HodgeLadder.tensorBoundedQuasiIso_holds",
+        "HodgeLadder.quasiIso_mapBifunctorMap_of_bounded",
+        "HodgeLadder.quasiIso_τ₂_of_shortExact"
       ],
       "depends_on": [
         "sheaf-tensor-exact"
       ],
-      "contributors": [],
-      "note": "QuasiIso (tensorHom f (𝟙 M)) for M strictly bounded; HasTensor as hypotheses (instance search on CochainComplex (ShQ Y) ℤ did not finish in five minutes). Route: stupid filtration of M, two-out-of-three, tensor_exact. The mirror version is not needed."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "tensorBoundedQuasiIso_holds : TensorBoundedQuasiIso, the Prop stated in HodgeLadder.Hodge.CupFiltration. Proved for any bifunctor additive in each variable with F(−, X) preserving homology and coproducts in the target (quasiIso_mapBifunctorMap_of_bounded); for ShQ, − ⊗ X is exact by tensor_exact. Route: single case by an explicit iso mapBifunctor K (X[−a]) F ≅ F(K, X)⟦−a⟧ (sign (−1)^{na} in degree n, immaterial for a quasi-isomorphism), then induction on the length of M through the degreewise split sequence 0 → ker → M → M^a[−a] → 0, which stays degreewise split after tensoring, and two out of three for the middle term (quasiIso_τ₂_of_shortExact, five lemma; Mathlib has only the third-term case). No stalks."
     },
     {
       "id": "rational-de-rham-complex",

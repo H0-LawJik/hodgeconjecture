@@ -35,13 +35,14 @@ if `ι α ∈ F^p` and `ι β ∈ F^q` then `ι (α ∪ β) ∈ F^{p+q}`. This r
 The complex form `F^p ∪ F^q ⊆ F^{p+q}` on `H_dR^*(X)` (rung `cup-hodge-filtration`) needs a
 product on de Rham hypercohomology, which neither upstream nor Mathlib has at the pin; its
 construction and the sub-rungs are in `docs/sketches/cup-hodge-filtration.md`. Two sub-rung
-statements can be written on present definitions and are stated as `Prop`s below, open:
+statements can be written on present definitions and are stated as `Prop`s below:
 
 * `HodgeLadder.WedgeDescends` (sub-rung `wedge-descends`, checked as
   `HodgeLadder.wedgeDescends`): the wedge product of algebraic Kähler forms descends to upstream's
   holomorphic forms;
-* `HodgeLadder.TensorBoundedQuasiIso` (sub-rung `tensor-bounded-quasi-iso`): tensoring with a
-  bounded complex of sheaves of `ℚ`-vector spaces preserves quasi-isomorphisms.
+* `HodgeLadder.TensorBoundedQuasiIso` (sub-rung `tensor-bounded-quasi-iso`, checked in
+  `HodgeLadder.Hodge.TensorBoundedQuasiIso`): tensoring with a bounded complex of sheaves of
+  `ℚ`-vector spaces preserves quasi-isomorphisms.
 
 ## Main definitions
 
@@ -174,7 +175,8 @@ theorem formWedge_differential {p q : ℕ} (θ : Algebra.DeRham.Form R A p)
   simp only [Algebra.DeRham.coe_differential, formWedge]
   rw [Algebra.DeRham.extDeriv_mul, involute_of_mem_exteriorPower θ.2, smul_mul_assoc, add_comm]
 
-/-- **Wedge descends** (sub-rung `wedge-descends`, checked as `HodgeLadder.wedgeDescends`). A form whose chart evaluations vanish
+/-- **Wedge descends** (sub-rung `wedge-descends`, checked as `HodgeLadder.wedgeDescends`).
+A form whose chart evaluations vanish
 wedges, on either side, with any form to a form whose chart evaluations vanish; so the wedge
 product descends to upstream's holomorphic forms
 `HolomorphicForm X d U p = Form ℂ 𝒪(U) p ⧸ chartEvaluationKernel X d U p`. -/
@@ -207,13 +209,14 @@ instance curriedTensor_additive : (curriedTensor (ShQ Y)).Additive where
     exact (tensorRight_additive Y Z).map_add (f := f) (g := g)
 
 /-- **Tensoring with a bounded complex preserves quasi-isomorphisms** (sub-rung
-`tensor-bounded-quasi-iso`, open). In cochain complexes of sheaves of `ℚ`-vector spaces on `Y`,
-with Mathlib's tensor product of complexes (`HomologicalComplex.tensorObj`, Koszul signs,
-`docs/conventions.md` row "Tensor product of ℤ-indexed cochain complexes and its shifts"),
-`f ⊗ 𝟙_M` is a quasi-isomorphism when `f` is one and `M` is bounded. The `HasTensor` hypotheses
-ask for the coproducts `⨁_{i+j=n} K^i ⊗ M^j`, which exist since `ShQ Y` is cocomplete. Expected
-route: induction on the length of `M` through its stupid filtration, two-out-of-three for short
-exact sequences of complexes, and `tensor_exact` for `M` a single sheaf. -/
+`tensor-bounded-quasi-iso`; checked, `HodgeLadder.tensorBoundedQuasiIso_holds`). In cochain
+complexes of sheaves of `ℚ`-vector spaces on `Y`, with Mathlib's tensor product of complexes
+(`HomologicalComplex.tensorObj`, Koszul signs, `docs/conventions.md` row "Tensor product of
+ℤ-indexed cochain complexes and its shifts"), `f ⊗ 𝟙_M` is a quasi-isomorphism when `f` is one
+and `M` is bounded. The `HasTensor` hypotheses ask for the coproducts `⨁_{i+j=n} K^i ⊗ M^j`,
+which exist since `ShQ Y` is cocomplete. Route: induction on the length of `M` through its stupid
+filtration, two-out-of-three for short exact sequences of complexes, and `tensor_exact` for `M` a
+single sheaf. -/
 def TensorBoundedQuasiIso : Prop :=
   ∀ (Y : TopCat.{0}) (K L : CochainComplex (ShQ Y) ℤ) (f : K ⟶ L) [QuasiIso f]
     (M : CochainComplex (ShQ Y) ℤ) (a b : ℤ) [M.IsStrictlyGE a] [M.IsStrictlyLE b]
