@@ -129,7 +129,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `wedge-presheaf` | foundation | checked | `wedge-descends` | wedge on `HolomorphicForm X d U`, natural under restriction; Leibniz rule with sign (−1)^p, unit laws, `[1] ∧ [1] ≠ 0` (`HodgeLadder.Hodge.WedgePresheaf`) |
 | `wedge-sheafify` | foundation | open | `wedge-presheaf`, `rational-de-rham-complex` | Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ through monoidal sheafification |
 | `wedge-sheaf-map` | foundation | open | `wedge-sheafify`, `form-wedge-leibniz` | the wedge as a morphism of complexes, F^p ⊗ F^q ⟶ F^{p+q}, unit law |
-| `derived-tensor-bounded` | foundation | open | `tensor-bounded-quasi-iso` | additive derived functor of − ⊗ B on D(ShQ) for bounded B, by `Localization.lift` |
+| `derived-tensor-bounded` | foundation | checked | `tensor-bounded-quasi-iso` | additive derived functor `derivedTensorRight` of − ⊗ B on D(ShQ) for bounded B, by `Localization.lift`, natural in chain maps of B; generic layer `derivedMapBifunctorRight` with unit iso |
 | `pairing-product` | foundation | open | `derived-tensor-bounded` | pairProduct m x y := y ≫ (x ⊗ B)⟦b⟧ ≫ m; on ℚ_X[0] it is y.comp x |
 | `de-rham-injective` | foundation | open | | `fieldToDeRhamCohomology ℚ X n` is injective |
 | `de-rham-cup` | foundation | open | `pairing-product`, `wedge-sheaf-map`, `rational-hypercohomology-equiv` | deRhamCup x y := pairProduct μ y x, ℂ-bilinear; ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign |

@@ -2741,15 +2741,38 @@
     {
       "id": "derived-tensor-bounded",
       "title": "For a bounded complex B, the additive derived functor T_B of − ⊗ B on D(ShQ) with Q ⋙ T_B ≅ tensorRight B ⋙ Q, natural in chain maps B → B'",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.DerivedTensorBounded",
+      "declarations": [
+        "HodgeLadder.derivedTensorRight",
+        "HodgeLadder.derivedTensorRightFacIso",
+        "HodgeLadder.derivedTensorRight_additive",
+        "HodgeLadder.derivedTensorRightMap",
+        "HodgeLadder.derivedTensorRightMap_fac",
+        "HodgeLadder.derivedTensorRightMap_app",
+        "HodgeLadder.derivedTensorRightMap_unique",
+        "HodgeLadder.derivedTensorRightMap_id",
+        "HodgeLadder.derivedTensorRightMap_comp",
+        "HodgeLadder.derivedTensorRight_bounds",
+        "HodgeLadder.tensorRightComplex_obj",
+        "HodgeLadder.tensorRightComplex_map",
+        "HodgeLadder.tensorRightComplexMap_app",
+        "HodgeLadder.tensorRightComplex_isInvertedBy",
+        "HodgeLadder.derivedMapBifunctorRight_additive",
+        "HodgeLadder.derivedMapBifunctorRightMap_unique",
+        "HodgeLadder.mapBifunctorRight_eq_map₂CochainComplex",
+        "HodgeLadder.mapBifunctorRightMap_eq_map₂CochainComplex",
+        "HodgeLadder.derivedMapBifunctorRightIsoId",
+        "HodgeLadder.derivedMapBifunctorRightIsoId_hom_app"
+      ],
       "depends_on": [
         "tensor-bounded-quasi-iso"
       ],
-      "contributors": [],
-      "note": "T_B := Localization.lift (tensorRight B ⋙ Q); no CommShift needed (the pairing uses Q's commShiftIso and the no-sign mapBifunctorShift₁Iso). Additive via Localization.functor_additive_iff on the homotopy category and mapBifunctorMapHomotopy₁ (red team finding 6)."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "T_B := derivedTensorRight Y B a b, the Localization.lift of tensorRightComplex Y B ⋙ Q along Q, for B strictly bounded; independent of the bounds (derivedTensorRight_bounds, rfl). tensorRightComplex Y B (pinned by rfl to tensorObj K B, tensorHom f (𝟙 B), tensorHom (𝟙 K) φ) stands in for tensorRight B, since Mathlib's monoidal structure on complexes needs HasGoodTensor₁₂, HasGoodTensor₂₃ on all triples; it is Mathlib's Functor.map₂CochainComplex with B fixed (mapBifunctorRight_eq_map₂CochainComplex, rfl). Generic layer for any bifunctor of abelian categories additive in each variable, with the inversion of quasi-isomorphisms as a hypothesis; sheaf layer from tensorBoundedQuasiIso_holds. Additive via Localization.functor_additive_iff along Qh and Functor.additive_of_full_essSurj_comp along the homotopy quotient (no mapBifunctorMapHomotopy₁). Natural in chain maps φ : B ⟶ B' (Localization.liftNatTrans), unique with the factorization square. No CommShift, no sign (conventions row 'Derived tensor with a bounded complex'). Generic unit iso derivedMapBifunctorRightIsoId (from ρ : mapBifunctorRight F B ≅ 𝟭); the sheaf instance for the tensor unit and the right unitor is left to pairing-product. Kernel cost about 2.5 s per application of mapBifunctorMap at ShQ (docs/gaps.md, Known weaknesses)."
     },
     {
       "id": "pairing-product",
@@ -2762,7 +2785,7 @@
         "derived-tensor-bounded"
       ],
       "contributors": [],
-      "note": "Convention row 'de Rham cup order (proposed)'."
+      "note": "Convention row 'de Rham cup order (proposed)'. State it in the generic form (any abelian C, F : C ⥤ C ⥤ C additive in each variable, the inversion of quasi-isomorphisms as a hypothesis, on top of derivedMapBifunctorRight) and instantiate at ShQ once: each sheaf-level tensorHom costs about 10 s of kernel time (docs/gaps.md, Known weaknesses). The last clause (pairProduct λ x y = y.comp x on ℚ_X[0]) needs the sheaf unit iso derivedTensorRightUnitIso Y : derivedTensorRight Y (HomologicalComplex.tensorUnit (ShQ Y) (.up ℤ)) 0 0 ≅ 𝟭, from the checked generic derivedMapBifunctorRightIsoId with ρ built from HomologicalComplex.rightUnitor and its naturality in K; it belongs to this rung, with the bridge from 𝟙_ (ShQ Y) to the constant sheaf ℚ_X."
     },
     {
       "id": "de-rham-injective",
@@ -2788,7 +2811,7 @@
         "rational-hypercohomology-equiv"
       ],
       "contributors": [],
-      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land."
+      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md)."
     },
     {
       "id": "de-rham-cup-test-p2",
