@@ -105,7 +105,7 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 |---|---|---|
 | `cup-hodge-reduction` | `mem_hodgeClasses_iff_mem_hodgeFiltration`, `cupPreservesHodgeClasses_of_rational`, `hodgeFiltration_eq_top_of_nonpos`, `mem_hodgeClasses_zero` | checked |
 | `form-wedge-leibniz` | `formWedge`, `involute_of_mem_exteriorPower`, `formWedge_differential` | checked |
-| `rational-hypercohomology-equiv` | `rationalHypercohomologyEquiv (C) (n : ℤ) : ℍ^n(X; forget C) ≃+ ShiftedHom (Q.obj ℚ_X[0]) (Q.obj C) n`, natural in `C`, agreeing with `rationalExtEquiv` on `ℚ_X[0]` with no scalar | open |
+| `rational-hypercohomology-equiv` | `rationalHypercohomologyEquiv (C) (n : ℤ) : ℍ^n(X; forget C) ≃+ ShiftedHom (Q.obj ℚ_X[0]) (Q.obj C) n`, natural in `C`, agreeing with `rationalExtEquiv` on `ℚ_X[0]` with no scalar | checked |
 | `wedge-descends` | `WedgeDescends`: `chartEvaluationKernel` is a two-sided ideal for `formWedge` | stated |
 | `tensor-bounded-quasi-iso` | `TensorBoundedQuasiIso`: `QuasiIso (tensorHom f (𝟙 M))` for `M` strictly bounded, with `HasTensor` hypotheses | stated |
 | `rational-de-rham-complex` | `Ω•_ℚ` with `forget(Ω•_ℚ) ≅ Ω•(X)`, truncations `F^p`, unit over `fieldToHolomorphicDeRhamComplexInt ℚ X` | open |
@@ -204,3 +204,114 @@ Registered by the red team in `docs/conventions.md`: "Tensor product of ℤ-inde
 ## Issue body (`cup-hodge-filtration`)
 
 > **Rung `cup-hodge-filtration`** (front `cup`, open). Prove `deRhamCup_mem_hodgeFiltration`: for `x ∈ hodgeFiltration X p a` and `y ∈ hodgeFiltration X q b`, `deRhamCup X x y n h ∈ hodgeFiltration X (p + q) n`, where `deRhamCup` is the de Rham cup of sub-rung `de-rham-cup` (`deRhamCup x y := pairProduct μ y x`, pinned by `ι (α ∪ β) = deRhamCup (ι α) (ι β)`). Depends on `de-rham-cup`, `wedge-sheaf-map`, `de-rham-cup-test-p2`. Start with `rational-hypercohomology-equiv`, then `tensor-bounded-quasi-iso` (`HodgeLadder.TensorBoundedQuasiIso`) and `wedge-descends` (`HodgeLadder.WedgeDescends`), both stated in `HodgeLadder.Hodge.CupFiltration`. Route and signatures: `docs/sketches/cup-hodge-filtration.md`; red team: `docs/sketches/cup-hodge-filtration.redteam.md`. The statement for rational classes and for Hodge classes is rung `cup-hodge-classes` (stated), reduced to the rational filtration form by the checked `cup-hodge-reduction`.
+
+## rational-hypercohomology-equiv: statement
+
+Date: 2026-11-26. Phase 1 of the sub-rung (statement and instance probe). Module `HodgeLadder.Hodge.RationalHypercohomology` (file `HodgeLadder/Hodge/RationalHypercohomology.lean`), not yet imported from `HodgeLadder.lean`; the ledger entry has no module yet. Phase 1 stops here for the statement red team.
+
+### Statements
+
+Notation below: `F = Cup.tensorQSheaf (TopCat.of (ComplexPoint X))`, `G = Cup.forgetSheaf (TopCat.of (ComplexPoint X))`, `F'`, `G'` their extensions to complexes, `F''`, `G''` to derived categories, `Q = DerivedCategory.Q`.
+
+```lean
+/-- Forgetting the rational structure, on complexes. -/
+abbrev forgetComplex :
+    CochainComplex (Cup.ShQ (TopCat.of (ComplexPoint X))) ℤ ⥤
+      CochainComplex (AnalyticAdditiveSheaf X) ℤ :=
+  (Cup.forgetSheaf (TopCat.of (ComplexPoint X))).mapHomologicalComplex (ComplexShape.up ℤ)
+
+/-- `ℚ_X[0]`. -/
+abbrev rationalUnitComplex : CochainComplex (Cup.ShQ (TopCat.of (ComplexPoint X))) ℤ :=
+  (CochainComplex.singleFunctor _ 0).obj (Cup.QX (TopCat.of (ComplexPoint X)))
+
+def rationalHypercohomologyEquiv
+    (C : CochainComplex (Cup.ShQ (TopCat.of (ComplexPoint X))) ℤ) (n : ℤ) :
+    ℍ^n(X; (forgetComplex X).obj C) ≃+
+      ShiftedHom (DerivedCategory.Q.obj (rationalUnitComplex X)) (DerivedCategory.Q.obj C) n
+
+theorem rationalHypercohomologyEquiv_naturality
+    {C C' : CochainComplex (Cup.ShQ (TopCat.of (ComplexPoint X))) ℤ} (f : C ⟶ C') (n : ℤ)
+    (x : ℍ^n(X; (forgetComplex X).obj C)) :
+    rationalHypercohomologyEquiv X C' n (hypercohomologyMap X ((forgetComplex X).map f) n x) =
+      (rationalHypercohomologyEquiv X C n x).comp
+        (ShiftedHom.mk₀ (0 : ℤ) rfl (DerivedCategory.Q.map f)) (zero_add n)
+
+def unitHypercohomologyEquiv (n : ℕ) :
+    ℍ^n(X; (forgetComplex X).obj (rationalUnitComplex X)) ≃+ H^n(X; ℚ) :=
+  (hypercohomologyMapIso X (forgetUnitComplexIso X) n).trans
+    (hypercohomologyAddEquivConstantCohomology ℚ X n)
+
+theorem rationalHypercohomologyEquiv_rationalUnitComplex (n : ℕ)
+    (x : ℍ^n(X; (forgetComplex X).obj (rationalUnitComplex X))) :
+    rationalHypercohomologyEquiv X (rationalUnitComplex X) n x =
+      (Cup.rationalExtEquiv (TopCat.of (ComplexPoint X)) n (unitHypercohomologyEquiv X n x)).hom
+```
+
+The agreement is an equality in `ShiftedHom (Q.obj ℚ_X[0]) (Q.obj ℚ_X[0]) n`, with no scalar and no cast: Mathlib's `DerivedCategory.singleFunctor C 0` is `CochainComplex.singleFunctor C 0 ⋙ Q` by `Iso.refl` (`singleFunctorIsoCompQ`), so `Ext.hom` already has the target type of `rationalHypercohomologyEquiv` at `C = ℚ_X[0]`. `forgetUnitComplexIso : forget ℚ_X[0] ≅ constantFieldSheafComplexInt ℚ X` is `singleMapHomologicalComplex G` followed by `single(Cup.forgetQX)` and the inverse of upstream's `constantFieldSheafComplexIntIsoSingle`. Naturality is stated against upstream's `hypercohomologyMap`, in the `ShiftedHom.comp`/`mk₀` form upstream uses.
+
+### Construction
+
+| Step | Declaration | Content |
+|---|---|---|
+| 1 | `Adjunction.mapCochainComplex` | an adjunction of additive functors gives one on `ℤ`-indexed cochain complexes, degreewise (`Adjunction.mkOfHomEquiv`); Mathlib has no such declaration at the pin |
+| 2 | `adjComplex`, `adjDerived` | `ℚ ⊗ − ⊣ forget` on complexes, then on derived categories by `Adjunction.localization`, with `CatCommSq` instances from `mapDerivedCategoryFactors.symm` |
+| 3 | `hyperAddEquiv` | `SmallShiftedHom.equiv (analyticQuasiIsomorphisms X) Q`, additive by upstream's `hypercohomologyEquiv_add` |
+| 4 | `targetIso`, `sourceIso` | `Q(G'C)[n] ≅ G''((Q C)[n])` (factors, then `commShiftIso` of `G''`); `Q ℚ_X[0] ≅ F''(Q ℤ_X[0])` (upstream's `constantIntegerSheafComplexIntIsoSingleULift`, `singleMapHomologicalComplex F`, `Cup.tensorQSheafInt`, factors) |
+| 5 | `rationalHypercohomologyEquiv` | `hyperAddEquiv`, then postcomposition with `targetIso`, then `adjDerived.homAddEquiv` inverted, then precomposition with `sourceIso` |
+
+### What is checked (phase 1, `lake env lean` and `lake build` of the module)
+
+| Declaration | Status |
+|---|---|
+| `rationalHypercohomologyEquiv` (an `AddEquiv`, data) | elaborates, no `sorry` |
+| `rationalHypercohomologyEquiv_naturality` | proved |
+| `Adjunction.mapCochainComplex`, `mapCochainComplex_unit_app_f`, `mapCochainComplex_counit_app_f`, `Adjunction.mapCochainComplex_commShift` | proved |
+| `adjDerived_commShift : (adjDerived X).CommShift ℤ` | proved: the unit on complexes commutes with shifts degreewise, and `NatTrans.CommShift.liftNatTrans` lifts it |
+| `hypercohomologyMap_id`, `hypercohomologyMapIso`, `unitHypercohomologyEquiv`, `unitHypercohomologyEquiv_hom` | proved |
+| `rationalExtEquiv_hom` (`Cup.rationalExtEquiv` as a composite in `D(ShQ)`) | proved in a scratch module by one `simp only` over the unfolding lemmas (`Ext.comp_hom`, `Ext.mk₀_hom`, `Adjunction.extEquiv_symm_apply`, `Ext.mapExactFunctor_hom`, `ShiftedHom.mk₀_comp`, `ShiftedHom.comp_mk₀`, `ShiftedHom.map`); about five minutes, so kept out of the module |
+| `rationalHypercohomologyEquiv_rationalUnitComplex` | stated, `sorry`; `rfl`, `simp` and `exact?` fail on it |
+
+### Route for the agreement
+
+`rationalExtEquiv_hom` gives the right side as `single(tensorQSheafInt⁻¹) ≫ (F.mapDerivedCategorySingleFunctor 0).inv ≫ F''(α.hom ≫ single(forgetQX⁻¹)[n]) ≫ (F''.commShiftIso n).hom ≫ (F.mapDerivedCategorySingleFunctor 0).hom[n] ≫ single(ε_{ℚ_X})[n]`, and `unitHypercohomologyEquiv_hom` gives `α.hom = Q(u⁻¹) ≫ h_x ≫ Q(e ≫ c)[n]`. On the left, `Adjunction.homEquiv_counit` and `adjDerived_commShift` (Mathlib's `commShiftIso_inv_app_counit_app` with `commShiftIso_comp_inv_app`) move the shift past the derived counit, after which the counit sits at `Q ℚ_X[0]` and `Adjunction.localization_counit_app` applies. Two shift-free identities are left:
+
+1. `sourceIso.hom = single(tensorQSheafInt⁻¹) ≫ (F.mapDerivedCategorySingleFunctor 0).inv ≫ F''(Q u⁻¹)`, from Mathlib's `mapDerivedCategorySingleFunctor_inv_app_mapDerivedCategoryFactors_hom_app` and naturality of the factors;
+2. on complexes, `ε^{C}_{ℚ_X[0]} = F'(σ) ≫ singleMapHomologicalComplex F ≫ single(ε_{ℚ_X})` with `σ = singleMapHomologicalComplex G`, checked in degree `0` with `mapCochainComplex_counit_app_f`.
+
+Every map in the route is a unit, a counit or a bookkeeping isomorphism; no scalar enters.
+
+### Instance findings
+
+1. **`HodgeLadder.Cup` instances are not found at `TopCat.of (ComplexPoint X)`.** `inferInstance` fails for `(Cup.tensorQSheaf (TopCat.of (ComplexPoint X))).Additive`; the trace shows `Cup.tensorQSheaf_additive` missing from the candidate list, while the same search succeeds for a variable `Y : TopCat`. Workaround: six local instances given as explicit terms (`Additive`, `PreservesFiniteLimits`, `PreservesFiniteColimits` for `F` and `G`), two of them through general-`Y` theorems in the module.
+2. **Two spellings of the sheaf category.** Upstream's `ℍ` takes complexes in `AnalyticAdditiveSheaf X = TopCat.Sheaf AddCommGrpCat (TopCat.of (ComplexPoint X))`; `Cup.forgetSheaf` lands in `Sheaf (Opens.grothendieckTopology _) AddCommGrpCat`. With upstream's `local implicit_reducible` attributes the types unify, but a `CatCommSq` instance stated on one spelling is not found for the other, and `rw` steps that mix them report a term "not type-correct under the implicit transparency". Workaround: `forgetComplex` (analytic target, in the statements) and `forgetComplexSite` (site target, in the construction), `intUnitSite` for `ℤ_X[0]`, and `hyperAddEquivSite`; the pairs are definitionally equal and meet only through `change` or unfolding.
+3. **`HasDerivedCategory` and `HasExt`.** Upstream's instances are `local`, so they are repeated: `HasDerivedCategory.standard (AnalyticAdditiveSheaf X)`, the site spelling defined as that instance (as in `HodgeLadder.Cup.ExtBridge`), `HasDerivedCategory.standard (Cup.ShQ _)` for the rational side, and `HasExt.{0}` for sheaves of abelian groups by `inferInstance`. The `ULift ℤ` source raised no issue: it enters only through upstream's `constantIntegerSheafComplexIntIsoSingleULift` and `Cup.tensorQSheafInt`.
+4. **Liftings are synthesized, not read off.** `NatTrans.CommShift.liftNatTrans` synthesizes its `Lifting` arguments, and the lifting inside `Adjunction.Localization.ε` is a `letI`, so it is supplied by hand and its `CommShift` is proved from `CatCommSq.hComp` written out. The whiskered unit needs its `CommShift` stated with `F₁ := Q`: Mathlib's `whiskerRight` instance gives it on `𝟭 ⋙ Q`, which `liftNatTrans` does not accept.
+5. **Rewriting under `AddEquiv` coercions times out.** `rw` with `rationalHypercohomologyEquiv_apply` or `hyperAddEquivSite_map` hits the heartbeat limit; `simp only` and `have`-then-`simp only` work. `rw [SmallShiftedHom.equiv_mk₀]` on upstream's comparison also times out; `simp only` works. A `pp.explicit` goal at one point failed to pretty-print (13 MB).
+6. **No long instance search.** The five-minute synthesis reported for `HasTensor` on `CochainComplex (ShQ Y) ℤ` did not occur; every probe ran under `timeout` and none reached it.
+
+### Timings
+
+`lake env lean` on the module: 7 s for the skeleton, 15 s with the equivalence, about 55 s with naturality and the unit side, 75 to 95 s with `adjDerived_commShift` and `unitHypercohomologyEquiv_hom`. The kernel spends 13 to 14 s on each of `unitHypercohomologyEquiv` and the agreement statement (defeq of the two sheaf spellings). `lake build` of the module: 61 s before the unit-side lemmas. `rationalExtEquiv_hom` in the scratch module: about five minutes.
+
+## rational-hypercohomology-equiv: checked
+
+Date: 2026-11-27, after the statement red team (`docs/sketches/rational-hypercohomology-equiv.redteam.md`, pass with changes, all implemented). Modules `HodgeLadder.Hodge.RationalHypercohomology` and `HodgeLadder.Cup.RationalExtHom`, imported from `HodgeLadder.lean`.
+
+| Declaration | Content |
+|---|---|
+| `rationalHypercohomologyEquiv_rationalUnitComplex` | the agreement with `Cup.rationalExtEquiv` on `ℚ_X[0]`, exact, no scalar |
+| `rationalHypercohomologyEquiv_one` | the unit `Cup.one X` goes to `ShiftedHom.mk₀ 0 _ (𝟙 _)` |
+| `rationalHypercohomologyEquiv_map` | naturality as `x ↦ x ≫ (Q.map f)⟦n⟧'` |
+| `Cup.rationalExtEquiv_hom`, `Adjunction.extEquiv_symm_hom`, `Ext.postcompIsoAddEquiv_hom`, `Ext.precompIsoAddEquiv_hom` | `rationalExtEquiv` as a composite in the derived category, at a general space with the `HasDerivedCategory` instances as arguments |
+
+Proof of the agreement, as planned: `Adjunction.shift_counit_app` with `adjDerived_commShift` moves the shift past the derived counit (`adjDerived_counit_shift`); the two shift-free identities are `sourceIso_hom_eq` and `adjDerived_counit_rationalUnitComplex`, the second reduced by `Adjunction.localization_counit_app` to the counit on complexes at `ℚ_X[0]` (`adjComplex_counit_rationalUnitComplex`, degree 0). Steps that cross the two sheaf spellings go through `refine`/`exact` with definitional unfolding; `rw` and `simp` do not match across them (findings in the statement section).
+
+Consumer clause for `rational-de-rham-complex` (red team change 8). State the unit compatibility through exactly `forgetUnitComplexIso`, with names fixed by that rung:
+
+```lean
+theorem forget_rationalDeRhamUnit :
+    (forgetComplex X).map (rationalDeRhamUnit X) ≫ (forgetRationalDeRhamIso X).hom =
+      (forgetUnitComplexIso X).hom ≫ fieldToHolomorphicDeRhamComplexInt ℚ X
+```
+
+where `rationalDeRhamUnit X : rationalUnitComplex X ⟶ Ω•_ℚ` and `forgetRationalDeRhamIso X : (forgetComplex X).obj Ω•_ℚ ≅ Ω•(X)`. Another isomorphism `forget ℚ_X[0] ≅ constantFieldSheafComplexInt ℚ X` could insert an automorphism of `ℚ_X` between the bridge and `ι`.

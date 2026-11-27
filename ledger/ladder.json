@@ -2609,16 +2609,30 @@
     {
       "id": "rational-hypercohomology-equiv",
       "title": "ℍ^n(X; forget C) ≃+ Hom_{D(ShQ)}(ℚ_X[0], C[n]), natural in C, agreeing with rationalExtEquiv on ℚ_X[0]",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.RationalHypercohomology",
+      "declarations": [
+        "HodgeLadder.rationalHypercohomologyEquiv",
+        "HodgeLadder.rationalHypercohomologyEquiv_naturality",
+        "HodgeLadder.rationalHypercohomologyEquiv_map",
+        "HodgeLadder.rationalHypercohomologyEquiv_rationalUnitComplex",
+        "HodgeLadder.rationalHypercohomologyEquiv_one",
+        "HodgeLadder.unitHypercohomologyEquiv",
+        "HodgeLadder.adjDerived",
+        "HodgeLadder.adjDerived_commShift",
+        "CategoryTheory.Adjunction.mapCochainComplex",
+        "CategoryTheory.Adjunction.extEquiv_symm_hom",
+        "HodgeLadder.Cup.rationalExtEquiv_hom"
+      ],
       "depends_on": [
         "rational-ext-equiv",
         "ext-derived-bridge"
       ],
-      "contributors": [],
-      "note": "First sub-rung of cup-hodge-filtration (red team finding 9): the cheapest probe of the instance spellings (upstream's local HasDerivedCategory.standard, HasExt.{0}, the ULift ℤ source). def rationalHypercohomologyEquiv (C : CochainComplex (ShQ ↧(ComplexPoint X)) ℤ) (n : ℤ) : ℍ^n(X; forget C) ≃+ ShiftedHom (Q.obj ℚ_X[0]) (Q.obj C) n; complex version of Adjunction.extEquiv. Agreement with no scalar."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. For a complex C of sheaves of ℚ-vector spaces on X(ℂ), upstream's ℍ^n(X; forget C) ≃+ Hom_{D(ShQ)}(ℚ_X[0], C[n]): SmallShiftedHom.equiv, the target comparison, the inverse of homAddEquiv for the derived adjunction ℚ ⊗ − ⊣ forget (Adjunction.localization of Adjunction.mapCochainComplex), and ℚ ⊗ ℤ_X ≅ ℚ_X. Natural along chain maps (upstream's hypercohomologyMap). Agreement with rationalExtEquiv on ℚ_X[0] is exact, no scalar, no cast; the unit goes to the identity (rationalHypercohomologyEquiv_one). The shift passes the derived counit by adjDerived_commShift (no sign). Cup.rationalExtEquiv_hom (module HodgeLadder.Cup.RationalExtHom) is stated at a general space with the HasDerivedCategory instances as arguments. Consumers at X(ℂ) activate the local instances with the attribute line in the module docstring. Conventions rows 'Rational hypercohomology bridge', 'Derived-category instances in statements'; red team docs/sketches/rational-hypercohomology-equiv.redteam.md."
     },
     {
       "id": "wedge-descends",
@@ -2674,7 +2688,7 @@
         "sheaf-tensor-exact"
       ],
       "contributors": [],
-      "note": "Sheafify U ↦ HolomorphicForm X d U p as ℚ-modules; forget commutes with sheafification (preservesSheafification_U). HolomorphicForm X d U p has no Module ℚ instance at the pin (#synth fails; red team wedge-presheaf, finding 2): this rung must supply one, unique by Mathlib's subsingleton_rat_module; the ℂ-bilinear holomorphicWedge is then ℚ-bilinear for it by map_rat_smul (or AddMonoidHom.toRatLinearMap), which is what wedge-sheafify needs."
+      "note": "Sheafify U ↦ HolomorphicForm X d U p as ℚ-modules; forget commutes with sheafification (preservesSheafification_U). Unit compatibility (red team on rational-hypercohomology-equiv, change 8): state it through exactly HodgeLadder.forgetUnitComplexIso, as theorem forget_rationalDeRhamUnit : (forgetComplex X).map (rationalDeRhamUnit X) ≫ (forgetRationalDeRhamIso X).hom = (forgetUnitComplexIso X).hom ≫ fieldToHolomorphicDeRhamComplexInt ℚ X, with rationalDeRhamUnit X : rationalUnitComplex X ⟶ Ω•_ℚ and forgetRationalDeRhamIso X : (forgetComplex X).obj Ω•_ℚ ≅ Ω•(X) (names fixed by that rung). Any other isomorphism forget ℚ_X[0] ≅ constantFieldSheafComplexInt ℚ X can insert an automorphism of ℚ_X between the bridge and ι."
     },
     {
       "id": "wedge-presheaf",
