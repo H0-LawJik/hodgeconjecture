@@ -1368,6 +1368,119 @@ Scratch file inside the worktree, deleted. On `planeDegree [pt] = 1`: `rfl` (fai
 
 (1) Is evaluation of the supported lift on the local orientation at one point an acceptable degree map, given `planeDegree_eq_eval_of_restrict` and `planeDegree_bijective`, or should the rung wait for a global class? (2) Vacuity: the degree is nonzero and bijective; `deg [pt] = 1` passes through `forgetSupport⁻¹` and upstream's point normalization, so a sign anywhere on that path shows. (3) The closeness of the value to upstream's definition of `analyticPointLocalCoclass` (third bullet above): is the test strong enough to post as `test`? (4) Drift: upstream `cycleComponentSupportedInjectiveClass_point_normalization`, `analyticComponentPointSupportedInjectiveCoclass_relative`, `analyticPointLocalCoclass_apply_complexLocalOrientation`, `complexLocalOrientation`, `span_complexLocalOrientation_eq_top`, `neighborhoodSupportToPointPairMap`, `supportInclusionPairMap`, `relativeChainProjection_supportInclusion`, `cohomologyEquivDualHomology_forgetSupport`, `range_cycleComponentMap`, `cycleComponentSheafClass_eq_forgetSupport` (an `rfl`); the ladder's `forgetSupport_injective_of_subsingleton`, `forgetSupport_surjective_of_subsingleton`, the Mayer–Vietoris pieces of `ProjectivePlanePoint.lean`, `supportedEquivPair_eq_transport`, `forgetRel_supportedEquivPair`.
 
+## p2-fundamental-class: statement
+
+Date: 2026-11-27 (statement, proofs, red team, checked). The statement and proof red team passed it with changes A to H (`docs/sketches/p2-fundamental-class.redteam.md`), all implemented: the rung is posted with the `∃!` form as headline and the corollary module as its `module`. Files `HodgeLadder/Tests/ProjectivePlaneFundamental.lean` (module `HodgeLadder.Tests.ProjectivePlaneFundamental`, the rung) and `HodgeLadder/Tests/ProjectivePlaneFundamentalDegree.lean` (module `HodgeLadder.Tests.ProjectivePlaneFundamentalDegree`, the corollaries that need `planeDegree`). Both are imported from `HodgeLadder.lean`. The ledger's derived `file` hint `HodgeLadder/P2/Fundamental/Class.lean` is superseded, as for `cycle-class-sign-test-p2`. The rung module imports `HodgeLadder.Tests.ProjectivePlanePoint`, upstream `HodgeConjecture.Lemmas.AlgebraicGeometry.Cycle.Transport.CohomologySheaf`, `Other.AlgebraicGeometry.ComplexPoint.LocalOrientation`, `Other.AlgebraicTopology.Singular.EmptySubspace` and Mathlib's `Mathlib.Algebra.Homology.HomologySequence`; it does not import `CycleClassSignTestP2`. The corollary module imports the rung module and `HodgeLadder.Tests.CycleClassSignTestP2`.
+
+### The statements
+
+In the rung module:
+
+```lean
+/-- the rung -/
+theorem exists_restrict_complexLocalOrientation :
+    ∃ μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2),
+      (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
+        complexLocalOrientation projectivePlane 2 planeOriginPoint
+
+theorem planeOrigin_relativeHomologyProjection_surjective :
+    Function.Surjective
+      (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom
+
+theorem subsingleton_homology_three_compl_planeOrigin :
+    Subsingleton (Homology ℚ
+      (TopCat.of ({planeOriginPoint}ᶜ : Set (ComplexPoint projectivePlane))) 3)
+
+theorem subsingleton_homology_compl_planeOrigin_of_H' (n : ℕ)
+    (h : Subsingleton (Sheaf.H' planeConst n planeOriginCompl)) :
+    Subsingleton (Homology ℚ
+      (TopCat.of ({planeOriginPoint}ᶜ : Set (ComplexPoint projectivePlane))) n)
+
+theorem relativeHomologyProjection_surjective_of_subsingleton (P : TopPair.{0}) (n : ℕ)
+    (h : Subsingleton (Homology ℚ P.snd n)) :
+    Function.Surjective (relativeHomologyProjection ℚ P (n + 1)).hom
+
+theorem relativeHomologyProjection_injective_of_subsingleton (P : TopPair.{0}) (n : ℕ)
+    (h : Subsingleton (Homology ℚ P.snd n)) :
+    Function.Injective (relativeHomologyProjection ℚ P n).hom
+```
+
+Helpers: `planeOriginCompl` (abbrev, the open ℙ²(ℂ) ∖ pt as `Opens`), `relativeHomologyProjection_bijective_of_eq_empty`, `subsingleton_relH_compl_planeOrigin`, `subsingleton_relativeCohomology_compl_planeOrigin`. In the corollary module:
+
+```lean
+theorem subsingleton_homology_four_compl_planeOrigin :
+    Subsingleton (Homology ℚ
+      (TopCat.of ({planeOriginPoint}ᶜ : Set (ComplexPoint projectivePlane))) 4)
+
+theorem planeOrigin_relativeHomologyProjection_bijective :
+    Function.Bijective
+      (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom
+
+theorem existsUnique_restrict_complexLocalOrientation :
+    ∃! μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2),
+      (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
+        complexLocalOrientation projectivePlane 2 planeOriginPoint
+
+theorem exists_planeDegree_eq_eval :
+    ∃ μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2),
+      (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
+        complexLocalOrientation projectivePlane 2 planeOriginPoint ∧
+      ∀ α : H^(2 * 2)(projectivePlane; ℚ),
+        planeDegree α = cohomologyEquivDualHomology ℚ (TopCat.of (ComplexPoint projectivePlane))
+          (2 * 2) (rationalCohomologyAddEquivSingularCohomology projectivePlane (2 * 2) α) μ
+
+theorem eval_planeOrigin_of_restrict
+    (μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2))
+    (hμ : (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
+      complexLocalOrientation projectivePlane 2 planeOriginPoint) :
+    cohomologyEquivDualHomology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2)
+        (rationalCohomologyAddEquivSingularCohomology projectivePlane (2 * 2)
+          (cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin)) μ = 1
+
+theorem ne_zero_of_restrict_complexLocalOrientation
+    (μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2))
+    (hμ : (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
+      complexLocalOrientation projectivePlane 2 planeOriginPoint) : μ ≠ 0
+```
+
+The rung's statement is the hypothesis `hμ` of `planeDegree_eq_eval_of_restrict` verbatim, under `∃`. The types use upstream's `relativeHomologyProjection`, `pointComplementPair` (the pair `TopPair.ofSubset {x}ᶜ`, so `P.snd` is `TopCat.of {x}ᶜ` by `rfl`), `complexLocalOrientation` and the ladder's `planeOriginPoint` = [0 : 0 : 1]. The index `2 * 2` matches the type of `complexLocalOrientation projectivePlane 2`; `4` and `3 + 1` are the same `Nat` by reduction, and the proofs pass between them with no cast.
+
+### Route
+
+| Step | Statement | Declaration | Source |
+|---|---|---|---|
+| 1 | sheaf H³(V; ℚ) = 0, V = ℙ²(ℂ) ∖ pt | `subsingleton_H'_three_compl_planeOrigin` | checked, rung `p2-point-class-nonzero` (three Mayer–Vietoris steps) |
+| 2 | relH ℚ_X n (V ⊓ (X ∖ ⊤) ≤ V) injects into sheaf Hⁿ(V) | `subsingleton_relH_compl_planeOrigin` | upstream `relH.forget_injective_of_eq_bot`; V ⊓ (X ∖ ⊤) = ⊥ by `ext; simp` |
+| 3 | that group ≃ singular Hⁿ(V, V ∖ ⊤; ℚ) | `subsingleton_relativeCohomology_compl_planeOrigin` | upstream `relHAddEquivSupportedSectionsHomology` (ambient injective resolution of ℚ, as in `injectiveModelOpen`) followed by `complexSupportInjectiveSectionCohomologyEquiv projectivePlane ⊤ V n`, which takes `openParacompactSpace` internally |
+| 4 | Hₙ(V, V ∖ ⊤; ℚ) = 0 | inside `subsingleton_homology_compl_planeOrigin_of_H'` | upstream `relativeCohomologyEquivDualHomology` and Mathlib `Module.subsingleton_dual_iff` (a ℚ-vector space with zero dual is zero) |
+| 5 | Hₙ(V; ℚ) = 0, then Hₙ({pt}ᶜ; ℚ) = 0 | same | `relativeHomologyProjection_bijective_of_eq_empty` (upstream `homologyEmptySubspaceIso` after `subst`; the second space {w ∣ w ∉ ⊤} is empty), then the set equality (V : Set) = {pt}ᶜ from `planeOrigin_support_eq_singleton`, transported by `subst` |
+| 6 | H₄(ℙ²) → H₄(ℙ², {pt}ᶜ) onto | `relativeHomologyProjection_surjective_of_subsingleton` at n = 3 | upstream `relativeChainShortComplex_shortExact`; Mathlib `ShortComplex.ShortExact.homology_exact₃` with the connecting map zero, `Exact.epi_f`, `ModuleCat.epi_iff_surjective` |
+| 7 | the rung | `exists_restrict_complexLocalOrientation` | surjectivity applied to `complexLocalOrientation projectivePlane 2 planeOriginPoint` |
+
+The "Ψ on the open" of the ledger note is step 3. Upstream's `rationalCohomologyAddEquivSingularCohomology` exists only for the whole space X(ℂ); on an open, the transport with support ⊤ plays its part, and only to carry a vanishing. The corollary module adds the degree-four case: `subsingleton_H'_compl_planeOrigin 1` (sheaf H⁴(V) = 0, from `CycleClassSignTestP2`) through the same steps 2 to 5 gives H₄({pt}ᶜ; ℚ) = 0, then `homology_exact₂` (`relativeHomologyProjection_injective_of_subsingleton`) makes the projection injective, hence bijective, and μ unique; the red team checked (RT2) that none of these roots reaches the multiplicativity proof.
+
+### Signs and normalization
+
+None enter. Steps 1 to 5 transport a vanishing statement, so a sign in any equivalence there is invisible and harmless. Step 6 is exactness. The rung's μ is any preimage of upstream's local orientation; it is unique (corollary module), so "the" class is well defined. Its identification with the literature's [ℙ²] for the complex orientation is the one-point characterization [`Hatcher2002` §3.3, Theorem 3.26 and the definition of the fundamental class; numbering unverified]: on a closed connected oriented n-manifold, Hₙ(M) → Hₙ(M, M ∖ x) is an isomorphism and [M] is the preimage of the local orientation at x. That reading also needs `complexLocalOrientation` to be the literature's local orientation at pt; the row "Complex orientation of ℂ^p" of `docs/conventions.md` pins it, outside this rung. Unlike deg [pt] = 1, the reading is sensitive to that row: a real-parts-first ordering of ℂ² ((−1)^{d(d−1)/2} = −1 at d = 2) would make μ = −[ℙ²] and upstream's [pt] = −PD(pt), with every statement here still true. The conjugate orientation is invisible ((−1)² = 1).
+
+### What is proved
+
+Everything; neither file has an open proof. `#print axioms` (scratch, deleted) on `subsingleton_homology_three_compl_planeOrigin`, `planeOrigin_relativeHomologyProjection_surjective`, `exists_restrict_complexLocalOrientation`, `existsUnique_restrict_complexLocalOrientation`, `exists_planeDegree_eq_eval`, `relativeHomologyProjection_injective_of_subsingleton`: `propext`, `Classical.choice`, `Quot.sound`. Non-vacuity: any μ with `hμ` is nonzero (`ne_zero_of_restrict_complexLocalOrientation`, red team change E), since μ = 0 would give `planeDegree [pt] = 0` through `planeDegree_eq_eval_of_restrict`; `eval_planeOrigin_of_restrict` states the positive form, ⟨Ψ [pt], μ⟩ = 1. `tools/check.py` prints the axioms of all 16 ledger declarations.
+
+### Failed trivial proofs
+
+Scratch, with `CycleClassSignTestP2` and `EmptySubspace` imported and the new modules not imported: `exact?` fails on H₃ = 0, on the surjectivity and on the rung. With the new modules imported: `infer_instance` and `simp` fail on H₃ = 0; `simp` fails on the surjectivity; `⟨0, rfl⟩`, `⟨0, by simp⟩` and `aesop` fail on the rung.
+
+### Timing
+
+`lake env lean` on the rung module: 8.6 s wall; `lake build` of it 7.0 s. The corollary module: 5.9 s to 11.7 s wall with `lake env lean`, 4.4 s `lake build`, since `CycleClassSignTestP2` is read from its built `.olean` and not re-elaborated. Neither module is slow; the 4.5 min of `CycleClassSignTestP2` is not paid again.
+
+### For the red team (answered)
+
+Answers in `docs/sketches/p2-fundamental-class.redteam.md`: post the `∃!` form (change B); the support-⊤ transport is sound (section 6); no drift at the pin; the pair lemmas are in `docs/gaps.md` (change F). The questions as posed:
+
+(1) Is the rung's `∃` the right statement, or should the posted rung be the `∃!` form, which costs one import of `CycleClassSignTestP2` (for `subsingleton_H'_compl_planeOrigin 1`) and nothing else? The sheaf H⁴ vanishing could move to the rung module by repeating its three Mayer–Vietoris steps, at the cost of duplicated proof. (2) Step 3 uses the supported transport with support ⊤ on V in place of a comparison Ψ_V: acceptable, given it only carries a vanishing? (3) Drift: upstream `relH.forget_injective_of_eq_bot`, `relHAddEquivSupportedSectionsHomology`, `ambientRationalInjectiveComplex` and its three companions, `complexSupportInjectiveSectionCohomologyEquiv`, `relativeCohomologyEquivDualHomology`, `homologyEmptySubspaceIso`, `relativeChainShortComplex_shortExact`, `pointComplementPair`, `complexLocalOrientation`; Mathlib `homology_exact₂`, `homology_exact₃`, `Module.subsingleton_dual_iff`. (4) The two general pair lemmas and `relativeHomologyProjection_bijective_of_eq_empty` are facts about any pair; phase 2 lists them in `docs/gaps.md`, "General lemmas kept local".
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.
