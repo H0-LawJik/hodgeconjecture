@@ -536,6 +536,102 @@ About 150 lines for steps 1 to 5. The two paths agree: sign +, coefficient 1. In
 
 On the rung (scratch file, deleted): `rfl`, `simp`, `trivial`, `decide`, `aesop` (heartbeat timeout), and with W = the chart source: `rfl` (the sides are not definitionally equal), `simp [chartNormalProjectionCoclass, analyticComponentPointRelativeCoclass]` (unsolved goals), `Subsingleton.elim` (no instance).
 
+## p2-lines-transversal: statement
+
+Date: 2026-11-26. Checked. Statements fixed first with one `sorry`, red-teamed (`docs/sketches/p2-lines-transversal.redteam.md`, pass with changes A to D, all implemented), then the open lemma proved. File `HodgeLadder/Tests/ProjectivePlaneLines.lean`, module `HodgeLadder.Tests.ProjectivePlaneLines`, next to `ProjectivePlane` and `ProjectiveChart`, imported from `HodgeLadder.lean`. The ledger's derived `file` hint `HodgeLadder/P2/Lines/Transversal.lean` is superseded. Imports: `HodgeLadder.Tests.ProjectiveChart`, upstream `HodgeConjecture.Definitions.AlgebraicGeometry.Cycle.Component.SmoothSupportPurity` (for `cycleComponentSmoothSupportAmbientOpen`) and `HodgeConjecture.Lemmas.AlgebraicGeometry.Smooth.DimensionFormula` (for `SmoothOfRelativeDimension.coheight_le_complex`); no `Other` module. `lake env lean` on the file: 5 s wall, default heartbeats.
+
+### The points and how they are named
+
+All three come from the chart x₂ ≠ 0, `projectiveChartImmersion 2 2 : Spec ℂ[Y₀, Y₁] ⟶ projectivePlane.left` (Oka's `ProjectiveSpace.chart 2` followed by `okaIsoSpace 2`, Yₘ = xₘ / x₂).
+
+| Declaration | Definition |
+|---|---|
+| `planeLineRestrict k` | `MvPolynomial.aeval (fun m => if m = k then 0 else X 0) : ℂ[Y₀, Y₁] →ₐ[ℂ] ℂ[T]`, restriction to Y_k = 0; surjective (`planeLineRestrict_surjective`) |
+| `planeLinePrime k` | its kernel, the prime (Y_k), as a `PrimeSpectrum` |
+| `planeEvalPoint v` | kernel of evaluation at v, the port's `evalPoint (RingHom.id ℂ) v` typed as a `PrimeSpectrum` (the `Spec` carrier blocks `rw` across the two) |
+| `planeChartPoint q` | `(projectiveChartImmersion 2 2).base q` |
+| `planeLine k : projectivePlane.left` | `planeChartPoint (planeLinePrime k)`: L₀ at k = 0, L₁ at k = 1 |
+| `planeOriginPoint : ComplexPoint projectivePlane` | `(projectiveChart 2 2).symm 0`, the complex point [0 : 0 : 1] |
+| `planeOrigin : projectivePlane.left` | `planeOriginPoint.underlying`; equal to `planeChartPoint (planeEvalPoint 0)` (`planeOrigin_eq`) |
+
+### The statements, in the form of the hypotheses of `cycle-class-multiplicative`
+
+With X = `projectivePlane`, x = `planeLine 0`, w = `planeLine 1`, t = `planeOrigin`, a = b = 1, d = 2:
+
+```lean
+theorem coheight_planeLine (k : Fin 2) : Order.coheight (planeLine k) = (1 : ℕ)
+theorem coheight_planeOrigin : Order.coheight planeOrigin = (2 : ℕ)
+
+theorem planeOrigin_support_eq_inter :
+    (cycleComponentAnalyticClosedSupport projectivePlane planeOrigin :
+        Set (ComplexPoint projectivePlane)) =
+      (cycleComponentAnalyticClosedSupport projectivePlane (planeLine 0) :
+          Set (ComplexPoint projectivePlane)) ∩
+        cycleComponentAnalyticClosedSupport projectivePlane (planeLine 1)
+
+theorem planeOrigin_support_eq_singleton :
+    (cycleComponentAnalyticClosedSupport projectivePlane planeOrigin :
+        Set (ComplexPoint projectivePlane)) = {planeOriginPoint}
+
+theorem planeLines_transversal :
+    ∀ y ∈ (cycleComponentAnalyticClosedSupport projectivePlane planeOrigin :
+        Set (ComplexPoint projectivePlane)),
+      ∃ φ ∈ IsManifold.maximalAtlas 𝓘(ℂ, Fin 2 → ℂ) ω (ComplexPoint projectivePlane),
+        y ∈ φ.source ∧
+        ∀ z ∈ φ.source,
+          (z ∈ cycleComponentAnalyticClosedSupport projectivePlane (planeLine 0) ↔
+            ∀ i : Fin 1, φ z ⟨i, by omega⟩ = 0) ∧
+          (z ∈ cycleComponentAnalyticClosedSupport projectivePlane (planeLine 1) ↔
+            ∀ j : Fin 1, φ z ⟨1 + j, by omega⟩ = 0)
+
+theorem planeOrigin_support_subset_smoothSupportAmbientOpen (k : Fin 2) :
+    (cycleComponentAnalyticClosedSupport projectivePlane planeOrigin :
+        Set (ComplexPoint projectivePlane)) ⊆
+      cycleComponentSmoothSupportAmbientOpen projectivePlane (planeLine k)
+```
+
+These are `hx`, `hw` (k = 0, 1), `ht`, `hT`, the "= {p(ℂ)}" item, `htr`, and `hxreg`, `hwreg` (k = 0, 1). Instantiation check (scratch file inside the worktree, deleted): with the general statement of section "Statement" copied verbatim and `sorry`ed, the term `cycleComponentSheafClass_cup_of_transversal projectivePlane (planeLine 0) (planeLine 1) planeOrigin (coheight_planeLine 0) (coheight_planeLine 1) coheight_planeOrigin (by norm_num) planeOrigin_support_eq_inter (planeOrigin_support_subset_smoothSupportAmbientOpen 0) (planeOrigin_support_subset_smoothSupportAmbientOpen 1) planeLines_transversal` elaborates against `cup [L₀] [L₁] (2 * (1 + 1)) _ = cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin`. So `cycle-class-multiplicative-p2` closes by `exact` once the general rung is checked: `↑2` meets `↑(1 + 1)` by defeq, d = 2 comes from `Fin 2` in `htr` and the instance `smoothOfRelativeDimension_projectiveSpace 2`, and the `by omega` proofs inside `Fin.mk` are irrelevant to the match.
+
+Also stated and proved: `closure_planeLine_inter` with `planeEvalPoint_zero_le` (change B: closure {L₀} ∩ closure {L₁} = closure {[0 : 0 : 1]} in `projectivePlane.left`), `mem_planeLine_support_iff` (in the chart x₂ ≠ 0, z ∈ L_k(ℂ) ↔ `projectiveChart 2 2 z k = 0`), `mem_planeLine_inter_iff`, `planeLine_zero_ne_one` (the two lines are different scheme points; with the coheights, all three points are distinct).
+
+### What is proved
+
+| Item | Status | Route |
+|---|---|---|
+| coheights 1, 1, 2 | proved | `planeOrigin < planeLine k < ⊤` in the specialization order (`planeChartPoint_specializes_iff`: the chart is an open embedding; `⊤` lies in every standard open, `L_k` does not lie in x_k ≠ 0), `Order.coheight_add_one_le` twice, and upstream's `coheight_le_complex` (≤ 2); no closedness of the point is used |
+| `hT`, singleton | proved | `closure {L_k}` misses the open x_k ≠ 0 (`L_k` is outside it); the three standard opens cover (`iSup_U`), so a point of L₀(ℂ) ∩ L₁(ℂ) lies in the chart x₂ ≠ 0, where both coordinates vanish; L_k ⤳ [0 : 0 : 1] gives the other inclusion |
+| `htr` | proved | φ = `projectiveChart 2 2`, in the atlas by `projectivePlane_chart_mem_maximalAtlas 2`; adaptedness from `projectiveChart_two_symm_underlying` and `planeLinePrime_le_planeEvalPoint_iff` (v ∈ V(Y_k) ↔ v_k = 0) |
+| `hxreg`, `hwreg` | proved | membership in `cycleComponentSmoothSupportAmbientOpen` unfolds, by `rintro`, to the lemma below for a point of the reduced closure over [0 : 0 : 1] |
+| scheme-level `hT` (change B) | proved | `closure_planeLine_inter` |
+
+The smooth-locus lemma:
+
+```lean
+theorem cycleComponent_planeLine_mem_smoothLocus (k : Fin 2)
+    (z : cycleComponent projectivePlane.left (planeLine k))
+    (hz : cycleComponentι projectivePlane.left (planeLine k) z = planeOrigin) :
+    z ∈ (cycleComponentι projectivePlane.left (planeLine k) ≫ projectivePlane.hom).smoothLocus
+```
+
+Every declaration the ledger names prints `propext`, `Classical.choice`, `Quot.sound`.
+
+### The proof of the smooth-locus lemma, as checked
+
+1. U = `projectiveChartOpen 2 2`, affine (`isAffineOpen_opensRange`). `cycleComponent` is the subscheme of I = `vanishingIdeal ⟨closure {L_k}, _⟩`; Mathlib's `I.subschemeCover.f U : Spec (Γ(X, U) ⧸ I.ideal U) ⟶ cycleComponent` is an open immersion with range ι⁻¹ U (`opensRange_subschemeCover_map`), which contains z because [0 : 0 : 1] ∈ U, and `subschemeCover_map_subschemeι`, `glueDataObjι_ι` give its composite with ι as `Spec.map (Ideal.Quotient.mk _) ≫ U.fromSpec`.
+2. By `Scheme.Hom.preimage_smoothLocus_eq` and `smoothLocus_eq_top`, it suffices that this composite followed by the structure map is smooth.
+3. Identify Γ(X, U) ≅ ℂ[Y₀, Y₁] through `isoOpensRange` and `IsAffineOpen.isoSpec`, compatibly with ℂ (the chart lies over `Spec.map C`, as in `projectiveChartSchemeIso_over`). Under it, `I.ideal U = vanishingIdeal (U.fromSpec ⁻¹' closure {L_k})` (Mathlib `vanishingIdeal_ideal`) is the comap of `planeLinePrime k`: the preimage of a closure under an open embedding is the closure of the preimage, and `vanishingIdeal (closure {q}) = q`.
+4. Then Γ(X, U) ⧸ I(U) ≅ ℂ[Y₀, Y₁] ⧸ (Y_k) ≅ ℂ[T] over ℂ (`planeLineRestrict_surjective`, `quotientKerAlgEquivOfSurjective`), and ℂ → ℂ[T] is smooth.
+
+As checked (about 80 lines with two helpers): step 3 does not name `isoSpec`. `IsOpenImmersion.isoOfRangeEq` between `projectiveChartImmersion 2 2` and `U.fromSpec` (equal ranges, `IsAffineOpen.range_fromSpec`) gives an iso g of affine schemes, and φ = `Spec.preimage g.inv : ℂ[Y₀, Y₁] ⟶ Γ(X, U)` is the ring isomorphism of the red team's caution 1, with `U.fromSpec = Spec.map φ ≫ projectiveChartImmersion 2 2`. The ℂ-structure is the one of `MvPolynomial.C` (caution 2): `projectiveChartImmersion_two_over` (the chart lies over `Spec.map C`) turns the composite into `Spec.map (C ≫ φ ≫ mk)`, and `HasRingHomProperty.Spec_iff` reduces smoothness to the ring map. `I.ideal U = (g.hom (Y_k)).asIdeal` from `U.fromSpec ⁻¹' closure {L_k} = closure {g.hom (Y_k)}` (both open embeddings reflect specialization), `vanishingIdeal_closure`, `vanishingIdeal_singleton`; its comap along φ is (Y_k) because `Spec.map φ = g.inv`. The ring step `smooth_quotient_of_comap_eq_planeLinePrime` builds Γ(U) ⧸ I(U) ≅ ℂ[T] from two `quotientKerEquivOfSurjective` and `quotEquivOfEq`, checks that it carries `C` to the constants, and concludes with `RingHom.Smooth.comp`, `smooth_algebraMap` and `of_bijective`. No upstream `Other` input. Traps: an `affineOpens` element and its proof `U.2` do not elaborate as `IsAffineOpen` for `fromSpec` instances, so the proof names `hUa : IsAffineOpen _`; the cover index type `I₀` blocks the `IsOpenImmersion` instance on `I.subschemeCover.f U` until U is ascribed `I.subschemeCover.I₀`; `simp only [Category.assoc]` makes no progress on the composite (the same index-type mismatch), so associativity is closed by explicit `Category.assoc` terms.
+
+### Failed trivial proofs
+
+Scratch file inside the worktree, deleted. Coheights: `rfl` (not definitionally equal), `simp`, `simp [planeLine, planeChartPoint]`, `simp [planeOrigin]` (unsolved goals). `hT`: `rfl` fails, `simp` makes no progress; singleton: `simp` makes no progress. `hxreg`: `simp` (unsolved goal), `aesop` (fails after exhaustive search). The smooth-locus lemma: `simp` fails; with its proof a `sorry`, `exact?` found only that lemma itself; red team RT2: `Smooth` of the line by `infer_instance` and `rw [Scheme.Hom.smoothLocus_eq_top]` fail. `htr` with upstream's own chart, `⟨chartAt _ y, IsManifold.chart_mem_maximalAtlas y, mem_chart_source _ y, by simp⟩`: `simp` leaves the adaptedness goal open, so the adapted chart carries content.
+
+### What this rung shows about the general statement
+
+Every hypothesis of `cycle-class-multiplicative` is met on ℙ² with the coordinate lines, in the stated form, with no change to the statement. Two points for the red team: (1) `htr` indexes coordinates as `⟨i, _⟩` and `⟨a + j, _⟩`, so the chart must list L₀ first; `projectiveChart 2 2` does (coordinates (x₀/x₂, x₁/x₂)), and a swapped chart would need a reordering of `Fin 2`. (2) `hT` is a statement about complex points only. On a scheme of finite type over ℂ the complex points are dense in every closed subset, so `hT` implies the scheme-level equality `closure {x} ∩ closure {w} = closure {t}` (T is the only component, as the literature requires); on ℙ² that equality is `closure_planeLine_inter`.
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.

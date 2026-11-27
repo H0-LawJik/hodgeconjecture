@@ -2965,17 +2965,42 @@
     {
       "id": "p2-lines-transversal",
       "title": "On ℙ² the lines L₀ = {x₀ = 0}, L₁ = {x₁ = 0} and the point [0 : 0 : 1] have coheight 1, 1, 2, L₀(ℂ) ∩ L₁(ℂ) = {[0 : 0 : 1]}, the chart x₂ ≠ 0 satisfies the transversality hypothesis htr, and the point lies in the smooth locus of each line's reduced closure (hxreg, hwreg)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectivePlaneLines",
+      "declarations": [
+        "HodgeLadder.Tests.planeLineRestrict",
+        "HodgeLadder.Tests.planeLineRestrict_surjective",
+        "HodgeLadder.Tests.planeLinePrime",
+        "HodgeLadder.Tests.planeEvalPoint",
+        "HodgeLadder.Tests.planeChartPoint",
+        "HodgeLadder.Tests.planeLine",
+        "HodgeLadder.Tests.planeOriginPoint",
+        "HodgeLadder.Tests.planeOrigin",
+        "HodgeLadder.Tests.coheight_planeLine",
+        "HodgeLadder.Tests.coheight_planeOrigin",
+        "HodgeLadder.Tests.planeOrigin_support_eq_inter",
+        "HodgeLadder.Tests.planeOrigin_support_eq_singleton",
+        "HodgeLadder.Tests.mem_planeLine_support_iff",
+        "HodgeLadder.Tests.mem_planeLine_inter_iff",
+        "HodgeLadder.Tests.planeLines_transversal",
+        "HodgeLadder.Tests.planeLine_zero_ne_one",
+        "HodgeLadder.Tests.cycleComponent_planeLine_mem_smoothLocus",
+        "HodgeLadder.Tests.planeOrigin_support_subset_smoothSupportAmbientOpen",
+        "HodgeLadder.Tests.planeEvalPoint_zero_le",
+        "HodgeLadder.Tests.closure_planeLine_inter",
+        "HodgeLadder.Tests.smooth_quotient_of_comap_eq_planeLinePrime",
+        "HodgeLadder.Tests.projectiveChartImmersion_two_over"
+      ],
       "depends_on": [
         "p2-witness",
         "affine-chart-analytic",
         "affine-chart-analytic-p2"
       ],
-      "contributors": [],
-      "note": "Decision 0010; red team finding 12. Items: (i) the chart x₂ ≠ 0, isomorphic to 𝔸², is in the maximal atlas by affine-chart-analytic; (ii) hxreg, hwreg need the closed subscheme cycleComponentι of each line computed on that chart, where it is a coordinate line. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Decision 0010; red team finding 12. Statement red team: pass with changes (docs/sketches/p2-lines-transversal.redteam.md), all implemented. Points from the chart x₂ ≠ 0 (projectiveChartImmersion 2 2, Yₘ = xₘ/x₂): planeLine k is the image of the prime (Y_k), planeOrigin = [0 : 0 : 1]. Checked: coheights 1, 1, 2 (hx, hw, ht); planeOrigin_support_eq_inter (hT) and the singleton form; planeLines_transversal (htr, chart projectiveChart 2 2, L₀ coordinate 0, L₁ coordinate 1); planeOrigin_support_subset_smoothSupportAmbientOpen (hxreg at k = 0, hwreg at k = 1), from cycleComponent_planeLine_mem_smoothLocus: on the affine open x₂ ≠ 0, Mathlib's subschemeCover chart of cycleComponent is Spec (Γ(U) ⧸ I(U)), and I(U) pulls back to (Y_k) along Γ(U) ≅ ℂ[Y₀, Y₁] (isoOfRangeEq with U.fromSpec, Spec.preimage), so the chart is ℂ[T] over ℂ through MvPolynomial.C, smooth. Scheme-level cross-check of hT (change B): closure_planeLine_inter. The instance of cycle-class-multiplicative closes by exact (sketch). Drift list: section 8 of the red-team verdict. Sketch: docs/sketches/cycle-class-multiplicative.md, section p2-lines-transversal: statement."
     },
     {
       "id": "p2-point-class-nonzero",
