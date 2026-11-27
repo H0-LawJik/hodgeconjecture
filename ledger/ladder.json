@@ -3014,15 +3014,31 @@
     {
       "id": "cycle-class-germ-no-reg",
       "title": "cycle-class-germ without hyU: for a holomorphic chart adapted to Z, the transport of [Z] restricted to e.source is chartNormalProjectionCoclass of e, by local purity",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Normalization.GermNoReg",
+      "declarations": [
+        "HodgeLadder.Normalization.transport_supportedClass_eq_chartNormalProjectionCoclass_source",
+        "HodgeLadder.Normalization.transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted",
+        "HodgeLadder.Normalization.restrict_smoothSupportAmbientOpen_injective",
+        "HodgeLadder.Normalization.singularBoundarySectionCohomology_isZero_of_lt",
+        "HodgeLadder.Normalization.singularFiltrationSectionCohomology_isZero_of_lt",
+        "HodgeLadder.Normalization.singularLayerSectionCohomology_isZero_of_lt",
+        "HodgeLadder.Normalization.supportRelativeCohomologyToSheaf_injective_of_le",
+        "HodgeLadder.Normalization.complexSupportInjectiveSectionCohomologyEquiv_naturality",
+        "HodgeLadder.Normalization.germ_transport_supportedClass_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.Normalization.nestedSupportRestrictionLastComplexIsoOnOpen_g",
+        "HodgeLadder.Normalization.nestedSupportRestriction_middle_homology_isZero_onOpen",
+        "HodgeLadder.Normalization.homologyMap_sectionComplexRestriction_mono",
+        "HodgeLadder.Normalization.finiteNestedSupport_homology_isZero_onOpen"
+      ],
       "depends_on": [
         "cycle-class-germ"
       ],
-      "contributors": [],
-      "note": "Red team on analytic-smooth-locus (docs/sketches/analytic-smooth-locus.redteam.md, change B). Statement: transport_supportedClass_eq_chartNormalProjectionCoclass_source (x, hx, E, e, L, he, hS as in transport_supportedClass_eq_chartNormalProjectionCoclass; the identity on W = e.source), and transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted (the ∃ W form without hyU, one term from the source form). Exact, no sign; conventions as cycle-class-germ. Route R2: singularBoundarySectionCohomology_isZero_of_lt (supports in Z_sing vanish below 2(p+1) on every open V; upstream's ⊤ proof with the evaluation open V, the W-version of nestedSupportRestrictionLastComplexIso, and sectionCohomology_isZero_of_cofinal_lower_vanishing on V ⊓ O(k+1)); restrict_smoothSupportAmbientOpen_injective (nested-support sequence Z_sing ⊆ Z on V at degree 2p, transported by naturality of complexSupportInjectiveSectionCohomologyEquiv); on e.source ⊓ U, rationalSupportAddEquivSupportedRelativeCohomologySheafSectionOnOpen and section_ext with the checked cycle-class-germ and chartNormalProjectionCoclass_restrict. Does not use analytic-smooth-locus. Elaborated statements (red team RT4, against HodgeLadder.Normalization.Germ; planned module HodgeLadder.Normalization.GermNoReg): restrict_smoothSupportAmbientOpen_injective (x : X.left) {p : ℕ} (hx : Order.coheight x = p) (V : Opens (ComplexPoint X)) : Function.Injective (relativeCohomologyMap ℚ (2 * p) (neighborhoodSupportInclusionPairMap (W := ((V ⊓ cycleComponentSmoothSupportAmbientOpen X x : Opens (ComplexPoint X)) : Set (ComplexPoint X))) (V := (V : Set (ComplexPoint X))) (fun _ h => h.1) (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))); transport_supportedClass_eq_chartNormalProjectionCoclass_source (x : X.left) {p : ℕ} (hx : Order.coheight x = p) {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ))) (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ)) (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈ IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X)) (hS : ∀ z ∈ e.source, z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0) : relativeCohomologyMap ℚ (2 * p) (neighborhoodSupportInclusionPairMap (W := e.source) (V := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X))) (fun _ _ => trivial) (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X))) (complexSupportInjectiveSectionCohomologyEquiv X (cycleComponentAnalyticClosedSupport X x) ⊤ (2 * p) (rationalSupportAddEquivSupportedInjectiveHomology X (cycleComponentAnalyticClosedSupport X x) (2 * p) (cycleComponentSupportedInjectiveClass X x hx))) = chartNormalProjectionCoclass E p e (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) hS e.source subset_rfl. The ∃ W form: ⟨⟨e.source, e.open_source⟩, subset_rfl, hy, transport_supportedClass_eq_chartNormalProjectionCoclass_source X x hx e L he hS⟩. Sketch: docs/sketches/cycle-class-multiplicative.md, section analytic-smooth-locus: statement."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26, route R2 (purity), exactly the red-team statements (docs/sketches/analytic-smooth-locus.redteam.md, change C). Exact, no sign; conventions as cycle-class-germ plus row Local purity on an open. Steps: (1) singularBoundarySectionCohomology_isZero_of_lt: on every open V, supports in Z_sing vanish below 2(p+1); upstream's ⊤ induction run on V by finiteNestedSupport_homology_isZero_onOpen, with the last nested-support term on W identified with sections on W ⊓ U (betweenOpensSectionsIso from sheafSectionsBetweenOpensOnOpenIso and sheafSectionsSupportedOutsideOnOpenIso; nestedSupportRestrictionLastComplexIsoOnOpen and its _g), and layer vanishing by sectionCohomology_isZero_of_cofinal_lower_vanishing on V ⊓ O(k+1). (2) restrict_smoothSupportAmbientOpen_injective: the nested-support sequence Z_sing ⊆ Z on V gives a mono on H^{2p} (homologyMap_sectionComplexRestriction_mono), transported by complexSupportInjectiveSectionCohomologyEquiv_naturality (naturality of the singular-injective homology iso plus upstream's supportedRationalSingularSectionCohomologyEquivSupportComplement_naturality). (3) supportRelativeCohomologyToSheaf_injective_of_le: on W ≤ U the sheafification unit is injective in degree 2p, by openRestrictedLowestSectionCohomologyIso_hom and complexSupportInjectiveCohomologySheafIsoRelative_section_apply (Other); this replaces the planned rationalSupportAddEquivSupportedRelativeCohomologySheafSectionOnOpen. (4) on e.source ⊓ U, section_ext with the germ form of cycle-class-germ (germ_transport_supportedClass_eq_chartNormalProjectionCoclass). The ∃ W form transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted is one term from the source form. Does not use analytic-smooth-locus. Drift list additions: sheafSectionsBetweenOpensOnOpenIso, sheafSectionsSupportedOutsideOnOpenIso, nestedSupportRestrictionSectionsComplexShortComplex_shortExact_of_flasque, supportedSections_top_homology_isZero, cycleComponentSingularLayer_exists_supportedInjectiveSection_vanishing, cycleComponentSmoothSupport_exists_supportedInjectiveSection_vanishing, openRestriction_homology_isZero_of_cofinal_sections, complexSupportedSingularInjectiveHomologyIso, complexSupportInjectiveCohomologySheafIsoRelative_section_apply, openRestrictedLowestSectionCohomologyIso_hom."
     },
     {
       "id": "analytic-smooth-locus",
