@@ -3588,21 +3588,53 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "Checked 2026-11-27. planeDegree: lift α ∈ H⁴(ℙ²; ℚ) to H⁴_{pt} (forgetSupport is bijective in degree 4: forgetSupport_planeOrigin_bijective, from H³ and H⁴ of ℙ²(ℂ) ∖ pt vanishing; subsingleton_H'_compl_planeOrigin gives H^{q+3} = 0 for every q by the Mayer–Vietoris covers of p2-point-class-nonzero), carry it by upstream's transport (rationalSupportAddEquivSupportedInjectiveHomology, complexSupportInjectiveSectionCohomologyEquiv at ⊤) to H⁴(ℙ²(ℂ), ℙ²(ℂ) ∖ pt; ℚ) along the identity of points, and evaluate on complexLocalOrientation projectivePlane 2 pt through relativeCohomologyEquivDualHomology. planeDegree_planeOrigin: deg [pt] = 1; planeDegree_bijective: H⁴(ℙ²; ℚ) ≅ ℚ; planeDegree_planeLines_cup: deg ([L₀] ∪ [L₁]) = 1. deg [pt] = 1 is upstream's point normalization (cycleComponentSupportedInjectiveClass_point_normalization, through complex-linear invariance of the standard class) read as a number; the ladder's steps (the inverse of forgetSupport, identity pair maps) carry no sign. deg ([L₀] ∪ [L₁]) = 1 reads the product through planeLines_cup_eq_planeOrigin and recomputes nothing, and [L₀] ∪ [L₁] ≠ −[pt] already follows from cycle-class-multiplicative-p2 and p2-point-class-nonzero. With ε = +1 from cup-singular-comparison, the pair gives c₀ · c₁ = 1 for the scalars of [L₀], [L₁] against the literature's line class. The literature reading deg = ⟨Ψ −, [ℙ²]⟩ is planeDegree_eq_eval_of_restrict, conditional on a class in H₄(ℙ²(ℂ); ℚ) restricting to the local orientation (not at the pin). Insensitive to the ordering convention of ℂ² (shared by both sides) and to conjugation ((−1)² = 1). Independence: a run_cmd guard judges every imported constant reachable from the degree declarations by its module and fails if that module is or imports HodgeLadder.Cycle.Multiplicative, CycleClassMultiplicativeP2, Local.ClassProduct or Normalization.Germ (positive control: planeDegree_planeLines_cup). Kernel time about 4.5 minutes, a leaf module (docs/gaps.md). Red team: docs/sketches/cycle-class-sign-test-p2.redteam.md, pass with changes. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Checked 2026-11-27. planeDegree: lift α ∈ H⁴(ℙ²; ℚ) to H⁴_{pt} (forgetSupport is bijective in degree 4: forgetSupport_planeOrigin_bijective, from H³ and H⁴ of ℙ²(ℂ) ∖ pt vanishing; subsingleton_H'_compl_planeOrigin gives H^{q+3} = 0 for every q by the Mayer–Vietoris covers of p2-point-class-nonzero), carry it by upstream's transport (rationalSupportAddEquivSupportedInjectiveHomology, complexSupportInjectiveSectionCohomologyEquiv at ⊤) to H⁴(ℙ²(ℂ), ℙ²(ℂ) ∖ pt; ℚ) along the identity of points, and evaluate on complexLocalOrientation projectivePlane 2 pt through relativeCohomologyEquivDualHomology. planeDegree_planeOrigin: deg [pt] = 1; planeDegree_bijective: H⁴(ℙ²; ℚ) ≅ ℚ; planeDegree_planeLines_cup: deg ([L₀] ∪ [L₁]) = 1. deg [pt] = 1 is upstream's point normalization (cycleComponentSupportedInjectiveClass_point_normalization, through complex-linear invariance of the standard class) read as a number; the ladder's steps (the inverse of forgetSupport, identity pair maps) carry no sign. deg ([L₀] ∪ [L₁]) = 1 reads the product through planeLines_cup_eq_planeOrigin and recomputes nothing, and [L₀] ∪ [L₁] ≠ −[pt] already follows from cycle-class-multiplicative-p2 and p2-point-class-nonzero. With ε = +1 from cup-singular-comparison, the pair gives c₀ · c₁ = 1 for the scalars of [L₀], [L₁] against the literature's line class. The literature reading deg = ⟨Ψ −, [ℙ²]⟩ is planeDegree_eq_eval_of_restrict; its hypothesis is discharged by p2-fundamental-class (exists_planeDegree_eq_eval). Insensitive to the ordering convention of ℂ² (shared by both sides) and to conjugation ((−1)² = 1). Independence: a run_cmd guard judges every imported constant reachable from the degree declarations by its module and fails if that module is or imports HodgeLadder.Cycle.Multiplicative, CycleClassMultiplicativeP2, Local.ClassProduct or Normalization.Germ (positive control: planeDegree_planeLines_cup). Next time this file is touched, add HodgeLadder.Tests.planeDegree_eq_eval_of_restrict to the guard's roots (red team of p2-fundamental-class, change E; its RT2 found it clean). Kernel time about 4.5 minutes, a leaf module (docs/gaps.md). Red team: docs/sketches/cycle-class-sign-test-p2.redteam.md, pass with changes. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "p2-fundamental-class",
-      "title": "Some μ ∈ H₄(ℙ²(ℂ); ℚ) restricts to complexLocalOrientation projectivePlane 2 [0 : 0 : 1], which discharges the hypothesis of planeDegree_eq_eval_of_restrict",
-      "status": "open",
+      "title": "Exactly one μ ∈ H₄(ℙ²(ℂ); ℚ) restricts to complexLocalOrientation projectivePlane 2 [0 : 0 : 1] (the one-point characterization of [ℙ²]); it discharges the hypothesis of planeDegree_eq_eval_of_restrict, so deg α = ⟨Ψ α, μ⟩ for every α",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectivePlaneFundamentalDegree",
+      "declarations": [
+        "HodgeLadder.Tests.existsUnique_restrict_complexLocalOrientation",
+        "HodgeLadder.Tests.relativeHomologyProjection_surjective_of_subsingleton",
+        "HodgeLadder.Tests.relativeHomologyProjection_injective_of_subsingleton",
+        "HodgeLadder.Tests.relativeHomologyProjection_bijective_of_eq_empty",
+        "HodgeLadder.Tests.planeOriginCompl",
+        "HodgeLadder.Tests.subsingleton_relH_compl_planeOrigin",
+        "HodgeLadder.Tests.subsingleton_relativeCohomology_compl_planeOrigin",
+        "HodgeLadder.Tests.subsingleton_homology_compl_planeOrigin_of_H'",
+        "HodgeLadder.Tests.subsingleton_homology_three_compl_planeOrigin",
+        "HodgeLadder.Tests.planeOrigin_relativeHomologyProjection_surjective",
+        "HodgeLadder.Tests.exists_restrict_complexLocalOrientation",
+        "HodgeLadder.Tests.subsingleton_homology_four_compl_planeOrigin",
+        "HodgeLadder.Tests.planeOrigin_relativeHomologyProjection_bijective",
+        "HodgeLadder.Tests.exists_planeDegree_eq_eval",
+        "HodgeLadder.Tests.eval_planeOrigin_of_restrict",
+        "HodgeLadder.Tests.ne_zero_of_restrict_complexLocalOrientation"
+      ],
       "depends_on": [
         "cycle-class-sign-test-p2",
         "p2-point-class-nonzero"
       ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Existence from H₃(ℙ²(ℂ) ∖ pt; ℚ) = 0, uniqueness from H₄(ℙ²(ℂ) ∖ pt; ℚ) = 0: sheaf vanishing (p2-point-class-nonzero, cycle-class-sign-test-p2), carried to singular cohomology of the open by upstream's support-⊤ transport complexSupportInjectiveSectionCohomologyEquiv (vanishing only, so no scalar matters), universal coefficients over ℚ, and the homology sequence of the pair. No sign enters. μ is the literature's [ℙ²] for the complex orientation given row \"Complex orientation of ℂ^p\"; with deg [pt] = 1 this gives Ψ [pt] = PD(pt) exactly. The scalars of [L₀], [L₁] against the line class still satisfy only c₀ · c₁ = 1: a uniform (−1)^p in codimension p is invisible; naturality under the coordinate swap would give c₀ = c₁ = ±1, and the sign needs [L] evaluated on a fundamental class of a line or the divisor–Chern identity against c₁(𝒪(1)). Not proved: that μ restricts to complexLocalOrientation at every other point (not needed for the one-point reading; rung p2-fundamental-class-every-point). The rung module HodgeLadder.Tests.ProjectivePlaneFundamental holds the existence half (exists_restrict_complexLocalOrientation) and does not import CycleClassSignTestP2; the module named here imports both and holds the ∃! form and the degree corollaries. Red team: docs/sketches/p2-fundamental-class.redteam.md, pass with changes A to H. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "p2-fundamental-class-every-point",
+      "title": "For every y ∈ ℙ²(ℂ), the image of the fundamental class μ of p2-fundamental-class in H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ y; ℚ) is complexLocalOrientation projectivePlane 2 y",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p2-fundamental-class"
+      ],
       "contributors": [],
-      "note": "Proposed by the red team of cycle-class-sign-test-p2 (change G). Route: H₃(ℙ²(ℂ) ∖ pt; ℚ) = 0 from the sheaf form subsingleton_H'_three_compl_planeOrigin, Ψ on the open (upstream openParacompactSpace supplies the instance), duality over ℚ (a ℚ-vector space with zero dual is zero), and the homology sequence of the pair (ℙ²(ℂ), ℙ²(ℂ) ∖ pt), so H₄(ℙ²(ℂ); ℚ) → H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ pt; ℚ) is onto. It discharges hμ of planeDegree_eq_eval_of_restrict, so deg = ⟨Ψ −, μ⟩ unconditionally. An independent recomputation of [L₀] ∪ [L₁] remains the only test of the multiplicativity sign at a = b = 1 that does not go through its proof; separating c₀ from c₁ needs the class of a line evaluated on a fundamental class of a line, or naturality of cycle classes under the coordinate swap of ℙ². Neither is proposed here."
+      "note": "Proposed by the red team of p2-fundamental-class (change H). Route: the set of good points is open and closed, and ℙ²(ℂ) is connected. On upstream's chart neighborhood N = complexLocalOrientationNeighborhood projectivePlane 2 y, μ and complexLocalOrientationNeighborhoodClass both live in H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ N; ℚ), and the second restricts to complexLocalOrientation at every z ∈ N (complexLocalOrientationNeighborhoodClass_restrict); if that group maps injectively to H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ z; ℚ) for every z ∈ N, μ is good at one point of N exactly when it is good at all of them. That injectivity is not at the pin in this form. It tests upstream's coherence and the full literature definition; it cannot change any sign on ℙ², since H⁴ is one-dimensional and the degree is pinned by one value."
     },
     {
       "id": "complex-points-prod",
