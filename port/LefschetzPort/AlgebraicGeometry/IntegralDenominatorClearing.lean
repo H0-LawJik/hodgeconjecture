@@ -60,7 +60,7 @@ open AlgebraicTopology.Singular in
 /-- Change of coefficients on ordinary singular cohomology, evaluated through the forgotten
 cochain complexes. -/
 lemma ordinarySingularCohomologyCoefficientChange_apply
-    {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (Y : TopCat.{0}) (n : ℕ)
+    {R S : Type} [CommRing R] [CommRing S] (f : R →+ S) (Y : TopCat.{0}) (n : ℕ)
     (a : Cohomology R Y n) :
     ordinarySingularCohomologyCoefficientChange f Y n a =
       (ordinaryForgottenSingularCochainHomologyIso S Y n).hom
@@ -94,31 +94,33 @@ theorem hasIntegralDenominatorClearing_of_hasFiniteSecondHomology
     β₀
   have hβ' : HomologicalComplex.homologyMap
       (AlgebraicTopology.Singular.ordinaryForgottenSingularCochainCoefficientChange
-        (Int.castRingHom ℚ) Y) 2 β' = m • Fℚ.symm (Eℚ α) := hβ₀
+        (Int.castRingHom ℚ).toAddMonoidHom Y) 2 β' = m • Fℚ.symm (Eℚ α) := hβ₀
   let β := analyticSheafHypercohomologyAddEquiv X (𝓒(↧(ComplexPoint X); ℤ)) 2
     (Eℤ.symm (Fℤ β'))
   refine ⟨m, β, hm, ?_⟩
   have h1 : integralToRationalCohomology X 2 β =
       hypercohomologyAddEquivConstantCohomology ℚ X 2
-        (hypercohomologyMap X (constantCoefficientSheafComplexIntMap X (Int.castRingHom ℚ))
+        (hypercohomologyMap X
+          (constantCoefficientSheafComplexIntMap X (Int.castRingHom ℚ).toAddMonoidHom)
           ((2 : ℕ) : ℤ) (Eℤ.symm (Fℤ β'))) := by
     rw [constantCoefficientSheafComplexIntMap_intCast]
     exact integralToRationalCohomology_analyticSheafHypercohomologyAddEquiv X 2 _
   rw [h1]
   apply (hypercohomologyAddEquivConstantCohomology ℚ X 2).symm.injective
   rw [AddEquiv.symm_apply_apply, map_zsmul]
-  change hypercohomologyMap X (constantCoefficientSheafComplexIntMap X (Int.castRingHom ℚ))
+  change hypercohomologyMap X
+    (constantCoefficientSheafComplexIntMap X (Int.castRingHom ℚ).toAddMonoidHom)
     ((2 : ℕ) : ℤ) (Eℤ.symm (Fℤ β')) = m • α
   apply Eℚ.injective
   rw [map_zsmul]
   change scalarCohomologyEquivOrdinarySingularCohomology X ℚ 2 _ = _
   rw [scalarCohomologyEquivOrdinarySingularCohomology_coefficientChange]
   change AlgebraicTopology.Singular.ordinarySingularCohomologyCoefficientChange
-    (Int.castRingHom ℚ) Y 2 (Eℤ (Eℤ.symm (Fℤ β'))) = m • Eℚ α
+    (Int.castRingHom ℚ).toAddMonoidHom Y 2 (Eℤ (Eℤ.symm (Fℤ β'))) = m • Eℚ α
   rw [Eℤ.apply_symm_apply, ordinarySingularCohomologyCoefficientChange_apply]
   change Fℚ (HomologicalComplex.homologyMap
     (AlgebraicTopology.Singular.ordinaryForgottenSingularCochainCoefficientChange
-      (Int.castRingHom ℚ) Y) 2 (Fℤ.symm (Fℤ β'))) = m • Eℚ α
+      (Int.castRingHom ℚ).toAddMonoidHom Y) 2 (Fℤ.symm (Fℤ β'))) = m • Eℚ α
   rw [Fℤ.symm_apply_apply, hβ', map_zsmul, Fℚ.apply_symm_apply]
 
 /-- A finite good cover of the analytic space gives integral denominator clearing. -/

@@ -15,8 +15,8 @@ public import LefschetzPort.Supplement.AnalyticExt
 /-!
 # Change of coefficients on singular-cochain sheaves
 
-A ring homomorphism `f : R →+* S` induces, by postcomposition on the function model of
-cochains, a morphism between the singular-cochain presheaf complexes with coefficients in `R`
+An additive map `f : R →+ S` (for example a ring homomorphism) induces, by postcomposition on
+the function model of cochains, a morphism between the singular-cochain presheaf complexes with coefficients in `R`
 and `S`. This file records that morphism, its degreewise sheafification, and its compatibility
 with the augmentation from constants, with the extension by zero to integer degrees on the
 analytic space of a complex scheme, with the comparison between top-open cochains and global
@@ -32,7 +32,7 @@ universe u
 
 namespace AlgebraicTopology.Singular
 
-variable {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) (X : TopCat.{u})
+variable {R S : Type u} [CommRing R] [CommRing S] (f : R →+ S) (X : TopCat.{u})
 
 /-- The singular simplicial set of an open subset of `X`. -/
 abbrev openSSet (U : (Opens X)ᵒᵖ) : SSet.{u} :=
@@ -102,13 +102,13 @@ def singularCochainSheafComplexMap :
 /-- Change of coefficients on the constant presheaf. -/
 def constantCoefficientPresheafMap :
     𝓒ᵖ(X; R) ⟶ 𝓒ᵖ(X; S) :=
-  (Functor.const (Opens X)ᵒᵖ).map (AddCommGrpCat.ofHom f.toAddMonoidHom)
+  (Functor.const (Opens X)ᵒᵖ).map (AddCommGrpCat.ofHom f)
 
 /-- Change of coefficients on the constant sheaf. -/
 def constantCoefficientSheafMap :
     𝓒(X; R) ⟶ 𝓒(X; S) :=
   (constantSheaf (Opens.grothendieckTopology X) AddCommGrpCat).map
-    (AddCommGrpCat.ofHom f.toAddMonoidHom)
+    (AddCommGrpCat.ofHom f)
 
 set_option backward.isDefEq.respectTransparency false in
 /-- Change of coefficients sends the constant zero-cochain with value `r` to the constant
@@ -420,7 +420,7 @@ namespace AlgebraicGeometry.ComplexPoint
 
 open Point
 
-variable (X : Over (Spec ↧ℂ)) {R S : Type} [CommRing R] [CommRing S] (f : R →+* S)
+variable (X : Over (Spec ↧ℂ)) {R S : Type} [CommRing R] [CommRing S] (f : R →+ S)
 
 /-- Change of coefficients on the integer-indexed singular-cochain sheaf complex. -/
 def singularCochainSheafComplexIntMap :
@@ -452,7 +452,7 @@ set_option backward.isDefEq.respectTransparency false in
 /-- Change of coefficients along `ℤ → ℚ` on constant sheaf complexes is the canonical
 integer-to-rational comparison with scalar `1`. -/
 lemma constantCoefficientSheafComplexIntMap_intCast :
-    constantCoefficientSheafComplexIntMap X (Int.castRingHom ℚ) =
+    constantCoefficientSheafComplexIntMap X (Int.castRingHom ℚ).toAddMonoidHom =
       HomologicalComplex.extendMap
         ((CochainComplex.single₀ (AnalyticAdditiveSheaf X)).map
           ((constantSheaf (Opens.grothendieckTopology (TopCat.of (ComplexPoint X)))

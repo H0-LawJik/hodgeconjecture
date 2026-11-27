@@ -11,8 +11,8 @@ public import LefschetzPort.Supplement.AnalyticExt
 /-!
 # Change of coefficients on simplicial cochains
 
-A ring homomorphism `f : R →+* S` sends an `R`-valued cochain on a simplicial set, viewed as a
-function on simplices, to the `S`-valued cochain obtained by postcomposition with `f`. This
+An additive map `f : R →+ S` (for example a ring homomorphism) sends an `R`-valued cochain on a
+simplicial set, viewed as a function on simplices, to the `S`-valued cochain obtained by postcomposition with `f`. This
 commutes with the simplicial coboundary, so it defines a map between the algebraic-dual cochain
 complexes after forgetting the scalar structures.
 -/
@@ -26,7 +26,7 @@ universe u
 
 namespace SSet
 
-variable {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) (X : SSet.{u})
+variable {R S : Type u} [CommRing R] [CommRing S] (f : R →+ S) (X : SSet.{u})
 
 /-- The coboundary of a cochain, evaluated on a simplex, is the alternating sum of its values
 on the faces. -/
