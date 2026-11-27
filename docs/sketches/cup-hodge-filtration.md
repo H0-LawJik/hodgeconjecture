@@ -444,3 +444,48 @@ theorem forget_rationalDeRhamUnit :
 ```
 
 where `rationalDeRhamUnit X : rationalUnitComplex X ⟶ Ω•_ℚ` and `forgetRationalDeRhamIso X : (forgetComplex X).obj Ω•_ℚ ≅ Ω•(X)`. Another isomorphism `forget ℚ_X[0] ≅ constantFieldSheafComplexInt ℚ X` could insert an automorphism of `ℚ_X` between the bridge and `ι`.
+
+## de-rham-unit-nonzero: statement
+
+Module `HodgeLadder.Tests.DeRhamUnitNonzero`, imported from `HodgeLadder.lean` (checked 2026-11-27; red team `docs/sketches/de-rham-unit-nonzero.redteam.md`, pass with changes, implemented). Red team of `rational-de-rham-complex`, change 7, section 7b: the test that fails if `forget_rationalDeRhamUnit` holds because both units are zero.
+
+```lean
+theorem HodgeLadder.Tests.fieldToHolomorphicDeRhamComplexInt_point_ne_zero :
+    fieldToHolomorphicDeRhamComplexInt ℚ HodgeLadder.Tests.point ≠ 0
+
+theorem HodgeLadder.Tests.rationalDeRhamUnit_point_ne_zero :
+    HodgeLadder.rationalDeRhamUnit HodgeLadder.Tests.point ≠ 0
+```
+
+Both are specializations of general forms in the same file, at `point = Spec ℂ` with the complex point `𝟙 _`:
+
+| Declaration | Statement |
+|---|---|
+| `holomorphicFormOfConstant_ne_zero` | `holomorphicFormOfConstant X d U c ≠ 0` for `c ≠ 0` and `[Nonempty U.unop]` |
+| `fieldToHolomorphicFormZeroSheaf_ne_zero` | `fieldToComplexConstantSheaf K X ≫ constantsToHolomorphicDeRhamZeroSheaf X d ≠ 0` for `[Nonempty (ComplexPoint X)]` |
+| `fieldToHolomorphicDeRhamComplexInt_ne_zero` | `fieldToHolomorphicDeRhamComplexInt K X ≠ 0` for every field `K` with `[Algebra K ℂ]`, `[IsIntegral X.left] [Smooth X.hom] [Nonempty (ComplexPoint X)]` |
+| `rationalDeRhamUnit_ne_zero` | `rationalDeRhamUnit X ≠ 0` under the same hypotheses |
+| `nsmul_fieldToHolomorphicFormZeroSheaf_ne_zero`, `nsmul_fieldToHolomorphicDeRhamComplexInt_ne_zero` | the non-torsion forms `n • (…) ≠ 0` for `n : ℕ`, `n ≠ 0` (red team change 4) |
+| `fieldToHolomorphicDeRhamComplexInt_ne_neg`, `rationalDeRhamUnit_ne_neg` | `ι ≠ −ι` and `rationalDeRhamUnit X ≠ −rationalDeRhamUnit X`, from `n = 2`: `forget_rationalDeRhamUnit` is false for the negated unit |
+
+**Instances.** `HodgeLadder.Tests.point` carries `IsIntegral point.left` and `Smooth point.hom` (rung `nonvacuity-tests`), which are the instance arguments of both `fieldToHolomorphicDeRhamComplexInt` and `rationalDeRhamUnit`. No other space is needed.
+
+**Proof route.**
+
+1. Degree zero. `single_map_comp_extendSingleIso_inv_comp` (rung `rational-de-rham-complex`) with `a = 𝟙` writes upstream's unit, after isomorphisms, as `homFromSingleExtend` of `fieldToComplexConstantSheaf K X ≫ constantsToHolomorphicDeRhamZeroSheaf X d`; `homFromSingleExtend_f_zero` and cancelling `singleObjXSelf` reduce the complex statement to that sheaf map.
+2. Presheaf level. The sheaf map is `(presheafToSheaf J _).map f'` with `f' : c ↦ [algebraMap K ℂ c]` on the constant presheaf. If it is zero, Mathlib's `toSheafify_naturality` gives `f' ≫ toSheafify J Ω⁰ₚ = 0`.
+3. Stalks. On the stalk at a point `x`, `toSheafify` is an isomorphism (`TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso`), so the stalk map of `f'` is zero, and `stalkFunctor_map_germ_apply` says the germ at `x` of `[1]` on `⊤` vanishes. `germ_eq` gives an open `W ∋ x` on which the restriction of `[1]` is zero; by `holomorphicFormRestriction_ofConstant` that restriction is `[1]` on `W`.
+4. Chart evaluation. `holomorphicFormOfConstant_ne_zero`: the chart evaluation of `[c]` at a point of `W` is `c` (upstream's `chartEvaluation_ofConstant`), so `[1] ≠ 0` on the nonempty `W`. This reproves the needed half of upstream's `private` `holomorphicFormOfConstant_injective`, with the same steps.
+5. Corollary. From `forget_rationalDeRhamUnit`, `rationalDeRhamUnit X = 0` would give `(forgetUnitComplexIso X).hom ≫ fieldToHolomorphicDeRhamComplexInt ℚ X = 0`; cancelling the isomorphism contradicts step 3.
+
+**Instance findings.** `(forgetComplex X).PreservesZeroMorphisms` is not found by search, even with `Cup.forgetSheaf_additive` in context (the two sheaf spellings again); it is given as a term, `Functor.preservesZeroMorphisms_of_additive` applied to Mathlib's `instAdditiveHomologicalComplexMapHomologicalComplex`. `Category.assoc` and `simp` do not rewrite the composite inside the `homFromSingleExtend` proof argument at `AnalyticAdditiveSheaf X`, so that proof is taken from the instantiated generic lemma.
+
+**Axioms.** All ten declarations: `propext`, `Classical.choice`, `Quot.sound` (`#print axioms`, scratch). No placeholder proofs, `native_decide`, `axiom` or `unsafe` in the file; `python3 tools/check.py` checks all ten through the ledger.
+
+**Upstream.** The test is a sanity check of upstream definitions (`fieldToHolomorphicDeRhamComplexInt`, `holomorphicFormOfConstant`). `holomorphicFormOfConstant_ne_zero` reproves half of upstream's `private` `holomorphicFormOfConstant_injective`; it is kept local (decision 0011) and listed in `docs/gaps.md` "General lemmas kept local".
+
+**Path.** The module sits under `HodgeLadder/Tests/` next to `Witness` and `CodimensionZero`; the ledger's `module` field is `HodgeLadder.Tests.DeRhamUnitNonzero`, which replaces the generated path `HodgeLadder/De/Rham/Unit/Nonzero.lean`.
+
+**Timings.** `lake env lean` on the file: 8 to 13 s wall for the six first declarations, 13 to 15 s with the four of change 4. `lake build HodgeLadder.Tests.DeRhamUnitNonzero`: 7.6 s for the module before change 4.
+
+**Open follow-up.** `Nonempty (ComplexPoint X)` is an argument of the general forms; rung `complex-point-nonempty` (open) derives it from `IsIntegral X.left` and `Smooth X.hom` by the Nullstellensatz.
