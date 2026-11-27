@@ -93,6 +93,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Ran1980` | Z. Ran, Cycles on Fermat hypersurfaces, Compositio 42 (1980) | Fermat |
 | `Ribet1983` | K. Ribet, Hodge classes on certain types of abelian varieties, Amer. J. Math. 105 (1983) | simple abelian varieties of prime dimension |
 | `Schoen1988` | C. Schoen, Hodge classes on self-products of a variety with an automorphism, Compositio 65 (1988); addendum Compositio 114 (1998) | Weil classes, degeneration argument |
+| `SGA1` | A. Grothendieck, Revêtements étales et groupe fondamental (SGA 1), Lecture Notes in Math. 224, Springer 1971, Exposé XII (M. Raynaud), unverified | comparison of algebraic and analytic properties: Z reduced gives Z^an reduced, f smooth iff f^an smooth (proposition numbers unverified); rung `analytic-smooth-locus` |
 | `Serre1956` | J.-P. Serre, Géométrie algébrique et géométrie analytique, Ann. Inst. Fourier 6 (1956) 1–42 | GAGA |
 | `Shen2012` | M. Shen, Hyperkähler manifolds of Jacobian type, arXiv:1206.2063 | generic K3^[2]-type fourfolds |
 | `Shioda1979` | T. Shioda, The Hodge conjecture for Fermat varieties, Math. Ann. 245 (1979) | Fermat |

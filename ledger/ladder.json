@@ -3007,8 +3007,8 @@
       "note": "Exact, no sign, for every holomorphic adapted chart: e : X(ℂ) ⇀ E × ℂ^p with e ≫ L in Mathlib's ω-maximal atlas for some ℂ-linear L, Z = {(e ·).2 = 0} on e.source, y ∈ e.source ∩ (X ∖ Z_sing); then on some open W ∋ y the restriction of upstream's transport at ⊤ of the supported class is chartNormalProjectionCoclass of e. Conventions: rows Complex orientation of ℂ^p, Fundamental-class normalization, Normalization iso against the singular transport, Holomorphic adapted chart. Route: germ equality gives the ∃ W form (exists_restrict_eq_of_germ_eq, from supportRelativeCohomologyGerm_eq_zero_iff); coclassSection_eq_singular; upstream's stalk is a flattening-chart germ (smoothClosedSupportCoclassStalk_eq_chartGerm) moved to X(ℂ) by supportRelativeCohomologySectionOnOpen_restrict and supportRelativeCohomologySheafOpenIso_unit_apply (Other) as the coclass of the lifted chart (chartNormalProjectionCoclass_pairImage); the lifted chart and e have analytic transitions (chart step, analyticAt_transition_of_factor), so exists_open_chartNormalProjectionCoclass_eq applies after matching the tangential factor with ContinuousLinearEquiv.ofFinrankEq; the degree cast dim X − (dim X − p) = p is removed by subst on a generalized statement; y ∉ Z by supportRelativeCohomologyGerm_eq_zero_of_not_mem. Non-vacuity: adaptedChart_closedPoint meets all four hypotheses at p = dim X on every X; chartNormalProjectionCoclass_germ_ne_zero, toSheaf_transport_supportedClass_ne_zero. hyU is redundant in truth (rung analytic-smooth-locus). New Other inputs on the drift list: supportRelativeCohomologyGerm_eq_zero_iff, supportRelativeCohomologySheafOpenIso_unit_apply, supportRelativeCohomologySectionOnOpen_restrict, cycleComponentSupportedInjectiveClass_normalization, cycleComponentSmoothSupportCoclassSection_ne_zero, cycleComponentSmoothSupportAmbientOpen_eq_top_of_coheight_eq_dimension, underlying_injective_of_locallyOfFiniteType. Sketch: docs/sketches/cycle-class-multiplicative.md; red team 2026-11-26: pass with changes (docs/sketches/cycle-class-germ.redteam.md)."
     },
     {
-      "id": "analytic-smooth-locus",
-      "title": "Under a holomorphic chart adapted to Z, e.source ∩ Z lies in cycleComponentSmoothSupportAmbientOpen X x; with it cycle-class-germ holds without hyU",
+      "id": "cycle-class-germ-no-reg",
+      "title": "cycle-class-germ without hyU: for a holomorphic chart adapted to Z, the transport of [Z] restricted to e.source is chartNormalProjectionCoclass of e, by local purity",
       "status": "open",
       "kind": "foundation",
       "module": null,
@@ -3017,7 +3017,43 @@
         "cycle-class-germ"
       ],
       "contributors": [],
-      "note": "Red team on cycle-class-germ, change G. Statement: for e, L, he, hS as in transport_supportedClass_eq_chartNormalProjectionCoclass, e.source ∩ cycleComponentAnalyticClosedSupport X x ⊆ cycleComponentSmoothSupportAmbientOpen X x. Mathematics: where the reduced germ of Z is a complex submanifold, the analytic and algebraic local rings of the reduced closure have the same completion, so the scheme-theoretic closure is regular there. Not at the pin. Not attempted."
+      "note": "Red team on analytic-smooth-locus (docs/sketches/analytic-smooth-locus.redteam.md, change B). Statement: transport_supportedClass_eq_chartNormalProjectionCoclass_source (x, hx, E, e, L, he, hS as in transport_supportedClass_eq_chartNormalProjectionCoclass; the identity on W = e.source), and transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted (the ∃ W form without hyU, one term from the source form). Exact, no sign; conventions as cycle-class-germ. Route R2: singularBoundarySectionCohomology_isZero_of_lt (supports in Z_sing vanish below 2(p+1) on every open V; upstream's ⊤ proof with the evaluation open V, the W-version of nestedSupportRestrictionLastComplexIso, and sectionCohomology_isZero_of_cofinal_lower_vanishing on V ⊓ O(k+1)); restrict_smoothSupportAmbientOpen_injective (nested-support sequence Z_sing ⊆ Z on V at degree 2p, transported by naturality of complexSupportInjectiveSectionCohomologyEquiv); on e.source ⊓ U, rationalSupportAddEquivSupportedRelativeCohomologySheafSectionOnOpen and section_ext with the checked cycle-class-germ and chartNormalProjectionCoclass_restrict. Does not use analytic-smooth-locus. Elaborated statements (red team RT4, against HodgeLadder.Normalization.Germ; planned module HodgeLadder.Normalization.GermNoReg): restrict_smoothSupportAmbientOpen_injective (x : X.left) {p : ℕ} (hx : Order.coheight x = p) (V : Opens (ComplexPoint X)) : Function.Injective (relativeCohomologyMap ℚ (2 * p) (neighborhoodSupportInclusionPairMap (W := ((V ⊓ cycleComponentSmoothSupportAmbientOpen X x : Opens (ComplexPoint X)) : Set (ComplexPoint X))) (V := (V : Set (ComplexPoint X))) (fun _ h => h.1) (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))); transport_supportedClass_eq_chartNormalProjectionCoclass_source (x : X.left) {p : ℕ} (hx : Order.coheight x = p) {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ))) (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ)) (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈ IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X)) (hS : ∀ z ∈ e.source, z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0) : relativeCohomologyMap ℚ (2 * p) (neighborhoodSupportInclusionPairMap (W := e.source) (V := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X))) (fun _ _ => trivial) (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X))) (complexSupportInjectiveSectionCohomologyEquiv X (cycleComponentAnalyticClosedSupport X x) ⊤ (2 * p) (rationalSupportAddEquivSupportedInjectiveHomology X (cycleComponentAnalyticClosedSupport X x) (2 * p) (cycleComponentSupportedInjectiveClass X x hx))) = chartNormalProjectionCoclass E p e (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) hS e.source subset_rfl. The ∃ W form: ⟨⟨e.source, e.open_source⟩, subset_rfl, hy, transport_supportedClass_eq_chartNormalProjectionCoclass_source X x hx e L he hS⟩. Sketch: docs/sketches/cycle-class-multiplicative.md, section analytic-smooth-locus: statement."
+    },
+    {
+      "id": "analytic-smooth-locus",
+      "title": "Under a holomorphic chart adapted to Z, e.source ∩ Z lies in cycleComponentSmoothSupportAmbientOpen X x; with it cycle-class-germ holds without hyU",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "jacobian-smooth-point",
+        "analytic-normal-bound"
+      ],
+      "contributors": [],
+      "note": "Red team on cycle-class-germ, change G; statement red team 2026-11-26, pass with changes (docs/sketches/analytic-smooth-locus.redteam.md). Statement: source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen: for x, hx, e, L, he, hS as in transport_supportedClass_eq_chartNormalProjectionCoclass, e.source ∩ cycleComponentAnalyticClosedSupport X x ⊆ cycleComponentSmoothSupportAmbientOpen X x; equivalently e.source ⊆ U (source_subset_smoothSupportAmbientOpen). Mathematics: Z reduced gives Z^an reduced, and Z smooth at y iff Z^an smooth at y (SGA1 Exp. XII, numbering unverified). Needs split: jacobian-smooth-point (sub-rung 3) and analytic-normal-bound (sub-rungs 1 and 2); the rung is a three-line assembly of them. No consumer: cycle-class-multiplicative-no-reg goes through cycle-class-germ-no-reg. Kill criterion: mark dead when cycle-class-germ-no-reg and jacobian-smooth-point are checked, unless the pinned Mathlib then has the ring of convergent power series in n variables as a Noetherian local ring with Weierstrass preparation; a revival takes a new id. Statements, elaborated at the pin and kept as text: docs/sketches/cycle-class-multiplicative.md, section analytic-smooth-locus: statement."
+    },
+    {
+      "id": "jacobian-smooth-point",
+      "title": "Jacobian criterion in analytic form: p = coheight x regular functions vanishing on Z with independent differentials at y ∈ Z(ℂ) in upstream's chart put y in X(ℂ) ∖ Z_sing(ℂ)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sub-rung 3 of analytic-smooth-locus. Statement: mem_smoothSupportAmbientOpen_of_linearIndependent_chartDerivative: p = coheight x regular functions on V vanishing on closure {x}, with ℂ-independent differentials at y ∈ Z(ℂ) in upstream's chart (chartDerivative), put y in cycleComponentSmoothSupportAmbientOpen X x. From linearIndependent_cotangent_of_linearIndependent_chartDerivative (3a, elementary) and mem_smoothSupportAmbientOpen_of_linearIndependent_cotangent (3b, Jacobian criterion; needs 'a regular local ring is a domain', missing in Mathlib at the pin). hx is necessary: at p = 0 without it the statement would put every point of Z in U. Use: replaces hand computations of quotient rings in regularity hypotheses (p2-lines-transversal). Statements: docs/sketches/cycle-class-multiplicative.md, section analytic-smooth-locus: statement."
+    },
+    {
+      "id": "analytic-normal-bound",
+      "title": "Near a point of a holomorphic chart adapted to Z, regular functions vanishing on Z bound the normal coordinate with exponent one, and p of them have independent differentials",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sub-rungs 1 and 2 of analytic-smooth-locus. Statements: exists_norm_normalCoordinate_le (near y ∈ e.source ∩ Z, regular functions g_j vanishing on Z with ‖(e z).2‖ ≤ C ∑ ‖g_j(z)‖; deep: excellence, Rückert's Nullstellensatz, convergent power series, none in Mathlib at the pin) and exists_linearIndependent_chartDerivative_of_norm_le (such a bound gives p of the g_j with independent chart differentials; elementary, chain rule and rank of the normal coordinate; exponent one is necessary). Sub-rung 2 has no use without sub-rung 1. Parked under the kill criterion of analytic-smooth-locus. Statements: docs/sketches/cycle-class-multiplicative.md, section analytic-smooth-locus: statement."
     },
     {
       "id": "cycle-class-germ-point",
@@ -3185,10 +3221,10 @@
       "declarations": [],
       "depends_on": [
         "cycle-class-multiplicative",
-        "analytic-smooth-locus"
+        "cycle-class-germ-no-reg"
       ],
       "contributors": [],
-      "note": "Final red team of cycle-class-multiplicative, change F. Statement: cycleComponentSheafClass_cup_of_transversal with the hypotheses hxreg and hwreg removed (X, x, w, t, hx, hw, ht, hd, hT and htr exactly as there). Mathematics: htr makes Z and W complex submanifolds near each point of T(ℂ), and a reduced variety whose analytic germ is a submanifold is regular there, so hxreg and hwreg follow from htr; that implication is rung analytic-smooth-locus, not at the pin. Route: analytic-smooth-locus gives hxreg, hwreg, then the checked theorem. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Final red team of cycle-class-multiplicative, change F. Statement: cycleComponentSheafClass_cup_of_transversal with the hypotheses hxreg and hwreg removed (X, x, w, t, hx, hw, ht, hd, hT and htr exactly as there). Mathematics: htr makes Z and W complex submanifolds near each point of T(ℂ), and a reduced variety whose analytic germ is a submanifold is regular there, so hxreg and hwreg follow from htr; that implication is rung analytic-smooth-locus, not at the pin. Route (red team on analytic-smooth-locus, change E): in germ_transport_eq_of_chart replace the three calls of transport_supportedClass_eq_chartNormalProjectionCoclass by transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted (rung cycle-class-germ-no-reg) and delete hyx, hyw; then delete hxreg, hwreg from normalization_eq_coclassSection_of_product, eq_supportedInjectiveClass_of_product and cycleComponentSheafClass_cup_of_transversal. hyt stays: it is the point of U_t over which section_ext runs. The mathematics sentence (htr implies hxreg, hwreg, rung analytic-smooth-locus) stays true and is no longer on the route. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cycle-class-multiplicative-generic",
@@ -3339,6 +3375,19 @@
         "claude-code"
       ],
       "note": "Decision 0010; red team finding 12. Statement red team: pass with changes (docs/sketches/p2-lines-transversal.redteam.md), all implemented. Points from the chart x₂ ≠ 0 (projectiveChartImmersion 2 2, Yₘ = xₘ/x₂): planeLine k is the image of the prime (Y_k), planeOrigin = [0 : 0 : 1]. Checked: coheights 1, 1, 2 (hx, hw, ht); planeOrigin_support_eq_inter (hT) and the singleton form; planeLines_transversal (htr, chart projectiveChart 2 2, L₀ coordinate 0, L₁ coordinate 1); planeOrigin_support_subset_smoothSupportAmbientOpen (hxreg at k = 0, hwreg at k = 1), from cycleComponent_planeLine_mem_smoothLocus: on the affine open x₂ ≠ 0, Mathlib's subschemeCover chart of cycleComponent is Spec (Γ(U) ⧸ I(U)), and I(U) pulls back to (Y_k) along Γ(U) ≅ ℂ[Y₀, Y₁] (isoOfRangeEq with U.fromSpec, Spec.preimage), so the chart is ℂ[T] over ℂ through MvPolynomial.C, smooth. Scheme-level cross-check of hT (change B): closure_planeLine_inter. The instance of cycle-class-multiplicative closes by exact (sketch). Drift list: section 8 of the red-team verdict. Sketch: docs/sketches/cycle-class-multiplicative.md, section p2-lines-transversal: statement."
+    },
+    {
+      "id": "p2-cusp-singular-point",
+      "title": "On ℙ² the cuspidal cubic Y²Z = X³ has a singular complex point: [0 : 0 : 1] lies in Z(ℂ) and off cycleComponentSmoothSupportAmbientOpen X x",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p2-witness"
+      ],
+      "contributors": [],
+      "note": "Optional. Red team on analytic-smooth-locus, section 7b and change G. Statement: ∃ (x : X.left) (y : ComplexPoint X), y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ∧ y ∉ cycleComponentSmoothSupportAmbientOpen X x, for X = ℙ², x the generic point of the cuspidal cubic Y²Z = X³, y = [0 : 0 : 1]. Smallest test that fails if U were ⊤ for every component; the smallest instance on which the purity lemma of cycle-class-germ-no-reg has nonzero supports in Z_sing. No witness of a singular component exists at the pin (ledger, HodgeLadder/, upstream searched). Does not block cycle-class-germ-no-reg."
     },
     {
       "id": "p2-point-class-nonzero",

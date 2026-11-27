@@ -871,6 +871,388 @@ On the missing lemma: `rfl` (the sides do not unfold to each other), `simp` (no 
 
 For the next pin bump: statement library `cycleComponent`, `cycleComponentι` (their `vanishingIdeal`/`subschemeι` bodies, unfolded by `change`), `cycleComponentSingularClosedFiltration` at k = 0, `cycleComponentSmoothSupportAmbientOpen` (unfolded by `change`), `SmoothOfRelativeDimension.of_isIntegral`; `Other`: `coheight_genericPoint_eq_zero`, `cycleComponentAnalyticClosedSupport_genericPoint_eq_top`, `cycleComponentSheafClass_genericPoint_ne_zero`; Mathlib: `Scheme.isIso_subschemeι_iff_eq_bot`, `Scheme.IdealSheafData.vanishingIdeal_top`, `Scheme.nilradical_eq_bot`, `Scheme.Hom.smoothLocus_eq_top`, `genericPoint_closure`. A change to the body of `cycleComponent` or of the smooth ambient open breaks the `change` steps, so drift there breaks the build.
 
+## analytic-smooth-locus: statement
+
+Date: 2026-11-26. Statement fixed and elaborated, route mapped, sub-rungs stated. Statement red team: pass with changes (`docs/sketches/analytic-smooth-locus.redteam.md`); the statement stands, route R2 goes first, and changes A to J are applied to the ledger, this section, `docs/references.md` and `docs/gaps.md`. The statement file was elaborated in a worktree as `HodgeLadder/Normalization/AnalyticSmoothLocus.lean` (single import `HodgeLadder.Normalization.Germ`, about 18 s, five open bodies) and removed before merging, since its bodies are open and the checker's sorry scan covers every file in the tree. Its exact text is kept below ("The statement file, as elaborated") and is the record until a prover lands it. The ledger's derived hint `HodgeLadder/Analytic/Smooth/Locus.lean` is superseded.
+
+Notation as in "cycle-class-germ: statement": Z = `cycleComponentAnalyticClosedSupport X x`, U = `cycleComponentSmoothSupportAmbientOpen X x` = X(ℂ) ∖ Z_sing(ℂ), d = `dim X.left`, I the vanishing ideal of `closure {x}` (upstream's `cycleComponent` is the reduced closure).
+
+### The rung
+
+```lean
+theorem source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p)
+    {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ)))
+    (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ))
+    (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈
+      IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X))
+    (hS : ∀ z ∈ e.source,
+      z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0) :
+    e.source ∩ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ⊆
+      cycleComponentSmoothSupportAmbientOpen X x
+```
+
+The binders `x`, `hx`, `E`, `e`, `L`, `he`, `hS` are those of `transport_supportedClass_eq_chartNormalProjectionCoclass`, unchanged. `hx` is kept although the inclusion is true without it: the chart forces the analytic codimension p, and identifying it with the coheight is a further comparison the route avoids by assuming it. The conclusion is an inclusion; as an identity it reads e.source ∩ Z = e.source ∩ Z ∩ U, with no extra content. Off Z the inclusion is upstream's `cycleComponentSupportComplement_le_smoothAmbientOpen` (helper `mem_smoothSupportAmbientOpen_of_not_mem`). `exact?` on the statement finds only the rung; `simp_all [cycleComponentSingularAnalyticClosedFiltration]` leaves `y.underlying ∉ cycleComponentSingularAmbientClosedFiltration X x 0`.
+
+Literature: a point of a reduced complex algebraic variety at which the analytic space is a complex manifold of the right dimension is a regular point [`Serre1956` §2 for the comparison of local rings; the regularity statement in this form unverified]. Topology alone cannot give it: the cusp y² = x³ is a topological manifold at 0 and singular there, and its set is not a holomorphic submanifold. The holomorphy hypothesis `he` carries the content.
+
+### The corollary: `cycle-class-germ` without `hyU`, proved from the rung
+
+`transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted`: the statement of `transport_supportedClass_eq_chartNormalProjectionCoclass` with the binder `hyU` deleted, nothing else changed. In the statement file it is proved in 6 lines from the rung (for y ∈ Z) and the helper (for y ∉ Z), then the checked theorem. After the red team it moves to rung `cycle-class-germ-no-reg`, proved there by route R2 from the stronger source form `transport_supportedClass_eq_chartNormalProjectionCoclass_source` (the identity on W = e.source), without the rung; the red team's change C has the exact text, elaborated against `HodgeLadder.Normalization.Germ`, and its planned module is `HodgeLadder/Normalization/GermNoReg.lean`.
+
+### Inputs at the pin
+
+| Input | Where | Status |
+|---|---|---|
+| regular functions are holomorphic in upstream's charts | upstream `analyticAt_localChart_symm_evaluate`; `chartAt = localChart X d` by `rfl` | at the pin |
+| a function vanishing on Z evaluates to 0 on Z(ℂ); its germ lies in m_y | upstream `Point.mem_overOpen_basicOpen_iff_evaluate_ne_zero`, Mathlib `Scheme.mem_basicOpen` | proved here (`evaluate_eq_zero_of_vanishes`, `germ_mem_maximalIdeal_of_vanishes`) |
+| Jacobian criterion for a local algebra | Mathlib `Algebra.FormallySmooth.iff_injective_lTensor_residueField`, `iff_injective_cotangentComplexBaseChange_residueField` | at the pin |
+| dimension of local rings of a smooth integral X, height plus coheight | upstream `SmoothOfRelativeDimension.height_add_coheight_eq_of_isClosed`, `IsAffineOpen.primeIdealOf_height_eq_coheight`, `orderKrullDim_eq_complex` | at the pin, for integral smooth schemes |
+| smooth local ℂ-algebra is a domain (or: regular local ring is a domain) | | missing in Mathlib (`IsRegularLocalRing` is defined; neither implication is there) |
+| the local ring of Z at y as a quotient of Γ(V)/I(V) | the recipe of `cycleComponent_planeLine_mem_smoothLocus` (`p2-lines-transversal`, steps 1 and 2) | at the pin, as a proof pattern |
+| analytic local ring ℂ{z}, Noetherian; Weierstrass preparation for convergent series; Rückert Nullstellensatz | | missing; Mathlib has only the formal `PowerSeries` Weierstrass preparation |
+| excellence; completion of a reduced local ring of finite type is reduced | | missing |
+| comparison of algebraic and analytic completions at a point | [`Serre1956`] | missing |
+
+### Route R1 (Jacobian), as sub-rungs, smallest first
+
+The cheapest sound route for the rung is the Jacobian criterion. In the étale chart Z is cut out by its normal coordinates; if p regular functions vanishing on Z have independent differentials at y, the subscheme they cut out is smooth of dimension d − p at y, contains Z, and has the same dimension, so it is Z near y. The step from "Z(ℂ) is a holomorphic submanifold" to "such functions exist" is the analytic input, and it does not reduce to the pin.
+
+| # | Lean name | Statement (exact text in the file) | Kind | Size and status |
+|---|---|---|---|---|
+| 3a | `linearIndependent_cotangent_of_linearIndependent_chartDerivative` | if the chart differentials `chartDerivative X V (f i) y` are ℂ-independent, the classes of the germs in m_y/m_y² are independent over the residue field | elementary | about 150 lines: m_y² has zero differential (product rule on representatives), `evaluate_res`, residue field ≅ ℂ at a ℂ-point; only this direction is needed |
+| 3b | `mem_smoothSupportAmbientOpen_of_linearIndependent_cotangent` | p = codim Z functions vanishing on Z with independent cotangent classes at y ∈ Z give y ∈ U | algebraic | several hundred lines; needs "smooth local ℂ-algebra is a domain", missing in Mathlib |
+| 3 | `mem_smoothSupportAmbientOpen_of_linearIndependent_chartDerivative` | 3a then 3b | | proved from 3a, 3b; ledger rung `jacobian-smooth-point` (3a, 3b, 3) |
+| 2 | `exists_linearIndependent_chartDerivative_of_norm_le` | if ‖(e z).2‖ ≤ C ∑ ‖g_j(z)‖ near y and g_j(y) = 0, some p of the g_j have independent chart differentials | elementary | 150 to 250 lines: along t ↦ y + t h with h ∈ ⋂ ker dg_j(y), ‖n‖ = o(t), so h ∈ ker dn(y); dn(y) has rank p by `he` |
+| 1 | `exists_norm_normalCoordinate_le` | near y ∈ e.source ∩ Z there are an open V ∋ y, regular g_j on V vanishing on Z and C with ‖(e z).2‖ ≤ C ∑ ‖g_j(z)‖ | deep | not at the pin; ledger rung `analytic-normal-bound` (1 with 2, since 2 has no use without 1) |
+| rung | `source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen` | 1, then 2, then 3 | | proved from 1, 2, 3 |
+| rung, source form | `source_subset_smoothSupportAmbientOpen` | e.source ⊆ U (change F) | | proved from the rung and the helper |
+
+Sub-rung 1 is a Łojasiewicz inequality with exponent one: the algebraic ideal controls the distance to Z linearly. Given 2 and 3 it is equivalent to the rung, so it carries all of the analytic content. The form is the weakest that 2 consumes: no holomorphy of coefficients, no common generators, only a bound. Its proof in the literature: I·𝒪^an_y is radical (the local ring of X at y is excellent, so the completion of the reduced local ring of Z is reduced, and 𝒪^an_{Z,y} injects into it), its zero set is the germ {n = 0}, so by Rückert's Nullstellensatz it equals (n_1, …, n_p); writing n_k = ∑ a_kj g_j with a_kj holomorphic gives the bound [`Serre1956` for the completions; excellence and the Nullstellensatz unverified, no key in `docs/references.md`]. Each ingredient is a foundation project missing from Mathlib. An elimination proof (finite projection to ℂ^{d−p+1}, minimal polynomial with a simple root along Z) avoids excellence but needs local Noether normalization, finiteness on ℂ-points and continuity of roots; it is no cheaper.
+
+### Route R2 (purity), for the consumers of the rung
+
+The rung's consumers need only the corollary: `cycle-class-multiplicative-no-reg` uses `hxreg`, `hwreg` only through `restrict_eq_chartNormalProjectionCoclass` (line 436 of `HodgeLadder/Cycle/Multiplicative.lean`), which wraps `cycle-class-germ` at y ∈ T ∩ U_T. The corollary has a topological proof that avoids the rung:
+
+1. `singularBoundarySectionCohomology_isZero_of_lt` (stated, open body): for every open V of X(ℂ), cohomology of V with supports in Z_sing(ℂ) vanishes below degree 2(p + 1). Upstream proves it at V = ⊤ (private `cycleComponentSingularBoundarySectionCohomology_isZero_of_lt`), and ⊤ enters only as the evaluation open (red team, finding 6):
+
+   | Upstream lemma | Open | Change for V |
+   |---|---|---|
+   | `finiteNestedSupport_homology_isZero` (`FiniteFiltrationVanishing.lean:122`) | conclusion at `supportEvaluation X ⊤`; base case `supportedSections_top_homology_isZero X ⊤ K n`, which already takes any `W` | replace ⊤ by V; layer hypothesis on `V ⊓ O (k + 1)` |
+   | `nestedSupportRestriction_middle_homology_isZero` (same file, line 100) | uses `nestedSupportRestrictionSectionsComplexShortComplex X h ⊤ K`, which takes any `W`, and its short exactness, which takes any `W` | replace ⊤ by V |
+   | `nestedSupportRestrictionLastComplexIso` (`NestedOnOpen.lean:152`) | the only ⊤-specific piece: identifies X₃ at ⊤ with sections on U vanishing on V | a version at W: X₃ at W is `ker(K(W ⊓ U) → K(W ⊓ V))` by `sheafSectionsBetweenOpensOnOpenIso X h W F`, then `sheafSectionsSupportedOutsideOnOpenIso` at `W ⊓ U`; the same for `nestedSupportRestrictionLastComplexIso_g` |
+   | `cycleComponentSingularLayerSectionCohomology_isZero_of_lt` (`LocalSupportVanishing.lean:136`) | on `O (k + 1)`, through `sectionCohomology_isZero_of_cofinal_lower_vanishing`, which holds on any open | the same lemma on `V ⊓ O (k + 1)`; the local input `cycleComponentSingularLayer_exists_supportedInjectiveSection_vanishing` needs only `y ∉ S_{k+1}` |
+
+   A fixed V suffices for the induction. Fallback: run upstream's general-space lemmas on `TopCat.of V` with the restricted complex (flasque by `openSheafRestriction_isFlasque`) and identify supported sections on `⊤_V` with those on V.
+2. `restrict_smoothSupportAmbientOpen_injective` (change C): on every open V, the support sequence Z_sing ⊆ Z gives H^{2p}_Z(V) ↪ H^{2p}_Z(V ⊓ U) from step 1 at n = 2p, transported to singular relative cohomology by naturality of `complexSupportInjectiveSectionCohomologyEquiv`.
+3. On V ∩ U the lower cohomology sheaves with supports in Z vanish (upstream `cycleComponentSmoothSupport_exists_supportedInjectiveSection_vanishing`), so H^{2p}_Z(V ∩ U) is the sections of the sheaf 𝓗^{2p}_Z (`TopCat.Sheaf.lowestSectionCohomologyIso`); a section whose germs vanish is zero.
+4. The difference of the two sides of `cycle-class-germ` on V has zero germs on V ∩ U by the checked theorem, so it is zero on V. This gives the corollary with W = e.source, stronger than the germ form.
+
+R2 uses only upstream's sheaf machinery and the checked `cycle-class-germ`. Red team estimate: 350 to 650 lines (purity on V 150 to 250, injectivity 100 to 200, the section argument and assembly 100 to 200); the main risk is the `W`-version of `nestedSupportRestrictionLastComplexIso_g`, with the `TopCat.of V` fallback. Ledger rung `cycle-class-germ-no-reg`.
+
+### Decision, as applied (red team changes B, D, E, G)
+
+- `analytic-smooth-locus` stays `open`; "needs split" is recorded in its note (it is not a ledger status). `depends_on`: `jacobian-smooth-point` (sub-rung 3) and `analytic-normal-bound` (sub-rungs 1 and 2). The rung is a three-line assembly of them and has no consumer on the ladder.
+- Kill criterion (change D): mark `analytic-smooth-locus` dead when `cycle-class-germ-no-reg` and `jacobian-smooth-point` are checked, unless the pinned Mathlib then has the ring of convergent power series in n variables as a Noetherian local ring with Weierstrass preparation; a revival takes a new id.
+- New rung `cycle-class-germ-no-reg` (route R2, depends on `cycle-class-germ` only). `cycle-class-multiplicative-no-reg` now depends on it in place of `analytic-smooth-locus`.
+- Optional test rung `p2-cusp-singular-point` (red team section 7b): a component of ℙ² with a singular complex point, so that U = ⊤ fails for some component.
+- Order: `cycle-class-germ-no-reg`, then `cycle-class-multiplicative-no-reg` (mechanical, red team finding 8), then optionally `jacobian-smooth-point`, whose 3b waits on "a regular local ring is a domain" in Mathlib; `analytic-normal-bound` is parked.
+- Sub-rung 3 is useful alone: it turns `hxreg`-type hypotheses into a computation of p differentials, which `p2-lines-transversal` now proves by identifying the quotient ring by hand.
+
+### What was proved in the statement file
+
+`mem_smoothSupportAmbientOpen_of_not_mem`, `evaluate_eq_zero_of_vanishes`, `germ_mem_maximalIdeal_of_vanishes` (helpers, no `sorry`); the assemblies `mem_smoothSupportAmbientOpen_of_linearIndependent_chartDerivative`, `source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen`, `source_subset_smoothSupportAmbientOpen` and the corollary `transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted`, each with no `sorry` of its own and inheriting the open sub-rungs. Definition `chartDerivative` (the differential at y in `chartAt y` of a regular function).
+
+### Red team
+
+Pass with changes, `docs/sketches/analytic-smooth-locus.redteam.md`. It confirmed sub-rungs 2, 3a, 3b true as stated (findings 1, 3, 4; 3b needs `hx`), the junk values harmless (finding 5), and route R2 sound with the identity on all of e.source (findings 6, 7). It added the conventions rows "Chart differentials and the Zariski cotangent space" and "Local purity on an open".
+
+### The statement file, as elaborated
+
+Exact text of `HodgeLadder/Normalization/AnalyticSmoothLocus.lean` after change F, elaborated with `lake env lean` at the pin (five open bodies, each marked by the Lean placeholder token; everything else proved). It imports only `HodgeLadder.Normalization.Germ`. Per change A, a prover lands the R2 statements in `HodgeLadder/Normalization/GermNoReg.lean` and keeps the R1 statements here, or on a branch, until they are proved.
+
+```lean
+module
+
+public import HodgeLadder.Normalization.Germ
+
+/-!
+# Analytic smoothness of `Z` in an adapted holomorphic chart gives `Z_reg`
+
+Rung `analytic-smooth-locus` (red team on `cycle-class-germ`, change G). Phase 1: statements and
+route; the sub-rungs have open bodies.
+
+Let `x` be a point of coheight `p` of a smooth integral projective `X` over `ℂ`, with
+`Z = cycleComponentAnalyticClosedSupport X x` and `U = cycleComponentSmoothSupportAmbientOpen X x`
+(`X(ℂ) ∖ Z_sing(ℂ)`). The rung: for every holomorphic chart `e` of `X(ℂ)` into `E × ℂ^p` in which
+`Z` is the zero set of the normal coordinate (the hypotheses `he`, `hS` of
+`transport_supportedClass_eq_chartNormalProjectionCoclass`), `e.source ∩ Z ⊆ U`. With it, the
+`cycle-class-germ` identity holds without `hyU`.
+
+Route (Jacobian criterion, three sub-rungs; `docs/sketches/cycle-class-multiplicative.md`, section
+"analytic-smooth-locus: statement"):
+
+1. `exists_norm_normalCoordinate_le` (deep, not at the pin): near `y ∈ e.source ∩ Z`, finitely
+   many regular functions vanishing on `Z` bound the normal coordinate with exponent one,
+   `‖(e z).2‖ ≤ C · ∑ ‖g_j(z)‖`. This is the analytic input: the algebraic ideal of `Z`
+   generates the ideal of holomorphic germs vanishing on the submanifold `Z ∩ e.source`.
+2. `exists_linearIndependent_chartDerivative_of_norm_le` (elementary): such a bound forces `p` of
+   the `g_j` to have linearly independent differentials at `y`.
+3. `mem_smoothSupportAmbientOpen_of_linearIndependent_chartDerivative` (algebraic): `p` functions
+   vanishing on `Z` with independent differentials at `y` put `y` in `Z_reg`; split into the
+   bridge `linearIndependent_cotangent_of_linearIndependent_chartDerivative` (analytic
+   differentials to the Zariski cotangent space) and the Jacobian step
+   `mem_smoothSupportAmbientOpen_of_linearIndependent_cotangent`.
+
+## Main results
+
+* `HodgeLadder.Normalization.source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen`:
+  the rung, assembled from the sub-rungs (proved modulo them).
+* `HodgeLadder.Normalization.transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted`:
+  `cycle-class-germ` without `hyU` (proved from the rung and the checked `cycle-class-germ`).
+* `HodgeLadder.Normalization.singularBoundarySectionCohomology_isZero_of_lt` (open body): local
+  purity on every open, the first step of route R2, a topological proof of the corollary that
+  does not use the rung.
+* `HodgeLadder.Normalization.mem_smoothSupportAmbientOpen_of_not_mem`,
+  `HodgeLadder.Normalization.evaluate_eq_zero_of_vanishes`,
+  `HodgeLadder.Normalization.germ_mem_maximalIdeal_of_vanishes`: proved helpers.
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory Limits Opposite TopologicalSpace AlgebraicTopology.Singular Topology Filter
+open scoped Manifold ContDiff
+
+namespace HodgeLadder.Normalization
+
+open AlgebraicGeometry AlgebraicGeometry.ComplexPoint
+
+variable (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom]
+
+/-- The differential at `y`, in upstream's chart `chartAt y`, of the evaluation of a regular
+function `s` on a Zariski open `V`: the derivative of `w ↦ s((chartAt y)⁻¹ w)` at `chartAt y y`,
+a `ℂ`-linear form on `ℂ^d`, `d = dim X`. -/
+def chartDerivative (V : X.left.Opens) (s : Γ(X.left, V)) (y : ComplexPoint X) :
+    (Fin (dim X.left) → ℂ) →L[ℂ] ℂ :=
+  fderiv ℂ (fun w => Point.evaluate V s ((chartAt (Fin (dim X.left) → ℂ) y).symm w))
+    (chartAt (Fin (dim X.left) → ℂ) y y)
+
+/-- Off `Z` the inclusion is upstream's: `Z_sing(ℂ) ⊆ Z(ℂ)`
+(`cycleComponentSupportComplement_le_smoothAmbientOpen`). -/
+theorem mem_smoothSupportAmbientOpen_of_not_mem (x : X.left) (y : ComplexPoint X)
+    (hy : y ∉ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X))) :
+    y ∈ cycleComponentSmoothSupportAmbientOpen X x :=
+  cycleComponentSupportComplement_le_smoothAmbientOpen X x hy
+
+/-- A regular function vanishing on `closure {x}` (no point of `closure {x}` in its basic open)
+evaluates to `0` at every complex point of `Z` inside its open. -/
+theorem evaluate_eq_zero_of_vanishes (x : X.left) {V : X.left.Opens} (s : Γ(X.left, V))
+    (hs : ∀ z ∈ closure ({x} : Set X.left), z ∉ X.left.basicOpen s) (y : ComplexPoint X)
+    (hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))
+    (hyV : y.underlying ∈ V) :
+    Point.evaluate V s y = 0 := by
+  by_contra h
+  exact hs y.underlying hyZ
+    ((Point.mem_overOpen_basicOpen_iff_evaluate_ne_zero s y hyV).mpr h)
+
+/-- The germ at `y` of a regular function vanishing on `closure {x}` lies in the maximal ideal of
+the stalk. -/
+theorem germ_mem_maximalIdeal_of_vanishes (x : X.left) {V : X.left.Opens} (s : Γ(X.left, V))
+    (hs : ∀ z ∈ closure ({x} : Set X.left), z ∉ X.left.basicOpen s) (y : ComplexPoint X)
+    (hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))
+    (hyV : y.underlying ∈ V) :
+    X.left.presheaf.germ V y.underlying hyV s ∈
+      IsLocalRing.maximalIdeal (X.left.presheaf.stalk y.underlying) := by
+  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
+  intro hu
+  exact hs y.underlying hyZ ((X.left.mem_basicOpen s y.underlying hyV).mpr hu)
+
+/-- **Sub-rung 3b, the Jacobian step** (algebraic). If `p = codim Z` regular functions vanishing
+on `Z` have linearly independent classes in the Zariski cotangent space `m_y / m_y²` of `X` at a
+complex point `y ∈ Z`, then `y ∉ Z_sing`. Route: they cut out a subscheme `Z'` smooth of relative
+dimension `d − p` at `y` (Mathlib's `Algebra.FormallySmooth.iff_injective_lTensor_residueField`
+on the stalk), whose local ring at `y` is a domain of dimension `d − p` containing `Z`'s, of the
+same dimension (`hx`, upstream dimension formulas); so `Z = Z'` near `y`. -/
+theorem mem_smoothSupportAmbientOpen_of_linearIndependent_cotangent (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p) (y : ComplexPoint X)
+    (hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))
+    (V : X.left.Opens) (hyV : y.underlying ∈ V) (f : Fin p → Γ(X.left, V))
+    (hf : ∀ i, ∀ z ∈ closure ({x} : Set X.left), z ∉ X.left.basicOpen (f i))
+    (hind : LinearIndependent (IsLocalRing.ResidueField (X.left.presheaf.stalk y.underlying))
+      (fun i => (IsLocalRing.maximalIdeal (X.left.presheaf.stalk y.underlying)).toCotangent
+        ⟨X.left.presheaf.germ V y.underlying hyV (f i),
+          germ_mem_maximalIdeal_of_vanishes X x (f i) (hf i) y hyZ hyV⟩)) :
+    y ∈ cycleComponentSmoothSupportAmbientOpen X x := by
+  sorry
+
+/-- **Sub-rung 3a, the bridge** (elementary). The analytic differential at `y` in upstream's
+chart, `chartDerivative`, factors through `m_y / m_y²`: a function in `m_y²` has zero
+differential (product rule), and germs on smaller opens have the same evaluation
+(`Point.evaluate_res`). So independence of the analytic differentials gives independence in the
+cotangent space. Only this direction is needed. -/
+theorem linearIndependent_cotangent_of_linearIndependent_chartDerivative (x : X.left) {p : ℕ}
+    (y : ComplexPoint X)
+    (hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))
+    (V : X.left.Opens) (hyV : y.underlying ∈ V) (f : Fin p → Γ(X.left, V))
+    (hf : ∀ i, ∀ z ∈ closure ({x} : Set X.left), z ∉ X.left.basicOpen (f i))
+    (hind : LinearIndependent ℂ (fun i => chartDerivative X V (f i) y)) :
+    LinearIndependent (IsLocalRing.ResidueField (X.left.presheaf.stalk y.underlying))
+      (fun i => (IsLocalRing.maximalIdeal (X.left.presheaf.stalk y.underlying)).toCotangent
+        ⟨X.left.presheaf.germ V y.underlying hyV (f i),
+          germ_mem_maximalIdeal_of_vanishes X x (f i) (hf i) y hyZ hyV⟩) := by
+  sorry
+
+/-- **Sub-rung 3**, the Jacobian criterion in analytic form: `p = codim Z` regular functions
+vanishing on `Z` whose differentials at `y ∈ Z` in upstream's chart are linearly independent put
+`y` in `Z_reg`. Proved from 3a and 3b. -/
+theorem mem_smoothSupportAmbientOpen_of_linearIndependent_chartDerivative (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p) (y : ComplexPoint X)
+    (hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))
+    (V : X.left.Opens) (hyV : y.underlying ∈ V) (f : Fin p → Γ(X.left, V))
+    (hf : ∀ i, ∀ z ∈ closure ({x} : Set X.left), z ∉ X.left.basicOpen (f i))
+    (hind : LinearIndependent ℂ (fun i => chartDerivative X V (f i) y)) :
+    y ∈ cycleComponentSmoothSupportAmbientOpen X x :=
+  mem_smoothSupportAmbientOpen_of_linearIndependent_cotangent X x hx y hyZ V hyV f hf
+    (linearIndependent_cotangent_of_linearIndependent_chartDerivative X x y hyZ V hyV f hf hind)
+
+/-- **Sub-rung 2** (elementary: chain rule and linear algebra). If finitely many regular
+functions `g_j` vanishing on `Z` bound the normal coordinate of a holomorphic adapted chart near
+`y ∈ e.source ∩ Z` with exponent one, then `p` of them have linearly independent differentials at
+`y`. Route: along `t ↦ y + t h` in the chart, `h ∈ ⋂ ker dg_j(y)` gives `‖n(y + t h)‖ = o(t)`,
+so `h ∈ ker dn(y)`; `dn(y)` has rank `p` because `e ≫ L` is a chart of the maximal analytic
+atlas (`he`), so the `dg_j(y)` span a space of dimension at least `p`. -/
+theorem exists_linearIndependent_chartDerivative_of_norm_le {p : ℕ}
+    {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ)))
+    (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ))
+    (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈
+      IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X))
+    (y : ComplexPoint X) (hy : y ∈ e.source)
+    (V : X.left.Opens) (hyV : y.underlying ∈ V) {m : ℕ} (g : Fin m → Γ(X.left, V))
+    (hg0 : ∀ j, Point.evaluate V (g j) y = 0) (C : ℝ)
+    (hC : ∀ᶠ z in 𝓝 y, ‖(e z).2‖ ≤ C * ∑ j, ‖Point.evaluate V (g j) z‖) :
+    ∃ σ : Fin p → Fin m, LinearIndependent ℂ (fun i => chartDerivative X V (g (σ i)) y) := by
+  sorry
+
+/-- **Sub-rung 1, the analytic input** (deep; not at the pin). Near a point `y ∈ e.source ∩ Z`
+of a holomorphic chart adapted to `Z`, finitely many regular functions vanishing on `Z` bound the
+normal coordinate with exponent one. Mathematics: the ideal `I·𝒪^an_y` generated by the
+algebraic ideal `I` of the reduced `Z` is radical (the local ring of `X` at `y` is excellent,
+so its completion `ℂ[[z]]` is reduced modulo `I`), its zero set is the germ of the submanifold
+`{n = 0}`, so by Rückert's Nullstellensatz it is `(n_1, …, n_p)`; write `n_k = ∑ a_kj g_j` with
+`a_kj` holomorphic, hence bounded near `y`. Equivalent, given sub-rungs 2 and 3, to the rung. -/
+theorem exists_norm_normalCoordinate_le (x : X.left) {p : ℕ} (hx : Order.coheight x = p)
+    {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ)))
+    (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ))
+    (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈
+      IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X))
+    (hS : ∀ z ∈ e.source,
+      z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0)
+    (y : ComplexPoint X) (hy : y ∈ e.source)
+    (hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X))) :
+    ∃ (V : X.left.Opens) (_ : y.underlying ∈ V) (m : ℕ) (g : Fin m → Γ(X.left, V)) (C : ℝ),
+      (∀ j, ∀ z ∈ closure ({x} : Set X.left), z ∉ X.left.basicOpen (g j)) ∧
+      ∀ᶠ z in 𝓝 y, ‖(e z).2‖ ≤ C * ∑ j, ‖Point.evaluate V (g j) z‖ := by
+  sorry
+
+/-- **The rung `analytic-smooth-locus`.** For a holomorphic chart `e` of `X(ℂ)` adapted to `Z`
+(the hypotheses of `transport_supportedClass_eq_chartNormalProjectionCoclass`), every point of
+`e.source ∩ Z(ℂ)` lies off `Z_sing(ℂ)`. Assembled from sub-rungs 1, 2, 3. -/
+theorem source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p)
+    {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ)))
+    (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ))
+    (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈
+      IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X))
+    (hS : ∀ z ∈ e.source,
+      z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0) :
+    e.source ∩ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ⊆
+      cycleComponentSmoothSupportAmbientOpen X x := by
+  rintro y ⟨hy, hyZ⟩
+  obtain ⟨V, hyV, m, g, C, hg, hC⟩ := exists_norm_normalCoordinate_le X x hx e L he hS y hy hyZ
+  obtain ⟨σ, hσ⟩ := exists_linearIndependent_chartDerivative_of_norm_le X e L he y hy V hyV g
+    (fun j => evaluate_eq_zero_of_vanishes X x (g j) (hg j) y hyZ hyV) C hC
+  exact mem_smoothSupportAmbientOpen_of_linearIndependent_chartDerivative X x hx y hyZ V hyV
+    (fun i => g (σ i)) (fun i => hg (σ i)) hσ
+
+/-- The rung in the form `e.source ⊆ U` (red team on `analytic-smooth-locus`, change F): off `Z`
+the inclusion is `mem_smoothSupportAmbientOpen_of_not_mem`. -/
+theorem source_subset_smoothSupportAmbientOpen (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p)
+    {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ)))
+    (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ))
+    (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈
+      IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X))
+    (hS : ∀ z ∈ e.source,
+      z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0) :
+    e.source ⊆ cycleComponentSmoothSupportAmbientOpen X x := by
+  intro y hy
+  by_cases hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X))
+  · exact source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen X x hx e L he hS
+      ⟨hy, hyZ⟩
+  · exact mem_smoothSupportAmbientOpen_of_not_mem X x y hyZ
+
+/-- **`cycle-class-germ` without `hyU`** (the corollary named in the rung's title). For every
+holomorphic chart adapted to `Z` and every `y ∈ e.source`, the restriction of upstream's
+transport of `[Z]` equals `chartNormalProjectionCoclass` of `e` on some open `W ∋ y`, exact, no
+sign. Proved from the rung and the checked
+`transport_supportedClass_eq_chartNormalProjectionCoclass`. -/
+theorem transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p)
+    {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (e : OpenPartialHomeomorph (ComplexPoint X) (E × (Fin p → ℂ)))
+    (L : (E × (Fin p → ℂ)) ≃L[ℂ] (Fin (dim X.left) → ℂ))
+    (he : e.trans L.toHomeomorph.toOpenPartialHomeomorph ∈
+      IsManifold.maximalAtlas 𝓘(ℂ, Fin (dim X.left) → ℂ) ω (ComplexPoint X))
+    (hS : ∀ z ∈ e.source,
+      z ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) ↔ (e z).2 = 0)
+    (y : ComplexPoint X) (hy : y ∈ e.source) :
+    ∃ (W : Opens (ComplexPoint X)) (hW : (W : Set (ComplexPoint X)) ⊆ e.source), y ∈ W ∧
+      relativeCohomologyMap ℚ (2 * p)
+          (neighborhoodSupportInclusionPairMap
+            (W := (W : Set (ComplexPoint X)))
+            (V := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X))) (fun _ _ => trivial)
+            (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)))
+          (complexSupportInjectiveSectionCohomologyEquiv X (cycleComponentAnalyticClosedSupport X x)
+            ⊤ (2 * p)
+            (rationalSupportAddEquivSupportedInjectiveHomology X
+              (cycleComponentAnalyticClosedSupport X x) (2 * p)
+              (cycleComponentSupportedInjectiveClass X x hx))) =
+        chartNormalProjectionCoclass E p e
+          (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X)) hS W hW := by
+  have hyU : y ∈ cycleComponentSmoothSupportAmbientOpen X x := by
+    by_cases hyZ : y ∈ (cycleComponentAnalyticClosedSupport X x : Set (ComplexPoint X))
+    · exact source_inter_analyticClosedSupport_subset_smoothSupportAmbientOpen X x hx e L he hS
+        ⟨hy, hyZ⟩
+    · exact mem_smoothSupportAmbientOpen_of_not_mem X x y hyZ
+  exact transport_supportedClass_eq_chartNormalProjectionCoclass X x hx e L he hS y hy hyU
+
+/-- **Route R2, local purity** (topological, alternative to the rung for its consumers). Upstream
+proves at `⊤` (private `cycleComponentSingularBoundarySectionCohomology_isZero_of_lt`, used for
+`cycleComponentSingularBoundaryRelH_isZero_of_lt`) that cohomology of `X(ℂ)` with supports in
+`Z_sing(ℂ)` vanishes below degree `2(p + 1)`. This is the same vanishing on every open `V`. Route:
+upstream's proof with `⊤` replaced by `V`; `nestedSupportRestrictionSectionsComplexShortComplex`
+takes the open as an argument, and the layer vanishing is upstream's cofinal local vanishing
+(`cycleComponentSingularLayer_exists_supportedInjectiveSection_vanishing`), applied inside
+`V`. With the lowest-degree identification on `V ∩ U` (`TopCat.Sheaf.lowestSectionCohomologyIso`,
+`cycleComponentSmoothSupport_exists_supportedInjectiveSection_vanishing`) it gives
+`transport_supportedClass_eq_chartNormalProjectionCoclass_of_adapted` without the rung: a class
+on `V` with supports in `Z` whose germs vanish on `V ∩ U` is zero. -/
+theorem singularBoundarySectionCohomology_isZero_of_lt (x : X.left) {p : ℕ}
+    (hx : Order.coheight x = p) (V : Opens (ComplexPoint X)) (n : ℤ)
+    (hn : n < 2 * ((p : ℤ) + 1)) :
+    IsZero ((((TopCat.Sheaf.supportEvaluation (TopCat.of (ComplexPoint X)) V).mapHomologicalComplex
+      (ComplexShape.up ℤ)).obj (complexSupportInjectiveComplex X
+        (cycleComponentSingularAnalyticClosedFiltration X x 0))).homology n) := by
+  sorry
+
+end HodgeLadder.Normalization
+```
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.
