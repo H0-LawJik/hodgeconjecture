@@ -2569,17 +2569,286 @@
       "note": "Red team of local-class-product, changes C1 and C2 (docs/sketches/local-class-product.redteam.md; relCup2_model_ne_neg is its text verbatim). relCup2_model_ne_zero: the right side of relCup2_model pairs to 1 with the orientation class pushed along unionIso. relCup2_model_ne_neg: so the identity separates + from − over ℚ. coordinate_hyps: on M = ℂ^{a+b} the charts z ↦ (z'', z'), z ↦ (z', z''), z ↦ (0, z) (Mathlib Fin.appendHomeomorph, Homeomorph.prodComm, Homeomorph.uniqueProd) meet every hypothesis with Z = {z' = 0}, W = {z'' = 0}, T = {0}, by rfl. coordinate_chartForm_ne_zero: on upstream's flattenedSupportNeighborhood of 0 the right side of the chart form pairs to 1 with flattenedSupportNormalClass (chartNormalProjectionCoclass_apply_normalClass)."
     },
     {
-      "id": "cup-hodge-filtration",
-      "title": "Cup products respect the Hodge filtration: F^p ∪ F^q ⊆ F^{p+q}, so products of Hodge classes are Hodge classes",
+      "id": "cup-hodge-reduction",
+      "title": "Products of Hodge classes are Hodge classes once rational classes in F^p and F^q have products in F^{p+q}; F^p = ⊤ for p ≤ 0 and Hdg^0 = ⊤",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.CupFiltration",
+      "declarations": [
+        "HodgeLadder.mem_hodgeClasses_iff_mem_hodgeFiltration",
+        "HodgeLadder.cupPreservesHodgeClasses_of_rational",
+        "HodgeLadder.hodgeFiltration_eq_top_of_nonpos",
+        "HodgeLadder.mem_hodgeClasses_zero"
+      ],
+      "depends_on": [
+        "cup-product",
+        "chern-classes-are-hodge"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. The rational part holds by the type of Cup.cup; the conjugate part follows from deRhamConj_fieldToDeRhamCohomology. F^p = ⊤ for p ≤ 0 (stupidTruncInclusion_isIso), so Hdg^0 = ⊤ and the unit is a Hodge class. Red team 2026-11-26: docs/sketches/cup-hodge-filtration.redteam.md."
+    },
+    {
+      "id": "form-wedge-leibniz",
+      "title": "Leibniz rule for the wedge of upstream's algebraic forms: d(θ ∧ η) = dθ ∧ η + (−1)^p θ ∧ dη, Mathlib's Koszul sign",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.CupFiltration",
+      "declarations": [
+        "HodgeLadder.formWedge",
+        "HodgeLadder.involute_of_mem_exteriorPower",
+        "HodgeLadder.formWedge_differential"
+      ],
+      "depends_on": [],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26, from upstream's Algebra.DeRham.extDeriv_mul; involute acts by (−1)^p on ⋀^p. The sign is ε₂(p, q) = (−1)^p of ComplexShape.up ℤ, so the wedge is a chain map with no twist (conventions rows 'Wedge product of algebraic forms', 'Tensor product of ℤ-indexed cochain complexes and its shifts')."
+    },
+    {
+      "id": "rational-hypercohomology-equiv",
+      "title": "ℍ^n(X; forget C) ≃+ Hom_{D(ShQ)}(ℚ_X[0], C[n]), natural in C, agreeing with rationalExtEquiv on ℚ_X[0]",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-product"
+        "rational-ext-equiv",
+        "ext-derived-bridge"
       ],
       "contributors": [],
-      "note": "Needs a tensor product on the derived category of sheaves over ℂ compatible with upstream's F^p via hypercohomology of holomorphic forms; large (decision 0009). Needed for T1."
+      "note": "First sub-rung of cup-hodge-filtration (red team finding 9): the cheapest probe of the instance spellings (upstream's local HasDerivedCategory.standard, HasExt.{0}, the ULift ℤ source). def rationalHypercohomologyEquiv (C : CochainComplex (ShQ ↧(ComplexPoint X)) ℤ) (n : ℤ) : ℍ^n(X; forget C) ≃+ ShiftedHom (Q.obj ℚ_X[0]) (Q.obj C) n; complex version of Adjunction.extEquiv. Agreement with no scalar."
+    },
+    {
+      "id": "wedge-descends",
+      "title": "The wedge of algebraic forms descends to upstream's holomorphic forms: chartEvaluationKernel is a two-sided ideal for formWedge",
+      "status": "stated",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.CupFiltration",
+      "declarations": [
+        "HodgeLadder.WedgeDescends"
+      ],
+      "depends_on": [
+        "form-wedge-leibniz"
+      ],
+      "contributors": [],
+      "note": "Both sides stated (red team finding 8; graded commutativity of ⋀ is not at the pin). Route: pointwise chart evaluation factors through an algebra map ⋀ Ω_{𝒪(U)} → ⋀ (ℂ^d)^* followed by upstream's wedgeCovectors."
+    },
+    {
+      "id": "tensor-bounded-quasi-iso",
+      "title": "Tensoring with a bounded complex of sheaves of ℚ-vector spaces preserves quasi-isomorphisms",
+      "status": "stated",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.CupFiltration",
+      "declarations": [
+        "HodgeLadder.TensorBoundedQuasiIso"
+      ],
+      "depends_on": [
+        "sheaf-tensor-exact"
+      ],
+      "contributors": [],
+      "note": "QuasiIso (tensorHom f (𝟙 M)) for M strictly bounded; HasTensor as hypotheses (instance search on CochainComplex (ShQ Y) ℤ did not finish in five minutes). Route: stupid filtration of M, two-out-of-three, tensor_exact. The mirror version is not needed."
+    },
+    {
+      "id": "rational-de-rham-complex",
+      "title": "The holomorphic de Rham complex in sheaves of ℚ-vector spaces: Ω•_ℚ with forget(Ω•_ℚ) ≅ Ω•(X), its truncations F^p and the unit ℚ_X[0] → Ω•_ℚ over fieldToHolomorphicDeRhamComplexInt ℚ X",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "sheaf-tensor-exact"
+      ],
+      "contributors": [],
+      "note": "Sheafify U ↦ HolomorphicForm X d U p as ℚ-modules; forget commutes with sheafification (preservesSheafification_U)."
+    },
+    {
+      "id": "wedge-presheaf",
+      "title": "Presheaf wedge on upstream's holomorphic forms: formWedge descends to HolomorphicForm X d U and is natural under holomorphicFormRestriction",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "wedge-descends"
+      ],
+      "contributors": [],
+      "note": "First third of the former wedge-sheaf-map (red team finding 9)."
+    },
+    {
+      "id": "wedge-sheafify",
+      "title": "Sheafified wedge Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ through the monoidal sheafification functor",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "wedge-presheaf",
+        "rational-de-rham-complex"
+      ],
+      "contributors": [],
+      "note": "Second third of the former wedge-sheaf-map."
+    },
+    {
+      "id": "wedge-sheaf-map",
+      "title": "The wedge as a morphism of complexes deRhamWedge : Ω•_ℚ ⊗ Ω•_ℚ ⟶ Ω•_ℚ, its restrictions F^p ⊗ F^q ⟶ F^{p+q} compatible with the inclusions, and the unit law",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "wedge-sheafify",
+        "form-wedge-leibniz"
+      ],
+      "contributors": [],
+      "note": "Chain-map check on ιTensorObj components with formWedge_differential; no sign twist."
+    },
+    {
+      "id": "derived-tensor-bounded",
+      "title": "For a bounded complex B, the additive derived functor T_B of − ⊗ B on D(ShQ) with Q ⋙ T_B ≅ tensorRight B ⋙ Q, natural in chain maps B → B'",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "tensor-bounded-quasi-iso"
+      ],
+      "contributors": [],
+      "note": "T_B := Localization.lift (tensorRight B ⋙ Q); no CommShift needed (the pairing uses Q's commShiftIso and the no-sign mapBifunctorShift₁Iso). Additive via Localization.functor_additive_iff on the homotopy category and mapBifunctorMapHomotopy₁ (red team finding 6)."
+    },
+    {
+      "id": "pairing-product",
+      "title": "Pairing product: for bounded A, B, C and m : A ⊗ B ⟶ C, pairProduct m x y := y ≫ (x ⊗ B)⟦b⟧ ≫ m, natural, biadditive, and on ℚ_X[0] with m = λ equal to y.comp x",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "derived-tensor-bounded"
+      ],
+      "contributors": [],
+      "note": "Convention row 'de Rham cup order (proposed)'."
+    },
+    {
+      "id": "de-rham-injective",
+      "title": "The rational-to-de Rham map is injective: Function.Injective (fieldToDeRhamCohomology ℚ X n)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "A ℚ-linear retraction ℂ → ℚ gives a left inverse on constant complexes; complexConstantCohomologyDeRhamEquiv is a bijection (red team 7b)."
+    },
+    {
+      "id": "de-rham-cup",
+      "title": "deRhamCup on H_dR^*: deRhamCup x y := pairProduct μ y x, ℂ-bilinear, with fieldToDeRhamCohomology_cup: ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "pairing-product",
+        "wedge-sheaf-map",
+        "rational-hypercohomology-equiv"
+      ],
+      "contributors": [],
+      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land."
+    },
+    {
+      "id": "de-rham-cup-test-p2",
+      "title": "deRhamCup is not the zero or square-zero product: deRhamCup (ι [L₀]) (ι [L₁]) 4 _ ≠ 0 on projectivePlane",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "de-rham-cup",
+        "de-rham-injective",
+        "cup-positive-degree-test-p2"
+      ],
+      "contributors": [],
+      "note": "From fieldToDeRhamCohomology_cup, planeLines_cup_ne_zero and de-rham-injective."
+    },
+    {
+      "id": "cup-hodge-filtration",
+      "title": "The de Rham cup product respects the Hodge filtration: deRhamCup (F^p H_dR^a) (F^q H_dR^b) ⊆ F^{p+q} H_dR^{a+b}",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "de-rham-cup",
+        "wedge-sheaf-map",
+        "de-rham-cup-test-p2"
+      ],
+      "contributors": [],
+      "note": "Statement (a) of docs/sketches/cup-hodge-filtration.md, for complex classes, as needed by T1. deRhamCup is a local definition (de-rham-cup), pinned by fieldToDeRhamCohomology_cup, ι(α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign (conventions row 'de Rham cup order'). The zero product also satisfies this statement; the pin and de-rham-cup-test-p2 make it about the cup product."
+    },
+    {
+      "id": "cup-hodge-classes",
+      "title": "Products of Hodge classes are Hodge classes: Hdg^p ∪ Hdg^q ⊆ Hdg^{p+q} for upstream's hodgeClasses and the checked cup",
+      "status": "stated",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.CupFiltration",
+      "declarations": [
+        "HodgeLadder.CupPreservesHodgeClasses",
+        "HodgeLadder.CupRespectsHodgeFiltrationRational"
+      ],
+      "depends_on": [
+        "cup-hodge-reduction",
+        "cup-hodge-filtration",
+        "de-rham-cup"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Statements (b) and (a_ℚ) of docs/sketches/cup-hodge-filtration.md. Membership statements: insensitive to the order of the factors and to nonzero scalars. (a_ℚ) ⇒ (b) is cup-hodge-reduction. Non-vacuity: on ℙ² the line classes are Hodge with nonzero product (cup-hodge-classes-test-p2); (b) then gives [pt] ∈ Hdg^2(ℙ²; ℚ)."
+    },
+    {
+      "id": "cup-hodge-classes-test-p2",
+      "title": "Non-vacuity of cup-hodge-classes: on ℙ² two Hodge classes of codimension one have a nonzero cup product",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.HodgeCupP2",
+      "declarations": [
+        "HodgeLadder.Tests.projectivePlane_exists_hodge_cup_ne_zero"
+      ],
+      "depends_on": [
+        "prime-divisors-cartier",
+        "cup-positive-degree-test-p2"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26: [L₀], [L₁] ∈ Hdg^1(ℙ²; ℚ) by cycleComponentSheafClass_mem_hodgeClasses_one and [L₀] ∪ [L₁] ≠ 0 by planeLines_cup_ne_zero."
+    },
+    {
+      "id": "de-rham-cup-antisymm-h1",
+      "title": "deRhamCup is antisymmetric on H¹_dR × H¹_dR (input of T1)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "de-rham-cup",
+        "de-rham-rational-span",
+        "cup-graded-commutative"
+      ],
+      "contributors": [],
+      "note": "From cup_gradedComm, fieldToDeRhamCohomology_cup and bilinearity once the image of ι spans (red team finding 10)."
+    },
+    {
+      "id": "de-rham-rational-span",
+      "title": "The de Rham images of rational classes span: Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤ for projective X (input of T1)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Universal coefficients for H^n(X; ℚ) ⊗ ℂ → H^n(X; ℂ); needs finiteness of X(ℂ) (red team finding 10)."
     },
     {
       "id": "cup-positive-degree-test",
