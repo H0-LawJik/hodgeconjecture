@@ -162,6 +162,7 @@ public import HodgeLadder.Hodge.DeRhamInjective
 public import HodgeLadder.Hodge.DeRhamRationalSpan
 public import HodgeLadder.Hodge.DeRhamRationalIndependent
 public import HodgeLadder.Hodge.DeRhamRationalBaseChange
+public import HodgeLadder.Hodge.RationalCohomologyFinite
 public import HodgeLadder.Tests.DeRhamP2TopRank
 public import HodgeLadder.Tests.DeRhamRationalIndependentGm2
 public import HodgeLadder.Hodge.PairingProduct

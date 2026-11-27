@@ -3128,7 +3128,7 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "Checked 2026-11-27, standard axioms. One-line applications of the conditional forms in HodgeLadder.Hodge.DeRhamRationalIndependent (bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan, finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan) to simplicialComplexSpan. Kept in a new module HodgeLadder.Hodge.DeRhamRationalBaseChange, which imports DeRhamRationalIndependent only, so the checked module of de-rham-rational-independent is unchanged. deRhamBaseChangeEquiv is the LinearEquiv form ℂ ⊗[ℚ] H^n(X; ℚ) ≃ₗ[ℂ] H_dR^n(X), with deRhamBaseChangeEquiv_tmul: c ⊗ m ↦ c • ι m. H_dR^n(X) carries upstream's deRhamHypercohomologyComplexModule. The rank equality uses Mathlib's finrank (0 on infinite-dimensional spaces); finiteness of either side is not part of the rung. The optional separating test of the red team of de-rham-rational-independent, finding 7b, is the new rung de-rham-rational-independent-test-gm2; gm2 is not projective, so it tests de-rham-rational-independent and not this rung. Red team 2026-11-27: docs/sketches/de-rham-rational-base-change.redteam.md (pass with changes); the finiteness that makes the rank equality a dimension count is the open rung rational-cohomology-finite-dimensional."
+      "note": "Checked 2026-11-27, standard axioms. One-line applications of the conditional forms in HodgeLadder.Hodge.DeRhamRationalIndependent (bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan, finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan) to simplicialComplexSpan. Kept in a new module HodgeLadder.Hodge.DeRhamRationalBaseChange, which imports DeRhamRationalIndependent only, so the checked module of de-rham-rational-independent is unchanged. deRhamBaseChangeEquiv is the LinearEquiv form ℂ ⊗[ℚ] H^n(X; ℚ) ≃ₗ[ℂ] H_dR^n(X), with deRhamBaseChangeEquiv_tmul: c ⊗ m ↦ c • ι m. H_dR^n(X) carries upstream's deRhamHypercohomologyComplexModule. The rank equality uses Mathlib's finrank (0 on infinite-dimensional spaces); finiteness of either side is not part of the rung. The optional separating test of the red team of de-rham-rational-independent, finding 7b, is the new rung de-rham-rational-independent-test-gm2; gm2 is not projective, so it tests de-rham-rational-independent and not this rung. Red team 2026-11-27: docs/sketches/de-rham-rational-base-change.redteam.md (pass with changes); the finiteness that makes the rank equality a dimension count is the checked rung rational-cohomology-finite-dimensional (finiteDimensional_rationalCohomology, finiteDimensional_deRham)."
     },
     {
       "id": "de-rham-p2-top-rank",
@@ -3176,16 +3176,44 @@
     },
     {
       "id": "rational-cohomology-finite-dimensional",
-      "title": "FiniteDimensional ℚ H^n(X; ℚ) for smooth projective integral X",
-      "status": "open",
+      "title": "FiniteDimensional ℚ H^n(X; ℚ) and FiniteDimensional ℂ H_dR^n(X) for smooth projective integral X",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "lefschetz-port"
+      "module": "HodgeLadder.Hodge.RationalCohomologyFinite",
+      "declarations": [
+        "HodgeLadder.finiteDimensional_rationalCohomology",
+        "HodgeLadder.finiteDimensional_deRham",
+        "HodgeLadder.exists_injective_homology_linearDual_rat",
+        "HodgeLadder.exists_dualMap_d_eq_of_cochainEval_rat",
+        "HodgeLadder.cochainEval_d_iCycles_rat",
+        "HodgeLadder.cochainEval_add_rat"
       ],
-      "contributors": [],
-      "note": "Red team of de-rham-rational-base-change, finding 8 (recommended change F). Route: module_finite_singularHomology (port, LefschetzPort.AlgebraicGeometry.ProjectiveFiniteHomology: H_n(X(ℂ); ℤ) finitely generated for projective X), Ψ = rationalCohomologyAddEquivSingularCohomology (upstream, Other.AlgebraicGeometry.Cohomology.GlobalSections: sheaf to singular rational cohomology), and universal coefficients over ℚ (upstream's relativeCohomologyEquivDualHomology, in its absolute case: H^n(X(ℂ); ℚ) ≅ Hom(H_n(X(ℂ); ℚ), ℚ), finite-dimensional when H_n(X(ℂ); ℤ) is finitely generated). With deRhamBaseChangeEquiv (de-rham-rational-base-change) it gives FiniteDimensional ℂ H_dR^n(X). T1's eigenspace count needs it: finrank_deRham_eq_finrank_rat holds with both sides 0 when both spaces are infinite-dimensional, since Module.finrank is 0 on a module that is not finite, so the rank equality counts dimensions only together with this rung. Checked so far only in degree 4 of ℙ² (de-rham-p2-top-rank)."
+      "depends_on": [
+        "lefschetz-port",
+        "simplicial-complex-span",
+        "de-rham-rational-base-change"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27, standard axioms. Route through cochains, without the universal coefficient theorem: for a simplicial set Y with H_n(Y; ℤ) finitely generated, evaluation of a rational cocycle on integral cycles representing generators gives an injective additive map from the degree-n cohomology of the forgotten rational algebraic-dual cochain complex into Fin k → ℚ (exists_injective_homology_linearDual_rat); injectivity is the Baer step over ℚ (exists_dualMap_d_eq_of_cochainEval_rat, the ℚ copy of the ℂ step of simplicial-complex-span) and, in degree 0, every chain being a cycle. Applied to Y = X(ℂ) with the port's module_finite_singularHomology, composed with upstream's Ψ = rationalCohomologyAddEquivSingularCohomology and the port's ordinaryForgottenSingularCochainHomologyIso; the composite is additive and injective, hence ℚ-linear by AddMonoidHom.toRatLinearMap, so no scalar compatibility of Ψ is used. FiniteDimensional ℂ H_dR^n(X) follows from deRhamBaseChangeEquiv and Module.Finite.base_change. With this rung finrank_deRham_eq_finrank_rat counts dimensions in every degree (red team of de-rham-rational-base-change, finding 8). Upstream's universal coefficients at the pin, cohomologyEquivDualHomology R X n : H^n(X; R) ≃ₗ[R] Module.Dual R (H_n(X; R)) for a field R, is the dual of homology with field coefficients and has an absolute form (no pair (X, ∅) needed); it was not used, since finite-dimensionality of H_n(X; ℚ) from H_n(X; ℤ) needs a chain-level comparison ℤ → ℚ that is not at the pin. Red team 2026-11-27: docs/sketches/rational-cohomology-finite-dimensional.redteam.md (pass with changes, no Lean change); its RT3 corollary on homology is the rung rational-homology-finite-dimensional."
+    },
+    {
+      "id": "rational-homology-finite-dimensional",
+      "title": "FiniteDimensional ℚ H_n(X(ℂ); ℚ) (upstream's singular Homology ℚ) for smooth projective integral X",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.RationalCohomologyFinite",
+      "declarations": [
+        "HodgeLadder.finiteDimensional_rationalHomology"
+      ],
+      "depends_on": [
+        "rational-cohomology-finite-dimensional"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27, standard axioms. Red team of rational-cohomology-finite-dimensional, change D (scratch RT3). From finiteDimensional_rationalCohomology, upstream's Ψ = rationalCohomologyAddEquivSingularCohomology upgraded to a ℚ-linear equivalence by map_rat_smul, upstream's universal coefficients over a field cohomologyEquivDualHomology ℚ X(ℂ) n : H^n(X(ℂ); ℚ) ≃ₗ[ℚ] Module.Dual ℚ (H_n(X(ℂ); ℚ)), and Mathlib's Module.finite_dual_iff. A consequence of rational-cohomology-finite-dimensional, so it does not test that rung independently; it records the finiteness on the homology side that cap products and Poincaré duality read."
     },
     {
       "id": "de-rham-rational-span",
