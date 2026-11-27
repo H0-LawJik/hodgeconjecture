@@ -632,6 +632,94 @@ Scratch file inside the worktree, deleted. Coheights: `rfl` (not definitionally 
 
 Every hypothesis of `cycle-class-multiplicative` is met on ℙ² with the coordinate lines, in the stated form, with no change to the statement. Two points for the red team: (1) `htr` indexes coordinates as `⟨i, _⟩` and `⟨a + j, _⟩`, so the chart must list L₀ first; `projectiveChart 2 2` does (coordinates (x₀/x₂, x₁/x₂)), and a swapped chart would need a reordering of `Fin 2`. (2) `hT` is a statement about complex points only. On a scheme of finite type over ℂ the complex points are dense in every closed subset, so `hT` implies the scheme-level equality `closure {x} ∩ closure {w} = closure {t}` (T is the only component, as the literature requires); on ℙ² that equality is `closure_planeLine_inter`.
 
+## cycle-class-multiplicative: statement and route
+
+Date: 2026-11-26. Checked. Statement and route fixed first with `sorry` bodies, then proved in the same session; the final statement and proof red team passed it with changes A to G (`docs/sketches/cycle-class-multiplicative.final.redteam.md`), all implemented. File `HodgeLadder/Cycle/Multiplicative.lean`, module `HodgeLadder.Cycle.Multiplicative`, namespace `HodgeLadder.Cycle`, imported from `HodgeLadder.lean`; the ledger's earlier `file` hint `HodgeLadder/Cycle/Class/Multiplicative.lean` is superseded. The first instance, rung `cycle-class-multiplicative-p2`, is checked in `HodgeLadder/Tests/CycleClassMultiplicativeP2.lean` (`coheight_planeOrigin_add`, `planeLines_cup_eq_planeOrigin`: [L₀] ∪ [L₁] = [pt] on ℙ², red team change A). Imports: `HodgeLadder.Local.ClassProduct`, `HodgeLadder.Cup.SupportedPairForget`, `HodgeLadder.Cup.CupSingular`, `HodgeLadder.Normalization.Germ`, `Other.AlgebraicGeometry.Cycle.FundamentalClass` (all built in the shared cache). `supported-open-naturality` and `supported-model-agreement-open` are not in the import closure and are no longer listed as dependencies (change C).
+
+**Result.** The statement of section "Statement" elaborates verbatim, with no change to any hypothesis, definition, orientation, coordinate order or factor order. The main statement and the route lemmas elaborated with `sorry` bodies first (two short helpers, `restrict_supportedEquivPair` and `restrict_eq_chartNormalProjectionCoclass`, were written with their proofs); each body then turned out short enough to prove in the same session, so the file has no `sorry`. `#print axioms` on the main theorem, on `germ_transport_eq_of_chart` and on `cup_forgetSupport_of_product` gives `propext`, `Classical.choice`, `Quot.sound`. The computed sign is `+` with coefficient 1: [Z] ∪ [W] = [T] exactly. No step produced a sign other than `(−1)^{(2a)(2b)} = 1`, and no step depends on the codimensions beyond that parity.
+
+Trivial proofs fail on the main statement (scratch file inside the worktree, deleted): `rfl` (the sides are not definitionally equal), `simp` (unsolved goal), `trivial`, `aesop` (exhaustive search fails), `simp [cup, cycleComponentSheafClass]` (unsolved goal). The statement with the right side negated, `cup … = -cycleComponentSheafClass X t ht`, also fails `simp`.
+
+### Notation
+
+Φ_S = `supportedEquivPair X S n` (supported classes to H^n(X, X ∖ S; ℚ) on `TopPair.ofSubset (S.compl : Set _)`); Ψ = `rationalCohomologyAddEquivSingularCohomology X n`; 𝒯 α = `complexSupportInjectiveSectionCohomologyEquiv X S ⊤ n (rationalSupportAddEquivSupportedInjectiveHomology X S n α)`, upstream's transport at ⊤; α_Z = `cycleComponentSupportedInjectiveClass X x hx`, so [Z] = `forgetSupport ℚ X Z (2a) α_Z` by definition; N_T = `cycleComponentSupportedClassNormalizationIso X t ht`; U_T = `cycleComponentSmoothSupportAmbientOpen X t`.
+
+### The route, as named lemmas
+
+| Step | Declaration | Statement in words | Sign | Proof |
+|---|---|---|---|---|
+| glue | `neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv` | upstream's restriction from (⊤, ⊤ ∖ Z) to (V, V ∖ Z), then `(ofSubsetIsoNeighborhoodTop Z).inv`, is `restrictToNeighborhood V Z` (sketch text) | none, identity on points | ext, `rfl` |
+| glue | `restrictToNeighborhood_comp_ofSubsetIsoNeighborhoodTop_hom` | the same square read with `.hom` | none | ext, `rfl` |
+| glue | `unionComplIso`, `unionComplIso_fst_apply` | (Y, (Y ∖ Z) ∪ (Y ∖ W)) ≅ (Y, Y ∖ T) for `hT : T = Z ⊓ W`, `Closeds` form (change D of `supported-pair-forget`) | identity of Y | `TopPair.isoOfSubset (Homeomorph.refl Y)` |
+| glue | `mem_iff_of_eq_inf`, `unionComplIso_restrict` | sketch text, unchanged | none | `subst`; ext, `rfl` |
+| glue | `forgetRel_unionComplIso` | `forgetRel` across `unionComplIso` is `forgetRel` | none: `fstChainMap` of the identity is `𝟙` | 6 lines |
+| glue | `restrict_eq_chartNormalProjectionCoclass` | a chart identity on V' restricts to V ⊆ V' | none | upstream `chartNormalProjectionCoclass_restrict` |
+| glue | `closeds_eq_inf_of_coe_eq` | the set form of `hT` gives `T = Z ⊓ W` | none | `SetLike.coe_injective`, `Closeds.coe_inf` |
+| 5 | `normalSplit`, `splitChart`, `splitChart_mem_maximalAtlas` | for an injection k : Fin c → Fin d, ℂ^d ≃L (tangential) × ℂ^c with normal coordinates `v (k 0), …, v (k (c − 1))`; the split chart followed by the inverse splitting is in the maximal atlas when φ is | coordinate permutation, no conjugation | `LinearEquiv.funCongrLeft`, `sumArrowLequivProdArrow`; `mem_maximalAtlas_of_eqOnSource` |
+| 1, 2 | `restrict_supportedEquivPair` | restricting Φ_S α from (X, X ∖ S) to (V, V ∖ S) is restricting 𝒯 α from (⊤, ⊤ ∖ S) | none | `supportedEquivPair_eq_transport` and the glue square |
+| 1 to 4 | `cup_forgetSupport_of_product` | if Φ_T γ = `unionComplIso.inv`-pullback of `relCup2 (Φ_Z α) (Φ_W β)`, then Ψ (forget α ∪ forget β) = (−1)^{pq} • Ψ (forget γ), any p, q | (−1)^{pq} from `cup_singular_comparison'`, the only sign | `forgetRel_supportedEquivPair` (three times), `forgetRel_relCup2`, `forgetRel_unionComplIso` |
+| 6 | `transport_restrict_of_supportedEquivPair_eq` | with the same hγ, the restriction of 𝒯 γ to (V, V ∖ T) is `(chartUnionIso V _).inv`-pullback of `relCup2` of the restrictions of 𝒯 α and 𝒯 β | none | `relCup2_restrict`, `unionComplIso_restrict`, `restrict_supportedEquivPair` |
+| 5, 6 | `germ_transport_eq_of_chart` | at y in the source of a holomorphic φ with Z, W the first a and next b coordinate zero sets, y ∈ U_Z ∩ U_W ∩ U_T: germ_y (𝒯 γ) = germ_y (𝒯 α_T) | `+` from `local-class-product` | `cycle-class-germ` three times (charts split from φ), restriction to V = V_Z ∩ V_W ∩ V_T, `chartNormalProjectionCoclass_eq_relCup2`, upstream `supportRelativeCohomologyGerm_eq_of_restrict_eq` |
+| 6 | `normalization_eq_coclassSection_of_product` | N_T γ = upstream's normalized coclass section of T | none | `normalization_singular`, `coclassSection_eq_singular`, Mathlib `TopCat.Presheaf.section_ext` on U_T, upstream `supportRelativeCohomologyGerm_restrict`; off T upstream `supportRelativeCohomologyGerm_eq_zero_of_not_mem`, on T the row above with φ from `htr` |
+| 6 | `eq_supportedInjectiveClass_of_product` | γ = α_T | none | upstream `cycleComponentSupportedInjectiveClass_unique` (`Other`) |
+| 7 | `cycleComponentSheafClass_cup_of_transversal` | the rung | (−1)^{(2a)(2b)} = 1, computed by `Even.neg_one_pow` | `SmoothOfRelativeDimension.dim_eq` (d = dim X), γ from surjectivity of Φ_T, the rows above, injectivity of Ψ |
+
+The localization step names its inputs: a section of upstream's sheaf 𝓗^{2(a+b)}_T over U_T is determined by its germs at the points of U_T (Mathlib `TopCat.Presheaf.section_ext`); germs vanish off T (upstream `supportRelativeCohomologyGerm_eq_zero_of_not_mem`, statement library); N_T is an equivalence, so equality of normalized sections gives equality of classes (upstream `cycleComponentSupportedInjectiveClass_unique`, `Other`). Only points of T ∩ U_T need the chart argument, and `htr`, `hxreg`, `hwreg` are used exactly there; `hyU` for T comes from y ∈ U_T in `section_ext`.
+
+### Signs, with their sources
+
+| Sign | Source | Value here |
+|---|---|---|
+| (−1)^{pq} | `cup_singular_comparison'` (Mathlib's `Ext.comp` is diagrammatic; row "Sheaf–singular comparison Ψ") | p = 2a, q = 2b: 1 |
+| local product | `chartNormalProjectionCoclass_eq_relCup2` (`local-class-product`; pairing of the model product with `orient a b` is 1, computed) | + |
+| chart choice | `cycle-class-germ` holds for every holomorphic adapted chart (`exists_open_chartNormalProjectionCoclass_eq`), so the normal coordinate order of the split charts does not enter | none |
+| pair maps | `unionComplIso`, `chartUnionIso`, `ofSubsetIsoNeighborhoodTop`, `restrictToNeighborhood`: identity or inclusion on points | none |
+| factor order | `relCup2 (Φ_Z α_Z) (Φ_W α_W)` matches `cup [Z] [W]` through `cup_singular_comparison'` with x = [Z], y = [W] | none |
+
+### Deviations from the plan, and why
+
+1. No definition `Φ_T⁻¹ (relCup2 …)`. A `def` applying `(supportedEquivPair X T n).symm` elaborated, but `AddEquiv.apply_symm_apply` on it hit `maximum recursion depth`. The route takes γ from `(supportedEquivPair X T n).surjective` instead and states every step for any γ with `hγ`; the statements are unchanged in content.
+2. The point-form seam (T a point read from upstream's point normalization) is not used: `cycle-class-germ` applies at T in every codimension, so the general theorem covers the point case through the same chart route.
+3. `rw` across hypotheses or lemmas whose sides are coercions of upstream `AddEquiv`s (`supportedEquivPair`, Ψ) timed out in keyed matching; `congrArg`, `Eq.trans` and `convert … using 2` replace those rewrites. Rewrites on `relativeCohomologyMap` terms work.
+
+### Timing
+
+`lake env lean HodgeLadder/Cycle/Multiplicative.lean`: about 96 s wall, default heartbeats. Most of it is kernel type checking: each declaration whose statement applies `supportedEquivPair` costs 9 to 18 s in the kernel (also with a one-line `rfl` body), measured with `set_option profiler true`; the elaborator side is under 5 s in total.
+
+### Red-team changes (final pass), as implemented
+
+| Change | Where it is now |
+|---|---|
+| A: `cycle-class-multiplicative-p2` from scratch RT2 | `HodgeLadder/Tests/CycleClassMultiplicativeP2.lean`, ledger `checked` |
+| B: root import, ledger `checked` with the 20 declarations, roadmap row | `HodgeLadder.lean`, `ledger/ladder.json`, `docs/roadmap.md` |
+| C: `depends_on` without the general-V rungs, corrected note | ledger |
+| D: sign-visible tests next (`cycle-class-multiplicative-codim-zero`, `p2-point-class-nonzero`, `cup-positive-degree-test-p2`) | roadmap "Order of attack", ledger note |
+| E: register rows cited in the main theorem's docstring | `HodgeLadder/Cycle/Multiplicative.lean` |
+| F: `cycle-class-multiplicative-no-reg`, `cycle-class-multiplicative-generic` | ledger (statements in their notes), roadmap |
+| G: drift list below; rebased on `main` with this sketch merged by hand | this section |
+
+Conventions row "Transversal product of cycle classes" (added by the red team) records the sign chain.
+
+### Stronger forms and the next case
+
+- `cycle-class-multiplicative-no-reg` (open): the theorem without `hxreg`, `hwreg`, through `analytic-smooth-locus`.
+- `cycle-class-multiplicative-generic` (open): transversality only at the generic point of T; the germ route does not reach points of T where Z or W is singular.
+- Future rung, not yet in the ledger: several components, [Z] ∪ [W] = Σᵢ [Tᵢ] when Z(ℂ) ∩ W(ℂ) is a disjoint union of the Tᵢ(ℂ), each meeting the hypotheses of this rung (first case: a line and a conic in ℙ²). `cup_forgetSupport_of_product` is stated for any γ and carries over; the localization step needs one supported class per component and the splitting of H_{∪Tᵢ} into the H_{Tᵢ}.
+
+### Vacuity and sign visibility
+
+- At a = b = 0 the hypotheses hold except `hxreg`, which needs `cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤` (rung `cycle-class-multiplicative-codim-zero`). In positive codimension they hold on ℙ² (`p2-lines-transversal`, used by `cycle-class-multiplicative-p2`).
+- The sign + is visible only where [T] ≠ 0: `p2-point-class-nonzero` and `cycle-class-multiplicative-codim-zero` are the tests, both open.
+- The general lemma `cup_forgetSupport_of_product` keeps the sign (−1)^{pq} for every p, q; the main theorem uses it only in even degrees.
+
+### Drift list (final red team, section 8)
+
+For the next pin bump, besides the lists above:
+
+- Statement library: `cycleComponentSheafClass`, `cycleComponentSupportedInjectiveClass`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportCoclassSection`, `cycleComponentAnalyticClosedSupport`, `cycleComponentSmoothSupportAmbientOpen`, `supportRelativeCohomologyGerm` with `_eq_of_restrict_eq`, `_eq_zero_of_not_mem`, `_restrict`, `chartNormalProjectionCoclass` and `chartNormalProjectionCoclass_restrict`, `neighborhoodSupportInclusionPairMap` and `_comp`, `neighborhoodSupportComplementPair`, `openParacompactSpace`, `SmoothOfRelativeDimension.dim_eq`, and the charted structure (`localChart`, `isManifold_omega`).
+- `Other` (unguarded): `cycleComponentSupportedInjectiveClass_unique`, `cycleComponentSupportedInjectiveClass_normalization`, `cycleComponentSupportedClassNormalizationIso_apply`, `complexSupportInjectiveCohomologySheafIsoRelative_restriction_section`, `rationalCohomologyAddEquivSingularCohomology`.
+- Mathlib: `TopCat.Presheaf.section_ext`, `StructureGroupoid.mem_maximalAtlas_of_eqOnSource`, `LinearEquiv.funCongrLeft`, `LinearEquiv.sumArrowLequivProdArrow`, the meaning of `ω` in `WithTop ℕ∞`.
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.
