@@ -126,7 +126,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `wedge-descends` | foundation | checked | `form-wedge-leibniz` | `chartEvaluationKernel` is a two-sided ideal for `formWedge` (`HodgeLadder.wedgeDescends : HodgeLadder.WedgeDescends`, both sides, through the algebra map `chartExtMap` and Mathlib's `pairingDual`) |
 | `tensor-bounded-quasi-iso` | foundation | checked | `sheaf-tensor-exact` | f ⊗ 𝟙_M is a quasi-isomorphism for bounded M in complexes of ShQ (`HodgeLadder.TensorBoundedQuasiIso`, `HodgeLadder.tensorBoundedQuasiIso_holds`); single case plus induction on the length of M, two out of three for the middle term; any bifunctor exact in the first variable; `HodgeLadder.Hodge.TensorBoundedQuasiIso` |
 | `rational-de-rham-complex` | foundation | open | `sheaf-tensor-exact` | Ω•_ℚ in sheaves of ℚ-vector spaces with forget(Ω•_ℚ) ≅ Ω•(X), its truncations and unit |
-| `wedge-presheaf` | foundation | open | `wedge-descends` | wedge on `HolomorphicForm X d U`, natural under restriction |
+| `wedge-presheaf` | foundation | checked | `wedge-descends` | wedge on `HolomorphicForm X d U`, natural under restriction; Leibniz rule with sign (−1)^p, unit laws, `[1] ∧ [1] ≠ 0` (`HodgeLadder.Hodge.WedgePresheaf`) |
 | `wedge-sheafify` | foundation | open | `wedge-presheaf`, `rational-de-rham-complex` | Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ through monoidal sheafification |
 | `wedge-sheaf-map` | foundation | open | `wedge-sheafify`, `form-wedge-leibniz` | the wedge as a morphism of complexes, F^p ⊗ F^q ⟶ F^{p+q}, unit law |
 | `derived-tensor-bounded` | foundation | open | `tensor-bounded-quasi-iso` | additive derived functor of − ⊗ B on D(ShQ) for bounded B, by `Localization.lift` |

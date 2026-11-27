@@ -109,7 +109,7 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `wedge-descends` | `WedgeDescends`: `chartEvaluationKernel` is a two-sided ideal for `formWedge` | stated |
 | `tensor-bounded-quasi-iso` | `TensorBoundedQuasiIso`: `QuasiIso (tensorHom f (𝟙 M))` for `M` strictly bounded, with `HasTensor` hypotheses | stated |
 | `rational-de-rham-complex` | `Ω•_ℚ` with `forget(Ω•_ℚ) ≅ Ω•(X)`, truncations `F^p`, unit over `fieldToHolomorphicDeRhamComplexInt ℚ X` | open |
-| `wedge-presheaf` | `formWedge` descends to `HolomorphicForm X d U`, natural under `holomorphicFormRestriction` | open |
+| `wedge-presheaf` | `formWedge` descends to `HolomorphicForm X d U`, natural under `holomorphicFormRestriction` | checked |
 | `wedge-sheafify` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ` through the monoidal sheafification | open |
 | `wedge-sheaf-map` | `deRhamWedge` a morphism of complexes, `filteredWedge p q` compatible with inclusions, unit law | open |
 | `derived-tensor-bounded` | additive `T_B` with `Q ⋙ T_B ≅ tensorRight B ⋙ Q`, natural in `B` | open |
@@ -122,6 +122,32 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `cup-hodge-classes-test-p2` | `Tests.projectivePlane_exists_hodge_cup_ne_zero` | checked |
 | `de-rham-cup-antisymm-h1` | antisymmetry of `deRhamCup` on `H¹_dR × H¹_dR` (T1 input) | open |
 | `de-rham-rational-span` | `Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤`, X projective (T1 input) | open |
+
+## wedge-presheaf: statement
+
+Module `HodgeLadder/Hodge/WedgePresheaf.lean` (`HodgeLadder.Hodge.WedgePresheaf`), not yet imported from `HodgeLadder.lean`. The module path is `HodgeLadder/Hodge/WedgePresheaf.lean` (red team 2026-11-27). Every declaration below elaborates and is proved, with the three standard axioms only (`#print axioms`, 2026-11-26). The file checks in about 10 s with `lake env lean`; `lake build HodgeLadder.Hodge.WedgePresheaf` built it in 8.5 s.
+
+Upstream's `chartEvaluationKernel X d U p` is a `ℂ`-submodule, so `HolomorphicForm X d U p` is a `ℂ`-module and the wedge is `ℂ`-bilinear. An `𝒪(U)`-module structure on the quotient is absent at the pin and is left out.
+
+| Declaration | Statement | Proof |
+|---|---|---|
+| `formWedgeBilin R A p q` | `Form R A p →ₗ[R] Form R A q →ₗ[R] Form R A (p + q)`, `LinearMap.mk₂` of `formWedge` | bilinearity of multiplication in `⋀_A Ω_{A/R}` |
+| `map_formWedge f θ η` | `Algebra.DeRham.map R f (p + q) (formWedge θ η) = formWedge (map R f p θ) (map R f q η)` for `f : A →ₐ[R] B` | `map_mul` of upstream's `extAlgMap` |
+| `holomorphicWedge X d U p q` | `HolomorphicForm X d U p →ₗ[ℂ] HolomorphicForm X d U q →ₗ[ℂ] HolomorphicForm X d U (p + q)` | `LinearMap.liftQ₂` of `mkQ ∘ formWedgeBilin`, kernels by the two sides of `wedgeDescends` |
+| `holomorphicWedge_mk θ η` | `holomorphicWedge [θ] [η] = [formWedge θ η]` | `rfl` |
+| `holomorphicFormRestriction_holomorphicWedge i a b` | `holomorphicFormRestriction X d i (p + q) (a ∧ b) = (res i p a) ∧ (res i q b)` | representatives, `formRestriction = Algebra.DeRham.map`, `map_formWedge` |
+| `holomorphicFormCast X d U h` | `HolomorphicForm X d U m →ₗ[ℂ] HolomorphicForm X d U n` for `h : m = n`, `h ▸ LinearMap.id` | definition; `holomorphicFormCast_mk` says it keeps the element of the exterior algebra |
+| `holomorphicFormDifferential_holomorphicWedge a b` | `d (a ∧ b) = cast (Nat.add_right_comm p 1 q) (da ∧ b) + (-1 : ℤ)^p • (a ∧ db)` in `HolomorphicForm X d U (p + q + 1)` | representatives and `formWedge_differential` |
+| `holomorphicWedge_ofConstant_left c b` | `[c] ∧ b = cast (Nat.zero_add q).symm (c • b)` | representatives |
+| `holomorphicWedge_ofConstant_right a c` | `a ∧ [c] = c • a` | representatives |
+
+Degrees in the Leibniz rule. The three terms live in `(p + q) + 1`, `(p + 1) + q` and `p + (q + 1)`. The first and third agree by `rfl`, so only `da ∧ b` carries a transport. The sign is Mathlib's Koszul sign `(−1)^p`, the one registered for `formWedge_differential` in `docs/conventions.md`, and no new convention enters. Writing out the degree identification in the proof (rewriting under the definitional cast) ran past the heartbeat limit; the proof goes through the auxiliary `holomorphicFormDifferential_formWedge_mk`, which states the identity on representatives with both transports explicit.
+
+Trivial proofs fail: `rfl` and `simp` on naturality, and `simp` on the Leibniz rule, are rejected.
+
+Questions for the red team. (1) Is a pointwise naturality statement enough for `wedge-sheafify`, or should it be the equation of bilinear maps `(holomorphicWedge X d V p q).compl₁₂ (res i p) (res i q) = (holomorphicWedge X d U p q).compr₂ (res i (p + q))`? (2) Is `holomorphicFormCast` by `h ▸ LinearMap.id` the right transport, against a `Submodule.mapQ` of `LinearEquiv.ofEq` on `⋀^m = ⋀^n`? (3) The unit laws are included for step 2 of the construction (`1 ∧ ω = ω`); check that they are in scope for this rung.
+
+Red team 2026-11-27 (`docs/sketches/wedge-presheaf.redteam.md`): pass with changes, all implemented. Answers: the pointwise naturality is primary, with the bilinear-map form `holomorphicWedge_compr₂_restriction` added; the transport `h ▸ LinearMap.id` stays, with five lemmas proved by `subst h; rfl` (`holomorphicFormCast_trans`, `holomorphicFormRestriction_holomorphicFormCast`, `holomorphicFormDifferential_holomorphicFormCast`, `eqToHom_apply_eq_holomorphicFormCast`, `XIsoOfEq_hom_app_eq_holomorphicFormCast`); the unit laws are in scope. Added tests: `holomorphicWedge_ofConstant_one_ne_zero` (`[1] ∧ [1] ≠ 0` on a nonempty open) and `holomorphicWedge_ofFunction` (degree zero is multiplication of functions). The module is imported from `HodgeLadder.lean` and the rung is checked.
 
 ## What T1 needs from this rung
 
