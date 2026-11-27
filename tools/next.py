@@ -22,6 +22,16 @@ def load():
     return json.loads(LEDGER.read_text())
 
 
+def status_note(r, by_id):
+    """Explain why a rung is not offered as ready, or return the empty string."""
+    if ready(r, by_id):
+        return ""
+    if r["status"] != "open":
+        return f"  (not offered: status is {r['status']}, only open rungs are)"
+    blocked = [d for d in r.get("depends_on", []) if by_id[d]["status"] not in {"checked", "stated"}]
+    return "  (not ready: open dependencies " + ", ".join(blocked) + ")"
+
+
 def ready(r, by_id):
     return r["status"] == "open" and all(by_id[d]["status"] in {"checked", "stated"} for d in r.get("depends_on", []))
 
@@ -41,7 +51,7 @@ def brief(r, by_id):
     lines = [
         f"RUNG {r['id']}",
         f"title:      {r['title']}",
-        f"status:     {r['status']}" + ("" if ready(r, by_id) else "  (not ready: a dependency is still open)"),
+        f"status:     {r['status']}" + status_note(r, by_id),
         f"kind:       {r.get('kind', 'unspecified')}",
         f"depends on: {deps}",
         f"file:       {path}",
