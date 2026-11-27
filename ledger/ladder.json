@@ -2791,15 +2791,49 @@
     {
       "id": "pairing-product",
       "title": "Pairing product: for bounded A, B, C and m : A ⊗ B ⟶ C, pairProduct m x y := y ≫ (x ⊗ B)⟦b⟧ ≫ m, natural, biadditive, and on ℚ_X[0] with m = λ equal to y.comp x",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.PairingProduct",
+      "declarations": [
+        "HodgeLadder.pairAction",
+        "HodgeLadder.pairProduct",
+        "HodgeLadder.pairProduct_eq",
+        "HodgeLadder.pairAction_add",
+        "HodgeLadder.pairProduct_add_left",
+        "HodgeLadder.pairProduct_add_right",
+        "HodgeLadder.pairProduct_comp_target",
+        "HodgeLadder.pairProduct_naturality_left",
+        "HodgeLadder.pairProduct_naturality_right",
+        "HodgeLadder.pairProduct_naturality",
+        "HodgeLadder.pairAction_unit",
+        "HodgeLadder.pairProduct_unit",
+        "HodgeLadder.mapBifunctorShift₁Iso_hom_naturality₂",
+        "HodgeLadder.complexRightUnitor_hom_naturality",
+        "HodgeLadder.complexLeftUnitor_hom_naturality",
+        "HodgeLadder.complexRightUnitor_hom_shift",
+        "HodgeLadder.complexLeftUnitor_tensorUnit_inv",
+        "HodgeLadder.tensorRightUnitorNat",
+        "HodgeLadder.derivedTensorUnitIso",
+        "HodgeLadder.derivedTensorUnitIso_hom_app",
+        "HodgeLadder.tensorPairProduct",
+        "HodgeLadder.tensorPairProduct_naturality",
+        "HodgeLadder.tensorPairProduct_unit",
+        "HodgeLadder.unitComplex_eq_single_QX",
+        "HodgeLadder.unitComplexMul",
+        "HodgeLadder.unitComplexMul_eq",
+        "HodgeLadder.pairProductShQ",
+        "HodgeLadder.pairProductShQ_add_left",
+        "HodgeLadder.pairProductShQ_add_right",
+        "HodgeLadder.pairProductShQ_naturality",
+        "HodgeLadder.pairProductShQ_unit"
+      ],
       "depends_on": [
         "derived-tensor-bounded"
       ],
-      "contributors": [],
-      "note": "Convention row 'de Rham cup order (proposed)'. State it in the generic form (any abelian C, F : C ⥤ C ⥤ C additive in each variable, the inversion of quasi-isomorphisms as a hypothesis, on top of derivedMapBifunctorRight) and instantiate at ShQ once: each sheaf-level tensorHom costs about 10 s of kernel time (docs/gaps.md, Known weaknesses). The last clause (pairProduct λ x y = y.comp x on ℚ_X[0]) needs the sheaf unit iso derivedTensorRightUnitIso Y : derivedTensorRight Y (HomologicalComplex.tensorUnit (ShQ Y) (.up ℤ)) 0 0 ≅ 𝟭, from the checked generic derivedMapBifunctorRightIsoId with ρ built from HomologicalComplex.rightUnitor and its naturality in K; it belongs to this rung, with the bridge from 𝟙_ (ShQ Y) to the constant sheaf ℚ_X."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "pairProduct m x y := y.comp (pairAction m x), that is y ≫ (pairAction m x)⟦b⟧' ≫ (shiftFunctorAdd' a b n h).inv, with pairAction m x = Q lam⁻¹ ≫ fac⁻¹ ≫ T_B (x ≫ cs⁻¹) ≫ fac ≫ Q (mapBifunctorShift₁Iso ≫ m⟦a⟧) ≫ cs: x acts on B from the left, y is applied first; no sign (shift in the first variable only; conventions row 'Pairing product (left action)'). Generic layer for any abelian C and F : C ⥤ C ⥤ C additive in each variable, with the inversion of quasi-isomorphisms as a hypothesis; tensor layer (tensorPairProduct, lam the left unitor of complexes) for any abelian monoidal C; sheaf instance pairProductShQ at ShQ Y, E = unitComplex Y = ℚ_Y[0] (= (single _ _ 0).obj (QX Y), rfl). Natural in chain maps f, g, k with m ≫ k = (f ⊗ g) ≫ m'; biadditive (ℚ-linear as a consequence). The unit clause pairProductShQ Y 0 0 (unitComplexMul Y) h x y = y.comp x h (unitComplexMul the left unitor, rfl) is proved generically from derivedMapBifunctorRightIsoId with ρ the right unitor, through complexRightUnitor_hom_shift (no sign) and complexLeftUnitor_tensorUnit_inv (λ_𝟙 = ρ_𝟙); no sheaf-level unit iso (derivedTensorUnitIso records T_𝟙 ≅ 𝟭 for any abelian monoidal C). Kernel cost 11 to 60 s per sheaf-level declaration; name sheaf-level maps in consumer statements (docs/gaps.md, Known weaknesses). Red team 2026-11-27: docs/sketches/pairing-product.redteam.md, pass with changes, implemented."
     },
     {
       "id": "de-rham-injective",
@@ -2830,7 +2864,7 @@
         "rational-hypercohomology-equiv"
       ],
       "contributors": [],
-      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md)."
+      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit."
     },
     {
       "id": "de-rham-cup-test-p2",

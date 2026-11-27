@@ -113,7 +113,7 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `wedge-sheafify` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ` through the monoidal sheafification | open |
 | `wedge-sheaf-map` | `deRhamWedge` a morphism of complexes, `filteredWedge p q` compatible with inclusions, unit law | open |
 | `derived-tensor-bounded` | additive `T_B` with `Q ⋙ T_B ≅ tensorRightComplex Y B ⋙ Q`, natural in `B`; generic unit iso | checked |
-| `pairing-product` | `pairProduct`, naturality, biadditivity, `pairProduct λ x y = y.comp x` on `ℚ_X[0]` | open |
+| `pairing-product` | `pairProduct`, naturality, biadditivity, `pairProduct λ x y = y.comp x` on `ℚ_X[0]` | checked |
 | `de-rham-injective` | `Function.Injective (fieldToDeRhamCohomology ℚ X n)` | open |
 | `de-rham-cup` | `deRhamCup`, bilinearity, `fieldToDeRhamCohomology_cup` | open |
 | `de-rham-cup-test-p2` | `deRhamCup (ι [L₀]) (ι [L₁]) 4 _ ≠ 0` on `projectivePlane` | open |
@@ -211,6 +211,53 @@ theorem HodgeLadder.ker_fieldToDeRhamCohomologyLinear_rat (X : Over (Spec ↧ℂ
 **Path.** The ledger's generated path is `HodgeLadder/De/Rham/Injective.lean`; the module sits under `HodgeLadder/Hodge/` next to `Conjugation` and `CupFiltration`. Set `module` in the ledger to `HodgeLadder.Hodge.DeRhamInjective` when the rung is posted.
 
 **Timings.** `lake env lean` on the file: 19 s wall. `lake build HodgeLadder.Hodge.DeRhamInjective`: 5 s for the module.
+
+## pairing-product: statement
+
+Module `HodgeLadder.Hodge.PairingProduct` (file `HodgeLadder/Hodge/PairingProduct.lean`), imported from `HodgeLadder.lean`; the ledger rung `pairing-product` names this module and is checked. Every declaration below elaborates and is proved; `#print axioms` on all 42 declarations gives `[propext, Classical.choice, Quot.sound]` (2026-11-27). Red team: `docs/sketches/pairing-product.redteam.md`, pass with changes, implemented (drop the unused sheaf unit iso, name the unit multiplication `unitComplexMul`).
+
+Three layers. The generic layer works for one abelian category `C`, a bifunctor `F : C ⥤ C ⥤ C` additive in each variable, `[HasDerivedCategory C]`, a complex `E` (the unit), and for each `B` the hypotheses of `derivedMapBifunctorRight` (`hasB`, and `hB`: `− ⊗ B` inverts quasi-isomorphisms). The tensor layer sets `F = curriedTensor C` for an abelian monoidal `C` with Mathlib's preservation instances, `E = HomologicalComplex.tensorUnit C (.up ℤ)` and `lam` the left unitor of complexes. The sheaf layer instantiates the tensor layer once at `ShQ Y`, with `hB = tensorRightComplex_isInvertedBy`. Notation: `K ⊗ B` is `mapBifunctor K B F`; `T_B` is `derivedMapBifunctorRight F B hB`; `fac` its factorization iso; `cs` is `Q.commShiftIso`.
+
+| Declaration | Statement |
+|---|---|
+| `mapBifunctorRightShiftIso F B A a` | `(A⟦a⟧) ⊗ B ≅ (A ⊗ B)⟦a⟧`, Mathlib's `mapBifunctorShift₁Iso` (no sign), typed through `mapBifunctorRight` |
+| `mapBifunctorShift₁Iso_hom_naturality₂` | naturality of `mapBifunctorShift₁Iso` in the second variable along `g : B ⟶ B'`, under `HasMapBifunctor` for the two pairs only (Mathlib has it under a global instance) |
+| `pairAction F E hB lam m x` | for `lam : E ⊗ B ≅ B`, `m : A ⊗ B ⟶ D`, `x : ShiftedHom (Q E) (Q A) a`: `Q lam⁻¹ ≫ fac⁻¹_E ≫ T_B (x ≫ cs⁻¹_A) ≫ fac_{A⟦a⟧} ≫ Q (shift₁ ≫ m⟦a⟧) ≫ cs_D : ShiftedHom (Q B) (Q D) a` |
+| `pairProduct F E hB lam m h x y` | for `h : a + b = n`, `y : ShiftedHom (Q E) (Q B) b`: `y.comp (pairAction F E hB lam m x) h : ShiftedHom (Q E) (Q D) n` |
+| `pairProduct_eq` | `pairProduct … = y ≫ (pairAction … x)⟦b⟧' ≫ (shiftFunctorAdd' _ a b n h).inv.app _` (`rfl`) |
+| `pairAction_add`, `pairProduct_add_left`, `pairProduct_add_right` | additive in `x` (through `T_B.Additive`) and in `y` |
+| `pairProduct_comp_target` | `pairProduct (m ≫ k) x y = pairProduct m x y ≫ (Q.map k)⟦n⟧'` |
+| `pairProduct_naturality_left` | `pairProduct m' (x ≫ (Q.map f)⟦a⟧') y = pairProduct ((f ⊗ 𝟙_B) ≫ m') x y` |
+| `pairProduct_naturality_right` | for `g : B ⟶ B'` with `lam.hom ≫ g = (𝟙_E ⊗ g) ≫ lam'.hom`: `pairProduct lam' m' x (y ≫ (Q.map g)⟦b⟧') = pairProduct lam ((𝟙_A ⊗ g) ≫ m') x y` |
+| `pairProduct_naturality` | for `f : A ⟶ A'`, `g : B ⟶ B'`, `k : D ⟶ D'` with `m ≫ k = (f ⊗ g) ≫ m'` and the unitor square: `pairProduct m' (x ≫ (Q.map f)⟦a⟧') (y ≫ (Q.map g)⟦b⟧') = pairProduct m x y ≫ (Q.map k)⟦n⟧'` |
+| `pairAction_unit`, `pairProduct_unit` | for `ρ : mapBifunctorRight F E ≅ 𝟭` with `hρ : ∀ a, ρ_{E⟦a⟧} = shift₁(E, E, a) ≫ ρ_E⟦a⟧`: `pairAction (ρ.app E) ρ_E x = x` and `pairProduct (ρ.app E) ρ_E h x y = y.comp x h` |
+| `complexRightUnitor_hom_naturality`, `complexLeftUnitor_hom_naturality` (and `_inv_` forms) | naturality of `HomologicalComplex.rightUnitor`, `leftUnitor` on `CochainComplex C ℤ` along chain maps, without the monoidal structure on complexes |
+| `complexRightUnitor_hom_shift` (and `_inv_`) | `ρ_{K⟦a⟧} = (mapBifunctorShift₁Iso K 𝟙 a).hom ≫ ρ_K⟦a⟧`, no sign |
+| `complexLeftUnitor_tensorUnit_inv` | `λ_𝟙⁻¹ = ρ_𝟙⁻¹` on the unit complex (Mathlib's `unitors_inv_equal` in degree 0; other degrees are zero objects) |
+| `tensorRightUnitorNat`, `derivedTensorUnitIso hE`, `derivedTensorUnitIso_hom_app` | `mapBifunctorRight (curriedTensor C) 𝟙 ≅ 𝟭` from `rightUnitor`; its descent `T_𝟙 ≅ 𝟭` (`derivedMapBifunctorRightIsoId`), with component `fac.hom.app K ≫ Q.map ρ_K` at `Q.obj K` |
+| `tensorPairProduct hB m h x y` | `pairProduct (curriedTensor C) 𝟙 hB (leftUnitor B) m h x y` |
+| `tensorPairProduct_naturality` | `pairProduct_naturality` with the unitor square discharged by `complexLeftUnitor_hom_naturality` |
+| `tensorPairProduct_unit hE h x y` | `tensorPairProduct hE λ_𝟙 h x y = y.comp x h` |
+| `unitComplex Y`, `unitComplex_eq_single_QX` | `ℚ_Y[0] := tensorUnit (ShQ Y) (.up ℤ)`; `= (single (ShQ Y) (.up ℤ) 0).obj (QX Y)` by `rfl` (the bridge to the constant sheaf; `Cup.unitIsoQX` is `Iso.refl`) |
+| `unitComplex_isStrictlyGE`, `unitComplex_isStrictlyLE` | instances, bounds `[0, 0]` |
+| `unitComplexMul Y`, `unitComplexMul_eq` | the unit multiplication `(tensorRightComplex Y ℚ_Y[0]).obj ℚ_Y[0] ⟶ ℚ_Y[0]`, the left unitor of complexes (`rfl`). The unit iso `T_𝟙 ≅ 𝟭` is `derivedTensorUnitIso` of the tensor layer; no sheaf-level unit iso is stated, since none is used (the unit clause is proved generically) |
+| `pairProductShQ Y lo hi m h x y` | the pairing on `D(ShQ Y)` for `B` strictly bounded in `[lo, hi]`, `m : (tensorRightComplex Y B).obj A ⟶ D` |
+| `pairProductShQ_add_left`, `_add_right` | biadditivity |
+| `pairProductShQ_naturality` | with `hm : m ≫ k = tensorHom f g ≫ m'` |
+| `pairProductShQ_unit h x y` | `pairProductShQ Y 0 0 (unitComplexMul Y) h x y = y.comp x h` |
+
+**Signs.** None, and every identity is exact. The shift enters only in the first variable, through `mapBifunctorShift₁Iso` (identity on summands, Mathlib docstring "does not involve signs") and `Q.commShiftIso`; the product of shifted morphisms is Mathlib's `ShiftedHom.comp` (`y ≫ g⟦b⟧' ≫ (shiftFunctorAdd' a b n h).inv`); the unitors carry no scalar. Order (conventions row "de Rham cup order (proposed)"): `x` acts on `B` from the left and `y` is applied first, so on `ℚ_Y[0]` the product is `y.comp x`; with the cup product in diagrammatic order, `pairProduct λ β α = α ∪ β`, and `deRhamCup x y := pairProduct μ y x` puts `deRhamCup` in the order of `Cup.cup`. The right-action variant would carry `(−1)^{p·b}` from `mapBifunctorShift₂Iso`; it is not used.
+
+**Choices for the red team.**
+1. `lam : E ⊗ B ≅ B` is data of the generic product (the left unitor in the tensor and sheaf layers), and naturality in `B` asks for the unitor square. In the unit clause `lam = ρ.app E` and `m = ρ_E`; the tensor layer takes `m = λ_𝟙` and passes through `λ_𝟙 = ρ_𝟙` (`complexLeftUnitor_tensorUnit_inv`).
+2. The unit hypothesis `hρ` is asked only at `E`. For the right unitor it holds for every `K` (`complexRightUnitor_hom_shift`).
+3. Naturality is along chain maps of `A`, `B`, `D`, as the ledger note asks; every map `de-rham-cup` feeds in (`F^p → Ω•`, `μ`, `μ_{p,q}`, `u`, `c • 𝟙`) is one. Naturality along morphisms of the derived category is not stated.
+4. No sheaf-level unit iso: `derivedTensorUnitIso` and `derivedTensorUnitIso_hom_app` at `C = ShQ Y` record `T_{ℚ_Y[0]} ≅ 𝟭`; a named sheaf copy cost about 40 s and was used by nothing (red team change 1).
+5. Not stated: ℚ-linearity, associativity, graded commutativity, compatibility with `T_φ` for `φ` a quasi-isomorphism, any statement on a general unit `E` beyond the hypotheses above.
+
+**Trivial proofs fail.** Checked in scratch against the built module: `rfl` on `pairProduct_unit` and on `pairProduct_add_left`, `simp [pairProduct, pairAction, hρ]` on `pairProduct_unit`, and `simp [pairProduct, pairAction]` on `pairProduct_naturality_left` all leave goals.
+
+**Timings and kernel cost.** The generic and tensor layers check in about 8 s with `lake env lean`. Each sheaf-level declaration pays the instance diamond of `docs/gaps.md` (Known weaknesses): in scratch, `pairProductShQ` 11 s, `pairProductShQ_add_left` 15 s, `pairProductShQ_unit` 30 to 35 s, `pairProductShQ_naturality` 48 to 60 s, `unitComplexMul` 17 s and `unitComplexMul_eq` 18.5 s (red team, serial), the `unitComplex` bound instances 3 s each. Diagnostics on the smallest instantiation (`mapBifunctorRight (curriedTensor (ShQ Y)) ℚ_Y[0]`, 7 s) show the kernel unfolding `Add.add` about 99,000 times, through `ModuleCat` hom groups, `Preadditive.homGroup` and `Function.Injective.addCommGroup`: the comparison of `Abelian.toPreadditive sheafIsAbelian` (the generic layer's path) with `Preadditive.fullSubcategory` (instance search at `ShQ Y`). Raising the priority of `Abelian.toPreadditive` and `Preadditive.preadditiveHasZeroMorphisms` locally did not change the times. Consumer side (red team, serial, `Elab.async false`): a statement that mentions `pairProductShQ` with a general `m` checks in under 1 s; with the left unitor written out as `m` it pays 7.9 s per declaration (the diamond between `tensorObj 𝟙 𝟙` and `(tensorRightComplex Y 𝟙).obj 𝟙`), and under 1 s with the named `unitComplexMul`; a placeholder `𝟙 _` for `𝟙 (Q.obj (unitComplex Y))` cost 23 s of elaboration in one statement, under 1 s written out; `abbrev` against `def` for `pairProductShQ` made no measurable difference. The whole file: about 3 minutes with `lake env lean` (187 s); `lake build HodgeLadder.Hodge.PairingProduct` built it in 168 s, against 114 s for `HodgeLadder.Hodge.DerivedTensorBounded`.
 
 ## What T1 needs from this rung
 
