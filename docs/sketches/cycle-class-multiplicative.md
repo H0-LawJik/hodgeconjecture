@@ -708,8 +708,8 @@ Conventions row "Transversal product of cycle classes" (added by the red team) r
 
 ### Vacuity and sign visibility
 
-- At a = b = 0 the hypotheses hold except `hxreg`, which needs `cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤` (rung `cycle-class-multiplicative-codim-zero`). In positive codimension they hold on ℙ² (`p2-lines-transversal`, used by `cycle-class-multiplicative-p2`).
-- The sign + is visible only where [T] ≠ 0: `p2-point-class-nonzero` and `cycle-class-multiplicative-codim-zero` are the tests, both open.
+- At a = b = 0 the hypotheses hold on every X, with `hxreg` from `cycleComponentSmoothSupportAmbientOpen_genericPoint_eq_top` (rung `cycle-class-multiplicative-codim-zero`, checked). In positive codimension they hold on ℙ² (`p2-lines-transversal`, used by `cycle-class-multiplicative-p2`).
+- The sign + is visible only where [T] ≠ 0. `cycle-class-multiplicative-codim-zero` (checked) detects only a sign that is −1 at a = b = 0. At a = b = 1, `p2-point-class-nonzero` gives [pt] ≠ 0 and `cup-positive-degree-test-p2` gives [L₀] ∪ [L₁] ≠ 0, which −[pt] also satisfies; so the main theorem's proof computes the sign there and no independent test confirms it. Proposed: `cycle-class-sign-test-p2` (open).
 - The general lemma `cup_forgetSupport_of_product` keeps the sign (−1)^{pq} for every p, q; the main theorem uses it only in even degrees.
 
 ### Drift list (final red team, section 8)
@@ -804,6 +804,72 @@ theorem cup_ne_zero_of_positive_degree :
 ```
 
 The proof rewrites with `planeLines_cup_eq_planeOrigin` and closes with `projectivePlane_point_class_ne_zero`; the right side of the equality carries the coheight proof `coheight_planeOrigin_add`, and the two classes agree by proof irrelevance and evaluation of `2 * (1 + 1)`. What it rules out: the square-zero product, which satisfies every checked ring law of `cup` and vanishes on classes of positive degree. What it does not test: the sign of [L₀] ∪ [L₁] = [pt] (−[pt] is also nonzero); that sign is the content of `cycle-class-multiplicative`.
+
+## cycle-class-multiplicative-codim-zero: statement
+
+Date: 2026-11-26. Checked. Statement elaborated with `sorry` bodies first; every body then proved in the same session, so the rung came out short. Red team: pass with changes 1 to 7 (`docs/sketches/cycle-class-multiplicative-codim-zero.redteam.md`), all implemented, with one correction to its text (the ℙ² instance does not test the odd signs; see "Two routes, and sign visibility"). Imported from `HodgeLadder.lean`. File `HodgeLadder/Tests/CycleClassMultiplicativeCodimZero.lean`, module `HodgeLadder.Tests.CycleClassMultiplicativeCodimZero`, next to `FundamentalClassUnit` and `CycleClassMultiplicativeP2`; the ledger's derived `file` hint `HodgeLadder/Cycle/Class/Multiplicative/Codim/Zero.lean` is superseded. Imports: `HodgeLadder.Cycle.Multiplicative`, `HodgeLadder.Tests.FundamentalClassUnit` (for `exists_cycleComponentSheafClass_genericPoint_eq_smul_one` and `exists_mem_cycleComponentSmoothSupportAmbientOpen`, both upstream inputs only) and upstream `Other.AlgebraicGeometry.Hodge.CodimensionZeroComparison` (already built). `lake env lean` on the file: 27 to 40 s wall, default heartbeats; 5 s for the first seven declarations before the `FundamentalClassUnit` import was added.
+
+### The rung
+
+```lean
+theorem cycleComponentSheafClass_genericPoint_cup_self (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] :
+    cup (cycleComponentSheafClass X (genericPoint X.left) (coheight_genericPoint_eq_zero X))
+        (cycleComponentSheafClass X (genericPoint X.left) (coheight_genericPoint_eq_zero X))
+        (2 * (0 + 0)) (by ring) =
+      cycleComponentSheafClass X (genericPoint X.left) (coheight_genericPoint_eq_zero_add_zero X)
+```
+
+This is `cycleComponentSheafClass_cup_of_transversal` at x = w = t = η (the generic point), a = b = 0, `d := dim X.left`. No `SmoothOfRelativeDimension` hypothesis is needed: upstream's instance `SmoothOfRelativeDimension.of_isIntegral` supplies `dim X.left`. The degree is the one the main theorem produces, `2 * (0 + 0)`; `ht` is stated as `↑0 + ↑0` (`coheight_genericPoint_eq_zero_add_zero`, by `rfl` after upstream's `coheight_genericPoint_eq_zero`), as in `coheight_planeOrigin_add`.
+
+### The missing lemma, proved
+
+```lean
+theorem cycleComponentSmoothSupportAmbientOpen_genericPoint_eq_top (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] :
+    cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤
+```
+
+Route, 20 lines: `closure {η} = X` (Mathlib `genericPoint_closure`), so the vanishing ideal in upstream's `cycleComponent` is `vanishingIdeal ⊤ = X.nilradical = ⊥` on the reduced `X` (Mathlib `vanishingIdeal_top`, `nilradical_eq_bot`); by `isIso_subschemeι_iff_eq_bot` the closed immersion `cycleComponentι X.left η` is an isomorphism (`isIso_cycleComponentι_genericPoint`, needs only `IsIntegral`); its composite with `X.hom` is smooth by instance search, so the smooth locus is `⊤` (`Scheme.Hom.smoothLocus_eq_top`), upstream's `cycleComponentSingularClosedFiltration X η 0` is `⊥`, its image and complex-point preimage are empty, and the complement is `⊤`.
+
+### The hypotheses
+
+| Hypothesis | Declaration | Content |
+|---|---|---|
+| `hx`, `hw` | upstream `coheight_genericPoint_eq_zero` | coheight 0 |
+| `ht` | `coheight_genericPoint_eq_zero_add_zero` | the form `↑0 + ↑0` |
+| `hd` | `Nat.zero_le _` | 0 + 0 ≤ dim X |
+| `hT` | `genericPoint_support_eq_inter` | `Set.inter_self`; holds for any x = w = t |
+| `hxreg`, `hwreg` | `genericPoint_support_subset_smoothSupportAmbientOpen` | the missing lemma |
+| `htr` | `genericPoint_transversal X d` | `chartAt y`, Mathlib `IsManifold.chart_mem_maximalAtlas`, `mem_chart_source`; both supports are `⊤` (upstream `cycleComponentAnalyticClosedSupport_genericPoint_eq_top`) and the conditions over `Fin 0` are empty |
+
+What the instance tests: the maximal-atlas membership of upstream's charts, `hxreg` (the missing lemma) and the conclusion of the main theorem. It does not test the coordinate conditions of `htr` or a proper intersection in `hT`; those are tested by `cycle-class-multiplicative-p2`.
+
+### Two routes, and sign visibility
+
+`fundamental-class-unit` proves [X] = 1 by evaluating the degree-0 chart coclass on upstream's standard local class (`forgetRel_chartNormalProjectionCoclass_zero`); with `one_cup` that gives [X] ∪ [X] = [X] at once. The rung reaches the same identity through the transversal theorem, sharing `cycle-class-germ`, Ψ and `[X] = c • 1` with `fundamental-class-unit` (relative cup, `local-class-product` at a = b = 0, uniqueness of supported classes). The import closure of `HodgeLadder.Cycle.Multiplicative` does not contain `HodgeLadder.Tests.FundamentalClassUnit`. The routes share `transport_supportedClass_eq_chartNormalProjectionCoclass`, `cup_singular_comparison`, `one_cup`, `exists_cycleComponentSheafClass_genericPoint_eq_smul_one` and `exists_mem_cycleComponentSmoothSupportAmbientOpen` (red team, constant closure); they differ only in the last step: evaluation of the degree-0 coclass, against its idempotence under `relCup2`. A defect in the shared inputs would enter both, so their agreement is evidence about the last step only. The file also proves the converse direction:
+
+- `cup_smul_one_smul_one X c e`: (c • 1) ∪ (e • 1) = (c e) • 1 in degree `2 * (0 + 0)`, from `add_cup`, `cup_add` (so `map_rat_smul`) and `one_cup`.
+- `cycleComponentSheafClass_genericPoint_eq_one_of_cup_self`: [X] = 1, from the rung, [X] = c • 1 with c ≠ 0 (upstream: H⁰ is a line, [X] ≠ 0) and c² = c. It does not use `cycleComponentSheafClass_genericPoint_eq_one` or `forgetRel_chartNormalProjectionCoclass_zero`; it still uses `cycle-class-germ` through the transversal theorem.
+- `cycleComponentSheafClass_genericPoint_cup_self_ne_neg` (change 5): [X] ∪ [X] ≠ −[X], from the rung and upstream's `cycleComponentSheafClass_genericPoint_ne_zero` alone.
+
+So the codimension-zero instance is sign-visible for a sign constant in (a, b): if the transversal theorem carried a fixed sign ε = ±1, the same argument would give c² = ε c, so [X] = ε · 1, and [X] = −1 is excluded by `cycleComponentSheafClass_genericPoint_ne_neg_one`. Signs that equal 1 at a = b = 0, such as (−1)^{ab} or (−1)^a, are invisible here. The red team's verdict says `cycle-class-multiplicative-p2` with `p2-point-class-nonzero` tests them; that is corrected here: `cup-positive-degree-test-p2` shows only [L₀] ∪ [L₁] ≠ 0, which −[pt] also satisfies, so no current test detects a sign at a = b = 1. The main theorem's proof computes the sign, and no independent test confirms it. The test that would is rung `cycle-class-sign-test-p2` (open): a degree map H⁴(ℙ²; ℚ) → ℚ with deg [pt] = 1 computed from upstream's point-class normalization, independently of the multiplicativity proof. Both sides of the rung are nonzero: upstream `cycleComponentSheafClass_genericPoint_ne_zero` elaborates against the right-hand side with the `↑0 + ↑0` coheight proof as well.
+
+### Trivial proofs, all fail
+
+On the missing lemma: `rfl` (the sides do not unfold to each other), `simp` (no progress), `simp [cycleComponentSmoothSupportAmbientOpen, cycleComponentSingularAnalyticClosedFiltration]` (unsolved goal). On the rung: `rfl`, `simp` (unsolved goal), `Subsingleton.elim _ _` (no `Subsingleton` instance on H⁰).
+
+### Axioms
+
+`#print axioms` on all ten declarations (`tools/check.py`, and the red team's RT1 on the first nine): `propext`, `Classical.choice`, `Quot.sound`. The file has no `sorry`.
+
+### Kept local
+
+`isIso_cycleComponentι_genericPoint` and `cycleComponentSmoothSupportAmbientOpen_genericPoint_eq_top` are statement-level facts about upstream's `cycleComponent` at the generic point; by decision 0011 they stay here, listed in `docs/gaps.md`, "General lemmas kept local".
+
+### Drift list (red team, section 8)
+
+For the next pin bump: statement library `cycleComponent`, `cycleComponentι` (their `vanishingIdeal`/`subschemeι` bodies, unfolded by `change`), `cycleComponentSingularClosedFiltration` at k = 0, `cycleComponentSmoothSupportAmbientOpen` (unfolded by `change`), `SmoothOfRelativeDimension.of_isIntegral`; `Other`: `coheight_genericPoint_eq_zero`, `cycleComponentAnalyticClosedSupport_genericPoint_eq_top`, `cycleComponentSheafClass_genericPoint_ne_zero`; Mathlib: `Scheme.isIso_subschemeι_iff_eq_bot`, `Scheme.IdealSheafData.vanishingIdeal_top`, `Scheme.nilradical_eq_bot`, `Scheme.Hom.smoothLocus_eq_top`, `genericPoint_closure`. A change to the body of `cycleComponent` or of the smooth ambient open breaks the `change` steps, so drift there breaks the build.
 
 ## Sources
 

@@ -142,3 +142,4 @@ public import HodgeLadder.Tests.CycleClassMultiplicativeP2
 public import HodgeLadder.Tests.ProjectivePlanePoint
 public import HodgeLadder.Tests.CupPositiveDegreeP2
 public import HodgeLadder.Tests.ClassProduct
+public import HodgeLadder.Tests.CycleClassMultiplicativeCodimZero

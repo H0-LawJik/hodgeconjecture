@@ -1,0 +1,12 @@
+# Handoff 2026-11-26: cycle-class-multiplicative-codim-zero
+
+- **Moved.** `cycle-class-multiplicative-codim-zero` checked in `HodgeLadder.Tests.CycleClassMultiplicativeCodimZero`: [X] ∪ [X] = [X] in degree `2 * (0 + 0)` on every smooth integral projective X, exact, sign +, from `cycleComponentSheafClass_cup_of_transversal` at the generic point with a = b = 0 and d = dim X. Ten declarations, standard axioms, imported from `HodgeLadder.lean`.
+- **Missing lemma, proved.** `cycleComponentSmoothSupportAmbientOpen_genericPoint_eq_top` (20 lines): the vanishing ideal of closure {η} = X is the nilradical, ⊥ on the reduced X, so `cycleComponentι` is an isomorphism (`isIso_cycleComponentι_genericPoint`) and Z_sing is empty. Both lemmas are kept local (decision 0011, `docs/gaps.md`).
+- **Extras.** `cycleComponentSheafClass_genericPoint_eq_one_of_cup_self` recovers [X] = 1 from c² = c without `forgetRel_chartNormalProjectionCoclass_zero`; the sign test `cycleComponentSheafClass_genericPoint_cup_self_ne_neg`.
+- **Red team.** Pass with changes 1 to 7 (`docs/sketches/cycle-class-multiplicative-codim-zero.redteam.md`), all implemented. The two routes to [X] = 1 share `cycle-class-germ`, Ψ, `one_cup` and [X] = c • 1; they differ in the last step only.
+- **Correction to the red team.** Its verdict says the ℙ² instance tests (−1)^{ab} and (−1)^a. It does not: `cup-positive-degree-test-p2` shows only [L₀] ∪ [L₁] ≠ 0, which −[pt] also satisfies. No current test detects a sign at a = b = 1. Conventions row "Transversal product of cycle classes", the sketch and the ledger note say so. New open rung `cycle-class-sign-test-p2`: a degree map H⁴(ℙ²; ℚ) → ℚ with deg [pt] = 1 from upstream's point-class normalization; the note lists the upstream inputs and the missing global orientation class.
+- **Merge.** Rebased on `6b45e4b`; the sketch keeps both the `p2-point-class-nonzero` section and this one.
+- **Timings.** `lake env lean` on the module: 27 to 40 s wall (5 s without the `FundamentalClassUnit` import); full `python3 tools/check.py`: 86 s, exit 0.
+- **Failed trivial proofs.** `rfl`, `simp`, and `simp` unfolding the definitions, on the missing lemma; `rfl`, `simp`, `Subsingleton.elim` on the rung.
+- **Not done.** The CLAUDE.md status block (coordinator). The note of `cycle-class-multiplicative-p2` still says the sign is visible with [pt] ≠ 0; left as it is (another rung).
+- **Next.** `cycle-class-sign-test-p2` needs a global fundamental class of ℙ²(ℂ) or H⁴ of the complement of a point; then ℙ¹ × ℙ¹.
