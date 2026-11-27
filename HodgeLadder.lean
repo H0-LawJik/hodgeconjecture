@@ -94,6 +94,7 @@ public import HodgeLadder.Cup.SupportedForgetGen
 public import HodgeLadder.Cup.SupportedForgetFinal
 public import HodgeLadder.Markman.CliffordSpin
 public import HodgeLadder.Markman.Chevalley
+public import HodgeLadder.Markman.HalfSpin
 public import HodgeLadder.Cup.TorusPairing
 public import HodgeLadder.Cup.TorusCycle
 public import HodgeLadder.Cup.WindingTorus
