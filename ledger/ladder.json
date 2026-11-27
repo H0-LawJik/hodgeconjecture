@@ -3112,31 +3112,80 @@
     {
       "id": "de-rham-rational-base-change",
       "title": "The base-change identity: LinearMap.liftBaseChange ℂ (fieldToDeRhamCohomologyLinear ℚ X n) is bijective, and Module.finrank ℂ H_dR^n(X) = Module.finrank ℚ H^n(X; ℚ), for smooth projective integral X",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Hodge.DeRhamRationalBaseChange",
+      "declarations": [
+        "HodgeLadder.bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat",
+        "HodgeLadder.finrank_deRham_eq_finrank_rat",
+        "HodgeLadder.deRhamBaseChangeEquiv",
+        "HodgeLadder.deRhamBaseChangeEquiv_tmul"
+      ],
+      "depends_on": [
+        "de-rham-rational-independent",
+        "simplicial-complex-span"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27, standard axioms. One-line applications of the conditional forms in HodgeLadder.Hodge.DeRhamRationalIndependent (bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan, finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan) to simplicialComplexSpan. Kept in a new module HodgeLadder.Hodge.DeRhamRationalBaseChange, which imports DeRhamRationalIndependent only, so the checked module of de-rham-rational-independent is unchanged. deRhamBaseChangeEquiv is the LinearEquiv form ℂ ⊗[ℚ] H^n(X; ℚ) ≃ₗ[ℂ] H_dR^n(X), with deRhamBaseChangeEquiv_tmul: c ⊗ m ↦ c • ι m. H_dR^n(X) carries upstream's deRhamHypercohomologyComplexModule. The rank equality uses Mathlib's finrank (0 on infinite-dimensional spaces); finiteness of either side is not part of the rung. The optional separating test of the red team of de-rham-rational-independent, finding 7b, is the new rung de-rham-rational-independent-test-gm2; gm2 is not projective, so it tests de-rham-rational-independent and not this rung. Red team 2026-11-27: docs/sketches/de-rham-rational-base-change.redteam.md (pass with changes); the finiteness that makes the rank equality a dimension count is the open rung rational-cohomology-finite-dimensional."
+    },
+    {
+      "id": "de-rham-p2-top-rank",
+      "title": "On ℙ², Module.finrank ℂ H_dR^4(projectivePlane) = 1",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.DeRhamP2TopRank",
+      "declarations": [
+        "HodgeLadder.Tests.finrank_deRham_four_projectivePlane",
+        "HodgeLadder.Tests.finrank_rat_H_four_projectivePlane",
+        "HodgeLadder.Tests.planeDegreeLinearEquiv"
+      ],
+      "depends_on": [
+        "de-rham-rational-base-change",
+        "cycle-class-sign-test-p2"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27, standard axioms. finrank_deRham_four_projectivePlane : Module.finrank ℂ H_dR^4(projectivePlane) = 1, with upstream's deRhamHypercohomologyComplexModule. Route: finrank_deRham_eq_finrank_rat (de-rham-rational-base-change) at X = projectivePlane, n = 4, then finrank_ℚ H⁴(ℙ²; ℚ) = 1 from planeDegree_bijective (cycle-class-sign-test-p2): the additive bijection planeDegree is ℚ-linear (AddMonoidHom.toRatLinearMap), giving planeDegreeLinearEquiv : H⁴(ℙ²; ℚ) ≃ₗ[ℚ] ℚ. ℙ² already carries IsIntegral, Smooth and IsProjective (isIntegral_projectiveSpace, smooth_projectiveSpace, isProjective_projectiveSpace in HodgeLadder.Tests.ProjectivePlane); no instance was added. The value 1 rules out H_dR⁴(ℙ²) = 0 and, since finrank is 0 on infinite-dimensional spaces, also gives finite-dimensionality, so the span of de-rham-rational-span cannot hold for a degenerate reason in this degree. The proof reads finrank_deRham_eq_finrank_rat and planeDegree_bijective only. The value also follows from span_range_fieldToDeRhamCohomology_rat (de-rham-rational-span), fieldToDeRhamCohomology_rat_injective (de-rham-injective) and planeDegreeLinearEquiv without de-rham-rational-independent (red team scratch RT4), so the test does not exercise ℂ-independence. Red team of de-rham-rational-span, section 7b; the weaker existing check, ∃ y : H_dR^4(ℙ²), y ≠ 0, follows from projectivePlane_point_class_ne_zero and fieldToDeRhamCohomology_rat_injective. Red team 2026-11-27: docs/sketches/de-rham-rational-base-change.redteam.md (pass with changes)."
+    },
+    {
+      "id": "de-rham-rational-independent-test-gm2",
+      "title": "On 𝔾ₘ², the two winding classes are ℚ-independent in H¹(X; ℚ) and LinearIndependent ℂ (fieldToDeRhamCohomology ℚ gm2 1 ∘ ![x₁, x₂])",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.DeRhamRationalIndependentGm2",
+      "declarations": [
+        "HodgeLadder.Tests.linearIndependent_deRham_windingClasses_gm2",
+        "HodgeLadder.Tests.linearIndependent_windingClasses_gm2",
+        "HodgeLadder.Tests.cup_self_eq_zero_gm2",
+        "HodgeLadder.Tests.gm2CupLeft",
+        "HodgeLadder.Tests.gm2CupRight"
+      ],
+      "depends_on": [
+        "de-rham-rational-independent",
+        "cup-odd-degree-gm2",
+        "cup-graded-commutative",
+        "cup-product"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27, standard axioms. Red team of de-rham-rational-independent, finding 7b, and of de-rham-rational-base-change, finding 7 (proof checked there in scratch, landed verbatim with renamed declarations). The smallest instance with two ℚ-independent classes in one degree, the shape that separates ℂ-independence from ℚ-injectivity (ℚ² → ℂ, (a, b) ↦ a + b√2 is injective with ℂ-dependent image); de-rham-p2-top-rank cannot, since every Betti number of ℙ² is at most 1. ℚ-independence of x₁ = sheafWindingClass gm2 gmCoordOne gmCoordOne_ne_zero and x₂ = sheafWindingClass gm2 gmCoordTwo gmCoordTwo_ne_zero: cup_gradedComm has sign (−1)^{1·1} = −1 in degree (1, 1), so x ∪ x = 0 over ℚ (cup_self_eq_zero_gm2; a sign +1 would make this step fail); add_cup and cup_add make the cup ℚ-linear in each factor (gm2CupLeft, gm2CupRight with AddMonoidHom.toRatLinearMap); cupping a x₁ + b x₂ = 0 with x₂ and with x₁ and gm2_cup_ne_zero give a = b = 0. ℂ-independence is then linearIndependent_fieldToDeRhamCohomology_rat_of_smooth (gm2 is smooth integral, not projective, so this tests de-rham-rational-independent and not de-rham-rational-base-change)."
+    },
+    {
+      "id": "rational-cohomology-finite-dimensional",
+      "title": "FiniteDimensional ℚ H^n(X; ℚ) for smooth projective integral X",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "de-rham-rational-independent",
-        "simplicial-complex-span"
+        "lefschetz-port"
       ],
       "contributors": [],
-      "note": "Red team of de-rham-rational-independent, finding 7. The conditional forms are checked in HodgeLadder.Hodge.DeRhamRationalIndependent: bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_simplicialComplexSpan and finrank_deRham_eq_finrank_rat_of_simplicialComplexSpan take hS : SimplicialComplexSpan; the _of_span versions take the span equality for one X. simplicial-complex-span is about to land as checked; once it does, the unconditional theorems are one-line applications, and this rung can be checked in the same module (target names bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat, finrank_deRham_eq_finrank_rat). T1's eigenspace count reads the rank equality; de-rham-p2-top-rank can then depend on it. Optional sharper test (red team finding 7b, not posted): every Betti number of ℙ² is at most 1, so the singleton [pt] does not separate ℂ-independence from ℚ-injectivity (de-rham-injective). A separating test needs two ℚ-independent classes in one degree: on HodgeLadder.Tests.gm2 (smooth integral, not projective, so through linearIndependent_fieldToDeRhamCohomology_rat_of_smooth), LinearIndependent ℂ (fieldToDeRhamCohomology ℚ gm2 1 ∘ ![sheafWindingClass gm2 gmCoordOne gmCoordOne_ne_zero, sheafWindingClass gm2 gmCoordTwo gmCoordTwo_ne_zero]). Its missing input is ℚ-independence of the two winding classes in H^1(gm2; ℚ), which the ladder lacks (gm2_cup_ne_zero and gm2_cup_swap_ne give nonvanishing and x₁ ≠ x₂ only)."
-    },
-    {
-      "id": "de-rham-p2-top-rank",
-      "title": "On ℙ², Module.finrank ℂ H_dR^4(projectivePlane) = 1",
-      "status": "open",
-      "kind": "test",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "de-rham-rational-span",
-        "cycle-class-sign-test-p2",
-        "de-rham-injective"
-      ],
-      "contributors": [],
-      "note": "Red team of de-rham-rational-span, section 7b: the sharper non-vacuity test. From the span, ι [pt] ≠ 0 and the degree isomorphism H⁴(ℙ²; ℚ) ≅ ℚ (planeDegree_bijective); fails if the span statement holds for a degenerate reason. The smallest existing check, ∃ y : H_dR^4(ℙ²), y ≠ 0, follows from projectivePlane_point_class_ne_zero and fieldToDeRhamCohomology_rat_injective."
+      "note": "Red team of de-rham-rational-base-change, finding 8 (recommended change F). Route: module_finite_singularHomology (port, LefschetzPort.AlgebraicGeometry.ProjectiveFiniteHomology: H_n(X(ℂ); ℤ) finitely generated for projective X), Ψ = rationalCohomologyAddEquivSingularCohomology (upstream, Other.AlgebraicGeometry.Cohomology.GlobalSections: sheaf to singular rational cohomology), and universal coefficients over ℚ (upstream's relativeCohomologyEquivDualHomology, in its absolute case: H^n(X(ℂ); ℚ) ≅ Hom(H_n(X(ℂ); ℚ), ℚ), finite-dimensional when H_n(X(ℂ); ℤ) is finitely generated). With deRhamBaseChangeEquiv (de-rham-rational-base-change) it gives FiniteDimensional ℂ H_dR^n(X). T1's eigenspace count needs it: finrank_deRham_eq_finrank_rat holds with both sides 0 when both spaces are infinite-dimensional, since Module.finrank is 0 on a module that is not finite, so the rank equality counts dimensions only together with this rung. Checked so far only in degree 4 of ℙ² (de-rham-p2-top-rank)."
     },
     {
       "id": "de-rham-rational-span",

@@ -1,0 +1,10 @@
+# Handoff 2026-11-27: `de-rham-rational-base-change`, `de-rham-p2-top-rank`, `de-rham-rational-independent-test-gm2`
+
+- Checked: `HodgeLadder.bijective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat` and `finrank_deRham_eq_finrank_rat` for smooth projective integral X, one-line applications of the conditional forms to `simplicialComplexSpan`, with the `LinearEquiv` `deRhamBaseChangeEquiv : ℂ ⊗[ℚ] H^n(X; ℚ) ≃ₗ[ℂ] H_dR^n(X)` and `deRhamBaseChangeEquiv_tmul`. New module `HodgeLadder.Hodge.DeRhamRationalBaseChange`, so the checked `DeRhamRationalIndependent` keeps its declarations (only two docstring words changed, "stated" to "checked in ...").
+- Checked: `HodgeLadder.Tests.finrank_deRham_four_projectivePlane : Module.finrank ℂ H_dR^4(projectivePlane) = 1`, from the rank equality and `planeDegreeLinearEquiv` (the additive bijection `planeDegree` as a ℚ-linear equivalence). No instance gap: ℙ² has IsIntegral, Smooth, IsProjective from `Tests.ProjectivePlane`; the ℂ-structure is upstream's `deRhamHypercohomologyComplexModule`.
+- Checked: `HodgeLadder.Tests.linearIndependent_deRham_windingClasses_gm2` and `linearIndependent_windingClasses_gm2` (new rung `de-rham-rational-independent-test-gm2`), the red team's scratch proof: x ∪ x = 0 in degree one from the sign −1 of `cup_gradedComm`, then cup with x₁ and x₂ and `gm2_cup_ne_zero`.
+- New open rung `rational-cohomology-finite-dimensional`: the rank equality counts dimensions only with finiteness, which the ladder has in degree 4 of ℙ² alone.
+- Red team: `docs/sketches/de-rham-rational-base-change.redteam.md`, pass with changes A to F, all implemented; the conventions row "Base change ℂ ⊗_ℚ M and the rank of an infinite-dimensional space" is the red team's.
+- Failed on the way: argument order of the `_of_simplicialComplexSpan` forms (section variable `X` comes before `hS`).
+- Times under `lake env lean`: base-change module 65 s, ℙ² test 43 s, `gm2` test 85 s; full `python3 tools/check.py` about 20 s on a warm build.
+- Next: `rational-cohomology-finite-dimensional`; a projective separating test with b_n ≥ 2 (ℙ¹ × ℙ¹) waits on `cup-positive-degree-test`.
