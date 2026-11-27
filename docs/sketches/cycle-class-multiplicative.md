@@ -469,6 +469,71 @@ About 75 lines for the rung and its helper. One trap: `rw [hsymm]` with `hsymm :
 Open test rung `affine-chart-conj-test` (change F): the chart of ℙ¹ followed by complex conjugation is outside the maximal atlas; statement in its ledger note, elaborated, not proved.
 Timing: `lake env lean HodgeLadder/Normalization/AffineChart.lean` 5 s wall, `HodgeLadder/Tests/ProjectiveChart.lean` 5 s; default heartbeats. Every declaration either ledger rung names checks with the standard axioms.
 
+## cycle-class-germ-point: statement
+
+Date: 2026-11-26. Rung `cycle-class-germ-point` (red team on `cycle-class-germ`, change H), kind test, checked. The statement was fixed first and passed a statement red team with changes (`docs/sketches/cycle-class-germ-point.redteam.md`); changes 1 to 5 are implemented, change 6 (a shared chart module for `Germ.lean` and the test) is skipped. Module `HodgeLadder.Tests.CycleClassGermPoint`, imported from `HodgeLadder.lean`; the derived `file` hint `HodgeLadder/Cycle/Class/Germ/Point.lean` is superseded. All 23 declarations the ledger names check with `propext`, `Classical.choice`, `Quot.sound`. `lake env lean` on the module: 28 s wall, default heartbeats.
+
+Independence by imports, guarded: the module imports `HodgeLadder.Normalization.ChartStep` (atlas lemmas only), upstream `Other` and Mathlib modules, and neither `HodgeLadder.Normalization.Germ` nor `HodgeLadder.Normalization.Singular` (change 1). A `run_cmd` guard at the end of the file (change 2) fails the build if either is imported, or if the rung's proof reaches `exists_open_chartNormalProjectionCoclass_eq`, `exists_open_complexDifferentiable_localClass_invariance`, `smoothClosedSupportCoclassStalk_eq_chartGerm`, `analyticAt_transition_of_factor` or `analyticAt_transition_of_mem_maximalAtlas`. Positive controls (scratch, deleted): adding the `Singular` import, and pointing the guard at a probe theorem that uses `exists_open_chartNormalProjectionCoclass_eq`, each fail the build with the guard's message. The chart of `adaptedChart_closedPoint` sits behind an existential there, so the file names it as a definition and reproves its four hypotheses.
+
+### Setting
+
+Fix a complex point y₀ of X, d = dim X, x = y₀.underlying (closed, coheight d), Z = {y₀}, U = X ∖ Z_sing = X(ℂ). Write T [Z] for the left side of `cycle-class-germ`: `complexSupportInjectiveSectionCohomologyEquiv X Z ⊤ (2d)` after `rationalSupportAddEquivSupportedInjectiveHomology`, applied to `cycleComponentSupportedInjectiveClass X x hx`.
+
+| Declaration | Statement | Status |
+|---|---|---|
+| `closedPointChartLinear X` (abbrev) | `ContinuousLinearEquiv.uniqueProd ℂ (Fin d → ℂ) (Fin 0 → ℂ)` | definition |
+| `closedPointChart X y₀` (def) | `((chartAt y₀).trans (addRight (−chartAt y₀ y₀))).trans (closedPointChartLinear X).symm`, the chart `e` of `adaptedChart_closedPoint` | definition |
+| `closedPointChart_source`, `closedPointChart_apply_snd`, `mem_closedPointChart_source` | source is that of `chartAt y₀`; normal coordinate `chartAt y₀ z − chartAt y₀ y₀`; y₀ in the source | proved |
+| `coheight_underlying` | `Order.coheight y₀.underlying = dim X.left` | proved |
+| `closedPointChart_mem_maximalAtlas`, `closedPointChart_support`, `mem_smoothSupportAmbientOpen_closedPoint` | hypotheses `he`, `hS`, `hyU` of `cycle-class-germ` for this chart (with `hy` above) | proved, as in `adaptedChart_closedPoint` |
+| `transport_supportedClass_eq_pointRelativeCoclass` | for every x with `hx : coheight x = dim X.left` and every complex point z of the component, T [Z] = `analyticComponentPointRelativeCoclass X x (dim X.left) z` | proved: upstream `cycleComponentSupportedInjectiveClass_point_normalization`, `AddEquiv.apply_symm_apply`, `analyticComponentPointSupportedInjectiveCoclass_relative` |
+| `pointRelativeCoclass_restrict_eq_chartNormalProjectionCoclass` | the cross-check, below | proved, Germ-free |
+| `chartNormalProjectionCoclass_ne_zero_of_mem`, `chartNormalProjectionCoclass_closedPointChart_ne_zero` | non-vacuity (change 4): a chart coclass is nonzero on every open W of the source meeting the support; the right side of the rung is nonzero on every admissible W | proved; the generic one is listed in `docs/gaps.md` "General lemmas kept local" |
+| `transport_restrict_eq_pointRelativeCoclass_restrict_eq_chartNormalProjectionCoclass` | on one open W ∋ y₀ inside the chart source: restriction of T [Z] = restriction of the point coclass, and restriction of the point coclass = chart coclass | proved from the two rows above |
+| `transport_supportedClass_eq_chartNormalProjectionCoclass_closedPoint` | the conclusion of `cycle-class-germ` at x, this chart, y = y₀, by the point route | proved from the row above; z from upstream `range_cycleComponentMap` |
+
+### The rung
+
+```lean
+theorem pointRelativeCoclass_restrict_eq_chartNormalProjectionCoclass (y₀ : ComplexPoint X)
+    (z : ComplexPoint (Over.mk (cycleComponentι X.left y₀.underlying ≫ X.hom))) :
+    ∃ (W : Opens (ComplexPoint X)) (hW : (W : Set (ComplexPoint X)) ⊆ (closedPointChart X y₀).source),
+      y₀ ∈ W ∧
+      relativeCohomologyMap ℚ (2 * dim X.left)
+          (neighborhoodSupportInclusionPairMap
+            (W := (W : Set (ComplexPoint X)))
+            (V := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X))) (fun _ _ => trivial)
+            (cycleComponentAnalyticClosedSupport X y₀.underlying : Set (ComplexPoint X)))
+          (analyticComponentPointRelativeCoclass X y₀.underlying (dim X.left) z) =
+        chartNormalProjectionCoclass (Fin 0 → ℂ) (dim X.left) (closedPointChart X y₀)
+          (cycleComponentAnalyticClosedSupport X y₀.underlying : Set (ComplexPoint X))
+          (closedPointChart_support X y₀) W hW
+```
+
+Instances: `[IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom]`; `SmoothOfRelativeDimension (dim X.left) X.hom` is found by upstream's `SmoothOfRelativeDimension.of_isIntegral`. Exact, no sign, no scalar. Both sides are normalized against the complex orientation of ℂ^d with consecutive (Re, Im) pairs (rows "Complex orientation of ℂ^p", "Fundamental-class normalization"): the left side is the normalized dual of `localClassOfChart` of `localChart X d y₀`, the right side the pullback along w ↦ chartAt y₀ w − chartAt y₀ y₀ of the normalized dual of `standardComplexLocalClass`. The shape (∃ W, restriction on W) is the shape of `cycle-class-germ`, so the two are compared like for like.
+
+### What the test can and cannot show
+
+Inside Lean the two paths cannot disagree: both are theorems at the same pin. A scratch file (deleted) that adds the import of `HodgeLadder.Normalization.Germ` proves the rung in eight lines from `transport_supportedClass_eq_chartNormalProjectionCoclass` and `transport_supportedClass_eq_pointRelativeCoclass`, and the same statement with the right side negated falls to none of the trivial tactics. So the rung holds at the pin, and the point route gives sign + with coefficient 1. The test's value is the second proof: an independent derivation of the closed-point case, which breaks if either route's normalization drifts at a pin bump. That proof is only independent if it avoids `Germ.lean`; the import list enforces it.
+
+Shared inputs, named for the red team: both routes start from upstream's normalization isomorphism and `cycleComponentSmoothSupportCoclassSection` (the point route through `cycleComponentSupportedInjectiveClass_unique` inside upstream's `cycleComponentSupportedInjectiveClass_point_normalization`, and upstream's singleton comparison `smoothClosedSupportCoclassSection_eq_point_of_singleton`). They split after that: `cycle-class-germ` uses the flattening charts on X ∖ Z_sing, the chart step and `exists_open_chartNormalProjectionCoclass_eq`; the point route uses the old coclass `analyticPointLocalCoclass` and, in phase 2, a direct radial computation for the translated `localChart`.
+
+### The proof, as checked
+
+The computation is stated for an abstract chart c : M ⇀ ℂ^d with y₀ ∈ c.source and a chart e : M ⇀ ℂ⁰ × ℂ^d with e.source ⊆ c.source and normal coordinate c − c y₀ (section `Abstract` of the module), then specialized with c = `chartAt y₀` and e = `closedPointChart X y₀`. The red team met a kernel timeout on a direct proof at the concrete chart; the abstract form avoids it.
+
+1. `chart_flattenedSupportHomeomorph`: on the normal fibre of the flattened neighbourhood F of e at y₀, c reads `univBall 0 r v + c y₀` (upstream `flattenedSupportHomeomorph_coordinates`, `univBall_zero_tangent_normal`).
+2. `flattenedTargetPairMap` is that map into (c.target, c.target ∖ {c y₀}); followed by the inclusion it is the centred radial map then translation by c y₀ (`flattenedTargetPairMap_comp_inclusion`), so upstream's `chartTargetPointPairMap_localClass` with `centeredComplexUnivBall_preserves_standardComplexLocalClass` sends the standard class to `localClassOfChart d c y₀` (`flattenedTargetPairMap_localClass`).
+3. `normalFiber_toPoint`: the normal fibre, upstream's `flattenedSupportPairIso` and the inclusion into (M, M ∖ {y₀}) compose to that map followed by the inverse of c. With `flattenedSupportNormalClass_eq_normalFiber`, the normal class goes to `localClassOfChart` (`normalClass_toPoint_eq_localClassOfChart`), coefficient 1.
+4. `normalizedCoclass_toPoint_eq_chartNormalProjectionCoclass`: the normalized dual of `localClassOfChart`, pulled back to F, pairs to 1 with the normal class (`relativeCohomologyEquivDualHomology_relativeCohomologyMap`, `normalizedRelativeCoclass_pairing_self`), so upstream's `chartNormalProjectionCoclass_unique` makes it the chart coclass on F.
+5. The rung, W = F. A `change` rewrites S in the spelling `cycleComponentSupport X x` and unfolds `analyticComponentPointRelativeCoclass`; `erw` with `relativeCohomologyMap_comp` and `neighborhoodSupportInclusionPairMap_toPoint` composes the two pair maps; the membership proof and then `cycleComponentMap X x z` are generalized and substituted by y₀ (upstream `cycleComponentSupport_eq_singleton_of_coheight_eq_dimension`); step 4 closes the goal, since `analyticPointLocalCoclass X d y₀` is by definition the normalized dual of `localClassOfChart d (localChart X d y₀) y₀` and `chartAt y₀` is `localChart X d y₀` by `rfl`.
+
+About 150 lines for steps 1 to 5. The two paths agree: sign +, coefficient 1. In this proof the only sign-bearing inputs are upstream's radial normalization `centeredComplexUnivBall_preserves_standardComplexLocalClass` and the translation in `chartTargetPointPairMap_localClass`; the orientation of ℂ^d enters both sides through `standardComplexLocalClass` and cancels (pinned by `cross-orientation`, `real-affine-orientation`).
+
+### Failed trivial proofs
+
+On the rung (scratch file, deleted): `rfl`, `simp`, `trivial`, `decide`, `aesop` (heartbeat timeout), and with W = the chart source: `rfl` (the sides are not definitionally equal), `simp [chartNormalProjectionCoclass, analyticComponentPointRelativeCoclass]` (unsolved goals), `Subsingleton.elim` (no instance).
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.
