@@ -158,3 +158,4 @@ public import HodgeLadder.Cup.RationalExtHom
 public import HodgeLadder.Hodge.RationalHypercohomology
 public import HodgeLadder.Hodge.DeRhamInjective
 public import HodgeLadder.Hodge.PairingProduct
+public import HodgeLadder.Hodge.RationalDeRhamComplex
