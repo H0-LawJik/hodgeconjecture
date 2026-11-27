@@ -10,6 +10,7 @@ public import HodgeLadder.General.LocallyConstantSheaf
 public import HodgeLadder.General.FreeAbelianTerminal
 public import HodgeLadder.General.Codimension
 public import HodgeLadder.General.SimplicialCochainSpan
+public import HodgeLadder.General.SimplicialCochainSpanProof
 public import HodgeLadder.Upstream.Statements
 public import HodgeLadder.CycleClass.Pins
 public import HodgeLadder.CycleClass.Statements

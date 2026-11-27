@@ -12,11 +12,11 @@ rational classes pushed along the additive maps `q ↦ z q`, `z ∈ ℂ`. Change
 an additive map is the port's `SSet.linearDualCoefficientChange` (generalized from ring maps to
 additive maps in the port, see `docs/port-lefschetz.md`).
 
-The statement is recorded as a `Prop` (rung `simplicial-complex-span`, stated). Proof plan in
-`docs/sketches/cup-hodge-filtration.md`, section "de-rham-rational-span: statement": the
+The statement is recorded as a `Prop` (rung `simplicial-complex-span`, checked). The proof,
+`HodgeLadder.simplicialComplexSpan`, is in `HodgeLadder.General.SimplicialCochainSpanProof`: the
 evaluation of a complex cocycle on integral cycles has values in a finite-dimensional ℚ-subspace
-`W ⊆ ℂ`; Baer's criterion for the divisible group `ℂ ⧸ W` makes the cocycle cohomologous to a
-`W`-valued one, whose coordinates in a ℚ-basis of `W` are rational cocycles.
+`W ⊆ ℂ`; a map `P : ℂ →+ ℂ` that is the identity on `W` and a sum of `ratScaled wᵢ ∘ λᵢ` with
+additive `λᵢ : ℂ → ℚ` fixes the class, by Baer's criterion for the divisible group `ℂ`.
 
 ## Main definitions
 
@@ -38,9 +38,10 @@ def ratScaled (z : ℂ) : ℚ →+ ℂ :=
 /-- `ratScaled z q = z * q`. -/
 @[simp] lemma ratScaled_apply (z : ℂ) (q : ℚ) : ratScaled z q = z * (q : ℂ) := rfl
 
-/-- **Sub-rung `simplicial-complex-span`** (stated). If the integral homology of a simplicial set
-is finitely generated in degree `n`, every degree-`n` complex cohomology class of its
-algebraic-dual cochain complex is a finite sum of classes pushed along `ratScaled z`. -/
+/-- **Sub-rung `simplicial-complex-span`** (checked, `simplicialComplexSpan`). If the integral
+homology of a simplicial set is finitely generated in degree `n`, every degree-`n` complex
+cohomology class of its algebraic-dual cochain complex is a finite sum of classes pushed along
+`ratScaled z`. -/
 def SimplicialComplexSpan : Prop :=
   ∀ (Y : SSet.{0}) (n : ℕ) [Module.Finite ℤ ((Y.chainComplex (ModuleCat.of ℤ ℤ)).homology n)]
     (α : (((forget₂ (ModuleCat.{0} ℂ) AddCommGrpCat).mapHomologicalComplex

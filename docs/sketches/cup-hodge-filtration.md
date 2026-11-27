@@ -121,7 +121,7 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `cup-hodge-classes` | `CupPreservesHodgeClasses`, `CupRespectsHodgeFiltrationRational` | stated |
 | `cup-hodge-classes-test-p2` | `Tests.projectivePlane_exists_hodge_cup_ne_zero` | checked |
 | `de-rham-cup-antisymm-h1` | antisymmetry of `deRhamCup` on `H¹_dR × H¹_dR` (T1 input) | open |
-| `de-rham-rational-span` | `Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤`, X projective (T1 input) | stated (from `simplicial-complex-span`; #192) |
+| `de-rham-rational-span` | `Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤`, X projective (T1 input) | checked (`deRhamRationalSpan`, with `simplicial-complex-span`; #192) |
 
 ## wedge-presheaf: statement
 
@@ -576,13 +576,13 @@ Neither upstream nor the port states the tensor form, flatness of constant-sheaf
 | 1. Scaled classes | `ratScaled z : ℚ →+ ℂ`, `q ↦ z q`; `fieldToComplexConstantSheafComplexInt_comp_complexScalarComplexInt`: inclusion then `z` is `constantCoefficientSheafComplexIntMap X (ratScaled z)`; `smul_hypercohomologyMap_fieldToHolomorphicDeRhamComplexInt`: `z • ι' β` is the de Rham image of the class pushed along `ratScaled z`, exactly | checked |
 | 2. Sheaf-side reduction | `span_range_fieldToDeRhamCohomology_rat_of_mem_closure`: if every `γ : ScalarCohomology X ℂ n` lies in `AddSubgroup.closure (⋃ z, Set.range (hypercohomologyMap X (constantCoefficientSheafComplexIntMap X (ratScaled z)) n))`, the span is `⊤` | checked |
 | 3. Comparison, additive | the port's `scalarCohomologyEquivOrdinarySingularCohomology_coefficientChange`, generalized from `f : R →+* S` to `f : R →+ S` (rung `betti-additive-naturality`) | checked |
-| 4. Cochains | `SimplicialComplexSpan` (rung `simplicial-complex-span`) | stated |
-| 5. Assembly | `mem_closure_ratScaled`: 3 and 4, under explicit Hausdorff, paracompactness and finite-homology hypotheses, give the hypothesis of 2 | checked, conditional on 4 |
-| 6. Rung | `deRhamRationalSpan_of_simplicialComplexSpan`: `IsProjective` supplies `T2Space` (instance), `openParacompactSpace` and `module_finite_singularHomology`; then 2 and 5 | checked, conditional on 4 |
+| 4. Cochains | `SimplicialComplexSpan` (rung `simplicial-complex-span`), proved by `simplicialComplexSpan` | checked |
+| 5. Assembly | `mem_closure_ratScaled`: 3 and 4, under explicit Hausdorff, paracompactness and finite-homology hypotheses, give the hypothesis of 2 | checked (unconditional through `deRhamRationalSpan`) |
+| 6. Rung | `deRhamRationalSpan_of_simplicialComplexSpan`: `IsProjective` supplies `T2Space` (instance), `openParacompactSpace` and `module_finite_singularHomology`; then 2 and 5 | checked (unconditional through `deRhamRationalSpan`) |
 Why the comparison must be natural in additive maps: before the generalization, the port proved naturality of `scalarCohomologyEquivOrdinarySingularCohomology` in ring maps only, and `ratScaled z` is not a ring map. Ring maps cannot replace it. A ring map into ℂ has a subring of ℂ as image; a subring that is finite-dimensional over ℚ is a number field, and the values of a complex cocycle on cycles (periods) are in general transcendental. So ring-map naturality alone reaches `ι(H^n(X; ℚ))` and no complex multiple of it; the dual-number trick (`ε ↦ zε` on `ℂ[ε]` is a ring map) needs the additive splitting `ℂ[ε] = ℂ ⊕ ℂε` on both sides, which is the same naturality.
 ### Sub-rungs
 `betti-additive-naturality` (checked). The port's coefficient change was generalized in place: `(f : R →+* S)` became `(f : R →+ S)` in `SimplicialCochainCoefficientChange.lean`, `SingularCochainCoefficientChange.lean` and `BettiScalarNaturality.lean`, and `f.toAddMonoidHom` became `f` in the two constant-sheaf maps. The callers `SimplicialCochainDenominators.lean` and `IntegralDenominatorClearing.lean` pass `(Int.castRingHom ℚ).toAddMonoidHom`; two `simp only` calls in the first gained `RingHom.toAddMonoidHom_eq_coe`, `AddMonoidHom.coe_ofClass`, and the local `ordinarySingularCohomologyCoefficientChange_apply` in the second was generalized the same way. No proof in the three files uses `f` multiplicatively. The divergence from the upstream source is logged in `docs/port-lefschetz.md`.
-`simplicial-complex-span` (stated, `HodgeLadder.General.SimplicialCochainSpan`):
+`simplicial-complex-span` (checked; statement in `HodgeLadder.General.SimplicialCochainSpan`, proof in `HodgeLadder.General.SimplicialCochainSpanProof`, section "simplicial-complex-span: checked" below):
 ```lean
 def SimplicialComplexSpan : Prop :=
   ∀ (Y : SSet.{0}) (n : ℕ) [Module.Finite ℤ ((Y.chainComplex (ModuleCat.of ℤ ℤ)).homology n)]
@@ -602,8 +602,8 @@ The sketch estimated `betti-additive-naturality` at about 730 lines of copied bo
 | Id | Kind | Status | Depends on | Declarations |
 |---|---|---|---|---|
 | `betti-additive-naturality` | foundation | checked | `lefschetz-port` | `AlgebraicGeometry.ComplexPoint.scalarCohomologyEquivOrdinarySingularCohomology_coefficientChange` (generalized to `R →+ S`) |
-| `simplicial-complex-span` | foundation | stated | | `HodgeLadder.SimplicialComplexSpan` |
-| `de-rham-rational-span` | foundation | stated | `betti-additive-naturality`, `simplicial-complex-span` | `HodgeLadder.DeRhamRationalSpan`, `HodgeLadder.deRhamRationalSpan_of_simplicialComplexSpan`, and the steps above |
+| `simplicial-complex-span` | foundation | checked | | `HodgeLadder.simplicialComplexSpan`, `HodgeLadder.SimplicialComplexSpan` |
+| `de-rham-rational-span` | foundation | checked | `betti-additive-naturality`, `simplicial-complex-span` | `HodgeLadder.deRhamRationalSpan`, `HodgeLadder.span_range_fieldToDeRhamCohomology_rat`, `HodgeLadder.DeRhamRationalSpan`, `HodgeLadder.deRhamRationalSpan_of_simplicialComplexSpan`, and the steps above |
 | `de-rham-rational-independent` | foundation | checked | `betti-additive-naturality`, `de-rham-rational-span` | `HodgeLadder.Hodge.DeRhamRationalIndependent`: `linearIndependent_fieldToDeRhamCohomology_rat` and the three companion theorems |
 | `de-rham-p2-top-rank` | test | open | `de-rham-rational-span`, `cycle-class-sign-test-p2`, `de-rham-injective` | `Module.finrank ℂ H_dR^4(projectivePlane) = 1` |
 
@@ -642,3 +642,19 @@ The module also holds the identity `ℂ ⊗_ℚ H^n(X; ℚ) ≅ H_dR^n(X)` in co
 | Id | Kind | Status | Depends on | Module | Declarations |
 |---|---|---|---|---|---|
 | `de-rham-rational-independent` | foundation | checked (after the red team pass) | `betti-additive-naturality`, `de-rham-rational-span` | `HodgeLadder.Hodge.DeRhamRationalIndependent` | `HodgeLadder.linearIndependent_fieldToDeRhamCohomology_rat`, `HodgeLadder.linearIndependent_fieldToDeRhamCohomology_rat_of_smooth`, `HodgeLadder.injective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat`, `HodgeLadder.injective_liftBaseChange_fieldToDeRhamCohomologyLinear_rat_of_smooth` |
+
+## simplicial-complex-span: checked
+Date: 2026-11-27. Module `HodgeLadder.General.SimplicialCochainSpanProof` (380 lines, no elaborator options), imported from `HodgeLadder.lean`; `HodgeLadder.Hodge.DeRhamRationalSpan` now imports it and adds `deRhamRationalSpan : DeRhamRationalSpan` and `span_range_fieldToDeRhamCohomology_rat` (one `X`, one `n`). Rung `de-rham-rational-span` is checked with it. The type of `SimplicialComplexSpan` is unchanged; only its docstring status word moved.
+### Proof structure
+| Step | Declaration | Content |
+| Evaluation | `cochainEval Y n c : C_n(Y; ℤ) →ₗ[ℤ] R` | an `R`-valued cochain on integral chains, any commutative ring `R`; the port's `ratEval` for general `R`, with `_sub`, `_zero`, `_dualMap_d`, `_d_eq_zero`, and `_dualCoefficientChange` (evaluation after coefficient change along `f : R →+ S` is `f` of the evaluation) |
+| 1. Periods | `exists_finiteDimensional_cochainEval_mem` | a complex cocycle's evaluation on integral cycles descends to `G : H_n(Y; ℤ) →ₗ[ℤ] ℂ` (`descHomology`); `range G` is generated by a finite set `s` (`Module.finite_def`, `Submodule.FG.map`), and every value lies in `W := span ℚ s` (`Submodule.span_le_restrictScalars`), finite-dimensional by `FiniteDimensional.span_finset` |
+| 2. Coordinates | `exists_sum_ratScaled_eq` | for `W` finite-dimensional, a left inverse `π : ℂ →ₗ[ℚ] W` of the inclusion (`LinearMap.exists_leftInverse_of_injective`) and `Module.finBasis ℚ W` give `λᵢ = coord i ∘ π : ℂ →+ ℚ`, `wᵢ = bᵢ` with `Σ ratScaled wᵢ (λᵢ x) = x` on `W` |
+| 3. Baer | `exists_dualMap_d_eq_of_cochainEval` | a complex cochain `f` of degree `k + 1` vanishing on integral cycles is `δe`: `f` factors through `∂ : C_{k+1}(Y; ℤ) → B_k`, the factor extends to `C_k(Y; ℤ) →+ ℂ` by `Module.Baer.of_divisible` for `ℂ` (`divisibleByIntOfCharZero`), and `e` is its value on simplices; `δe = f` is checked simplex by simplex through the port's `intChainsLift_comp_d` |
+| 4. Class fixed | `homologyMap_linearDualCoefficientChange_eq` | if `P : ℂ →+ ℂ` fixes the values of the cocycle on integral cycles, `(P)_*` fixes its class: `P ∘ c − c` vanishes on integral cycles, so it is `δe` by step 3 for `n = k + 1` and is `0` for `n = 0` (every chain is a cycle) |
+| 5. Rung | `simplicialComplexSpan` | with `P = Σ ratScaled wᵢ ∘ λᵢ` from steps 1 and 2, `α = (P)_* α = Σ (ratScaled wᵢ)_* ((λᵢ)_* α)` by `linearDualCoefficientChange_add`, `_zero`, `_comp` and `HomologicalComplex.homologyMap_add`, `_zero`, `_comp` |
+### Deviation from the plan
+The plan of the statement section used the quotient `ℂ ⧸ W`, a Baer extension into it, a lift back to `ℂ`, and coordinates of the resulting `W`-valued cocycle. The proof replaces the quotient by a ℚ-linear projection `π` onto `W`: the coboundary step is then Baer into `ℂ` itself, with no lift, and the coordinates `λᵢ` are additive maps `ℂ → ℚ`, so the rational cocycles are the images `(λᵢ)_* c` under the port's coefficient change and need no separate cocycle proof. The finiteness hypothesis enters only in step 1, as the red team's finding 4 predicted.
+`#print axioms` on `simplicialComplexSpan`, `deRhamRationalSpan`, `span_range_fieldToDeRhamCohomology_rat` and the four step theorems: `[propext, Classical.choice, Quot.sound]`. Trivial proofs fail: after `intro`, `simp` makes no progress on `SimplicialComplexSpan` and leaves the span goal of `DeRhamRationalSpan` open. Measured: `lake env lean` on the proof module 8 to 13 s wall; `lake build HodgeLadder` after the change 31 s; `python3 tools/check.py` 22 s on the warm build, all checks accepted.
+### For the red team
+Red team verdict: pass with changes (`docs/sketches/simplicial-complex-span.redteam.md`); the three `set_option backward.isDefEq.respectTransparency false` lines were measured unneeded and deleted, `cochainEval` and `linearDualCoefficientChange_zero` were added to the ledger, and the gaps row names the `SSet` ambiguity case. Attack points given to it: (a) the docstring claim that `SimplicialComplexSpan` is unchanged (diff of `SimplicialCochainSpan.lean` is docstrings only); (b) degree `0`, where the Baer step is skipped and `P ∘ c = c` is read from `ChainComplex.next_nat_zero` and the shape of the integral complex; (c) that `ratScaled (b i)` with `b i ∈ W ⊆ ℂ` is the posted `ratScaled z`, with no ring-map or ℚ-linearity assumption on `λᵢ`; (d) whether the general lemmas (`cochainEval`, the three `linearDualCoefficientChange` lemmas) clash with names in the port or upstream at the pin (`docs/gaps.md` row).

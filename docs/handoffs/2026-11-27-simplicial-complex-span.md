@@ -1,0 +1,11 @@
+# Handoff 2026-11-27: `simplicial-complex-span` and `de-rham-rational-span`
+
+- Checked: `HodgeLadder/General/SimplicialCochainSpanProof.lean` (380 lines), imported from `HodgeLadder.lean`; `simplicialComplexSpan : SimplicialComplexSpan`, standard axioms. The type of `SimplicialComplexSpan` is unchanged (red team `Iff.rfl` test against main's text).
+- Unconditional: `deRhamRationalSpan : DeRhamRationalSpan` and `span_range_fieldToDeRhamCohomology_rat` (one `X`, one `n`) in `HodgeLadder.Hodge.DeRhamRationalSpan`; rung `de-rham-rational-span` is checked with it.
+- Route: periods of a complex cocycle on integral cycles lie in a finite-dimensional ℚ-subspace `W ⊆ ℂ` (finite generation of `H_n(Y; ℤ)` enters only here); a ℚ-linear projection onto `W` and a ℚ-basis give `P = Σ ratScaled wᵢ ∘ λᵢ`, the identity on `W`; `P ∘ c − c` vanishes on integral cycles, hence is a coboundary by Baer for the divisible group `ℂ` (zero in degree 0); additivity and functoriality of the port's coefficient change give `α = Σ (ratScaled wᵢ)_* (λᵢ)_* α`.
+- Deviation from the plan: a projection in place of the quotient `ℂ ⧸ W`, so Baer goes into `ℂ` itself with no lift, and the rational cocycles are images `(λᵢ)_* c` with no separate cocycle proof.
+- General lemmas kept local: `cochainEval` (the port's `ratEval` for any commutative ring) and its lemmas, `linearDualCoefficientChange_comp`, `_add`, `_zero`; row in `docs/gaps.md` with the `SSet` name-ambiguity case for a re-port.
+- Timing: `lake env lean` on the proof module about 9 s; `lake build HodgeLadder` 31 s; `python3 tools/check.py` about 20 to 40 s on the warm build.
+- Red team: `docs/sketches/simplicial-complex-span.redteam.md`, pass with changes. Implemented: the three `set_option backward.isDefEq.respectTransparency false` lines deleted (measured unneeded), `cochainEval` and `linearDualCoefficientChange_zero` added to the ledger, gaps row extended; conventions row "Evaluation of a simplicial cochain on integral chains" added by the red team. The status-block paragraph (change 2) is left to the maintainer.
+- Side note from the red team: `tools/next.py` prints "not ready: a dependency is still open" for any rung whose status is not `open`, checked rungs included; the fix belongs in `tools/next.py`.
+- Next: `de-rham-rational-independent` (#194), then `de-rham-p2-top-rank`.
