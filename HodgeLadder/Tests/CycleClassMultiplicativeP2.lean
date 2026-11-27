@@ -14,7 +14,8 @@ satisfy `[L₀] ∪ [L₁] = [pt]` in `H⁴(ℙ²; ℚ)`, exact, sign `+`. The p
 hypothesis is supplied by rung `p2-lines-transversal`. The only adaptation is the coheight of the
 point, stated upstream-side as `↑1 + ↑1` (`coheight_planeOrigin_add`).
 
-The sign is visible only where `[pt] ≠ 0`; rung `p2-point-class-nonzero` checks that, and `cup-positive-degree-test-p2` combines the two.
+The sign is visible only where `[pt] ≠ 0`; rung `p2-point-class-nonzero` checks that, and
+`cup-positive-degree-test-p2` combines the two.
 
 ## Main results
 
