@@ -489,3 +489,71 @@ Both are specializations of general forms in the same file, at `point = Spec ℂ
 **Timings.** `lake env lean` on the file: 8 to 13 s wall for the six first declarations, 13 to 15 s with the four of change 4. `lake build HodgeLadder.Tests.DeRhamUnitNonzero`: 7.6 s for the module before change 4.
 
 **Open follow-up.** `Nonempty (ComplexPoint X)` is an argument of the general forms; rung `complex-point-nonempty` (open) derives it from `IsIntegral X.left` and `Smooth X.hom` by the Nullstellensatz.
+
+## wedge-sheafify: statement
+
+Module `HodgeLadder/Hodge/WedgeSheafify.lean` (`HodgeLadder.Hodge.WedgeSheafify`). Section written for the statement red team; the posted state is in "wedge-sheafify: checked" below, and the verdict is `docs/sketches/wedge-sheafify.redteam.md`. `tools/next.py` derives `HodgeLadder/Wedge/Sheafify.lean` from the rung id, since the ledger had `module: null`; the module sits next to `WedgePresheaf` and `RationalDeRhamComplex`, and the ledger now names it. It imports `HodgeLadder.Hodge.WedgePresheaf` and `HodgeLadder.Hodge.RationalDeRhamComplex` (which already imports `RationalHypercohomology`). Every declaration below elaborates and is proved, with the three standard axioms only (`#print axioms` on all 17 declarations, 2026-11-27). No statement is open.
+
+Construction. On an open `U`, `rationalWedgeBilin X d U p q := (holomorphicWedge X d U p q).restrictScalars₁₂ ℚ ℚ`, for the instance `holomorphicFormRatModule`. Its `TensorProduct.lift` on each open is the presheaf wedge; naturality is `holomorphicFormRestriction_holomorphicWedge` on pure tensors (`TensorProduct.ext'`). Sheafification `presheafToSheaf` is monoidal for `Sheaf.monoidalCategory` (Mathlib's instance, `Localization.Monoidal`); the sheaf wedge is its tensorator `μ` followed by the sheafified presheaf wedge. The defining square uses `toSheafifyTensor P Q := toSheafify (P ⊗ Q) ≫ δ`, where `δ = μ⁻¹`, and maps out of `sheafify P ⊗ sheafify Q` are determined after `toSheafifyTensor` (`δ` is an isomorphism, then `sheafify_hom_ext`).
+
+### Statements
+
+Generic layer, any `Y : TopCat`, `P Q R : Cup.PreQ Y`:
+
+| Declaration | Statement |
+|---|---|
+| `toSheafifyTensor P Q` | `P ⊗ Q ⟶ (presheafQ Y).obj (sheafifyQ P ⊗ sheafifyQ Q)`, `toSheafify (J Y) (P ⊗ Q) ≫ (presheafQ Y).map (δ (sheafifyQ Y) P Q)` |
+| `toSheafifyTensor_comp_μ` | `toSheafifyTensor P Q ≫ (presheafQ Y).map (μ (sheafifyQ Y) P Q) = toSheafify (J Y) (P ⊗ Q)` |
+| `toSheafifyTensor_comp_map P Q R w` | `toSheafifyTensor P Q ≫ (presheafQ Y).map (μ ≫ (sheafifyQ Y).map w) = w ≫ toSheafify (J Y) R` for `w : P ⊗ Q ⟶ R` |
+| `toSheafifyTensor_hom_ext` | `f g : sheafifyQ P ⊗ sheafifyQ Q ⟶ S`, equal after `toSheafifyTensor P Q ≫ (presheafQ Y).map _`, are equal |
+| `toSheafifyTensor_naturality_left α Q` | `toSheafifyTensor P Q ≫ (presheafQ Y).map ((sheafifyQ Y).map α ▷ sheafifyQ Q) = (α ▷ Q) ≫ toSheafifyTensor P' Q` |
+| `toSheafifyTensor_naturality_right P β` | `toSheafifyTensor P Q ≫ (presheafQ Y).map (sheafifyQ P ◁ (sheafifyQ Y).map β) = (P ◁ β) ≫ toSheafifyTensor P Q'` |
+
+At `X(ℂ)`, with `P_p := rationalHolomorphicFormPresheaf X d p` and `Ω^p_ℚ := rationalHolomorphicFormSheaf X d p = sheafifyQ P_p`:
+
+| Declaration | Statement | Proof |
+|---|---|---|
+| `analyticShQMonoidal X` | `MonoidalCategory (Cup.ShQ (TopCat.of (ComplexPoint X)))`, `Cup.sheafMonoidal _` (abbrev, local instance) | definition |
+| `rationalWedgeBilin X d U p q` | `HolomorphicForm X d U p →ₗ[ℚ] HolomorphicForm X d U q →ₗ[ℚ] HolomorphicForm X d U (p + q)` | `restrictScalars₁₂ ℚ ℚ` |
+| `rationalWedgePresheaf X d p q` | `P_p ⊗ P_q ⟶ P_{p+q}`, components `ModuleCat.ofHom (TensorProduct.lift (rationalWedgeBilin X d U p q))` | naturality from `holomorphicFormRestriction_holomorphicWedge` |
+| `rationalWedgePresheaf_app_tmul` | `((rationalWedgePresheaf X d p q).app U).hom (a ⊗ₜ[ℚ] b) = holomorphicWedge X d U p q a b` | `rfl` |
+| `wedgeSheaf X d p q` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ`, `μ (sheafifyQ _) P_p P_q ≫ (sheafifyQ _).map (rationalWedgePresheaf X d p q)` | definition |
+| `toSheafifyTensor_comp_wedgeSheaf` | `toSheafifyTensor P_p P_q ≫ (presheafQ _).map (wedgeSheaf X d p q) = rationalWedgePresheaf X d p q ≫ toSheafify (J _) P_{p+q}` | `toSheafifyTensor_comp_map` |
+| `eq_wedgeSheaf_iff f` | `f = wedgeSheaf X d p q ↔ toSheafifyTensor P_p P_q ≫ (presheafQ _).map f = rationalWedgePresheaf X d p q ≫ toSheafify (J _) P_{p+q}` | the square, `toSheafifyTensor_hom_ext` |
+| `toSheafifyTensor_comp_wedgeSheaf_apply` | on `a ⊗ₜ b` over `U`: `wedgeSheaf` of `toSheafifyTensor (a ⊗ₜ b)` is `toSheafify (J _) P_{p+q}` of `holomorphicWedge X d U p q a b` | `congrArg` |
+| `forget_wedgeSheaf` | `whiskerRight (toSheafifyTensor P_p P_q ≫ (presheafQ _).map (wedgeSheaf X d p q)) Cup.U ≫ (sheafToPresheaf (J _) AddCommGrpCat).map (forgetRationalHolomorphicFormSheafIso X d (p + q)).hom = whiskerRight (rationalWedgePresheaf X d p q) Cup.U ≫ toSheafify (J _) (holomorphicDeRhamPresheaf X d (p + q))` | the square, then `toSheafify_comp_forgetRationalHolomorphicFormSheafIso` |
+| `forget_wedgeSheaf_apply` | on sections: `e_{p+q}` of `wedgeSheaf (toSheafifyTensor (a ⊗ₜ b))` is upstream's `toSheafify (J _) (holomorphicDeRhamPresheaf X d (p + q))` of `holomorphicWedge X d U p q a b` | `congrArg` |
+| `rationalWedgePresheaf_app_ne_zero U` | `(rationalWedgePresheaf X d 0 0).app U ≠ 0` for `[Nonempty U.unop]` | `holomorphicWedge_ofConstant_one_ne_zero` |
+
+Signs and scalars. None. `μ`, `δ`, `toSheafify` and `sheafComposeNatIso` are Mathlib's; the wedge keeps the factor order `a ∧ b` of `holomorphicWedge`; `restrictScalars₁₂` and `TensorProduct.lift` change no value. The pin: `eq_wedgeSheaf_iff` determines the sheaf wedge from the presheaf wedge and Mathlib's tensorator, and `forget_wedgeSheaf` ties its forgotten image to upstream's sheafification map through the comparison that `toSheafify_comp_forgetRationalHolomorphicFormSheafIso` pins. A twist of the comparison by an automorphism σ of `Ω^{p+q}_ℚ` would change the left side of `forget_wedgeSheaf` and leave the right side fixed. No new row for `docs/conventions.md`; the row "Wedge product of holomorphic forms" covers the factor order.
+
+Trivial proofs fail (scratch, 2026-11-27): `rfl` fails on `toSheafifyTensor_comp_wedgeSheaf` and on `forget_wedgeSheaf`; `simp` leaves both open; with `0` in place of `wedgeSheaf X d p q` in the square, `simp` stops at `toSheafifyTensor P_p P_q ≫ (presheafQ _).map 0 = toSheafify (J _) (P_p ⊗ P_q) ≫ sheafifyMap (J _) (rationalWedgePresheaf X d p q)`.
+
+### Instance findings
+
+1. **`Cup.sheafMonoidal` is not applied at `TopCat.of (ComplexPoint X)`.** `#synth MonoidalCategoryStruct (Cup.ShQ (TopCat.of (ComplexPoint X)))` fails with `attribute [local instance] Cup.sheafMonoidal`, and succeeds at a variable `Y`. Cause, read with `#discr_tree_key`: the key of `Cup.sheafMonoidal` contains `Opens _.1` (the `TopCat` carrier of a metavariable), while the concrete goal reduces at reducible transparency to `Opens (Quiver.Hom (Over.mk (𝟙 (Spec ℂ))) X)` (`TopCat.of` and `ComplexPoint` unfold), so the trie lookup misses. The same cause plausibly explains the misses of `Cup.preservesSheafification_U` and `Cup.forgetSheaf_additive` recorded for `rational-de-rham-complex` (not rechecked). Fix: `analyticShQMonoidal X`, an abbrev at the concrete space, as a local instance; consumers repeat the `attribute [local instance]` line. The `Functor.Monoidal` instance of `presheafToSheaf` is found at the concrete space with no help.
+2. **Spelling.** `rw` does not cross `rationalHolomorphicFormSheaf X d p` and `(sheafifyQ _).obj P_p` (a `def`, motive not type-correct at implicit transparency), and the same holds for `Sheaf (Cup.J _) AddCommGrpCat` against upstream's `TopCat.Sheaf`. Proofs use `exact` and `Eq.trans` with the generic lemmas. A consumer check in scratch: `toSheafifyTensor P_p P_q ≫ (presheafQ _).map ((rationalHolomorphicFormSheafDifferential X d p ▷ Ω^q_ℚ) ≫ wedgeSheaf X d (p + 1) q) = (rationalHolomorphicFormDifferential X d p ▷ P_q) ≫ rationalWedgePresheaf X d (p + 1) q ≫ toSheafify (J _) P_{p+1+q}` fails at the first `rw [Functor.map_comp]` and closes in five `Eq.trans` steps with `toSheafifyTensor_naturality_left` and the square. This is the shape `wedge-sheaf-map` needs for the Leibniz check.
+3. **No kernel cost.** Unlike the sheaf-level `tensorHom` of `docs/gaps.md` (Known weaknesses), no declaration here is slow: the statements name sheaf maps (`wedgeSheaf`, `▷`, `◁`) and write objects out.
+
+### Timings
+
+`lake env lean` on the module: 5 s for the skeleton, about 10 s in full; `lake build HodgeLadder.Hodge.WedgeSheafify` 4 to 5 s. Scratch tests 5 to 9 s each.
+
+Questions for the red team. (1) Is `toSheafifyTensor` (sheafification map of `P ⊗ Q`, then `δ`) the right reference map for the defining square, against `(toSheafify P ⊗ toSheafify Q)` followed by a canonical map `F.obj ⊗ G.obj ⟶ (F ⊗ G).obj` for sheaves `F`, `G`? By `toSheafifyTensor_naturality_left`, `_right` and the triangle identity of the sheafification adjunction the two should agree; this is not stated or checked in Lean. (2) Should `analyticShQMonoidal` move to `HodgeLadder.Cup.SheafTensor` with the other ShQ structure, and should the concrete-space instances of `rational-de-rham-complex` be rechecked against the discrimination-tree cause? (3) Is presheaf-level nonvacuity enough, or should the rung carry `wedgeSheaf X d 0 0 ≠ 0` on a nonempty `X(ℂ)`? That needs `toSheafify` of `[1]` to be nonzero in upstream's sheaf (a stalk argument), and fits the open test rung `de-rham-unit-nonzero` better.
+
+## wedge-sheafify: checked
+
+Checked 2026-11-27; imported from `HodgeLadder.lean`, ledger module `HodgeLadder.Hodge.WedgeSheafify`, 24 declarations, standard axioms only. Red team `docs/sketches/wedge-sheafify.redteam.md`: pass with changes, implemented.
+
+| Change | Implementation |
+|---|---|
+| 1 | import from `HodgeLadder.lean`; ledger `checked` with the 17 declarations of the statement section and the 7 below |
+| 2 | `docs/gaps.md`, "General lemmas kept local": one row for `toSheafifyTensor` and its generic lemmas |
+| 3 | the ledger-path sentence above, corrected |
+| 4 | the row "Sheafified wedge and the sheaf tensor" of `docs/conventions.md` (red team) stays |
+| 5 | the unit law in the module: `sheafifyQ_ε : Functor.LaxMonoidal.ε (Cup.sheafifyQ Y) = 𝟙 _ := rfl` (the pin), `toSheafifyTensor_leftUnitor` (the red team's text), helpers `toSheafify_comp_eqToHom`, `eqToHom_app_rationalHolomorphicFormPresheaf`, `rationalWedgePresheaf_unit_left`, and `wedgeSheaf_unit_left : (rationalConstantsToFormsSheaf X d ▷ Ω^q_ℚ) ≫ wedgeSheaf X d 0 q ≫ eqToHom (congrArg (rationalHolomorphicFormSheaf X d) (Nat.zero_add q)) = (λ_ Ω^q_ℚ).hom` |
+| 6 | ledger notes of `wedge-sheaf-map` (chain-map route, the five-step Leibniz shape) and `de-rham-cup` (`S_c` and its tie to `scalarHolomorphicDeRhamComplexInt` owed; scalar laws derivable as in RT4) |
+| 7 | `docs/gaps.md`, "Known weaknesses": the `Opens _.1` discrimination-tree cause and the `analyticShQMonoidal` workaround |
+| 8 | `de-rham-unit-nonzero` had merged; the corollary is in this module instead: `wedgeSheaf_ne_zero : wedgeSheaf X (dim X.left) 0 0 ≠ 0` for `[Nonempty (ComplexPoint X)]`, from the unit law (a zero wedge makes `λ_ Ω⁰_ℚ` zero, so `Ω⁰_ℚ` is a zero object and `rationalDeRhamUnit X = 0`) and `Tests.rationalDeRhamUnit_ne_zero`, 14 lines; the module imports `HodgeLadder.Tests.DeRhamUnitNonzero` |
+
+Proof of the unit law: `toSheafifyTensor_hom_ext` at `P = 𝟙_`, then `toSheafifyTensor_naturality_left` along `rationalConstantsToFormsPresheaf`, the defining square, the cast transport, and the presheaf law from `holomorphicWedge_ofConstant_left` and `holomorphicFormCast_trans`. The sheaf steps go by `Eq.trans`; the presheaf steps by `rw`. `lake env lean` on the module: about 10 s; `lake build HodgeLadder.Hodge.WedgeSheafify` 7 s.

@@ -2792,16 +2792,43 @@
     {
       "id": "wedge-sheafify",
       "title": "Sheafified wedge Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ through the monoidal sheafification functor",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.WedgeSheafify",
+      "declarations": [
+        "HodgeLadder.toSheafifyTensor",
+        "HodgeLadder.toSheafifyTensor_comp_μ",
+        "HodgeLadder.toSheafifyTensor_comp_map",
+        "HodgeLadder.toSheafifyTensor_hom_ext",
+        "HodgeLadder.toSheafifyTensor_naturality_left",
+        "HodgeLadder.toSheafifyTensor_naturality_right",
+        "HodgeLadder.analyticShQMonoidal",
+        "HodgeLadder.rationalWedgeBilin",
+        "HodgeLadder.rationalWedgePresheaf",
+        "HodgeLadder.rationalWedgePresheaf_app_tmul",
+        "HodgeLadder.wedgeSheaf",
+        "HodgeLadder.toSheafifyTensor_comp_wedgeSheaf",
+        "HodgeLadder.eq_wedgeSheaf_iff",
+        "HodgeLadder.toSheafifyTensor_comp_wedgeSheaf_apply",
+        "HodgeLadder.forget_wedgeSheaf",
+        "HodgeLadder.forget_wedgeSheaf_apply",
+        "HodgeLadder.rationalWedgePresheaf_app_ne_zero",
+        "HodgeLadder.sheafifyQ_ε",
+        "HodgeLadder.toSheafifyTensor_leftUnitor",
+        "HodgeLadder.toSheafify_comp_eqToHom",
+        "HodgeLadder.eqToHom_app_rationalHolomorphicFormPresheaf",
+        "HodgeLadder.rationalWedgePresheaf_unit_left",
+        "HodgeLadder.wedgeSheaf_unit_left",
+        "HodgeLadder.wedgeSheaf_ne_zero"
+      ],
       "depends_on": [
         "wedge-presheaf",
         "rational-de-rham-complex"
       ],
-      "contributors": [],
-      "note": "Second third of the former wedge-sheaf-map. Needs from rational-de-rham-complex (red team there, finding 7): the ℚ-bilinear wedge (holomorphicWedge X d U p q).restrictScalars₁₂ ℚ ℚ for the instance holomorphicFormRatModule (lifting to ⊗[ℚ] by TensorProduct.lift), the presheaf rationalHolomorphicFormPresheaf to sheafify, and the pin toSheafify_comp_forgetRationalHolomorphicFormSheafIso: state the wedge compatibility against toSheafify on the ℚ side and reach upstream's sheaves through that lemma."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Red team docs/sketches/wedge-sheafify.redteam.md: pass with changes, implemented. The presheaf wedge rationalWedgePresheaf is TensorProduct.lift of (holomorphicWedge X d U p q).restrictScalars₁₂ ℚ ℚ, natural by holomorphicFormRestriction_holomorphicWedge; wedgeSheaf X d p q := μ ≫ sheafifyQ.map rationalWedgePresheaf, with μ the tensorator of the monoidal functor presheafToSheaf for Sheaf.monoidalCategory. Defining square toSheafifyTensor_comp_wedgeSheaf against toSheafifyTensor P Q := toSheafify (P ⊗ Q) ≫ δ, uniqueness eq_wedgeSheaf_iff; forget_wedgeSheaf reaches upstream's sheafification map of holomorphicDeRhamPresheaf X d (p + q) through the pinned comparison. Scale pinned by the unit law wedgeSheaf_unit_left: (u₀ ▷ Ω^q_ℚ) ≫ wedgeSheaf 0 q ≫ eqToHom = λ, with ε = 𝟙 pinned by rfl (sheafifyQ_ε). Nonvacuity: wedgeSheaf_ne_zero on every X with a complex point, from the unit law and Tests.rationalDeRhamUnit_ne_zero. Exact, no sign, no scalar. Instance search misses Cup.sheafMonoidal at TopCat.of (ComplexPoint X) (docs/gaps.md); use the local instance analyticShQMonoidal X."
     },
     {
       "id": "wedge-sheaf-map",
@@ -2815,7 +2842,7 @@
         "form-wedge-leibniz"
       ],
       "contributors": [],
-      "note": "Chain-map check on ιTensorObj components with formWedge_differential; no sign twist. Nonvacuity of the wedge (red team of de-rham-unit-nonzero, section 7b, two routes to wedgeSheaf X d 0 0 ≠ 0): either repeat the stalk argument of fieldToHolomorphicFormZeroSheaf_ne_zero in ModuleCat ℚ with the presheaf wedge at (0, 0) and the germ of [1] ⊗ [1], closing by the presheaf unit law [1] ∧ [1] = [1] of wedge-presheaf and holomorphicFormOfConstant_ne_zero; or, once this rung has the sheaf unit law (𝟙 ⊗ u) ≫ μ = ρ, note that μ = 0 would make the right unitor zero, so Ω⁰_ℚ would be a zero object, contradicting rationalConstantsToFormsSheaf X d ≠ 0 (the degree-zero half of rationalDeRhamUnit_ne_zero)."
+      "note": "Chain-map check through toSheafifyTensor_hom_ext, toSheafifyTensor_naturality_left/_right, the square toSheafifyTensor_comp_wedgeSheaf and holomorphicFormDifferential_holomorphicWedge (rung wedge-presheaf); degree casts by subst (toSheafify_comp_eqToHom); no sign twist. Leibniz shape checked in scratch (wedge-sheafify): toSheafifyTensor P_p P_q ≫ (presheafQ _).map ((rationalHolomorphicFormSheafDifferential X d p ▷ Ω^q_ℚ) ≫ wedgeSheaf X d (p + 1) q) = (rationalHolomorphicFormDifferential X d p ▷ P_q) ≫ rationalWedgePresheaf X d (p + 1) q ≫ toSheafify _ P_{p+1+q} closes in five Eq.trans steps (rw fails across the rationalHolomorphicFormSheaf spelling). Unit law in bidegree (0, q) is checked in wedge-sheafify (wedgeSheaf_unit_left); assemble the complex unit law from it. Nonvacuity is checked: wedgeSheaf_ne_zero (wedge-sheafify), from the unit law (μ = 0 would make the left unitor of Ω⁰_ℚ zero, so Ω⁰_ℚ a zero object and rationalDeRhamUnit = 0) and Tests.rationalDeRhamUnit_ne_zero."
     },
     {
       "id": "derived-tensor-bounded",
@@ -2929,7 +2956,7 @@
         "rational-hypercohomology-equiv"
       ],
       "contributors": [],
-      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit."
+      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit. Owed (red team of wedge-sheafify, finding 4c): the scalar endomorphism S_c := sheafifyQ.map (c • ·) of Ω^p_ℚ and its identification with upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso; the ℂ-scalar laws (S_c ▷ Ω^q_ℚ) ≫ wedgeSheaf = wedgeSheaf ≫ S_c and (Ω^p_ℚ ◁ S_c) ≫ wedgeSheaf = wedgeSheaf ≫ S_c then follow as in that red team's RT4, about 15 lines each, from map_smul of holomorphicWedge in each argument."
     },
     {
       "id": "de-rham-cup-test-p2",
