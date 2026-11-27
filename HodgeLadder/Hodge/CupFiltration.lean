@@ -37,8 +37,9 @@ product on de Rham hypercohomology, which neither upstream nor Mathlib has at th
 construction and the sub-rungs are in `docs/sketches/cup-hodge-filtration.md`. Two sub-rung
 statements can be written on present definitions and are stated as `Prop`s below, open:
 
-* `HodgeLadder.WedgeDescends` (sub-rung `wedge-descends`): the wedge product of algebraic
-  Kähler forms descends to upstream's holomorphic forms;
+* `HodgeLadder.WedgeDescends` (sub-rung `wedge-descends`, checked as
+  `HodgeLadder.wedgeDescends`): the wedge product of algebraic Kähler forms descends to upstream's
+  holomorphic forms;
 * `HodgeLadder.TensorBoundedQuasiIso` (sub-rung `tensor-bounded-quasi-iso`): tensoring with a
   bounded complex of sheaves of `ℚ`-vector spaces preserves quasi-isomorphisms.
 
@@ -173,7 +174,7 @@ theorem formWedge_differential {p q : ℕ} (θ : Algebra.DeRham.Form R A p)
   simp only [Algebra.DeRham.coe_differential, formWedge]
   rw [Algebra.DeRham.extDeriv_mul, involute_of_mem_exteriorPower θ.2, smul_mul_assoc, add_comm]
 
-/-- **Wedge descends** (sub-rung `wedge-descends`, open). A form whose chart evaluations vanish
+/-- **Wedge descends** (sub-rung `wedge-descends`, checked as `HodgeLadder.wedgeDescends`). A form whose chart evaluations vanish
 wedges, on either side, with any form to a form whose chart evaluations vanish; so the wedge
 product descends to upstream's holomorphic forms
 `HolomorphicForm X d U p = Form ℂ 𝒪(U) p ⧸ chartEvaluationKernel X d U p`. -/
