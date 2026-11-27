@@ -720,6 +720,91 @@ For the next pin bump, besides the lists above:
 - `Other` (unguarded): `cycleComponentSupportedInjectiveClass_unique`, `cycleComponentSupportedInjectiveClass_normalization`, `cycleComponentSupportedClassNormalizationIso_apply`, `complexSupportInjectiveCohomologySheafIsoRelative_restriction_section`, `rationalCohomologyAddEquivSingularCohomology`.
 - Mathlib: `TopCat.Presheaf.section_ext`, `StructureGroupoid.mem_maximalAtlas_of_eqOnSource`, `LinearEquiv.funCongrLeft`, `LinearEquiv.sumArrowLequivProdArrow`, the meaning of `ω` in `WithTop ℕ∞`.
 
+## p2-point-class-nonzero: statement
+
+Date: 2026-11-26. Checked. Statement fixed and proved in the same session; the red team passed it with changes 1 to 4 (`docs/sketches/p2-point-class-nonzero.redteam.md`), all implemented; imported from `HodgeLadder.lean`. File `HodgeLadder/Tests/ProjectivePlanePoint.lean`, module `HodgeLadder.Tests.ProjectivePlanePoint`, next to `ProjectivePlaneLines`; the ledger's derived `file` hint `HodgeLadder/P2/Point/Class/Nonzero.lean` is superseded. Imports: `HodgeLadder.Tests.ProjectivePlaneLines`, `HodgeLadder.Tests.ClassNonzero`, `HodgeLadder.Tests.ContractibleAcyclic`, the port's `LefschetzPort.Oka.Topology.Sheaves.Cohomology.Dimension` (Mayer–Vietoris), Mathlib's `Analysis.Complex.Convex` and `Analysis.Convex.Contractible`. No `Other` module beyond those `ClassNonzero` and `ContractibleAcyclic` already import. `lake env lean` on the file: 20 s wall, default heartbeats.
+
+### The rung
+
+```lean
+theorem projectivePlane_point_class_ne_zero :
+    cycleComponentSheafClass projectivePlane planeOrigin coheight_planeOrigin ≠ 0
+```
+
+The class lives in `H^(2 * 2)(projectivePlane; ℚ)`; `planeOrigin` and `coheight_planeOrigin` are the ones of `p2-lines-transversal`, so `cup-positive-degree-test-p2` reads this lemma against the right side of `cycle-class-multiplicative-p2` with no transport.
+
+### Route chosen, and why
+
+Candidates (b) and (c) of the brief are closed at the pin. Upstream's nonvanishing results for cycle classes (`cycleComponentSmoothSupportCoclassSection_ne_zero`, `cycleComponentSheafClass_genericPoint_ne_zero`) stop at the supported class or at codimension zero; there is no degree map H⁴ → ℚ and no global fundamental class of X(ℂ) (`integralCompactificationFundamentalClass` in `Other` takes its existence and uniqueness as a hypothesis, and nothing at the pin discharges it for a compact X). A local restriction cannot detect a class of top degree. So the route is (a), the note's route, with one change: the ladder compares `Sheaf.H'` with singular cohomology only on contractible opens (`contractible-open-acyclic`), so the retraction of ℙ²(ℂ) ∖ pt onto a line is replaced by three Mayer–Vietoris steps whose pieces are all star-convex in a standard chart. Mathlib has the Mayer–Vietoris sequence for `Sheaf.H'`, and the port has its vanishing form `TopCat.Sheaf.subsingleton_H'_sup` and `TopCat.Sheaf.subsingleton_H'_bot` (H'(∅) = 0).
+
+| Step | Open | Cover | Pieces |
+|---|---|---|---|
+| H³ = 0 | U = ℙ²(ℂ) ∖ [0 : 0 : 1] | {x₀ ≠ 0} ∪ {x₁ ≠ 0} (`planeOrigin_support_compl`) | two copies of ℂ²; intersection {v₀ ≠ 0} ≅ ℂ* × ℂ in the chart x₀ ≠ 0 (`planeChartOpen_zero_inf_one`) |
+| H² = 0 | {v₀ ≠ 0} | v₀ ∉ (−∞, 0] and v₀ ∉ [0, ∞) (`chartSlitPos_union_chartSlitNeg`) | star-convex about (1, 1), (−1, −1); intersection {Im v₀ ≠ 0} (`chartSlitPos_inter_chartSlitNeg`) |
+| H¹ = 0 | {Im v₀ ≠ 0} | Im v₀ > 0 and Im v₀ < 0 | convex; disjoint (`chartHalfPos_inter_chartHalfNeg`), and H⁰(∅) = 0 |
+
+Contractible pieces have no rational cohomology in positive degrees (`contractibleOpen_subsingleton_H'`, rung `contractible-open-acyclic`). The class step is the codimension-two copy of `cycleComponentSheafClass_ne_zero_of_subsingleton`: `cycleComponentSheafClass_eq_forgetSupport`, `forgetSupport_injective_of_subsingleton` at n = 3 (the degrees 2 * 2 and 3 + 1 agree by evaluation), and upstream's normalization isomorphism with `cycleComponentSmoothSupportCoclassSection_ne_zero`.
+
+### The statements
+
+```lean
+theorem cycleComponentSheafClass_ne_zero_of_subsingleton_three (X : Over (Spec ↧ℂ))
+    [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] (x : X.left)
+    (hx : coheight x = ((2 : ℕ) : ℕ∞))
+    (h : Subsingleton (Sheaf.H' ((TopCat.Sheaf.constantFunctor (TopCat.of (ComplexPoint X))).obj
+      (AddCommGrpCat.of ℚ)) 3 (cycleComponentAnalyticClosedSupport X x).compl)) :
+    cycleComponentSheafClass X x hx ≠ 0
+
+theorem subsingleton_H'_three_compl_planeOrigin :
+    Subsingleton (Sheaf.H' planeConst 3
+      (cycleComponentAnalyticClosedSupport projectivePlane planeOrigin).compl)
+
+theorem planeOrigin_support_compl :
+    (cycleComponentAnalyticClosedSupport projectivePlane planeOrigin).compl =
+      planeChartOpen 0 ⊔ planeChartOpen 1
+
+theorem planeChartOpen_zero_inf_one :
+    planeChartOpen 0 ⊓ planeChartOpen 1 =
+      planeChartZeroOpen {v | v 0 ≠ 0} (isOpen_ne_fun (continuous_apply 0) continuous_const)
+
+theorem contractibleSpace_planeChartOpen (i : Fin 3) : ContractibleSpace (planeChartOpen i)
+
+theorem contractibleSpace_planeChartZeroOpen (S : Set (Fin 2 → ℂ)) (hS : IsOpen S)
+    {c : Fin 2 → ℂ} (hc : StarConvex ℝ c S) (hne : S.Nonempty) :
+    ContractibleSpace (planeChartZeroOpen S hS)
+```
+
+`planeConst` is the rational constant sheaf on ℙ²(ℂ) in the spelling of `forget-support-exact`; `planeChartOpen i` is the source of `projectiveChart 2 i`; `planeChartZeroOpen S hS` is the part of the chart x₀ ≠ 0 (coordinates (x₁ / x₀, x₂ / x₀)) over an open S ⊆ ℂ². The criterion is stated for every smooth projective integral X, so `p1p1-point-class-nonzero` can use it once H³ of the complement of (∞, ∞) is known. Change 4 of the red team: `cycleComponentSheafClass_ne_zero_of_subsingleton_odd` (coheight p + 1, H^{2p+1} of the complement) is the general form; the codimension-two criterion is its case p = 1 by term, and the codimension-one criterion of `projective-line-class-nonzero` is its case p = 0 (an `example` in the file; `ClassNonzero.lean` is unchanged). Listed in `docs/gaps.md`, "General lemmas kept local".
+
+### What is proved
+
+Everything; every declaration in the file prints `propext`, `Classical.choice`, `Quot.sound`. Helpers: `mem_projectiveChart_source_iff` (the copy of `mem_projectiveChart_two_source_iff` for every i), `mem_projectiveChart_source_iff_of_mem` (a point of the chart xᵢ ≠ 0 lies in xⱼ ≠ 0 iff coordinate j of `Fin.insertNth i 1 (φᵢ z)` is nonzero, from `projectiveChart_symm_mem_U_iff`), `contractibleSpace_of_starConvex_image` (Mathlib's `homeomorphOfImageSubsetSource` with `StarConvex.contractibleSpace`), the four sets `chartSlitPos`, `chartSlitNeg`, `chartHalfPos`, `chartHalfNeg` with openness, star-convexity and their union and intersection identities, and the lattice lemmas `planeChartZeroOpen_inf`, `_sup`, `_empty`, `_congr`. The cover lemma uses `planeOrigin_support_eq_singleton` and `exists_mem_U`: a point outside x₀ ≠ 0 and x₁ ≠ 0 lies in the chart x₂ ≠ 0 with both coordinates zero.
+
+### Failed trivial proofs
+
+Scratch file inside the worktree, deleted. On the rung: `simp` (unsolved goals), `decide` (no `Decidable` instance), `aesop` (fails after exhaustive search), `exact?` (heartbeat limit 200000 reached at `isDefEq`). On the H³ vanishing: `infer_instance` fails.
+
+### For the red team
+
+(1) Vacuity: the statement has no hypotheses, and the proof goes through upstream's own supported class and normalization isomorphism, so a degenerate H⁴ cannot make it hold. (2) No sign or normalization enters: the statement is a nonvanishing, and the scalar in front of [pt] is not computed here (that is `cycle-class-multiplicative-p2`). (3) Drift: the proof reads `cycleComponentSheafClass_eq_forgetSupport` (an `rfl` upstream) and the `Other` normalization lemmas that `projective-line-class-nonzero` already uses; no upstream declaration beyond those. (4) The route differs from the note (Mayer–Vietoris in place of a retraction onto a line); the ledger note should say so when the rung is marked.
+
+### cup-positive-degree-test-p2, as checked
+
+Module `HodgeLadder.Tests.CupPositiveDegreeP2`, imported from `HodgeLadder.lean`.
+
+```lean
+theorem planeLines_cup_ne_zero :
+    HodgeLadder.Cup.cup
+        (cycleComponentSheafClass projectivePlane (planeLine 0) (coheight_planeLine 0))
+        (cycleComponentSheafClass projectivePlane (planeLine 1) (coheight_planeLine 1))
+        (2 * (1 + 1)) (by ring) ≠ 0
+
+theorem cup_ne_zero_of_positive_degree :
+    ∃ (α β : H^2(projectivePlane; ℚ)), HodgeLadder.Cup.cup α β 4 rfl ≠ 0
+```
+
+The proof rewrites with `planeLines_cup_eq_planeOrigin` and closes with `projectivePlane_point_class_ne_zero`; the right side of the equality carries the coheight proof `coheight_planeOrigin_add`, and the two classes agree by proof irrelevance and evaluation of `2 * (1 + 1)`. What it rules out: the square-zero product, which satisfies every checked ring law of `cup` and vanishes on classes of positive degree. What it does not test: the sign of [L₀] ∪ [L₁] = [pt] (−[pt] is also nonzero); that sign is the content of `cycle-class-multiplicative`.
+
 ## Sources
 
 `Fulton1998` ch. 7–8, 19 (numbering unverified), `Hatcher2002` §3.2, `Iversen1986` and `Bredon1997` (supports and products; unverified), `MilnorStasheff1974` (unverified). Upstream declarations by name, read at `2ead713`.

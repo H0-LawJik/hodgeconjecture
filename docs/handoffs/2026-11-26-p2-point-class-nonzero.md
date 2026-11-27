@@ -1,0 +1,9 @@
+# Handoff 2026-11-26: p2-point-class-nonzero, cup-positive-degree-test-p2
+
+- **Moved.** `p2-point-class-nonzero` checked in `HodgeLadder.Tests.ProjectivePlanePoint`: [[0 : 0 : 1]] ≠ 0 in H⁴(ℙ²; ℚ). `cup-positive-degree-test-p2` checked in `HodgeLadder.Tests.CupPositiveDegreeP2`: [L₀] ∪ [L₁] ≠ 0, so the cup product of record is not the square-zero product in even positive degree.
+- **Route.** forget-support-exact at n = 3 plus H³(ℙ²(ℂ) ∖ pt) = 0. The planned retraction onto a line was replaced by three Mayer–Vietoris steps (the port's `TopCat.Sheaf.subsingleton_H'_sup`, `subsingleton_H'_bot`): {x₀ ≠ 0} ∪ {x₁ ≠ 0}, then two slit pieces of {v₀ ≠ 0}, then two half-spaces. Every piece is star-convex in the chart x₀ ≠ 0, so `contractible-open-acyclic` applies.
+- **Red team.** Pass with changes 1 to 4 (`docs/sketches/p2-point-class-nonzero.redteam.md`), all implemented: ledger and root import, `depends_on` gains `contractible-open-acyclic` and `lefschetz-port`, docstring narrowed, all-codimension criterion `cycleComponentSheafClass_ne_zero_of_subsingleton_odd` (in `docs/gaps.md`). Conventions row "Cohomology of an open, Mayer–Vietoris, analytic topology" added by the red team.
+- **Timings.** `lake env lean` on the new module: 20 s wall. The whole proof took one session; every step compiled within one or two attempts.
+- **Failed trivial proofs.** `simp`, `decide`, `aesop`, `exact?` (heartbeat limit) on the rung; `infer_instance` on the H³ vanishing.
+- **Not done.** The docstring of `HodgeLadder/Tests/CycleClassMultiplicativeP2.lean` still calls `p2-point-class-nonzero` open (existing file left untouched); the CLAUDE.md status block is not updated.
+- **Next.** `p1p1-point-class-nonzero` can reuse the odd criterion once H³ of the complement of (∞, ∞) in ℙ¹ × ℙ¹ is computed (same Mayer–Vietoris pattern, needs `complex-points-prod`). The sign-visible test left on the front is `cycle-class-multiplicative-codim-zero`.
