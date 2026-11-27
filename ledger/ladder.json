@@ -2876,15 +2876,28 @@
     {
       "id": "cycle-class-multiplicative-codim-zero",
       "title": "On every X, x = w = t = the generic point with a = b = 0 satisfy the hypotheses of cycle-class-multiplicative, so [X] ∪ [X] = [X] in H⁰(X; ℚ)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.CycleClassMultiplicativeCodimZero",
+      "declarations": [
+        "HodgeLadder.Tests.cycleComponentSheafClass_genericPoint_cup_self",
+        "HodgeLadder.Tests.cycleComponentSmoothSupportAmbientOpen_genericPoint_eq_top",
+        "HodgeLadder.Tests.isIso_cycleComponentι_genericPoint",
+        "HodgeLadder.Tests.coheight_genericPoint_eq_zero_add_zero",
+        "HodgeLadder.Tests.genericPoint_support_eq_inter",
+        "HodgeLadder.Tests.genericPoint_support_subset_smoothSupportAmbientOpen",
+        "HodgeLadder.Tests.genericPoint_transversal",
+        "HodgeLadder.Tests.cup_smul_one_smul_one",
+        "HodgeLadder.Tests.cycleComponentSheafClass_genericPoint_eq_one_of_cup_self",
+        "HodgeLadder.Tests.cycleComponentSheafClass_genericPoint_cup_self_ne_neg"
+      ],
       "depends_on": [
         "cycle-class-multiplicative"
       ],
-      "contributors": [],
-      "note": "Cheapest instance showing the hypotheses can be met in Lean (red team finding 11). hT from cycleComponentAnalyticClosedSupport_genericPoint_eq_top (Other); htr from Mathlib's IsManifold.chart_mem_maximalAtlas and mem_chart_source (red team scratch S5). Missing lemma, proved inside the rung: cycleComponentSmoothSupportAmbientOpen X (genericPoint X.left) = ⊤ (the reduced closure of the generic point is X, which is smooth). Both sides are nonzero by cycleComponentSheafClass_genericPoint_ne_zero (Other). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. cycleComponentSheafClass_genericPoint_cup_self: cup [X] [X] (2 * (0 + 0)) = [X] on every smooth integral projective X, exact, sign +, by cycleComponentSheafClass_cup_of_transversal at x = w = t = the generic point, a = b = 0, d = dim X (upstream instance SmoothOfRelativeDimension.of_isIntegral). hxreg, hwreg from the missing lemma cycleComponentSmoothSupportAmbientOpen_genericPoint_eq_top, proved here: closure of the generic point is X, its vanishing ideal is the nilradical = ⊥ on the reduced X, so cycleComponentι is an isomorphism (isIso_cycleComponentι_genericPoint), its smooth locus is ⊤ and Z_sing is empty; kept local by decision 0011 (docs/gaps.md). hT is Set.inter_self and the coordinate conditions of htr are over Fin 0, so the instance tests hxreg, the maximal-atlas membership of upstream's charts at d = dim X and the conclusion. cycleComponentSheafClass_genericPoint_eq_one_of_cup_self recovers [X] = 1 (fundamental-class-unit) from c² = c, c ≠ 0, without forgetRel_chartNormalProjectionCoclass_zero; the two routes share cycle-class-germ, Ψ, one_cup and [X] = c • 1 and differ only in the last step. cycleComponentSheafClass_genericPoint_cup_self_ne_neg: [X] ∪ [X] ≠ −[X]. The instance detects a sign of the main theorem only if it is −1 at a = b = 0; (−1)^{ab} and (−1)^a equal 1 there. At a = b = 1 no current test detects a sign either: cup-positive-degree-test-p2 shows only [L₀] ∪ [L₁] ≠ 0, which −[pt] also satisfies; the main theorem's proof computes the sign and no independent test confirms it (cycle-class-sign-test-p2, open). Red team: docs/sketches/cycle-class-multiplicative-codim-zero.redteam.md, pass with changes. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cycle-class-multiplicative-no-reg",
@@ -3095,7 +3108,7 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "First transversal case (decision 0010, before ℙ¹ × ℙ¹). Checked: planeLines_cup_eq_planeOrigin, cup [planeLine 0] [planeLine 1] (2 * (1 + 1)) = [planeOrigin] on projectivePlane, exact, sign +, by cycleComponentSheafClass_cup_of_transversal with d = 2, a = b = 1 and the hypotheses of p2-lines-transversal (planeOrigin_support_eq_inter, planeOrigin_support_subset_smoothSupportAmbientOpen 0 and 1, planeLines_transversal). The only adaptation is ht: coheight_planeOrigin_add states coheight planeOrigin = ↑1 + ↑1 (rw [coheight_planeOrigin]; rfl). From the final red team of cycle-class-multiplicative (change A, scratch RT2). The sign is visible only with [pt] ≠ 0 (p2-point-class-nonzero, checked). Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "First transversal case (decision 0010, before ℙ¹ × ℙ¹). Checked: planeLines_cup_eq_planeOrigin, cup [planeLine 0] [planeLine 1] (2 * (1 + 1)) = [planeOrigin] on projectivePlane, exact, sign +, by cycleComponentSheafClass_cup_of_transversal with d = 2, a = b = 1 and the hypotheses of p2-lines-transversal (planeOrigin_support_eq_inter, planeOrigin_support_subset_smoothSupportAmbientOpen 0 and 1, planeLines_transversal). The only adaptation is ht: coheight_planeOrigin_add states coheight planeOrigin = ↑1 + ↑1 (rw [coheight_planeOrigin]; rfl). From the final red team of cycle-class-multiplicative (change A, scratch RT2). [pt] ≠ 0 is checked (p2-point-class-nonzero), so this identity is non-vacuous; whether upstream's [pt] has the literature's normalization at a = b = 1 is rung cycle-class-sign-test-p2. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cup-positive-degree-test-p2",
@@ -3115,6 +3128,19 @@
         "claude-code"
       ],
       "note": "Checked 2026-11-26. planeLines_cup_ne_zero: cup [L₀] [L₁] (2 * (1 + 1)) ≠ 0 on projectivePlane, by rewriting with planeLines_cup_eq_planeOrigin (cycle-class-multiplicative-p2, [L₀] ∪ [L₁] = [pt], sign +) and projectivePlane_point_class_ne_zero (p2-point-class-nonzero); cup_ne_zero_of_positive_degree packages it as two classes in H²(ℙ²; ℚ) with nonzero cup in H⁴. Rules out the square-zero product: it satisfies the checked ring laws of cup-product (associativity, unit, graded commutativity) but vanishes on every pair of positive-degree classes. Together with cup-odd-degree-gm2 (degrees (1, 1) on affine 𝔾ₘ²) the square-zero reading is excluded in odd and in even degrees, here on a projective variety. It does not test the sign of the equality (−[pt] would also be nonzero); that sign is fixed by cycle-class-multiplicative itself. First positive-degree test (decision 0010); it avoids complex-points-prod, the Segre embedding and fibre-class-pullback. Sketch: docs/sketches/cycle-class-multiplicative.md."
+    },
+    {
+      "id": "cycle-class-sign-test-p2",
+      "title": "On ℙ², a degree map H⁴(ℙ²; ℚ) → ℚ built from the complex orientation, independently of the multiplicativity proof, gives deg [pt] = 1, so deg ([L₀] ∪ [L₁]) = 1 as in the literature",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cycle-class-multiplicative-p2"
+      ],
+      "contributors": [],
+      "note": "What this rung tests: the checked theorem gives [L₀] ∪ [L₁] = [pt] exactly in Lean, so the open question is whether upstream's [pt] carries the literature's normalization (degree 1 against the complex orientation), not a sign left unknown inside the ladder. A degree map computed from upstream's point-class normalization, with no use of cycle-class-multiplicative, would make deg ([L₀] ∪ [L₁]) = 1 an independent check of that agreement; a wrong normalization or an odd sign convention at a = b = 1 would give −1. Upstream inputs that would build it: complexLocalOrientation and span_complexLocalOrientation_eq_top (Other/AlgebraicGeometry/ComplexPoint/LocalOrientation.lean, the local orientation in H₄(X, X ∖ {y}; ℚ)); analyticPointLocalCoclass_apply_localClass (Other/.../Cycle/Component/PointPurity.lean, the point coclass pairs to 1 with it); cycleComponentSupportedInjectiveClass_point_normalization and analyticComponentPointSupportedInjectiveCoclass_relative (Other/.../Cycle/Component/PointClassNormalization.lean, the transported class of a closed point is that coclass; used by cycle-class-germ-point); relativeCohomologyEquivDualHomology, cohomologyEquivDualHomology and cohomologyEquivDualHomology_relativeCohomologyToAbsolute (evaluation over ℚ); the ladder's forgetRel_supportedEquivPair. Missing: either a global class [ℙ²] ∈ H₄(ℙ²(ℂ); ℚ) restricting to complexLocalOrientation at a point (the overlap compatibility that upstream's LocalOrientation header calls a separate naturality theorem), so that deg α = ⟨Ψ α, [ℙ²]⟩; or that H⁴(ℙ², ℙ² ∖ {pt}; ℚ) → H⁴(ℙ²; ℚ) is an isomorphism (H³ of the complement vanishes, subsingleton_H'_three_compl_planeOrigin, checked in sheaf form; H⁴ of the complement is still needed), so that deg is evaluation on complexLocalOrientation after inverting it."
     },
     {
       "id": "complex-points-prod",
