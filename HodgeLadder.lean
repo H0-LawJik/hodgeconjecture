@@ -116,6 +116,7 @@ public import HodgeLadder.Normalization.ChartStep
 public import HodgeLadder.Normalization.Germ
 public import HodgeLadder.Normalization.AffineChart
 public import HodgeLadder.Tests.ProjectiveChart
+public import HodgeLadder.Tests.ProjectivePlaneLines
 public import HodgeLadder.Glpos.PathConnected
 public import HodgeLadder.Local.RealAffineOrientation
 public import HodgeLadder.Local.CrossOrientation
