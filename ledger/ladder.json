@@ -3053,16 +3053,30 @@
     {
       "id": "p2-point-class-nonzero",
       "title": "The class of the point [0 : 0 : 1] is nonzero in H⁴(ℙ²; ℚ)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectivePlanePoint",
+      "declarations": [
+        "HodgeLadder.Tests.projectivePlane_point_class_ne_zero",
+        "HodgeLadder.Tests.cycleComponentSheafClass_ne_zero_of_subsingleton_three",
+        "HodgeLadder.Tests.subsingleton_H'_three_compl_planeOrigin",
+        "HodgeLadder.Tests.planeOrigin_support_compl",
+        "HodgeLadder.Tests.planeChartOpen_zero_inf_one",
+        "HodgeLadder.Tests.contractibleSpace_planeChartOpen",
+        "HodgeLadder.Tests.contractibleSpace_planeChartZeroOpen",
+        "HodgeLadder.Tests.contractibleSpace_of_starConvex_image",
+        "HodgeLadder.Tests.cycleComponentSheafClass_ne_zero_of_subsingleton_odd"
+      ],
       "depends_on": [
         "p2-lines-transversal",
-        "forget-support-exact"
+        "forget-support-exact",
+        "contractible-open-acyclic",
+        "lefschetz-port"
       ],
-      "contributors": [],
-      "note": "Decision 0010. forget-support-exact with H³ of the complement zero; the complement of a point in ℙ²(ℂ) retracts onto a line (unverified at the pin: no lemma computes it). The same hard input as p1p1-point-class-nonzero. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. General criterion (any smooth projective integral X, codimension two): the class is nonzero when H³ of the support complement vanishes, from upstream's nonzero supported class (normalization isomorphism) and forget-support-exact at n = 3. On ℙ² the complement of [0 : 0 : 1] is {x₀ ≠ 0} ∪ {x₁ ≠ 0}; three Mayer–Vietoris steps (the port's TopCat.Sheaf.subsingleton_H'_sup and subsingleton_H'_bot) over pieces that are star-convex in the chart x₀ ≠ 0 (contractible-open-acyclic) give H³ = 0. This replaces the retraction onto a line of the earlier note, since the ladder compares Sheaf.H' with singular cohomology only on contractible opens. The criterion holds in every positive codimension (cycleComponentSheafClass_ne_zero_of_subsingleton_odd: coheight p + 1, H^{2p+1} of the complement); the codimension-one and codimension-two criteria are its cases p = 0 and p = 1. Red team: docs/sketches/p2-point-class-nonzero.redteam.md."
     },
     {
       "id": "cycle-class-multiplicative-p2",
@@ -3081,21 +3095,26 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "First transversal case (decision 0010, before ℙ¹ × ℙ¹). Checked: planeLines_cup_eq_planeOrigin, cup [planeLine 0] [planeLine 1] (2 * (1 + 1)) = [planeOrigin] on projectivePlane, exact, sign +, by cycleComponentSheafClass_cup_of_transversal with d = 2, a = b = 1 and the hypotheses of p2-lines-transversal (planeOrigin_support_eq_inter, planeOrigin_support_subset_smoothSupportAmbientOpen 0 and 1, planeLines_transversal). The only adaptation is ht: coheight_planeOrigin_add states coheight planeOrigin = ↑1 + ↑1 (rw [coheight_planeOrigin]; rfl). From the final red team of cycle-class-multiplicative (change A, scratch RT2). The sign is visible only with [pt] ≠ 0 (p2-point-class-nonzero, open). Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "First transversal case (decision 0010, before ℙ¹ × ℙ¹). Checked: planeLines_cup_eq_planeOrigin, cup [planeLine 0] [planeLine 1] (2 * (1 + 1)) = [planeOrigin] on projectivePlane, exact, sign +, by cycleComponentSheafClass_cup_of_transversal with d = 2, a = b = 1 and the hypotheses of p2-lines-transversal (planeOrigin_support_eq_inter, planeOrigin_support_subset_smoothSupportAmbientOpen 0 and 1, planeLines_transversal). The only adaptation is ht: coheight_planeOrigin_add states coheight planeOrigin = ↑1 + ↑1 (rw [coheight_planeOrigin]; rfl). From the final red team of cycle-class-multiplicative (change A, scratch RT2). The sign is visible only with [pt] ≠ 0 (p2-point-class-nonzero, checked). Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cup-positive-degree-test-p2",
       "title": "On ℙ², [L₀] ∪ [L₁] ≠ 0 in H⁴(ℙ²; ℚ)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.CupPositiveDegreeP2",
+      "declarations": [
+        "HodgeLadder.Tests.planeLines_cup_ne_zero",
+        "HodgeLadder.Tests.cup_ne_zero_of_positive_degree"
+      ],
       "depends_on": [
         "cycle-class-multiplicative-p2",
         "p2-point-class-nonzero"
       ],
-      "contributors": [],
-      "note": "Closes the vacuity gap of cup-product in even degrees on a projective variety: the square-zero product satisfies the checked laws, and here a product of two degree-two classes is nonzero. First positive-degree test (decision 0010); it avoids complex-points-prod, the Segre embedding and fibre-class-pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26. planeLines_cup_ne_zero: cup [L₀] [L₁] (2 * (1 + 1)) ≠ 0 on projectivePlane, by rewriting with planeLines_cup_eq_planeOrigin (cycle-class-multiplicative-p2, [L₀] ∪ [L₁] = [pt], sign +) and projectivePlane_point_class_ne_zero (p2-point-class-nonzero); cup_ne_zero_of_positive_degree packages it as two classes in H²(ℙ²; ℚ) with nonzero cup in H⁴. Rules out the square-zero product: it satisfies the checked ring laws of cup-product (associativity, unit, graded commutativity) but vanishes on every pair of positive-degree classes. Together with cup-odd-degree-gm2 (degrees (1, 1) on affine 𝔾ₘ²) the square-zero reading is excluded in odd and in even degrees, here on a projective variety. It does not test the sign of the equality (−[pt] would also be nonzero); that sign is fixed by cycle-class-multiplicative itself. First positive-degree test (decision 0010); it avoids complex-points-prod, the Segre embedding and fibre-class-pullback. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "complex-points-prod",
