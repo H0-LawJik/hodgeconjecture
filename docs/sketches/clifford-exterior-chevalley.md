@@ -151,7 +151,7 @@ Trivial proofs of `Function.Bijective (spinAction R M)` under `[Module.Free R M]
 
 Step 2 (contraction lemmas through `spinAction_surjective`) is about 230 lines with docstrings, under the kill criterion of 300.
 
-## Half-spin form (rung `clifford-exterior-half-spin`, open)
+## Half-spin form (rung `clifford-exterior-half-spin`, checked)
 
 From the red team, finding 7. They elaborate at the pin with `sorry` bodies (red team scratch); the third needs `public import Mathlib.LinearAlgebra.CliffordAlgebra.Even`. They are not in the checked module.
 
@@ -174,6 +174,120 @@ noncomputable def spinEquivEven [Module.Free R M] [Module.Finite R M] :
 ```
 
 The forward directions follow from the checked `spinAction_mem_evenOdd`. For the reverse direction of the first, write `x = x₀ + x₁` (`evenOdd_isCompl`); the action of `x₁` maps each parity part into both parities, hence to `0`, so `spinAction x₁ = 0` and `x₁ = 0` by `spinAction_bijective`. Equality form first, the product decomposition second. Irreducibility and inequivalence of S⁺ and S⁻ over ℚ ([GolyshevLuntsOrlov2001] §3.5.1) is a further step.
+
+## clifford-exterior-half-spin: statement
+
+Date: 2026-11-26, branch `track/clifford-exterior-half-spin` from `main` at `62a6c1d`. Phase 1: the statements elaborate in `HodgeLadder/Markman/HalfSpin.lean` (next to `Chevalley.lean`, as instructed; `tools/next.py` prints the default path `HodgeLadder/Clifford/Exterior/Half/Spin.lean`). Phase 1 left two bodies as `sorry`: `spinAction_mem_evenOdd_iff` and `spinActionEven_bijective`. The statement red team passed it with changes (`docs/sketches/clifford-exterior-half-spin.redteam.md`). Phase 2 (2026-11-26, after a rebase onto `main` at `61b74dc`): both proofs are done by the route below, the red-team changes are implemented (section "clifford-exterior-half-spin: phase 2"), the module is imported from `HodgeLadder.lean`, and the rung is checked. The Lean block below is the phase 1 statement; phase 2 added declarations and changed no statement in it.
+
+**Plain words.** Let `M` be finite free over a commutative ring `R`. (1) An element `x` of the Clifford algebra of `dualProd R M` has parity `i` exactly when `spinAction x` shifts the parity of `∧M` by `i`. (2) The image of `evenOdd i` under `spinAction` is the submodule of parity-`i` endomorphisms (the equality form). (3) Restricting the action of an even element to `∧^ev M` and to `∧^odd M` is an algebra isomorphism from `Cl^+` onto `End(∧^ev M) × End(∧^odd M)`.
+
+**Lean** (namespace `HodgeLadder`, same `variable` line as `Chevalley.lean`; `Q` abbreviates `QuadraticForm.dualProd R M` here only, the file spells it out):
+
+```lean
+def parityShift (i : ZMod 2) : Submodule R (Module.End R (ExteriorAlgebra R M)) :=
+  ⨅ j : ZMod 2, Submodule.compatibleMaps (exteriorParity R M j) (exteriorParity R M (j + i))
+
+theorem mem_parityShift {i : ZMod 2} {f : Module.End R (ExteriorAlgebra R M)} :
+    f ∈ parityShift R M i ↔
+      ∀ (j : ZMod 2) (y : ExteriorAlgebra R M), y ∈ exteriorParity R M j →
+        f y ∈ exteriorParity R M (j + i)                                   -- proved
+
+theorem spinAction_mem_evenOdd_iff [Module.Free R M] [Module.Finite R M] (i : ZMod 2)
+    (x : CliffordAlgebra Q) :
+    x ∈ evenOdd Q i ↔
+      ∀ (j : ZMod 2) (y : ExteriorAlgebra R M), y ∈ exteriorParity R M j →
+        spinAction R M x y ∈ exteriorParity R M (j + i)                    -- sorry
+
+theorem spinAction_mem_evenOdd_zero_iff [Module.Free R M] [Module.Finite R M]
+    (x : CliffordAlgebra Q) :
+    x ∈ evenOdd Q 0 ↔
+      ∀ (j : ZMod 2) (y : ExteriorAlgebra R M), y ∈ exteriorParity R M j →
+        spinAction R M x y ∈ exteriorParity R M j                          -- from the iff
+
+theorem spinAction_mem_evenOdd_one_iff [Module.Free R M] [Module.Finite R M]
+    (x : CliffordAlgebra Q) :
+    x ∈ evenOdd Q 1 ↔
+      ∀ (j : ZMod 2) (y : ExteriorAlgebra R M), y ∈ exteriorParity R M j →
+        spinAction R M x y ∈ exteriorParity R M (j + 1)                    -- from the iff
+
+theorem map_evenOdd_dualProd_eq_parityShift [Module.Free R M] [Module.Finite R M]
+    (i : ZMod 2) :
+    (evenOdd Q i).map (spinAction R M).toLinearMap = parityShift R M i
+                                                -- from the iff and spinAction_bijective
+
+def spinActionParity (j : ZMod 2) :
+    CliffordAlgebra.even Q →ₐ[R] Module.End R (exteriorParity R M j)   -- restriction, built
+
+def spinActionEven :
+    CliffordAlgebra.even Q →ₐ[R]
+      Module.End R (exteriorParity R M 0) × Module.End R (exteriorParity R M 1) :=
+  (spinActionParity R M 0).prod (spinActionParity R M 1)
+
+theorem spinActionEven_bijective [Module.Free R M] [Module.Finite R M] :
+    Function.Bijective (spinActionEven R M)                                -- sorry
+
+noncomputable def spinEquivEven [Module.Free R M] [Module.Finite R M] :
+    CliffordAlgebra.even Q ≃ₐ[R]
+      Module.End R (exteriorParity R M 0) × Module.End R (exteriorParity R M 1) :=
+  AlgEquiv.ofBijective (spinActionEven R M) (spinActionEven_bijective R M)
+
+@[simp] theorem spinEquivEven_apply ... (x : CliffordAlgebra.even Q) :
+    spinEquivEven R M x = (spinActionParity R M 0 x, spinActionParity R M 1 x) := rfl
+theorem spinEquivEven_apply_fst ... (y : exteriorParity R M 0) :
+    ((spinEquivEven R M x).1 y : ExteriorAlgebra R M) = spinAction R M x y := rfl
+theorem spinEquivEven_apply_snd ... (y : exteriorParity R M 1) :
+    ((spinEquivEven R M x).2 y : ExteriorAlgebra R M) = spinAction R M x y := rfl
+theorem spinEquivEven_ι_mul_ι_fst ... (v w : Module.Dual R M × M) (y : exteriorParity R M 0) :
+    ((spinEquivEven R M ((even.ι _).bilin v w)).1 y : ExteriorAlgebra R M) =
+      spinGen R M v (spinGen R M w y)                                      -- proved
+
+theorem spinActionEven_int_zmod_two_not_surjective :
+    ¬ Function.Surjective (spinActionEven ℤ (ZMod 2))                      -- proved
+```
+
+Also proved: `spinAction_mem_exteriorParity_of_mem_even` (an even element preserves each parity part, no hypothesis on `M`; it is what makes `spinActionParity` a definition), `spinActionParity_apply`. The data `spinActionParity` and `spinActionEven` carry no `sorry`; only the bijectivity proof that `spinEquivEven` takes is open.
+
+**Refinements against the earlier "Half-spin form" section.** The two posted iff statements are kept verbatim. They are corollaries of one statement for all `i : ZMod 2`, written with `j + i` (the order of the posted `_one_iff`; the checked `spinAction_mem_exteriorParity` writes `i + j`). The equality form is added as an equality of submodules of `End(∧M)`: the image of `evenOdd i` is all of `parityShift i`, which also uses surjectivity, so it is stronger than the iff. `spinEquivEven` is `AlgEquiv.ofBijective` of an explicit restriction map, so its value is `rfl`. Nothing is weakened.
+
+**Hypotheses.**
+
+| Hypothesis | Needed? | Why |
+|---|---|---|
+| `[CommRing R]` | yes | `spinAction` is defined over a commutative ring |
+| `[Module.Free R M] [Module.Finite R M]` on the iff | needed through injectivity of `spinAction`; the forward direction needs neither | the general form is `spinAction_mem_evenOdd_iff_of_injective`, and `injective_spinAction_iff` makes the criterion for all `i` equivalent to injectivity. `Module.Free` cannot be dropped: `evenOdd_one_iff_zmod_four_fails` is a finite non-free counterexample (the ideal `(2)` of `ZMod 4`, where the nonzero even element `ι (0, 2) * ι (incl, 0)` acts by `0`). Over a field `Module.Finite` is not needed (red team, hand argument). For `ZMod 2` over `ℤ` the action is faithful, so the iff holds there |
+| `[Module.Free R M]` on `spinEquivEven` | yes | checked for both halves. Injectivity: `spinActionEven_zmod_four_not_injective` (the ideal `(2)` of `ZMod 4`). Surjectivity: `spinActionEven_int_zmod_two_not_surjective`. For `M = ZMod 2` over `ℤ`, `(0, 1)` is not in the range: an element acting by `0` on `1 ∈ ∧^ev` acts by `0` on `ι 1 ∈ ∧^odd`, and `ι 1 ≠ 0` |
+| `[Module.Finite R M]` on `spinEquivEven` | yes | the bounded-shift argument of `Chevalley.lean`, restricted to `∧^ev M`: an even element shifts exterior degree by a bounded amount, and for `M = ℚ^(ℕ)` some endomorphism of `∧^ev M` does not (hand argument, not compiled) |
+| `[Nontrivial R]` | no | over the zero ring both sides of every statement are subsingletons; no rank appears |
+
+**Route (phase 2).** Iff, reverse direction: write `x = a + b` with `a ∈ evenOdd i`, `b ∈ evenOdd (i + 1)` (`evenOdd_isCompl`, `Submodule.mem_sup`). For `y ∈ exteriorParity j`, `spinAction b y = spinAction x y − spinAction a y` lies in parity `j + i` and, by `spinAction_mem_exteriorParity`, in parity `j + i + 1`, so it is `0` by `evenOdd_isCompl (0 : QuadraticForm R M)` and `exteriorParity_eq_evenOdd`. The two parity parts span `∧M`, so `spinAction b = 0`, and `b = 0` by `spinAction_bijective`. Bijectivity: injective because `spinAction (x − x')` vanishes on both parity parts, hence on `∧M`; surjective because for `(f₀, f₁)` the endomorphism `ι₀ ∘ f₀ ∘ π₀ + ι₁ ∘ f₁ ∘ π₁` (`Submodule.projectionOnto` for the two projections; `linearProjOfIsCompl` is a deprecated alias at the pin) lies in `parityShift 0`, so its preimage under `spinAction` is even by the iff, and its restrictions are `f₀` and `f₁`.
+
+**Elaboration and trivial proofs.** Phase 1: `lake env lean HodgeLadder/Markman/HalfSpin.lean`: 5.0 to 5.2 s wall time, two `declaration uses 'sorry'` warnings, no errors. Phase 2, the finished module: 5.7 to 6.8 s, no warnings. On the general iff, these fail (scratch copy, 5 to 23 s each): `rfl` (not definitional), `simp` (no progress), `aesop` (exhaustive search fails), `exact?` (no proof found), `constructor <;> simp` (no progress), `constructor <;> aesop` (heartbeat timeout), and the forward direction from `spinAction_mem_exteriorParity` with `simp_all` for the reverse (no progress). On `spinActionEven_bijective`: `rfl` (type mismatch), `simp [spinActionEven]` (unsolved goals), `aesop` (no progress), `exact?` and `constructor <;> exact?` (no proof found), and `⟨fun a b h => by simpa using h, fun p => ⟨0, by simp⟩⟩` (type mismatch).
+
+**Non-vacuity.** The hypotheses hold for `M = ℤ^n` and `M = ℚ^n` (red team of `clifford-exterior-chevalley`, section 2). The iff separates the two parities nontrivially: with the checked `ι_not_mem_exteriorParity_zero`, `ι (0, m)` for `ι m ≠ 0` is odd and fails the even condition. Irreducibility and inequivalence of `∧^ev` and `∧^odd` over `ℚ` ([GolyshevLuntsOrlov2001] §3.5.1) remain a further step.
+
+**Questions for the red team (answered in the verdict).**
+
+1. Is `parityShift` (an `iInf` of `Submodule.compatibleMaps`) the right shape for the equality form, or should the equality be stated as `evenOdd Q i = (parityShift R M i).comap (spinAction R M).toLinearMap`? The `map` form is stated because it also records surjectivity onto the parity-`i` endomorphisms.
+2. `j + i` against `i + j` in `spinAction_mem_exteriorParity`: keep `j + i` as posted, or align with the checked lemma?
+3. Should the module also state that the two components of `spinEquivEven` are surjective `AlgHom`s separately, the form in which [Markman2025] reads a unit of `Cl^+` as a pair in `GL(∧^ev) × GL(∧^odd)` (unverified at page level)?
+
+## clifford-exterior-half-spin: phase 2
+
+| Red-team change | Done |
+|---|---|
+| route (finding 1) | as written above; `evenOdd_isCompl_add_one` (`fin_cases k` on `evenOdd_isCompl`), `exteriorParity_isCompl_add_one`, `exteriorParity_isCompl`, `ext_exteriorParity` (two endomorphisms that agree on both parity parts are equal) are the helpers |
+| `ZMod 4` tests (finding 2) | `zmodFourIdeal`, `zmodFourGen`, `zmodFourCovector`, `zmodFourCovector_smul_gen`, `spinAction_zmodFour_kernel`, `zmodFourPairing`, `zmodFourPairing_toQuadraticMap`, `zmodFourAlt`, `zmodFourAlts`, `zmodFour_kernel_ne_zero`, `spinAction_zmodFour_not_injective`, `not_free_zmodFourIdeal`, `evenOdd_one_iff_zmod_four_fails`, `spinActionEven_zmod_four_not_injective`; the red team's code, wrapped to 100 columns; the module imports `Mathlib.LinearAlgebra.ExteriorAlgebra.OfAlternating` for it |
+| injectivity form (finding 3) | `spinAction_mem_evenOdd_iff_of_injective`, with `spinAction_mem_evenOdd_iff` in one line from it; `injective_spinAction_iff` also, since it costs six lines (an element acting by `0` meets the criterion in both parities, so it lies in `evenOdd 0 ⊓ evenOdd 1 = ⊥`) |
+| `comap` form (finding 4) | `evenOdd_dualProd_eq_comap_parityShift`; the `map` form stays the headline |
+| `j + i` (finding 5) | kept |
+| separate components (finding 6) | `spinActionParity_surjective`; `spinUnitsEquivEven` deferred to the rung that defines Spin(V) |
+| non-vacuity of the even condition (finding 7) | `ι_vec_not_mem_evenOdd_zero_int` |
+| hypothesis table (finding 8) | corrected above |
+| GLO 3.5.1 (finding 9) | future rung below, sketch only |
+
+## Future rung: irreducibility of the half-spin modules (GLO 3.5.1)
+
+Recorded here only, with no ledger entry yet (red team of `clifford-exterior-half-spin`, finding 9). Over a field, `exteriorParity R M 0` and `exteriorParity R M 1` are irreducible `Cl⁰`-modules and are not isomorphic. Both follow in a few lines from `spinActionParity_surjective` (a module whose endomorphism algebra is the image of `Cl⁰` has no proper nonzero invariant subspace) and from the central idempotent `(spinEquivEven R M).symm (1, 0)`, which acts by `1` on one part and by `0` on the other. [GolyshevLuntsOrlov2001] §3.5.1 states it for the group `Spin_ℚ`, which needs in addition that `Spin_ℚ` spans `Cl⁰_ℚ`. Open it when the Markman track needs irreducibility.
 
 ## Future rung: Chevalley's S ⊗ S ≅ ∧*V
 
