@@ -2509,18 +2509,64 @@
     {
       "id": "local-class-product",
       "title": "The product of normalized local classes of transversal components is the normalized local class of the intersection (chart form: relCup2 of the normal-projection coclasses of Z and W is that of Z ∩ W)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Local.ClassProduct",
+      "declarations": [
+        "HodgeLadder.LocalClassProduct.cx",
+        "HodgeLadder.LocalClassProduct.isOpen_setA",
+        "HodgeLadder.LocalClassProduct.isOpen_setB",
+        "HodgeLadder.LocalClassProduct.projA",
+        "HodgeLadder.LocalClassProduct.projB",
+        "HodgeLadder.LocalClassProduct.u",
+        "HodgeLadder.LocalClassProduct.unionIso",
+        "HodgeLadder.LocalClassProduct.relCup2_model_eval_orient",
+        "HodgeLadder.LocalClassProduct.eval_relCup2_degree",
+        "HodgeLadder.LocalClassProduct.relativeCohomologyMap_normalizedRelativeCoclass",
+        "HodgeLadder.LocalClassProduct.relCup2_model",
+        "HodgeLadder.LocalClassProduct.chartUnionIso",
+        "HodgeLadder.LocalClassProduct.chart_mem_iff",
+        "HodgeLadder.LocalClassProduct.isOpen_chart_notMem",
+        "HodgeLadder.LocalClassProduct.relCup2_chartNormalProjectionCoclass",
+        "HodgeLadder.LocalClassProduct.chartNormalProjectionCoclass_eq_relCup2"
+      ],
       "depends_on": [
         "local-class-cross-model",
         "triad-relative-cup",
         "triad-relative-cup-naturality",
         "triad-relative-cup-cap"
       ],
-      "contributors": [],
-      "note": "Sign + expected from cross-orientation. The route (decision 0010) computes the product on the singular side with a relative-relative cup (triad-relative-cup), so neither a sheaf-side product of two supported classes nor the general-V product formula is on its path; the global dependencies (cup-singular-comparison, supported-model-agreement, supported-forget-compat) moved to cycle-class-multiplicative (2026-11-26). Uses the split triad rungs: triad-relative-cup-naturality along the normal projections and triad-relative-cup-cap to pass from the cap model to the cup. Sketch: docs/sketches/local-class-product.md. The general-V comparison is checked (cup-comparison-supported-open, supported-open-naturality, supported-model-agreement-open); on this route it enters only through restriction to small opens, in cycle-class-multiplicative."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-26 in HodgeLadder.Local.ClassProduct (namespace HodgeLadder.LocalClassProduct), standard axioms only. Sign +, exact, computed: relCup2_model_eval_orient is the kernel-checked value 1 of the pairing of relCup2(projA^* u_a, projB^* u_b) with orient a b, from cross_orientation_orient, relCup2_naturality along complexAppendMap, relCup2_eval_eq_eval_triadCap and cap_cross_evaluation; no step carries a sign. Model form relCup2_model: on ℂ^{a+b} split by Fin.append (z' = Fin.castAdd b, z'' = Fin.natAdd a), relCup2 of the pullbacks of u_a and u_b (Z factor first) in degree 2(a + b), with (Nat.mul_add 2 a b).symm as the proof argument, is (unionIso a b).inv^* u_{a+b}; by normalizedRelativeCoclass_unique. Chart form relCup2_chartNormalProjectionCoclass: three charts eZ, eW, eT in upstream's E × (Fin c → ℂ) form, each adapted to its set (upstream's hS), V in the three sources, normal coordinates tied on V (hnZ, hnW); relCup2 of the chart coclasses of Z and W is (chartUnionIso V _).hom^* of the chart coclass of T, T ∩ V = Z ∩ W ∩ V by chart_mem_iff; no holomorphy assumed; by relCup2_naturality along w ↦ (eT w).2. chartNormalProjectionCoclass_eq_relCup2 is the inv form on (V, V ∖ T), the form cycle-class-multiplicative step 6 reads (red team C3). relativeCohomologyMap_normalizedRelativeCoclass (pullback of a normalized coclass along any map of pairs) is listed in docs/gaps.md, General lemmas kept local (decision 0011). Register row Product of local classes (model and chart). Red team: pass with changes, implemented (docs/sketches/local-class-product.redteam.md). Tests: local-class-product-test. Sketch: docs/sketches/local-class-product.md."
+    },
+    {
+      "id": "local-class-product-test",
+      "title": "Non-vacuity and sign separation of local-class-product: both sides of the model form are nonzero and the model is not minus u_{a+b}; the coordinate charts of ℂ^{a+b} meet every hypothesis of the chart form, and its right side is nonzero on a neighbourhood of the origin",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.ClassProduct",
+      "declarations": [
+        "HodgeLadder.Tests.relCup2_model_ne_zero",
+        "HodgeLadder.Tests.relCup2_model_ne_neg",
+        "HodgeLadder.Tests.Cab",
+        "HodgeLadder.Tests.chartZ",
+        "HodgeLadder.Tests.chartW",
+        "HodgeLadder.Tests.chartT",
+        "HodgeLadder.Tests.setZ",
+        "HodgeLadder.Tests.setW",
+        "HodgeLadder.Tests.setT",
+        "HodgeLadder.Tests.coordinate_hyps",
+        "HodgeLadder.Tests.coordinate_chartForm_ne_zero"
+      ],
+      "depends_on": [
+        "local-class-product"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Red team of local-class-product, changes C1 and C2 (docs/sketches/local-class-product.redteam.md; relCup2_model_ne_neg is its text verbatim). relCup2_model_ne_zero: the right side of relCup2_model pairs to 1 with the orientation class pushed along unionIso. relCup2_model_ne_neg: so the identity separates + from − over ℚ. coordinate_hyps: on M = ℂ^{a+b} the charts z ↦ (z'', z'), z ↦ (z', z''), z ↦ (0, z) (Mathlib Fin.appendHomeomorph, Homeomorph.prodComm, Homeomorph.uniqueProd) meet every hypothesis with Z = {z' = 0}, W = {z'' = 0}, T = {0}, by rfl. coordinate_chartForm_ne_zero: on upstream's flattenedSupportNeighborhood of 0 the right side of the chart form pairs to 1 with flattenedSupportNormalClass (chartNormalProjectionCoclass_apply_normalClass)."
     },
     {
       "id": "cup-hodge-filtration",
@@ -2804,7 +2850,7 @@
         "supported-model-agreement-open"
       ],
       "contributors": [],
-      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md. Spelling (red team on supported-pair-forget, finding 6, change D): state unionComplIso for Z W T : Closeds Y with hT : T = Z ⊓ W, on TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y), and spell the pairs of triad-relative-cup so that A := (Z.compl : Set Y) is accepted without unfolding Closeds.compl; conventions row Pair spellings of (X, X ∖ Z). Step 6 glue (red team on triad-relative-cup-naturality, changes 2 and 3; exact Lean in docs/sketches/cycle-class-multiplicative.md section Glue statements): add here neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv (V : Set Y, Z : Closeds Y: upstream's restriction from ⊤ followed by (ofSubsetIsoNeighborhoodTop Z).inv is restrictToNeighborhood V Z, by ext and rfl), unionComplIso in Closeds form (hT : T = Z ⊓ W), unionComplIsoNeighborhood V hT ((V; V ∖ Z ∪ V ∖ W) ≅ neighborhoodSupportComplementPair V T, identity of V) and unionComplIso_restrict (the square restrictToNeighborhood V T ≫ (unionComplIso hT).inv = (unionComplIsoNeighborhood V hT).inv ≫ ofSubsetHom (subsetInclusion V) _). With them step 6 closes from relCup2_restrict by two rw lines (red-team scratch RT3)."
+      "note": "Kill criterion of front cup (decisions 0008, 0009, 0010). Route (decision 0010): the product of the two supported lifts is relCup2 on upstream's triad excision; the checked general-V formula cannot replace it (one supported factor, no purity for a lift from H_Z to H_T) and enters only through restriction to small opens (supported-open-naturality, supported-model-agreement-open). General transversal statement elaborated against upstream's cycleComponentSheafClass and Mathlib's maximal atlas. First instances: cycle-class-multiplicative-codim-zero (every X), then cycle-class-multiplicative-p2, then cycle-class-multiplicative-p1p1. Smallest falsification tests: fundamental-class-unit and local-class-cross-model at a = b = 1. The rewrite of (X ∖ Z) ∪ (X ∖ W) to X ∖ T along hT is a pair isomorphism that is the identity on points (unionComplIso in the sketch). Nothing attempted in Lean yet. Sketch: docs/sketches/cycle-class-multiplicative.md. Spelling (red team on supported-pair-forget, finding 6, change D): state unionComplIso for Z W T : Closeds Y with hT : T = Z ⊓ W, on TopPair.ofSubset ((Z.compl : Set Y) ∪ (W.compl : Set Y)) ≅ TopPair.ofSubset (T.compl : Set Y), and spell the pairs of triad-relative-cup so that A := (Z.compl : Set Y) is accepted without unfolding Closeds.compl; conventions row Pair spellings of (X, X ∖ Z). Step 6 glue (red team on triad-relative-cup-naturality, changes 2 and 3; exact Lean in docs/sketches/cycle-class-multiplicative.md section Glue statements): add here neighborhoodSupportInclusionPairMap_comp_ofSubsetIsoNeighborhoodTop_inv (V : Set Y, Z : Closeds Y: upstream's restriction from ⊤ followed by (ofSubsetIsoNeighborhoodTop Z).inv is restrictToNeighborhood V Z, by ext and rfl), unionComplIso in Closeds form (hT : T = Z ⊓ W), mem_iff_of_eq_inf (hT gives ∀ y ∈ V, y ∈ T ↔ y ∈ Z ∧ y ∈ W) and unionComplIso_restrict (the square restrictToNeighborhood V T ≫ (unionComplIso hT).inv = (chartUnionIso V (mem_iff_of_eq_inf V hT)).inv ≫ ofSubsetHom (subsetInclusion V) _). The pair iso on V is local-class-product's checked HodgeLadder.LocalClassProduct.chartUnionIso (red team of local-class-product, C4); the earlier unionComplIsoNeighborhood V hT equals it by rfl. With them step 6 closes from relCup2_restrict by two rw lines (red-team scratch RT3), then chartNormalProjectionCoclass_eq_relCup2. Point-form seam: when T is a point and its class is read from upstream's point form, matching it with the chart coclass of eT built from φ is an orientation step (exists_open_chartNormalProjectionCoclass_eq; cycle-class-germ-point), owned by this rung."
     },
     {
       "id": "cycle-class-multiplicative-codim-zero",

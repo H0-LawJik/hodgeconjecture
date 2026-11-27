@@ -41,7 +41,7 @@ theorem local_class_cross_cap (a b : ℕ) :
         (relativeCohomologyMap ℚ (2 * a) (projA a b) (u a)) (orient a b)) = 1
 ```
 
-**Chart form** (the rung id `local-class-product` itself): for a complex normed space E, an open M-chart φ : `OpenPartialHomeomorph M (E × (Fin a → ℂ) × (Fin b → ℂ))` with Z = {φ₂ = 0} and W = {φ₃ = 0} on its source, and W' ⊆ source open: `relCup2 (chartNormalProjectionCoclass … Z) (chartNormalProjectionCoclass … W) = chartNormalProjectionCoclass … (Z ∩ W)` on (W'; W' ∖ Z, W' ∖ W), the union read as W' ∖ (Z ∩ W) by the identity. It cannot elaborate until `triad-relative-cup` defines `relCup2`. Route (decision 0010): the product of two supported classes is `relCup2` on upstream's triad excision. The checked general-V formula has one supported factor, so it cannot produce a class supported on Z ∩ W; it is off this rung's path.
+**Chart form** (the rung id `local-class-product` itself): for a complex normed space E, an open M-chart φ : `OpenPartialHomeomorph M (E × (Fin a → ℂ) × (Fin b → ℂ))` with Z = {φ₂ = 0} and W = {φ₃ = 0} on its source, and W' ⊆ source open: `relCup2 (chartNormalProjectionCoclass … Z) (chartNormalProjectionCoclass … W) = chartNormalProjectionCoclass … (Z ∩ W)` on (W'; W' ∖ Z, W' ∖ W), the union read as W' ∖ (Z ∩ W) by the identity. It cannot elaborate until `triad-relative-cup` defines `relCup2`. Superseded (2026-11-26): the stated and checked chart form takes three charts eZ, eW, eT and a parameter T, with T ∩ V = Z ∩ W ∩ V derived on V; see section "local-class-product: statement" below. Route (decision 0010): the product of two supported classes is `relCup2` on upstream's triad excision. The checked general-V formula has one supported factor, so it cannot produce a class supported on Z ∩ W; it is off this rung's path.
 
 ## Why the ladder needs it
 
@@ -116,6 +116,8 @@ The declarations this plan uses from upstream's library `Other` are outside upst
 - **`rfl` pins**, at the start of the first rung that uses them (`cap-cross-evaluation` or `triad-relative-cup-cap`): the formula of `capHom` (φ(front p-face) • back q-face) and `unionRelativeTriadCapCohomologyLinear` unfolded through `triadCapCohomologyLinear` and the inverse of the excision quasi-isomorphism.
 - **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. For `triad-relative-cup` (red team 2026-11-26): `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap`, `relativeChainProjection_empty_isIso`, `TopPair.ofSubset`, `TopPair.isoOfSubset`, `TopPair.ofSubsetHom`, `relativeChainProjection`, `relativeCohomologyMap`, `HomologicalComplex.linearDualMap`, `linearDualMap_comp`, `linearDualHomologyEquiv_naturality`, `TopPair.Homotopy.relativeChainProjection_naturality`.
 - **Drift list** for the next pin bump, in addition to the definitions in `docs/conventions.md`: `capHom`, `relativeCapLift`, `triadCapHom`, `triadCapShortComplexHom`, `triadCapCohomologyLinear`, `unionRelativeTriadCapCohomologyLinear`, `triadUnionExcisionHomologyEquiv` (`Other/AlgebraicTopology/Singular/Cap/`), `triadToUnionRelativeChainMap` and `triadToUnionRelativeChainMap_quasiIso_of_isOpen` (`Other/.../Excision/Triad.lean`), `standardLocalClass`, `standardSingularSimplex`, `piCoordCLE`, `normalizedRelativeCoclass`, `normalizedDual`, `linearDualHomologyEquiv`, `cycleComponentSupportedClassNormalizationIso`, `cycleComponentSmoothSupportAmbientOpen`, and Tau Ceti's `shuffleChain` in `port/`. Added by `relative-cross-chain` (red team, section 8): the bodies of Tau Ceti `SSet.shuffleChain`, `SSet.stdSimplex.cone`, `prodCone`, `prodConeChain`, `SSet.shuffle`, `TopCat.shuffle` (`HodgeLadder.Relative.CrossChain` reads `cone` and `prodCone` through `import all`); Mathlib `TensorSigns (ComplexShape.down ℕ)`, `ιTensorObj`, the `ModuleCat` left unitor, `Functor.LaxMonoidal.μ TopCat.toSSet`; upstream `relativeChainFunctor`, `relativeChainProjection`, `TopPair.ofSubset`, `TopPair.ofSubsetHom`, `triadSubspaceChainMap`, `triadRelativeChainComplex`, `triadRelativeChainProjection`, `triadToUnionRelativeChainMap`, `triadToUnionRelativeHomologyMap`, and `TopPair.Homotopy.relativeChainProjectionComponentIsCokernel`, `relativeChainProjection_naturality`. Added by `cross-orientation` (red team, section 8): `Complex.piBasisOneI` (`complexRealHomeomorph_finProdFinEquiv` unfolds it, so a reordering of upstream's real basis of ℂ^p breaks the build). Added by `relative-cross-triad-naturality` (red team, section 8): upstream `singularChainComplexFunctor` (the `rfl` of `singChainFunctor_map_eq_chainComplexMap`), `chainPairFunctor`, `TopPair.ofSubset` (`.map`, `.snd`), `TopPair.ofSubsetHom`, `TopPair.Hom.snd`, `triadSubspaceChainMap` (the `rfl` of `triadSubspaceChainMap_eq` reads its `biprod.desc` body), `triadSubspaceChainMap_triadRelativeChainProjection`, `triadRelativeChainProjection_triadToUnionRelativeChainMap`, `TopPair.Homotopy.relativeChainProjection_naturality`.
+
+- **Drift list added by `local-class-product`** (red team, section 8): upstream `chartNormalProjectionPair` (the `rfl` steps of `hpT` and the point identities of `hpA`, `hpB` read its body `fun w => (e w.1).2`), `chartNormalProjectionCoclass`, `neighborhoodSupportComplementPair` and `puncturedPair` (both `abbrev`), `TopPair.isoOfSubset`, `TopPair.ofSubsetHom`, `normalizedRelativeCoclass`, `normalizedRelativeCoclass_unique`, `normalizedRelativeCoclass_pairing_self`, `standardComplexLocalClass`, `standardComplexLocalClass_ne_zero`, `standardComplexLocalClass_ne_zero_for_chart`, `span_standardComplexLocalClass_eq_top_for_chart`, `relativeCohomologyEquivDualHomology_relativeCohomologyMap`, `relativeCohomologyMap_comp`, `relativeCohomologyMap_id`, `relativeHomologyMap_comp`, `relativeHomologyMap_id`; for the tests `flattenedSupportNeighborhood`, `flattenedSupportNeighborhood_subset_source`, `flattenedSupportNormalClass`, `chartNormalProjectionCoclass_apply_normalClass`; Mathlib `Fin.appendHomeomorph`, `Homeomorph.prodComm`, `Homeomorph.uniqueProd`, `Fin.append_left`, `Fin.append_right`. A renormalization of `standardComplexLocalClass` by a non-multiplicative factor, or a change of the normal projection in `chartNormalProjectionPair`, would change the truth of the identities.
 
 ## Red-team changes (2026-11-26), as implemented
 
@@ -911,6 +913,122 @@ Date: 2026-11-26. Checked in `HodgeLadder.Cup.TriadCupNaturality`, imported from
 | 6: sketch text | the statement section above |
 
 Proof of `relCup2_naturality`: the red team's text (verdict, section 3) with the merged names. It applies the injective `triadExcisionCoh` and `triadCohIso` on X', turns the union pullback into the dual of `Relative.triadChainMap` through the excision square, cancels the `inv`s of `relCup2` (the `triadCohIso` cancellation stated as `e4`, since `erw [Iso.inv_hom_id_apply]` does not fire there), and ends with Tau Ceti's `cup_naturality` along `triadChainMap_triadDiagonal`, with the two classes named, which avoids a ring-instance mismatch. No sign appears in any step.
+
+## local-class-product: statement
+
+Date: 2026-11-26. Phase 1 (statement), branch `track/local-class-product` from `62a6c1d`. Files `HodgeLadder/Local/ClassProduct.lean` (module `HodgeLadder.Local.ClassProduct`, namespace `HodgeLadder.LocalClassProduct`) and `HodgeLadder/Tests/ClassProduct.lean` (non-vacuity tests); neither is imported from `HodgeLadder.lean`. The red team kept the flat name `HodgeLadder/Local/ClassProduct.lean`, next to `CrossOrientation.lean` (verdict, answer 6). `lake env lean` takes 5 to 7 s on the rung file and about 5 s on the test file (warm cache). Status: the three statements below were elaborated with `sorry` bodies first; their proofs turned out short (under 50 lines each) and are now complete, with `propext`, `Classical.choice`, `Quot.sound` only (`#print axioms` on every declaration of both files). No step produced a −1, a scalar, or a dependence on a, b. The statements are posted for the red team as they stand.
+
+**Choices.** Coefficients ℚ, spaces in `TopCat.{0}`, ℂ^{a+b} split by `Fin.append` as in `cross-orientation`: z' = first a coordinates (`Fin.castAdd b`), z'' = last b (`Fin.natAdd a`). This is the coordinate order of the hypothesis `htr` of `cycle-class-multiplicative` (Z: coordinates i < a vanish; W: coordinates a + j vanish); it was fixed before any computation and no order, orientation or definition was changed afterwards. The Z factor (relative to {z' ≠ 0}) is first in `relCup2`, the W factor second. The product degree is n = 2(a + b), the degree of upstream's coclass on ℂ^{a+b}, with `(Nat.mul_add 2 a b).symm : 2a + 2b = 2(a + b)` as the proof argument of `relCup2`; so the right sides need no cast.
+
+### Statements
+
+Model form. Helper definitions: `setA`, `setB`, `union_eq`, `orient` from `HodgeLadder.CrossOrientation` (checked); new: `cx a b := TopCat.of (Fin (a + b) → ℂ)`, `projA`, `projB` (the sketch's text, section "Proposed Lean, model form"), `u k := normalizedRelativeCoclass (standardComplexLocalClass ℚ k) (standardComplexLocalClass_ne_zero k)`, and `unionIso a b : puncturedPair ℂ (a + b) ≅ TopPair.ofSubset (X := cx a b) (setA a b ∪ setB a b)`, upstream's `TopPair.isoOfSubset (Homeomorph.refl _) (union_eq a b)`, the identity of ℂ^{a+b}, the same map `orient` uses.
+
+```lean
+theorem relCup2_model_eval_orient (a b : ℕ) :
+    relativeCohomologyEquivDualHomology ℚ (TopPair.ofSubset (X := cx a b) (setA a b ∪ setB a b))
+        (2 * a + 2 * b)
+      (relCup2 (cx a b) (setA a b) (setB a b) (isOpen_setA a b) (isOpen_setB a b)
+        (relativeCohomologyMap ℚ (2 * a) (projA a b) (u a))
+        (relativeCohomologyMap ℚ (2 * b) (projB a b) (u b)) (2 * a + 2 * b) rfl)
+      (orient a b) = 1
+
+theorem relCup2_model (a b : ℕ) :
+    relCup2 (cx a b) (setA a b) (setB a b) (isOpen_setA a b) (isOpen_setB a b)
+        (relativeCohomologyMap ℚ (2 * a) (projA a b) (u a))
+        (relativeCohomologyMap ℚ (2 * b) (projB a b) (u b)) (2 * (a + b))
+        (Nat.mul_add 2 a b).symm =
+      relativeCohomologyMap ℚ (2 * (a + b)) (unionIso a b).inv (u (a + b))
+```
+
+Chart form. For `M` a topological space, `EZ EW ET` with `[NormedAddCommGroup _]` (upstream's `chartNormalProjectionCoclass` asks for nothing more), and `chartUnionIso V h : TopPair.ofSubset (X := TopCat.of V) ({w : V | w.1 ∉ Z} ∪ {w : V | w.1 ∉ W}) ≅ neighborhoodSupportComplementPair V T`, upstream's `isoOfSubset` of `Homeomorph.refl V`, for `h : ∀ y ∈ V, y ∈ T ↔ y ∈ Z ∧ y ∈ W`:
+
+```lean
+theorem relCup2_chartNormalProjectionCoclass
+    (eZ : OpenPartialHomeomorph M (EZ × (Fin a → ℂ)))
+    (eW : OpenPartialHomeomorph M (EW × (Fin b → ℂ)))
+    (eT : OpenPartialHomeomorph M (ET × (Fin (a + b) → ℂ)))
+    (Z W T : Set M)
+    (hZ : ∀ y ∈ eZ.source, y ∈ Z ↔ (eZ y).2 = 0)
+    (hW : ∀ y ∈ eW.source, y ∈ W ↔ (eW y).2 = 0)
+    (hT : ∀ y ∈ eT.source, y ∈ T ↔ (eT y).2 = 0)
+    (V : Set M) (hVZ : V ⊆ eZ.source) (hVW : V ⊆ eW.source) (hVT : V ⊆ eT.source)
+    (hnZ : ∀ y ∈ V, (eZ y).2 = fun i => (eT y).2 (Fin.castAdd b i))
+    (hnW : ∀ y ∈ V, (eW y).2 = fun j => (eT y).2 (Fin.natAdd a j))
+    (hA : IsOpen {w : V | w.1 ∉ Z}) (hB : IsOpen {w : V | w.1 ∉ W}) :
+    relCup2 (TopCat.of V) {w : V | w.1 ∉ Z} {w : V | w.1 ∉ W} hA hB
+        (chartNormalProjectionCoclass EZ a eZ Z hZ V hVZ)
+        (chartNormalProjectionCoclass EW b eW W hW V hVW) (2 * (a + b))
+        (Nat.mul_add 2 a b).symm =
+      relativeCohomologyMap ℚ (2 * (a + b))
+        (chartUnionIso V (chart_mem_iff eZ eW eT hZ hW hT hVZ hVW hVT hnZ hnW)).hom
+        (chartNormalProjectionCoclass ET (a + b) eT T hT V hVT)
+```
+
+| Hypothesis | Meaning | Why this form |
+|---|---|---|
+| `eZ`, `eW`, `eT` | three charts, one per component, in upstream's `E × (Fin c → ℂ)` form | `cycle-class-germ` delivers each class as `chartNormalProjectionCoclass` for a chart adapted to that component alone; from the single chart φ of `htr` the consumer gets the three by composing with ℂ-linear block equivalences |
+| `hZ`, `hW`, `hT` | each set is the zero set of its chart's normal coordinate on that chart's source | upstream's `hS`, verbatim |
+| `hnZ`, `hnW` | on V the normal coordinate of eZ is z' and that of eW is z'' of eT's normal coordinate | transversality in the chart, the content of `htr`; with `hT` it gives T ∩ V = Z ∩ W ∩ V (`chart_mem_iff`), so T is a parameter and no global T = Z ∩ W is assumed |
+| `V` | any subset of the three sources | upstream's `W` argument; openness is not needed |
+| `hA`, `hB` | openness of V ∖ Z, V ∖ W in V | arguments so that a consumer's proof term (for example `isOpen_neighborhoodComplement`) matches; `isOpen_chart_notMem` proves them from the charts |
+
+No holomorphy is assumed: the identity is topological, and the consumer's charts (register row "Holomorphic adapted chart") are a special case.
+
+### Proved helpers
+
+| Declaration | Content |
+|---|---|
+| `isOpen_setA`, `isOpen_setB` | preimages of {0}ᶜ under the block projections |
+| `isOpen_chart_notMem` | V ∖ Z is open in V for a chart adapted to Z with V in its source |
+| `chart_mem_iff` | on V, y ∈ T ↔ y ∈ Z ∧ y ∈ W, by `Fin.addCases` |
+| `eval_relCup2_degree` | the pairing with `relCup2` in degree n equals the pairing in degree m after `e ▸` on the homology class, for e : n = m; `subst`, so no scalar |
+| `relativeCohomologyMap_normalizedRelativeCoclass` | for f : X ⟶ Y, z ≠ 0 spanning H_n(X; ℚ) and f_* z ≠ 0: f^*(normalized coclass of f_* z) = normalized coclass of z. The pullback lemma of the red team of `cap-cross-evaluation`, question (i); it needs no isomorphism |
+
+### Signs
+
+| Step | Sign | Source |
+|---|---|---|
+| orient a b is the push along `complexAppendMap` of s_a × s_b | + | `cross_orientation_orient` (checked, `cross-orientation`); row "Cross product of complex orientations" |
+| pairing moves along a map of pairs | none | upstream `relativeCohomologyEquivDualHomology_relativeCohomologyMap` |
+| `relCup2` pulled back along `complexAppendMap` | none | `relCup2_naturality` (checked); row "Triad relative cup product" |
+| projA ∘ append = pr₁, projB ∘ append = pr₂ on pairs | identity | `Fin.append_left`, `Fin.append_right`, checked on points |
+| cup to cap on the product triad | none | `relCup2_eval_eq_eval_triadCap` (checked); row "Cup–cap adjunction (triad)" |
+| cap–cross evaluation | none, ⟨u_a, s_a⟩ · ⟨u_b, s_b⟩ | `cap_cross_evaluation` (checked); row "Cap–cross evaluation" |
+| ⟨u_k, s_k⟩ | 1 | upstream `normalizedRelativeCoclass_pairing_self` |
+| degree 2a + 2b to 2(a + b) | none | `eval_relCup2_degree` (`subst`); `orient` is `Nat.mul_add 2 a b ▸` of the uncast class |
+| identity of ℂ^{a+b} as a pair map | none | `unionIso`, `chartUnionIso` (`Homeomorph.refl`) |
+| normal projection to ℂ^{a+b} | none | `relCup2_naturality`; the three pair-map identities with `chartNormalProjectionPair` hold on points (`hnZ`, `hnW`, and `rfl` for T) |
+| factor order (Z first) | (−1)^{(2a)(2b)} = 1 if swapped | not used; the order is fixed as above |
+
+Product: +1. The value `relCup2_model_eval_orient = 1` is the kernel-checked sign: −1 or 0 would contradict it.
+
+### Checks for the red team
+
+- `rfl`, `simp`, `aesop`, `decide`, `trivial`, `norm_num`, `grind` and `exact?` each fail on all three statements (a copy of the file with the three bodies replaced, three errors per tactic, deleted).
+- Non-vacuity, `HodgeLadder/Tests/ClassProduct.lean`: `relCup2_model_ne_zero` (the right side of the model form pairs to 1 with the pushed orientation class, so the identity separates + from − and from 0); `coordinate_hyps` (on M = ℂ^{a+b} the charts z ↦ (z'', z'), z ↦ (z', z''), z ↦ (0, z), built from Mathlib's `Fin.appendHomeomorph`, `Homeomorph.prodComm`, `Homeomorph.uniqueProd`, meet every hypothesis with Z = {z' = 0}, W = {z'' = 0}, T = {0}, by `rfl`); `coordinate_chartForm_ne_zero` (on upstream's `flattenedSupportNeighborhood` of 0 for the third chart, the right side of the chart form pairs to 1 with upstream's `flattenedSupportNormalClass`, through `chartNormalProjectionCoclass_apply_normalClass`). All with the standard axioms.
+- `python3 tools/check.py --no-build` exits 0 with both files present (they are not imported, so the checker reads them only in its sorry scan).
+
+### Route as proved
+
+1. `relCup2_model_eval_orient`: rewrite `orient a b` by `cross_orientation_orient`; move the pairing along `complexAppendMap`; `relCup2_naturality` along `complexAppendMap` with A' = (ℂ^a ∖ 0) × ℂ^b, B' = ℂ^a × (ℂ^b ∖ 0); the pulled-back factors are `prFstPair^* u_a`, `prSndPair^* u_b`; then `relCup2_eval_eq_eval_triadCap`, `cap_cross_evaluation` and `normalizedRelativeCoclass_pairing_self` twice. The last three steps are the proof of `HodgeLadder.Tests.capCross_complex_model`, used through the rung lemma so that the module imports no test module.
+2. `relCup2_model`: z := `unionIso.hom_*` s_{a+b} is nonzero and spans (from `span_standardComplexLocalClass_eq_top_for_chart` and `unionIso.inv_*` z = s_{a+b}); the right side is the normalized coclass of z (`relativeCohomologyMap_normalizedRelativeCoclass` along `unionIso.inv`); the left side pairs to 1 with z by step 1 and `eval_relCup2_degree`; `normalizedRelativeCoclass_unique`.
+3. `relCup2_chartNormalProjectionCoclass`: f := w ↦ (eT w).2 : V → ℂ^{a+b} maps V ∖ Z into setA and V ∖ W into setB (`hZ`, `hnZ`, `hW`, `hnW`); `relCup2_naturality` along f applied to step 2; ofSubsetHom f ≫ projA = `chartNormalProjectionPair` of eZ (by `hnZ` on points), likewise for W, and ofSubsetHom f ≫ `unionIso.inv` = `chartUnionIso.hom` ≫ `chartNormalProjectionPair` of eT (`rfl` on points).
+
+Questions for the red team: (i) three charts with `hnZ`, `hnW`, or one chart into E × ℂ^{a+b} with the Z and W charts derived from it; (ii) `hA`, `hB` as arguments or as `isOpen_chart_notMem` terms inside the statement; (iii) T as a parameter with `hT`, or T = Z ∩ W; (iv) the degree 2(a + b) with the proof argument `(Nat.mul_add 2 a b).symm`, or 2a + 2b with a cast on the right; (v) a test rung (`local-class-product-test`) for the test module, as for `cap-cross-evaluation-test`; (vi) the file name.
+
+### Checked (2026-11-26)
+
+Red team `docs/sketches/local-class-product.redteam.md`: pass with changes, all implemented. The statements are unchanged. Answers: three charts, `hA` and `hB` as arguments, T as a parameter, degree 2(a + b), a test rung, the flat file name.
+
+| Change | Where it is now |
+|---|---|
+| C1: post | both modules imported from `HodgeLadder.lean`; ledger `local-class-product` checked with the 16 declarations of the rung file; new test rung `local-class-product-test` with the 11 of the test file; roadmap rows |
+| C2: sign test | `HodgeLadder.Tests.relCup2_model_ne_neg`, the verdict's text |
+| C3: `inv` form | `chartNormalProjectionCoclass_eq_relCup2`, the verdict's text; an argument h replaces `chart_mem_iff`, so the consumer passes its own proof |
+| C4: consumer | `docs/sketches/cycle-class-multiplicative.md` glue statements use `chartUnionIso` through `mem_iff_of_eq_inf` (the old `unionComplIsoNeighborhood` equals it by `rfl`), and record the point-form seam; ledger note of `cycle-class-multiplicative` |
+| C5: general lemma | `relativeCohomologyMap_normalizedRelativeCoclass` in `docs/gaps.md` "General lemmas kept local" (decision 0011) |
+| C6: records | pointer from the one-chart paragraph in section "Statement"; drift list in "Pins and drift"; register row "Product of local classes (model and chart)" cited in the module docstring |
 
 ## Sources
 
