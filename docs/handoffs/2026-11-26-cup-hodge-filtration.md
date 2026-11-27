@@ -1,0 +1,22 @@
+# Handoff 2026-11-26: `cup-hodge-filtration`
+
+- The original rung is split, following the red team (`docs/sketches/cup-hodge-filtration.redteam.md`, pass with changes).
+- Checked:
+  - `cup-hodge-reduction` (`HodgeLadder/Hodge/CupFiltration.lean`): `mem_hodgeClasses_iff_mem_hodgeFiltration`, `cupPreservesHodgeClasses_of_rational` ((a_ℚ) ⇒ (b)), `hodgeFiltration_eq_top_of_nonpos`, `mem_hodgeClasses_zero`.
+  - `form-wedge-leibniz`: `formWedge`, `involute_of_mem_exteriorPower`, `formWedge_differential`, d(θ ∧ η) = dθ ∧ η + (−1)^p θ ∧ dη, Mathlib's Koszul sign.
+  - `cup-hodge-classes-test-p2` (`HodgeLadder/Tests/HodgeCupP2.lean`): two Hodge classes on ℙ² with a nonzero cup product.
+- Stated (sorry-free `Prop`s):
+  - `cup-hodge-classes`: `CupPreservesHodgeClasses`, `CupRespectsHodgeFiltrationRational`.
+  - `wedge-descends`: `WedgeDescends`, both sides.
+  - `tensor-bounded-quasi-iso`: `TensorBoundedQuasiIso`, with `HasTensor` hypotheses.
+- Open: `cup-hodge-filtration`, now statement (a) for complex classes, which T1 needs. Sub-rungs, in order:
+  - `rational-hypercohomology-equiv`, `rational-de-rham-complex`;
+  - `wedge-presheaf`, `wedge-sheafify`, `wedge-sheaf-map`;
+  - `derived-tensor-bounded`, `pairing-product`;
+  - `de-rham-injective`, `de-rham-cup`, `de-rham-cup-test-p2`.
+- T1 inputs, open: `de-rham-cup-antisymm-h1`, `de-rham-rational-span`.
+- Convention: `deRhamCup x y := pairProduct μ y x`, so ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign. The four rows the red team added to `docs/conventions.md` are kept; the wedge row now points at `form-wedge-leibniz`.
+- Failed: `inferInstance` for `HomologicalComplex.HasTensor` on `CochainComplex (ShQ Y) ℤ` did not finish in five minutes. The instances must be given as explicit terms.
+- `docs/gaps.md`: one row for the local declarations of the module.
+- The CLAUDE.md status block is not edited.
+- Next: `rational-hypercohomology-equiv`, the cheapest probe of the instance spellings. Then `tensor-bounded-quasi-iso`.
