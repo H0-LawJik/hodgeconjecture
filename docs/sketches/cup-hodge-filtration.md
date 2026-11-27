@@ -317,6 +317,8 @@ Checked 2026-11-27; imported from `HodgeLadder.lean`, ledger module `HodgeLadder
 
 T1 (Weil classes on an abelian surface of Weil type, `docs/notes/2026-11-25-markman-inventory.md` §6) shows that a rational class `w ∈ W_K` has `ι w ∈ F^1`. Its complexification is a combination of products of classes in `H^{1,0} ⊂ F^1` and `H^{0,1} ⊂ F^0`, which are complex, not rational. T1 therefore needs (a) for complex classes, the ℂ-bilinearity of `deRhamCup`, and `fieldToDeRhamCohomology_cup`, more than (b). The conjugate condition comes for free, since `w` is rational. T1 also needs `H^1_dR = F^1 ⊕ conj F^1` on an abelian surface (outside this front), antisymmetry of `deRhamCup` on `H^1` (`de-rham-cup-antisymm-h1`) and the span of the rational image (`de-rham-rational-span`). This is why (a) keeps the id `cup-hodge-filtration` and (b) has its own id.
 
+Status after `rational-cohomology-finite-dimensional` (checked 2026-11-27; red team `docs/sketches/rational-cohomology-finite-dimensional.redteam.md`, finding 12): `finrank ℂ H_dR^n(X) = finrank ℚ H^n(X; ℚ)` now holds with both sides finite, for every n and every smooth projective integral X. From this branch T1 still lacks five inputs: the complex form (a) of `cup-hodge-filtration` (open); `de-rham-cup-antisymm-h1` (open); `H^1_dR = F^1 ⊕ conj F^1` on an abelian surface; b₁ = 4 for an abelian surface, which needs abelian varieties and the cohomology of a real 4-torus; pullback along endomorphisms on `H^1` with a definition of the Weil space `W_K`. The last three have no rung yet.
+
 ## Kill risks
 
 1. **Derived tensor (main risk).** Steps 3 and 4 are Mathlib-level: quasi-isomorphism invariance of `− ⊗ B` for bounded `B`, the lift through the localization, its additivity, and naturality in `B`. The red team removed the `CommShift` requirement (finding 6). Each piece has Mathlib support (`HomologySequenceLemmas`, `Shift/Localization.lean`, `BifunctorShift.lean`), but their combination has not been assembled at the pin. A kill would be an obstruction to additivity of the lift. Last-resort fallback: a roof-level definition, which must reprove independence of the roof.
@@ -701,6 +703,36 @@ Two new rungs:
 | Id | Kind | Status | Depends on | Content |
 |---|---|---|---|---|
 | `de-rham-rational-independent-test-gm2` | test | checked | `de-rham-rational-independent`, `cup-odd-degree-gm2`, `cup-graded-commutative`, `cup-product` | `HodgeLadder.Tests.DeRhamRationalIndependentGm2`: `linearIndependent_windingClasses_gm2` (ℚ-independence of `x₁`, `x₂` in `H¹(gm2; ℚ)`, from `cup_self_eq_zero_gm2` and `gm2_cup_ne_zero`) and `linearIndependent_deRham_windingClasses_gm2` (their de Rham images are ℂ-independent) |
-| `rational-cohomology-finite-dimensional` | foundation | open | `lefschetz-port` | `FiniteDimensional ℚ H^n(X; ℚ)` for smooth projective integral `X`, from `module_finite_singularHomology`, Ψ and universal coefficients; with `deRhamBaseChangeEquiv` it gives `FiniteDimensional ℂ H_dR^n(X)`, which T1's eigenspace count needs |
+| `rational-cohomology-finite-dimensional` | foundation | checked | `lefschetz-port`, `simplicial-complex-span`, `de-rham-rational-base-change` | `FiniteDimensional ℚ H^n(X; ℚ)` for smooth projective integral `X`, from `module_finite_singularHomology`, Ψ and an injective evaluation of rational cocycles on integral generating cycles (section below); with `deRhamBaseChangeEquiv` it gives `FiniteDimensional ℂ H_dR^n(X)`, which T1's eigenspace count needs |
 
 The `gm2` proof is the red team's scratch proof (finding 7), with renamed declarations. Its step `x ∪ x = 0` in degree one reads the sign `-1` of `cup_gradedComm` in degree `(1, 1)`; with sign `+1` the identity would be `x ∪ x = x ∪ x` and the step would fail. `gm2` is smooth and integral, not projective, so the test goes through `linearIndependent_fieldToDeRhamCohomology_rat_of_smooth` and probes `de-rham-rational-independent` only.
+
+## rational-cohomology-finite-dimensional: checked
+
+Module `HodgeLadder.Hodge.RationalCohomologyFinite`, imported from the root. Statements, for `X : Over (Spec ↧ℂ)` with `[IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom]` and `n : ℕ`:
+
+| Declaration | Type |
+|---|---|
+| `HodgeLadder.finiteDimensional_rationalCohomology` | `FiniteDimensional ℚ H^n(X; ℚ)` |
+| `HodgeLadder.finiteDimensional_deRham` | `FiniteDimensional ℂ H_dR^n(X)` |
+
+`H^n(X; ℚ)` carries upstream's `fieldCohomologyModule` and `H_dR^n(X)` upstream's `deRhamHypercohomologyComplexModule`; the ℂ statement is `Module.Finite.equiv (deRhamBaseChangeEquiv X n)` after `Module.Finite.base_change`.
+
+### Route
+
+The ledger note proposed universal coefficients. At the pin upstream has the absolute form `cohomologyEquivDualHomology R X n : H^n(X; R) ≃ₗ[R] Module.Dual R (H_n(X; R))` for a field `R`, the dual of homology with field coefficients, so no pair `(X, ∅)` is needed. That route needs `FiniteDimensional ℚ H_n(X(ℂ); ℚ)` from finite generation of `H_n(X(ℂ); ℤ)`, which needs a chain-level comparison `ℤ → ℚ` and denominator clearing of rational cycles; neither is at the pin. The checked route stays on cochains and reuses the machinery of `simplicial-complex-span`:
+
+1. `module_finite_singularHomology` (port): `H_n(X(ℂ); ℤ)` is finitely generated; pick generators `s₁, …, s_k` and integral cycles `zᵢ` with `[zᵢ] = sᵢ`.
+2. `exists_injective_homology_linearDual_rat`: `[c] ↦ (c(z₁), …, c(z_k))` descends to the cohomology of the forgotten rational algebraic-dual complex (`cochainEval_d_iCycles_rat`: a coboundary vanishes on integral cycles) and is injective. If `c(zᵢ) = 0` for all `i`, the evaluation of `c` on integral cycles factors through a ℤ-linear `G : H_n(Y; ℤ) → ℚ` vanishing on generators (`LinearMap.ext_on_range`), so `c` vanishes on every integral cycle; then `c` is a coboundary by `exists_dualMap_d_eq_of_cochainEval_rat` (positive degree) or is `0` (degree `0`).
+3. Ψ (`rationalCohomologyAddEquivSingularCohomology`, upstream) followed by the inverse of `ordinaryForgottenSingularCochainHomologyIso` (port) lands in that cohomology for `Y = TopCat.toSSet.obj X(ℂ)`; the singular chain complex of record and the simplicial one agree by definition.
+4. The composite `H^n(X; ℚ) →+ (Fin k → ℚ)` is injective; `AddMonoidHom.toRatLinearMap` makes it ℚ-linear, which needs no compatibility of Ψ with scalars, and `Module.Finite.of_injective` concludes.
+
+No sign or normalization enters: a nonzero scalar on Ψ or on the evaluation changes neither injectivity nor finiteness.
+
+### Checks
+
+`#print axioms` on the six ledger declarations: `[propext, Classical.choice, Quot.sound]`. Without the module, `infer_instance`, `trivial`, `aesop`, `simp` and `exact?` fail on both statements; `exact?` with the module finds `finiteDimensional_rationalCohomology` only. The file elaborates with `lake env lean` in about 19 s.
+
+The red team's RT3 corollary is the checked rung `rational-homology-finite-dimensional`: `HodgeLadder.finiteDimensional_rationalHomology : FiniteDimensional ℚ (AlgebraicTopology.Singular.Homology ℚ (TopCat.of (ComplexPoint X)) n)`, from Ψ made ℚ-linear by `map_rat_smul`, `cohomologyEquivDualHomology` and `Module.finite_dual_iff`, in the same module.
+
+With this rung, `finrank_deRham_eq_finrank_rat` is a count of dimensions in every degree: both sides are finite, so neither is the `0` that `Module.finrank` assigns to an infinite-dimensional space (red team of `de-rham-rational-base-change`, finding 8).

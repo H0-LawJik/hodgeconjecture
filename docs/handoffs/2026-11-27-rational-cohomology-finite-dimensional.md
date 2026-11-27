@@ -1,0 +1,10 @@
+# Handoff 2026-11-27: `rational-cohomology-finite-dimensional`, `rational-homology-finite-dimensional`
+
+- Checked: `HodgeLadder.finiteDimensional_rationalCohomology : FiniteDimensional ℚ H^n(X; ℚ)` and `finiteDimensional_deRham : FiniteDimensional ℂ H_dR^n(X)` for smooth projective integral X, every n. New module `HodgeLadder.Hodge.RationalCohomologyFinite`.
+- Route on cochains: `exists_injective_homology_linearDual_rat` embeds the degree-n cohomology of the rational algebraic-dual cochain complex of a simplicial set with finitely generated `H_n(Y; ℤ)` additively into `Fin k → ℚ`, by evaluation on integral cycles representing generators; injectivity is the Baer step over ℚ (`exists_dualMap_d_eq_of_cochainEval_rat`) and the degree-0 case. Then Ψ and the port's `ordinaryForgottenSingularCochainHomologyIso`, and `AddMonoidHom.toRatLinearMap`, so no scalar compatibility of Ψ is used.
+- Universal coefficients (`cohomologyEquivDualHomology`, absolute, field coefficients) were not the route: they need `H_n(X; ℚ)` finite from `H_n(X; ℤ)` finite, and the ℤ → ℚ chain comparison is not at the pin.
+- Checked: `HodgeLadder.finiteDimensional_rationalHomology` (new rung `rational-homology-finite-dimensional`, red team change D), from the cohomology rung, `map_rat_smul`, `cohomologyEquivDualHomology` and `(Module.finite_dual_iff ℚ).mp`; the field argument is explicit.
+- Red team: `docs/sketches/rational-cohomology-finite-dimensional.redteam.md`, pass with changes; A (ledger note of `de-rham-rational-base-change`), B (sketch table row), C (docstring pointer in `DeRhamRationalBaseChange`) and D implemented; two conventions rows annotated by the red team.
+- Failed on the way: a `change` spanning a line break; `simpa` closing `iCycles_d` to `True`; `Module.finite_dual_iff.mp` without the explicit field.
+- Times: module 23 s under `lake env lean`; full `python3 tools/check.py` about 40 s on a warm build.
+- Next for T1, per the red team: complex form (a) of `cup-hodge-filtration`, `de-rham-cup-antisymm-h1`; H¹_dR = F¹ ⊕ conj F¹, b₁ = 4 and pullback on H¹ with W_K have no rung yet.

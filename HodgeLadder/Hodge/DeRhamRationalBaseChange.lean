@@ -17,7 +17,8 @@ The proofs apply the conditional forms of `HodgeLadder.Hodge.DeRhamRationalIndep
 `ℂ`-module structure on `H_dR^n(X)` is upstream's.
 
 The rank equality is an identity of natural numbers under Mathlib's convention that `finrank` is
-`0` on an infinite-dimensional space; finiteness of either side is not proved here.
+`0` on an infinite-dimensional space. Finiteness of both sides is proved downstream, in
+`HodgeLadder.finiteDimensional_rationalCohomology` (rung `rational-cohomology-finite-dimensional`).
 
 ## Main definitions
 
