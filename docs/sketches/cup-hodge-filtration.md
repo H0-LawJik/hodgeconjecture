@@ -106,15 +106,15 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `cup-hodge-reduction` | `mem_hodgeClasses_iff_mem_hodgeFiltration`, `cupPreservesHodgeClasses_of_rational`, `hodgeFiltration_eq_top_of_nonpos`, `mem_hodgeClasses_zero` | checked |
 | `form-wedge-leibniz` | `formWedge`, `involute_of_mem_exteriorPower`, `formWedge_differential` | checked |
 | `rational-hypercohomology-equiv` | `rationalHypercohomologyEquiv (C) (n : ℤ) : ℍ^n(X; forget C) ≃+ ShiftedHom (Q.obj ℚ_X[0]) (Q.obj C) n`, natural in `C`, agreeing with `rationalExtEquiv` on `ℚ_X[0]` with no scalar | checked |
-| `wedge-descends` | `WedgeDescends`: `chartEvaluationKernel` is a two-sided ideal for `formWedge` | stated |
-| `tensor-bounded-quasi-iso` | `TensorBoundedQuasiIso`: `QuasiIso (tensorHom f (𝟙 M))` for `M` strictly bounded, with `HasTensor` hypotheses | stated |
-| `rational-de-rham-complex` | `Ω•_ℚ` with `forget(Ω•_ℚ) ≅ Ω•(X)`, truncations `F^p`, unit over `fieldToHolomorphicDeRhamComplexInt ℚ X` | open |
+| `wedge-descends` | `WedgeDescends`: `chartEvaluationKernel` is a two-sided ideal for `formWedge` | checked |
+| `tensor-bounded-quasi-iso` | `TensorBoundedQuasiIso`: `QuasiIso (tensorHom f (𝟙 M))` for `M` strictly bounded, with `HasTensor` hypotheses | checked |
+| `rational-de-rham-complex` | `Ω•_ℚ` with `forget(Ω•_ℚ) ≅ Ω•(X)`, truncations `F^p`, unit over `fieldToHolomorphicDeRhamComplexInt ℚ X` | checked |
 | `wedge-presheaf` | `formWedge` descends to `HolomorphicForm X d U`, natural under `holomorphicFormRestriction` | checked |
-| `wedge-sheafify` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ` through the monoidal sheafification | open |
+| `wedge-sheafify` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ` through the monoidal sheafification | checked |
 | `wedge-sheaf-map` | `deRhamWedge` a morphism of complexes, `filteredWedge p q` compatible with inclusions, unit law | open |
 | `derived-tensor-bounded` | additive `T_B` with `Q ⋙ T_B ≅ tensorRightComplex Y B ⋙ Q`, natural in `B`; generic unit iso | checked |
 | `pairing-product` | `pairProduct`, naturality, biadditivity, `pairProduct λ x y = y.comp x` on `ℚ_X[0]` | checked |
-| `de-rham-injective` | `Function.Injective (fieldToDeRhamCohomology ℚ X n)` | open |
+| `de-rham-injective` | `Function.Injective (fieldToDeRhamCohomology ℚ X n)` | checked |
 | `de-rham-cup` | `deRhamCup`, bilinearity, `fieldToDeRhamCohomology_cup` | open |
 | `de-rham-cup-test-p2` | `deRhamCup (ι [L₀]) (ι [L₁]) 4 _ ≠ 0` on `projectivePlane` | open |
 | `cup-hodge-filtration` | `deRhamCup_mem_hodgeFiltration`, statement (a) | open |
