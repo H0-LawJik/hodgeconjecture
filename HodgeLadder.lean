@@ -149,3 +149,4 @@ public import HodgeLadder.Hodge.CupFiltration
 public import HodgeLadder.Hodge.TensorBoundedQuasiIso
 public import HodgeLadder.Tests.HodgeCupP2
 public import HodgeLadder.Hodge.WedgeDescends
+public import HodgeLadder.Hodge.WedgePresheaf

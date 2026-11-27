@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-26",
+  "updated": "2026-11-27",
   "project": "hodgeconjecture",
   "repo": "H0-LawJik/hodgeconjecture",
   "toolchain": {
@@ -2674,20 +2674,41 @@
         "sheaf-tensor-exact"
       ],
       "contributors": [],
-      "note": "Sheafify U ↦ HolomorphicForm X d U p as ℚ-modules; forget commutes with sheafification (preservesSheafification_U)."
+      "note": "Sheafify U ↦ HolomorphicForm X d U p as ℚ-modules; forget commutes with sheafification (preservesSheafification_U). HolomorphicForm X d U p has no Module ℚ instance at the pin (#synth fails; red team wedge-presheaf, finding 2): this rung must supply one, unique by Mathlib's subsingleton_rat_module; the ℂ-bilinear holomorphicWedge is then ℚ-bilinear for it by map_rat_smul (or AddMonoidHom.toRatLinearMap), which is what wedge-sheafify needs."
     },
     {
       "id": "wedge-presheaf",
       "title": "Presheaf wedge on upstream's holomorphic forms: formWedge descends to HolomorphicForm X d U and is natural under holomorphicFormRestriction",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.WedgePresheaf",
+      "declarations": [
+        "HodgeLadder.formWedgeBilin",
+        "HodgeLadder.map_formWedge",
+        "HodgeLadder.holomorphicWedge",
+        "HodgeLadder.holomorphicWedge_mk",
+        "HodgeLadder.holomorphicFormRestriction_holomorphicWedge",
+        "HodgeLadder.holomorphicWedge_compr₂_restriction",
+        "HodgeLadder.holomorphicFormCast",
+        "HodgeLadder.holomorphicFormCast_mk",
+        "HodgeLadder.holomorphicFormCast_trans",
+        "HodgeLadder.holomorphicFormRestriction_holomorphicFormCast",
+        "HodgeLadder.holomorphicFormDifferential_holomorphicFormCast",
+        "HodgeLadder.eqToHom_apply_eq_holomorphicFormCast",
+        "HodgeLadder.XIsoOfEq_hom_app_eq_holomorphicFormCast",
+        "HodgeLadder.holomorphicFormDifferential_holomorphicWedge",
+        "HodgeLadder.holomorphicWedge_ofConstant_left",
+        "HodgeLadder.holomorphicWedge_ofConstant_right",
+        "HodgeLadder.holomorphicWedge_ofFunction",
+        "HodgeLadder.holomorphicWedge_ofConstant_one_ne_zero"
+      ],
       "depends_on": [
         "wedge-descends"
       ],
-      "contributors": [],
-      "note": "First third of the former wedge-sheaf-map (red team finding 9)."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "First third of the former wedge-sheaf-map (red team finding 9). Checked 2026-11-27; red team docs/sketches/wedge-presheaf.redteam.md (pass with changes, implemented). holomorphicWedge : HolomorphicForm X d U p →ₗ[ℂ] HolomorphicForm X d U q →ₗ[ℂ] HolomorphicForm X d U (p + q) is LinearMap.liftQ₂ of mkQ ∘ formWedge, well defined by both sides of wedgeDescends; ℂ-bilinear, since upstream's chartEvaluationKernel is a ℂ-submodule. Exact identities: naturality under holomorphicFormRestriction (from map_formWedge, map_mul of extAlgMap), Leibniz d(a ∧ b) = cast(da ∧ b) + (−1)^p a ∧ db (cast along p + 1 + q = p + q + 1, h ▸ id, keeps the element of the exterior algebra), unit laws for constants. Nonvacuity: [1] ∧ [1] ≠ 0 on a nonempty open; in degree zero the wedge is multiplication of functions."
     },
     {
       "id": "wedge-sheafify",
