@@ -2680,15 +2680,56 @@
     {
       "id": "rational-de-rham-complex",
       "title": "The holomorphic de Rham complex in sheaves of ℚ-vector spaces: Ω•_ℚ with forget(Ω•_ℚ) ≅ Ω•(X), its truncations F^p and the unit ℚ_X[0] → Ω•_ℚ over fieldToHolomorphicDeRhamComplexInt ℚ X",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
+      "module": "HodgeLadder.Hodge.RationalDeRhamComplex",
+      "declarations": [
+        "HodgeLadder.forget_rationalDeRhamUnit",
+        "HodgeLadder.forget_rationalDeRhamUnit_unfolded",
+        "HodgeLadder.toSheafify_comp_forgetRationalHolomorphicFormSheafIso",
+        "HodgeLadder.forgetRationalDeRhamIso",
+        "HodgeLadder.forget_rationalHodgeFilteredInclusion",
+        "HodgeLadder.forgetRationalHodgeFilteredIso",
+        "HodgeLadder.forget_rationalConstantsToFormsSheaf",
+        "HodgeLadder.forget_rationalHolomorphicFormSheafDifferential",
+        "HodgeLadder.hodgeFiltration_eq_range_rational",
+        "HodgeLadder.rationalDeRhamUnit_eq_extendSingleIso",
+        "HodgeLadder.rationalDeRhamComplex",
+        "HodgeLadder.rationalDeRhamUnit",
+        "HodgeLadder.rationalHodgeFilteredComplex",
+        "HodgeLadder.rationalHodgeFilteredInclusion",
+        "HodgeLadder.rationalDeRhamComplex_isStrictlyGE",
+        "HodgeLadder.rationalDeRhamComplex_isStrictlyLE",
+        "HodgeLadder.holomorphicFormRatModule",
+        "HodgeLadder.holomorphicFormRatModule_unique",
+        "HodgeLadder.holomorphicForm_isScalarTower",
+        "HodgeLadder.rationalHolomorphicFormPresheaf_comp_forget",
+        "HodgeLadder.rationalHolomorphicFormSheaf_isZero_of_lt",
+        "HodgeLadder.mapStupidTruncIso_inclusion",
+        "HodgeLadder.mapHomologicalComplex_homFromSingleExtend"
+      ],
+      "depends_on": [
+        "sheaf-tensor-exact",
+        "rational-hypercohomology-equiv"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Ω^p_ℚ sheafifies upstream's HolomorphicForm X d U p in ModuleCat ℚ with the global instance holomorphicFormRatModule (Module.compHom along algebraMap ℚ ℂ, unique by subsingleton_rat_module); the underlying presheaf is upstream's holomorphicDeRhamPresheaf by rfl. forget(Ω^p_ℚ) ≅ Ω^p is Mathlib's sheafComposeNatIso for Cup.U, pinned against the two sheafification maps (toSheafify_comp_forgetRationalHolomorphicFormSheafIso, from sheafComposeIso_inv_fac), which excludes an automorphism such as −1 of Ω•_ℚ; ℕ to ℤ by upstream's mapExtendCanonicalIso. Unit through exactly forgetUnitComplexIso (forget_rationalDeRhamUnit, red team of rational-hypercohomology-equiv, change 8), exact, no scalar; F^p Ω•_ℚ is stupidTrunc (embeddingUpIntGE p) and its inclusion lies over hodgeFilteredDeRhamInclusion X p; hodgeFiltration X p n is the range of the forgotten rational truncation (hodgeFiltration_eq_range_rational). Red team: docs/sketches/rational-de-rham-complex.redteam.md, pass with changes, implemented. Drift: rerun #synth Module ℚ (HolomorphicForm X d U p) without this module (docs/gaps.md)."
+    },
+    {
+      "id": "de-rham-unit-nonzero",
+      "title": "Upstream's unit is nonzero on a point: fieldToHolomorphicDeRhamComplexInt ℚ HodgeLadder.Tests.point ≠ 0, hence rationalDeRhamUnit HodgeLadder.Tests.point ≠ 0",
+      "status": "open",
+      "kind": "test",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "sheaf-tensor-exact"
+        "rational-de-rham-complex",
+        "nonvacuity-tests"
       ],
       "contributors": [],
-      "note": "Sheafify U ↦ HolomorphicForm X d U p as ℚ-modules; forget commutes with sheafification (preservesSheafification_U). Unit compatibility (red team on rational-hypercohomology-equiv, change 8): state it through exactly HodgeLadder.forgetUnitComplexIso, as theorem forget_rationalDeRhamUnit : (forgetComplex X).map (rationalDeRhamUnit X) ≫ (forgetRationalDeRhamIso X).hom = (forgetUnitComplexIso X).hom ≫ fieldToHolomorphicDeRhamComplexInt ℚ X, with rationalDeRhamUnit X : rationalUnitComplex X ⟶ Ω•_ℚ and forgetRationalDeRhamIso X : (forgetComplex X).obj Ω•_ℚ ≅ Ω•(X) (names fixed by that rung). Any other isomorphism forget ℚ_X[0] ≅ constantFieldSheafComplexInt ℚ X can insert an automorphism of ℚ_X between the bridge and ι. HolomorphicForm X d U p has no Module ℚ instance at the pin (#synth fails; red team wedge-presheaf, finding 2): this rung must supply one, unique by Mathlib's subsingleton_rat_module; the ℂ-bilinear holomorphicWedge is then ℚ-bilinear for it by map_rat_smul (or AddMonoidHom.toRatLinearMap), which is what wedge-sheafify needs."
+      "note": "Red team of rational-de-rham-complex, change 7 (section 7b): the smallest test that fails if the unit lemma holds for a trivial reason. The corollary for rationalDeRhamUnit follows from forget_rationalDeRhamUnit (forget faithful, forgetUnitComplexIso an isomorphism). Upstream's ingredient holomorphicFormOfConstant_injective (nonempty opens) is private; a sanity check of an upstream definition, to be offered upstream."
     },
     {
       "id": "wedge-presheaf",
@@ -2736,7 +2777,7 @@
         "rational-de-rham-complex"
       ],
       "contributors": [],
-      "note": "Second third of the former wedge-sheaf-map."
+      "note": "Second third of the former wedge-sheaf-map. Needs from rational-de-rham-complex (red team there, finding 7): the ℚ-bilinear wedge (holomorphicWedge X d U p q).restrictScalars₁₂ ℚ ℚ for the instance holomorphicFormRatModule (lifting to ⊗[ℚ] by TensorProduct.lift), the presheaf rationalHolomorphicFormPresheaf to sheafify, and the pin toSheafify_comp_forgetRationalHolomorphicFormSheafIso: state the wedge compatibility against toSheafify on the ℚ side and reach upstream's sheaves through that lemma."
     },
     {
       "id": "wedge-sheaf-map",
