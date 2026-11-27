@@ -115,22 +115,24 @@ noncomputable def unionComplIso {Y : Type} [TopologicalSpace Y] {Z W T : Closeds
       TopPair.ofSubset (X := TopCat.of Y) (T.compl : Set Y) :=
   TopPair.isoOfSubset (Homeomorph.refl Y) (fun y => by subst hT; simp [Closeds.compl]; tauto)
 
-noncomputable def unionComplIsoNeighborhood {Y : Type} [TopologicalSpace Y] (V : Set Y)
-    {Z W T : Closeds Y} (hT : T = Z ⊓ W) :
-    TopPair.ofSubset (X := TopCat.of V)
-        ({w : V | w.1 ∉ (Z : Set Y)} ∪ {w : V | w.1 ∉ (W : Set Y)}) ≅
-      neighborhoodSupportComplementPair V (T : Set Y) :=
-  TopPair.isoOfSubset (Homeomorph.refl V) (fun w => by subst hT; simp; tauto)
+theorem mem_iff_of_eq_inf {Y : Type} [TopologicalSpace Y] (V : Set Y) {Z W T : Closeds Y}
+    (hT : T = Z ⊓ W) :
+    ∀ y ∈ V, y ∈ (T : Set Y) ↔ y ∈ (Z : Set Y) ∧ y ∈ (W : Set Y) := by
+  subst hT; exact fun _ _ => Iff.rfl
 
 theorem unionComplIso_restrict {Y : Type} [TopologicalSpace Y] (V : Set Y)
     {Z W T : Closeds Y} (hT : T = Z ⊓ W) :
     restrictToNeighborhood V T ≫ (unionComplIso hT).inv =
-      (unionComplIsoNeighborhood V hT).inv ≫
+      (HodgeLadder.LocalClassProduct.chartUnionIso V (mem_iff_of_eq_inf V hT)).inv ≫
         TopPair.ofSubsetHom (subsetInclusion V)
           (HodgeLadder.Relative.triadMap_mem_union (subsetInclusion V)
             (mem_compl_of_neighborhood V Z) (mem_compl_of_neighborhood V W)) := by
   apply MorphismProperty.Arrow.Hom.ext <;> ext <;> rfl
 ```
+
+**`chartUnionIso` in place of `unionComplIsoNeighborhood`** (red team of `local-class-product`, change C4, 2026-11-26). The pair isomorphism (V; V ∖ Z ∪ V ∖ W) ≅ `neighborhoodSupportComplementPair V T` is now the checked `HodgeLadder.LocalClassProduct.chartUnionIso V h` (identity of V), the map in the conclusion of `relCup2_chartNormalProjectionCoclass` and of its `inv` form `chartNormalProjectionCoclass_eq_relCup2`; `mem_iff_of_eq_inf` turns `hT : T = Z ⊓ W` into its argument h. The earlier definition `unionComplIsoNeighborhood V hT` (`isoOfSubset (Homeomorph.refl V)` with its own membership proof) is the same term: `unionComplIsoNeighborhood V hT = chartUnionIso V h` holds by `rfl` for every h (red-team scratch RT1 B, rechecked). The three declarations above and that `rfl` bridge compile against `HodgeLadder.Local.ClassProduct` and `HodgeLadder.Cup.SupportedPairForget` (scratch, deleted). Step 6 then ends with `chartNormalProjectionCoclass_eq_relCup2`, whose `h` argument takes `mem_iff_of_eq_inf V hT`.
+
+**Point-form seam** (same red team, section 6). When T is a point, step 5 may read the class of T from upstream's point form (`cycleComponentSupportedInjectiveClass_point_normalization`, `analyticComponentPointSupportedInjectiveCoclass_relative`) in place of `cycle-class-germ`. That class must then be matched with `chartNormalProjectionCoclass ET (a + b) eT T _` for the chart eT built from φ. The match is an orientation step: two holomorphic adapted charts give the same coclass (upstream `exists_open_chartNormalProjectionCoclass_eq`), and the point coclass is the chart coclass of the translated `chartAt` (checked as `pointRelativeCoclass_restrict_eq_chartNormalProjectionCoclass`, rung `cycle-class-germ-point`). It belongs to this rung, and its sign is the one to watch: `local-class-product` fixes the sign of the product only against the chart coclass of eT.
 
 With these, step 6 closes from `relCup2_restrict` in two lines (red-team scratch RT3): `rw [compat, compat, compat]` with the first lemma, then `rw [← relCup2_restrict, ← LinearMap.comp_apply, ← relativeCohomologyMap_comp, ← LinearMap.comp_apply, ← relativeCohomologyMap_comp, unionComplIso_restrict]`. Type the classes on `Z.compl`, the codomain of `supportedEquivPair`. A class typed on `TopPair.ofSubset ((Z : Set Y)ᶜ)` still elaborates, but `rw [relCup2_restrict]` then fails to find its pattern (conventions row "Pair spellings of (X, X ∖ Z)").
 

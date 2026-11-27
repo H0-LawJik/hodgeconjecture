@@ -135,3 +135,5 @@ public import HodgeLadder.Tests.FundamentalClassUnit
 public import HodgeLadder.Cup.CapCrossEvaluation
 public import HodgeLadder.Tests.CapCrossEvaluation
 public import HodgeLadder.Tests.CycleClassGermPoint
+public import HodgeLadder.Local.ClassProduct
+public import HodgeLadder.Tests.ClassProduct
