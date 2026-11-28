@@ -199,7 +199,9 @@ public import HodgeLadder.Tests.SupportedPullback
 public import HodgeLadder.General.ExtMapCocycle
 public import HodgeLadder.General.CircleArcs
 public import HodgeLadder.General.MayerVietorisRank
+public import HodgeLadder.General.CircleCylinderHomology
 public import HodgeLadder.Torus.Winding.Duality
+public import HodgeLadder.Torus.HomologyBound
 public import HodgeLadder.General.ProjQuotient
 public import HodgeLadder.General.Hypersurface
 public import HodgeLadder.Tests.EllipticCurve
