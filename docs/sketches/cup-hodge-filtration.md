@@ -112,16 +112,17 @@ Ledger rungs; `rational-hypercohomology-equiv` comes first (red team finding 9),
 | `wedge-presheaf` | `formWedge` descends to `HolomorphicForm X d U`, natural under `holomorphicFormRestriction` | checked |
 | `wedge-sheafify` | `Ω^p_ℚ ⊗ Ω^q_ℚ ⟶ Ω^{p+q}_ℚ` through the monoidal sheafification | checked |
 | `wedge-sheaf-map` | `deRhamWedge` a morphism of complexes, `deRhamWedgeFiltered X p q` compatible with inclusions, unit law | checked |
-| `de-rham-scalar-sheaf` | `S_c` on `Ω•_ℚ`, tied to `scalarHolomorphicDeRhamComplexInt X c`; ℂ-scalar laws of `deRhamWedge` (input of ℂ-bilinearity of `deRhamCup` only) | open |
+| `de-rham-scalar-sheaf` | `S_c` on `Ω•_ℚ`, tied to `scalarHolomorphicDeRhamComplexInt X c`; ℂ-scalar laws of `deRhamWedge` (input of ℂ-bilinearity of `deRhamCup` only) | checked |
 | `derived-tensor-bounded` | additive `T_B` with `Q ⋙ T_B ≅ tensorRightComplex Y B ⋙ Q`, natural in `B`; generic unit iso | checked |
 | `pairing-product` | `pairProduct`, naturality, biadditivity, `pairProduct λ x y = y.comp x` on `ℚ_X[0]` | checked |
 | `de-rham-injective` | `Function.Injective (fieldToDeRhamCohomology ℚ X n)` | checked |
-| `de-rham-cup` | `deRhamCup`, bilinearity, `fieldToDeRhamCohomology_cup` | open |
-| `de-rham-cup-test-p2` | `deRhamCup (ι [L₀]) (ι [L₁]) 4 _ ≠ 0` on `projectivePlane` | open |
-| `cup-hodge-filtration` | `deRhamCup_mem_hodgeFiltration`, statement (a) | open |
-| `cup-hodge-classes` | `CupPreservesHodgeClasses`, `CupRespectsHodgeFiltrationRational` | stated |
+| `de-rham-cup` | `deRhamCup`, bilinearity, `fieldToDeRhamCohomology_cup` | checked |
+| `de-rham-cup-test-p2` | `deRhamCup (ι [L₀]) (ι [L₁]) 4 _ ≠ 0` on `projectivePlane` | checked |
+| `cup-hodge-filtration` | `deRhamCup_mem_hodgeFiltration`, statement (a) | checked |
+| `cup-hodge-classes` | `CupPreservesHodgeClasses`, `CupRespectsHodgeFiltrationRational` | checked |
 | `cup-hodge-classes-test-p2` | `Tests.projectivePlane_exists_hodge_cup_ne_zero` | checked |
-| `de-rham-cup-antisymm-h1` | antisymmetry of `deRhamCup` on `H¹_dR × H¹_dR` (T1 input) | open |
+| `cup-hodge-filtration-test-p2` | ι [L₀] ∉ F^2 H^2, F^3 H^4 = 0, [pt] ∈ Hdg^2 on ℙ² | checked |
+| `de-rham-cup-antisymm-h1` | antisymmetry of `deRhamCup` on `H¹_dR × H¹_dR` (T1 input) | checked |
 | `de-rham-rational-span` | `Submodule.span ℂ (Set.range (fieldToDeRhamCohomology ℚ X n)) = ⊤`, X projective (T1 input) | checked (`deRhamRationalSpan`, with `simplicial-complex-span`; #192) |
 
 ## wedge-presheaf: statement

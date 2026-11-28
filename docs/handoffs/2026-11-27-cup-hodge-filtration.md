@@ -1,0 +1,13 @@
+# Handoff 2026-11-27: `cup-hodge-filtration`, `cup-hodge-classes`, front `cup` closed
+
+- Checked: `HodgeLadder/Hodge/CupHodgeFiltration.lean` (7 declarations) and `HodgeLadder/Tests/CupHodgeFiltrationP2.lean` (4 tests), both imported from `HodgeLadder.lean`; standard axioms only.
+- Statement (a), as posted: `deRhamCup_mem_hodgeFiltration (h : a + b = n) (hx : x ∈ hodgeFiltration X p a) (hy : y ∈ hodgeFiltration X q b) : deRhamCup x y n h ∈ hodgeFiltration X (p + q) n`, all `a b n p q : ℤ`, every smooth integral X, upstream's `hodgeFiltration`. Submodule form `map₂_deRhamCupBilinear_le` for `hodgeFiltrationComplexSubmodule` (RT8b of the `de-rham-cup` red team).
+- Route: `mem_hodgeFiltration_iff_exists_shiftedHom` (x ∈ F^p iff `deRhamShiftedHomEquiv X n x` factors through `(Q i_p)⟦n⟧'`, from `hodgeFiltration_eq_range_rational` and `rationalHypercohomologyEquiv_map`), then `pairProductShQ_naturality` with `m = deRhamWedgeFiltered X q p`, `m' = deRhamWedge X` and the square `deRhamWedgeFiltered_comp_inclusion X q p`; `add_comm` turns the index `q + p` into `p + q`. No missing iso, no sign, no scalar.
+- `cup-hodge-classes` moved to checked: `cupRespectsHodgeFiltrationRational_holds X : CupRespectsHodgeFiltrationRational X` and `cupPreservesHodgeClasses_holds X : CupPreservesHodgeClasses X`, the stated `Prop`s by name.
+- Also: `hodgeFiltration_eq_bot_of_degree_lt` (F^p H^n = 0 for n < p, Mathlib's t-structure). Above the dimension the tests use upstream's `hodgeFiltration_eq_bot_of_lt` from `Other`.
+- Tests on ℙ² (new rung `cup-hodge-filtration-test-p2`): line classes in F^1 with nonzero product in F^2 H^4; `ι [L₀] ∉ F^2 H^2` (so the index `p + q` is sharp and both hypotheses carry content); `F^3 H^4 = ⊥ ≠ F^2 H^4`; `[pt] ∈ Hdg^2(ℙ²; ℚ)`.
+- Red team: `docs/sketches/cup-hodge-filtration-checked.redteam.md`, pass with changes for both rungs; changes 1 to 11 done, plus the optional known-weakness row in `docs/gaps.md`.
+- Front `cup` closed as won, decision 0012; ledger `cup-front` checked with eight headline declarations; decisions 0008 to 0010 marked closed; strategy, roadmap, statement and the `markman-statement` note updated.
+- Deviation: the red team's decision text and front note called `de-rham-cup-antisymm-h1` and `de-rham-cup-unique` open; both are checked on `main` (#220), so decision 0012 and the `cup-front` note say so, and the sketch's sub-rung table marks `de-rham-cup-antisymm-h1` checked.
+- Timing: `lake build` of the module about 21 s (kernel about 17 s over three declarations), the test module about 12 s.
+- Next: T1 of the Markman inventory (M2). Known weakness: no test puts a nonzero product in a proper F^{p+q}; that needs a variety with h^{p,0} ≠ 0.

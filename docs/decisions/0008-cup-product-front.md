@@ -1,6 +1,6 @@
 # 0008. Open the cup-product front
 
-Date: 2026-11-25. Status: accepted; amended by decision 0009.
+Date: 2026-11-25. Status: accepted; amended by decision 0009; closed by decision 0012.
 
 ## Context
 

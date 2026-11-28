@@ -1,6 +1,6 @@
 # 0009. Amend the cup-product front: comparison with the singular cup product
 
-Date: 2026-11-25. Status: accepted; amended by decision 0010. Amends decision 0008.
+Date: 2026-11-25. Status: accepted; amended by decision 0010; closed by decision 0012. Amends decision 0008.
 
 ## Context
 

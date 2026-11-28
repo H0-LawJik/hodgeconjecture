@@ -716,15 +716,26 @@
     {
       "id": "cup-front",
       "title": "Front cup: a ring structure on upstream's rational cohomology",
-      "status": "open",
+      "status": "checked",
       "kind": "front",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder",
+      "declarations": [
+        "HodgeLadder.Cup.cup_assoc",
+        "HodgeLadder.Cup.one_cup",
+        "HodgeLadder.Cup.cup_one",
+        "HodgeLadder.Cup.cup_gradedComm",
+        "HodgeLadder.Cup.cup_singular_comparison'",
+        "HodgeLadder.Cycle.cycleComponentSheafClass_cup_of_transversal_noReg",
+        "HodgeLadder.Tests.planeLines_cup_eq_planeOrigin",
+        "HodgeLadder.cupPreservesHodgeClasses_holds"
+      ],
       "depends_on": [
         "upstream-statement"
       ],
-      "contributors": [],
-      "note": "Decision 0008. Yoneda route: H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces, product = Ext.comp. Kill criterion: no compatibility with the cycle class map. Blocks the Markman inventory's degree-four list and M3. Amended by decision 0009: comparison with the singular cup product is an explicit rung (cup-singular-comparison), and the kill criterion includes fixing its sign."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Decision 0008. Yoneda route: H^n(X; ℚ) ≅ Ext^n(ℚ_X, ℚ_X) in sheaves of ℚ-vector spaces, product = Ext.comp. Amended by decision 0009 (comparison with the singular cup product, sign fixed exactly; rungs 1 to 8) and decision 0010 (two-support product on the singular side, ℙ² first). Closed as won 2026-11-27 (decision 0012): associative, unital, graded-commutative, compared with the singular cup, multiplicative on cycle classes for transversal intersections with one integral component (sign +), and products of Hodge classes are Hodge classes. Open after closure: cup-positive-degree-test (ℙ¹ × ℙ¹). The T1 inputs de-rham-cup-antisymm-h1 and de-rham-cup-unique, outside the front, are checked."
     },
     {
       "id": "rational-ext-equiv",
@@ -3176,37 +3187,73 @@
     {
       "id": "cup-hodge-filtration",
       "title": "The de Rham cup product respects the Hodge filtration: deRhamCup (F^p H_dR^a) (F^q H_dR^b) ⊆ F^{p+q} H_dR^{a+b}",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.CupHodgeFiltration",
+      "declarations": [
+        "HodgeLadder.deRhamShiftedHomEquiv_filtered",
+        "HodgeLadder.mem_hodgeFiltration_iff_exists_shiftedHom",
+        "HodgeLadder.deRhamCup_mem_hodgeFiltration",
+        "HodgeLadder.map₂_deRhamCupBilinear_le",
+        "HodgeLadder.hodgeFiltration_eq_bot_of_degree_lt"
+      ],
       "depends_on": [
         "de-rham-cup",
         "wedge-sheaf-map",
+        "rational-de-rham-complex",
+        "pairing-product",
         "de-rham-cup-test-p2"
       ],
-      "contributors": [],
-      "note": "Statement (a) of docs/sketches/cup-hodge-filtration.md, for complex classes, as needed by T1. deRhamCup is a local definition (de-rham-cup), pinned by fieldToDeRhamCohomology_cup, ι(α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign (conventions row 'de Rham cup order'). The zero product also satisfies this statement; the pin and de-rham-cup-test-p2 make it about the cup product."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Statement (a) of docs/sketches/cup-hodge-filtration.md, for complex classes, as needed by T1. Checked 2026-11-27: for all integer degrees a, b, n and indices p, q on every smooth integral X, deRhamCup x y n h ∈ hodgeFiltration X (p + q) n for x ∈ F^p, y ∈ F^q, with upstream's hodgeFiltration; the ℂ-submodule form map₂_deRhamCupBilinear_le. Proof: mem_hodgeFiltration_iff_exists_shiftedHom (x ∈ F^p iff deRhamShiftedHomEquiv X n x factors through (Q i_p)⟦n⟧', from hodgeFiltration_eq_range_rational and rationalHypercohomologyEquiv_map), then pairProductShQ_naturality along the truncation inclusions with the square deRhamWedgeFiltered_comp_inclusion X q p, and add_comm on the index. No sign, no scalar. F^p H^n = 0 for n < p (hodgeFiltration_eq_bot_of_degree_lt, Mathlib's t-structure); above the dimension upstream's Other has hodgeFiltration_eq_bot_of_lt. The zero product also satisfies (a); fieldToDeRhamCohomology_cup and the ℙ² tests (cup-hodge-filtration-test-p2: ι [L₀] ∉ F^2 H^2, F^3 H^4 = 0) tie it to the cup product and show the index p + q is sharp. Red team: docs/sketches/cup-hodge-filtration-checked.redteam.md."
     },
     {
       "id": "cup-hodge-classes",
       "title": "Products of Hodge classes are Hodge classes: Hdg^p ∪ Hdg^q ⊆ Hdg^{p+q} for upstream's hodgeClasses and the checked cup",
-      "status": "stated",
+      "status": "checked",
       "kind": "foundation",
-      "module": "HodgeLadder.Hodge.CupFiltration",
+      "module": "HodgeLadder.Hodge.CupHodgeFiltration",
       "declarations": [
+        "HodgeLadder.cupPreservesHodgeClasses_holds",
+        "HodgeLadder.cupRespectsHodgeFiltrationRational_holds",
         "HodgeLadder.CupPreservesHodgeClasses",
         "HodgeLadder.CupRespectsHodgeFiltrationRational"
       ],
       "depends_on": [
         "cup-hodge-reduction",
         "cup-hodge-filtration",
-        "de-rham-cup"
+        "de-rham-cup-exact"
       ],
       "contributors": [
         "claude-code"
       ],
-      "note": "Statements (b) and (a_ℚ) of docs/sketches/cup-hodge-filtration.md. Membership statements: insensitive to the order of the factors and to nonzero scalars. (a_ℚ) ⇒ (b) is cup-hodge-reduction. Non-vacuity: on ℙ² the line classes are Hodge with nonzero product (cup-hodge-classes-test-p2); (b) then gives [pt] ∈ Hdg^2(ℙ²; ℚ)."
+      "note": "Statements (b) and (a_ℚ) of docs/sketches/cup-hodge-filtration.md, stated 2026-11-26 in HodgeLadder.Hodge.CupFiltration, checked 2026-11-27: cupRespectsHodgeFiltrationRational_holds X : CupRespectsHodgeFiltrationRational X from fieldToDeRhamCohomology_cup and deRhamCup_mem_hodgeFiltration; cupPreservesHodgeClasses_holds X : CupPreservesHodgeClasses X through cupPreservesHodgeClasses_of_rational (cup-hodge-reduction). Every smooth integral X, no projectivity, the same instance arguments as upstream's hodgeClasses. Membership statements: insensitive to the order of the factors and to nonzero scalars. Non-vacuity: cup-hodge-classes-test-p2 (Hodge line classes with nonzero product) and Tests.planeOrigin_mem_hodgeClasses ([pt] ∈ Hdg^2(ℙ²; ℚ), a codimension-two case of cycle-classes-are-hodge). Red team: docs/sketches/cup-hodge-filtration-checked.redteam.md."
+    },
+    {
+      "id": "cup-hodge-filtration-test-p2",
+      "title": "Non-vacuity of cup-hodge-filtration and cup-hodge-classes on ℙ²: Hodge line classes with nonzero product in F^2 H_dR^4, ι [L₀] ∉ F^2 H_dR^2, F^3 H_dR^4 = 0 ≠ F^2 H_dR^4, [pt] ∈ Hdg^2",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.CupHodgeFiltrationP2",
+      "declarations": [
+        "HodgeLadder.Tests.planeLines_deRhamCup_mem_hodgeFiltration",
+        "HodgeLadder.Tests.planeLine_not_mem_hodgeFiltration_two",
+        "HodgeLadder.Tests.plane_hodgeFiltration_three_four",
+        "HodgeLadder.Tests.planeOrigin_mem_hodgeClasses"
+      ],
+      "depends_on": [
+        "cup-hodge-filtration",
+        "cup-hodge-classes",
+        "de-rham-cup-test-p2",
+        "cycle-class-multiplicative-p2",
+        "cup-hodge-classes-test-p2"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. The hypotheses of (a) hold with a nonzero product (ι [L₀], ι [L₁] ∈ F^1 H^2, product ≠ 0 in F^2 H^4). Sharp test: if ι [L₀] were in F^2 H^2, its product with ι [L₁] would lie in F^3 H^4 = 0 (upstream's hodgeFiltration_eq_bot_of_lt, dim ℙ² = 2), against planeLines_deRhamCup_ne_zero; so F^2 H^2(ℙ²) ≠ ⊤, the index p + q is sharp, and both hypotheses carry content. F^2 H^4(ℙ²) = ⊤ classically (unverified at the pin). (b) gives [pt] ∈ Hdg^2(ℙ²; ℚ) through planeLines_cup_eq_planeOrigin. Red team: docs/sketches/cup-hodge-filtration-checked.redteam.md."
     },
     {
       "id": "cup-hodge-classes-test-p2",
@@ -4465,7 +4512,7 @@
         "lefschetz-1-1-equality"
       ],
       "contributors": [],
-      "note": "Front abelian. The Lefschetz checkpoint is checked and the inventory is written (docs/notes/2026-11-25-markman-inventory.md); blocked on front cup (decision 0008); first Markman-directed rung is the inventory's T1 (Weil classes on abelian surfaces of Weil type). Source Markman2025 is an unrefereed preprint (latest arXiv v2, 2025-06-08); its all-discriminant proof passes through Weil classes on sixfolds (degree six), and Voisin2026Bourbaki (Lemma 2.9, Cor 2.10) replaces Schoen's degeneration by a product reduction. Only the discriminant-1 route (Markman2023, refereed) stays in degree four. The statement records which source it rests on and the discriminant convention (docs/conventions.md). Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
+      "note": "Front abelian. The Lefschetz checkpoint is checked and the inventory is written (docs/notes/2026-11-25-markman-inventory.md); front cup closed (decision 0012); first Markman-directed rung is the inventory's T1 (Weil classes on abelian surfaces of Weil type). Source Markman2025 is an unrefereed preprint (latest arXiv v2, 2025-06-08); its all-discriminant proof passes through Weil classes on sixfolds (degree six), and Voisin2026Bourbaki (Lemma 2.9, Cor 2.10) replaces Schoen's degeneration by a product reduction. Only the discriminant-1 route (Markman2023, refereed) stays in degree four. The statement records which source it rests on and the discriminant convention (docs/conventions.md). Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
     },
     {
       "id": "Z-cycles",
