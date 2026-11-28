@@ -52,6 +52,8 @@ What the value −1 pins: upstream's Ψ as defined. A degree twist Ψ' = ε(n)·
 | `elliptic-curve-torus-data` | continuous nowhere vanishing g₁, g₂ on E(ℂ) and T : ℝ × ℝ → E(ℂ) of period 1 with gᵢ ∘ T the two angle characters | g₁, g₂ = exp(2πi·(coordinate of the inverse uniformization in the basis ω₁, ω₂)); T(s, t) = uniformization of sω₁ + tω₂ | `elliptic-curve-uniformization` |
 | `cup-odd-degree-test` | this rung | `cup-odd-degree-transfer` with the data above | `elliptic-curve-torus-data`, `cup-odd-degree-transfer` |
 
+Status 2026-11-27: these sub-rungs are in the ledger as part of the T1 chain (`docs/notes/2026-11-27-t1-plan.md`, decision 0013), for the cubic y²z = x³ − xz². `elliptic-curve-witness` is split into `plane-cubic-subscheme`, `elliptic-curve-smooth`, `elliptic-curve-integral`; `elliptic-curve-points` is stated in chart form; the counting step of `elliptic-curve-uniformization` is its own rung `weierstrass-two-to-one`, and the lattice is fixed by `weierstrass-lattice-i`.
+
 The abelian-surface case adds products: `Over (Spec ℂ)` fibre products and the homeomorphism (E × E)(ℂ) ≅ E(ℂ) × E(ℂ). It is longer and gives nothing the curve case lacks.
 
 Estimate: `elliptic-curve-witness` two sessions, `elliptic-curve-points` one to two, `elliptic-curve-uniformization` several (the counting of ℘-values is the largest missing piece, and none of it is at the pin), `elliptic-curve-torus-data` one.

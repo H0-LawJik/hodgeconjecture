@@ -381,6 +381,463 @@
       "note": "Checked 2026-11-25: theorem lefschetzOneOneEquality_holds : HodgeLadder.LefschetzOneOneEquality, from lefschetzOneOneEquality_iff with lefschetzOneOne_holds (upstream inclusion, ported) and cycleClassesAreHodgeOne_holds (prime-divisors-cartier). The checkpoint's definition of done (decision 0004). Red team: pass with changes (docs/sketches/lefschetz-1-1-equality.redteam.md). Non-vacuity in degree two: projective-line-test (checked), where both sides are one-dimensional."
     },
     {
+      "id": "pullback-functorial",
+      "title": "Pullback on H^*(X; ℚ) is functorial and ℚ-linear: pullbackCoh (g ≫ h) = pullbackCoh g ∘ pullbackCoh h, pullbackCoh (𝟙 X) = id, bundled as pullbackCohLinear",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "cup-pullback"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A1. T1 input: every computation of f^* on a product (f ≫ prod.fst = prod.fst ≫ i). The checked rung cup-pullback has no composition or identity law and no ℚ-linear bundling. Failed so far: nothing (new). The work is TopCat.Sheaf.pullback along a composite and the uniqueness of the left adjoint behind pullbackQX. Size: small to medium."
+    },
+    {
+      "id": "weil-eigen-algebra",
+      "title": "Eigenvalue bookkeeping for products: if T is diagonal on e with eigenvalues μ and S (B x y) = B (T x) (T y), and the B (e i) (e j) span W, then ker (S − c) lies in the span of the B (e i) (e j) with μ i μ j = c",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A2. Mathlib only, no upstream object. Used by weil-surface-reduction to place the −d-eigenspace of f^* on H² inside products of eigenvectors of f^* on H¹. Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "weil-space",
+      "title": "The Weil space weilSpace X f d = {w ∈ H²(X; ℚ) : f^* w = −d • w} for an endomorphism f, with weilSpace X (𝟙 X) 1 = ⊥ and, on smooth projective integral X, weilSpace ≤ algebraicCycleClassSpan X 1 ↔ weilSpace ≤ Hdg^1",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "pullback-functorial",
+        "lefschetz-1-1-equality"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A3. W_K as the −d-eigenspace of f^* on H², with f^* ∘ f^* = −d on H¹ (K = ℚ(√−d)); on an abelian surface this is ∧²_K H¹ inside ∧²_ℚ H¹ = H² (Weil1977, vanGeemen2022 §4, locators unverified; derivation in the plan §1). No exterior algebra needed. Failed so far: nothing (new). Conventions row \"Weil space\" (sign −d, pullback direction) owed by the red team before weil-surface-statement is posted. Size: small."
+    },
+    {
+      "id": "de-rham-pullback",
+      "title": "deRhamPullback g n : H_dR^n(Y) →ₗ[ℂ] H_dR^n(X), the ℂ-linear extension of pullbackCoh through deRhamBaseChangeEquiv, compatible with ι, deRhamCup, deRhamConj, composition and identity",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "pullback-functorial",
+        "de-rham-rational-base-change",
+        "de-rham-rational-span",
+        "de-rham-cup"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A5. Smooth projective integral X, Y. Defined from rational classes, so it carries no information about forms; that F^p is preserved is the separate rung hodge-filtration-pullback. Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "weil-surface-statement",
+      "title": "T1 stated on upstream definitions: IsWeilTypeSurface A f d and WeilClassesAlgebraicSurface, weilSpace A f d ≤ algebraicCycleClassSpan A 1 for every abelian surface A ([GrpObj A], dim 2) and endomorphism f of Weil type",
+      "status": "open",
+      "kind": "statement",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "weil-space",
+        "de-rham-pullback"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node G1. Red-team pass required before posting (statement rung): vacuity (no abelian surface at the pin), the (2,0) counterexample without balance, the −d sign, the Weil-space row in docs/conventions.md. Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "weil-surface-reduction",
+      "title": "T1's linear-algebra step: on a smooth projective integral surface A with IsWeilTypeSurface A f d, finrank H_dR^1(A) = 4 and H_dR^2(A) spanned by deRhamCup of H¹ classes, weilSpace A f d ≤ Hdg^1(A; ℚ), hence ≤ algebraicCycleClassSpan A 1",
+      "status": "open",
+      "kind": "reduction",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "weil-space",
+        "weil-eigen-algebra",
+        "de-rham-pullback",
+        "cup-hodge-filtration",
+        "cup-hodge-reduction",
+        "de-rham-cup-antisymm-h1",
+        "rational-cohomology-finite-dimensional",
+        "weil-surface-statement"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node B. A conditional theorem whose two extra hypotheses are statements on upstream definitions (rank and span of H_dR); every input is checked or small. Vacuous at the pin until an X with b₁ = 4 exists (weil-elliptic-square discharges it). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "plane-cubic-subscheme",
+      "title": "The plane cubic E = V₊(y²z − x³ + xz²) ⊂ ℙ² as HodgeLadder.Tests.ellipticCurve : Over (Spec ↧ℂ), IsProjective, with its two affine charts z ≠ 0 and y ≠ 0 identified with Spec ℂ[x, y]/(y² − x³ + x) and Spec ℂ[u, w]/(w − u³ + uw²)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p2-witness",
+        "p1p1-witness"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E1, first part of elliptic-curve-witness (docs/sketches/cup-odd-degree-test.md §5). Mathlib's WeierstrassCurve has points over rings and no scheme over Spec ℂ; Proj.map of a graded surjection has no closed-immersion lemma at the pin. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-curve-cm",
+      "title": "Complex multiplication by i on the plane cubic: ellipticI : ellipticCurve ⟶ ellipticCurve induced by [x : y : z] ↦ [−x : iy : z], with ellipticI ≫ ellipticI = ellipticNeg ([x : y : z] ↦ [x : −y : z]) and ellipticI⁴ = 𝟙",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "plane-cubic-subscheme"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E5. Known: y² = x³ − x has CM by ℤ[i] with [i](x, y) = (−x, iy) (Silverman2009, locator unverified). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "elliptic-curve-smooth",
+      "title": "SmoothOfRelativeDimension 1 for the plane cubic HodgeLadder.Tests.ellipticCurve, by the Jacobian criterion on its two charts",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "plane-cubic-subscheme"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E2. The general Jacobian criterion is missing at the pin (jacobian-smooth-point needs 'a regular local ring is a domain'); the explicit presentation avoids it. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-curve-integral",
+      "title": "IsIntegral for HodgeLadder.Tests.ellipticCurve.left: ℂ[x, y]/(y² − x³ + x) is a domain and the chart z ≠ 0 is dense",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "plane-cubic-subscheme"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E3. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-curve-witness",
+      "title": "The plane cubic y²z = x³ − xz² as an object of Over (Spec ↧ℂ) is integral, smooth of relative dimension 1 and projective, with Hausdorff complex points, paracompact opens, dim 1 and a complex point",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-smooth",
+        "elliptic-curve-integral"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E4. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted). The first smooth projective X at the pin with b₁ ≠ 0 once elliptic-curve-cohomology lands. Failed so far: nothing; split into plane-cubic-subscheme, elliptic-curve-smooth, elliptic-curve-integral before a prover starts (sketch estimate: two sessions). Size: small."
+    },
+    {
+      "id": "segre-general",
+      "title": "Products of projective objects are projective: IsProjective X.hom → IsProjective Y.hom → IsProjective (X ⨯ Y).hom in Over (Spec ↧ℂ), through a Segre closed immersion ℙ^m ×_R ℙ^n ⟶ ℙ^{(m+1)(n+1)−1}",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "p1p1-witness"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E6. Needed for E × E; also gives ℙ^m × ℙ^n test objects. Failed so far: nothing (new); the checked Segre glue covers m = n = 1 only. Size: medium."
+    },
+    {
+      "id": "elliptic-square-witness",
+      "title": "E × E (HodgeLadder.Tests.ellipticSquare := ellipticCurve ⨯ ellipticCurve) is integral, smooth of relative dimension 2 and projective, with dim 2, and carries the endomorphism ellipticWeilEndo := prod.map ellipticI (ellipticI ≫ ellipticI ≫ ellipticI)",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-witness",
+        "elliptic-curve-cm",
+        "segre-general",
+        "complex-points-prod"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E7. Failed so far: nothing (new). The new step against p1p1-witness is geometric integrality of the cubic. Size: medium."
+    },
+    {
+      "id": "elliptic-curve-points",
+      "title": "Complex points of the plane cubic in charts: the opens z ≠ 0 and y ≠ 0 of ellipticCurve(ℂ) are homeomorphic to {(x, y) ∈ ℂ² : y² = x³ − x} and {(u, w) ∈ ℂ² : w = u³ − uw²}, covering it, with the transition (x, y) ↦ (x/y, 1/y)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "plane-cubic-subscheme"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C0. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted in chart form). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "weierstrass-lattice-i",
+      "title": "The square lattice ℤ[i]: for the PeriodPair (1, i), g₃ = 0, g₂ ≠ 0, ℘(iz) = −℘(z) and ℘'(iz) = i ℘'(z)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C1. Mathlib only. Known: g₃(ℤ[i]) = 0, g₂(ℤ[i]) ≠ 0 (Silverman2009 ch. VI, unverified locator). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "weierstrass-two-to-one",
+      "title": "℘ is two-to-one on ℂ/Λ: for z, w ∉ Λ, ℘ z = ℘ w ↔ z − w ∈ Λ ∨ z + w ∈ Λ, and ℘ takes every complex value off Λ",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C2. Largest analytic gap of the elliptic route (docs/sketches/cup-odd-degree-test.md §5). Kill criterion (inherited from cup-odd-degree-test): released twice without a stated counting sub-rung marks the elliptic route dead, with T1 left at weil-surface-reduction. Failed so far: nothing (new). Size: large."
+    },
+    {
+      "id": "elliptic-curve-uniformization",
+      "title": "For the lattice Λ = c·ℤ[i] with g₂ = 4, a homeomorphism Φ : ℂ ⧸ Λ ≃ₜ ellipticCurve(ℂ) with Φ z = [℘ z : ℘' z / 2 : 1] off Λ and Φ (i z) = ellipticI (Φ z)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "weierstrass-two-to-one",
+        "weierstrass-lattice-i",
+        "elliptic-curve-points",
+        "elliptic-curve-cm",
+        "elliptic-curve-witness"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C3. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted for the specific cubic). Known: Silverman2009 ch. VI (locators unverified). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-curve-torus-data",
+      "title": "Torus data on ellipticCurve(ℂ): T : C(ℝ × ℝ, ComplexPoint ellipticCurve) of period 1 in each variable and nowhere vanishing g₁, g₂ with gₖ ∘ T the two angle characters, the hypotheses of cup-odd-degree-transfer",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-uniformization"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C4. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted); closes cup-odd-degree-test. Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "pullback-singular-naturality",
+      "title": "Upstream's Ψ = rationalCohomologyAddEquivSingularCohomology is natural: Ψ_X (pullbackCoh g n α) = cohomologyMap ℚ n (pointMap g) (Ψ_Y α)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "pullback-functorial",
+        "cup-singular-comparison-absolute"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C5. Needed to compute f^* on winding classes. Ψ is a three-step composite. Failed so far: nothing (new). Size: medium to large."
+    },
+    {
+      "id": "torus-singular-cohomology",
+      "title": "Rational singular cohomology of the real torus UnitAddTorus (Fin n) in degrees 1 and 2 (n = 2, 4): H¹ is spanned by the n coordinate winding classes, H² by their pairwise cups, with the dimensions n and n(n−1)/2",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "winding-torus-cup",
+        "torus-cycle-pairing"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C6. Known: H*(Tⁿ; ℚ) = ∧*ℚⁿ (Hatcher2002 §3.2, locator unverified). Tau Ceti has H* of the 2-torus and a singular Künneth formula (unverified here). Kill criterion: no stated route (backport or Mayer–Vietoris) after two thinker sessions marks the E × E instance blocked; the reduction stays. Failed so far: nothing (new). Size: large."
+    },
+    {
+      "id": "elliptic-curve-cohomology",
+      "title": "H¹(ellipticCurve; ℚ) has basis the sheaf winding classes x₁, x₂ and H² = ℚ (x₁ ∪ x₂); ellipticI^* x₁ = −x₂ and ellipticI^* x₂ = x₁, so (ellipticI^*)² = −1 on H¹",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "torus-singular-cohomology",
+        "elliptic-curve-torus-data",
+        "pullback-singular-naturality"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C7. The signs of ellipticI^* depend on the orientation of (ω₁, ω₂); the plan uses only (ellipticI^*)² = −1. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-square-cohomology",
+      "title": "On E × E: H¹ has basis pr₁^*x₁, pr₁^*x₂, pr₂^*x₁, pr₂^*x₂, and H² is spanned by cups of these; hence finrank H_dR^1 = 4 and H_dR^2 is spanned by deRhamCup of H¹_dR classes",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-cohomology",
+        "elliptic-square-witness",
+        "torus-singular-cohomology",
+        "pullback-functorial"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C8. Discharges the rank and span hypotheses of weil-surface-reduction at E × E. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "complex-point-map-analytic",
+      "title": "For g : X ⟶ Y between smooth complex schemes, the map of complex points is analytic in upstream's charts (ContMDiff ω for the maximal atlases)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "affine-chart-analytic",
+        "open-subscheme-chart-analytic"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D1. First sub-rung of hodge-filtration-pullback. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "holomorphic-form-pullback",
+      "title": "Pullback of upstream's holomorphic forms along g : X ⟶ Y: a morphism of sheaves from Ω^p_Y to the direct image of Ω^p_X, commuting with d, the wedge and the unit, well defined on upstream's quotient by the chart-evaluation kernel",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "complex-point-map-analytic",
+        "wedge-presheaf"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D2. Kill criterion: two releases on the descent through chartEvaluationKernel mark the Hodge route of the instance dead; fall back to the divisor route (plan §3). Failed so far: nothing (new). Size: large."
+    },
+    {
+      "id": "de-rham-hypercohomology-pullback",
+      "title": "The filtered map of holomorphic de Rham complexes induces H_dR^n(Y) → H_dR^n(X) that agrees with deRhamPullback on the images of rational classes, hence everywhere, and maps the image of F^p Ω•_Y into that of F^p Ω•_X",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "holomorphic-form-pullback",
+        "de-rham-pullback",
+        "rational-de-rham-complex"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D3. Failed so far: nothing (new). Needs split before a prover starts. Size: large."
+    },
+    {
+      "id": "hodge-filtration-pullback",
+      "title": "Pullback preserves the Hodge filtration: (F^p H_dR^n(Y)).map (deRhamPullback g n) ≤ F^p H_dR^n(X) for g : X ⟶ Y between smooth projective integral X, Y",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "de-rham-hypercohomology-pullback"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D4. Known: morphisms induce morphisms of Hodge structures (Voisin2002, locator unverified). Also needed for T2 to T5 and for any concrete Weil-type check. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-curve-holomorphic-form",
+      "title": "F^1 H_dR^1(ellipticCurve) ≠ ⊥",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-witness",
+        "elliptic-curve-points"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D5. Kill criterion: neither route stated after two thinker sessions marks the Hodge route of the instance dead. Failed so far: nothing (new). Size: large."
+    },
+    {
+      "id": "elliptic-curve-h1-eigen",
+      "title": "A nonzero ω ∈ F^1 H_dR^1(ellipticCurve) with deRhamPullback ellipticI 1 ω = I • ω or = −I • ω",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-holomorphic-form",
+        "hodge-filtration-pullback",
+        "elliptic-curve-cohomology",
+        "de-rham-pullback",
+        "elliptic-curve-cm"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D6. Which of ±i occurs is not needed by the plan. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "weil-elliptic-square",
+      "title": "T1, first instance: on E × E with E : y² = x³ − x and f = ellipticI × ellipticI⁻¹ (K = ℚ(i), d = 1), weilSpace ellipticSquare ellipticWeilEndo 1 ≤ algebraicCycleClassSpan ellipticSquare 1",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "weil-surface-reduction",
+        "elliptic-square-cohomology",
+        "elliptic-curve-h1-eigen",
+        "hodge-filtration-pullback",
+        "elliptic-square-witness"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node F1. A decomposable case: here the Weil classes are spanned by graph classes, so the instance tests the definitions, and the exceptional content of T1 starts at T3. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "weil-elliptic-square-nonzero",
+      "title": "Non-vacuity of the instance: finrank ℚ (weilSpace ellipticSquare ellipticWeilEndo 1) = 2, with explicit elements pr₁^*x₁ ∪ pr₂^*x₁ + pr₁^*x₂ ∪ pr₂^*x₂ and pr₁^*x₁ ∪ pr₂^*x₂ − pr₁^*x₂ ∪ pr₂^*x₁",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-square-cohomology",
+        "weil-space"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node F2. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "abelian-surface-uniformization",
+      "title": "For every abelian surface A in upstream's sense ([GrpObj A], integral, smooth, projective, dim 2), A(ℂ) is homeomorphic to ℂ² ⧸ Λ for a lattice Λ, as topological groups",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "complex-points-prod",
+        "weil-elliptic-square"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node G2. Parked: the dependency on weil-elliptic-square holds it back until the instance is checked. Known: Mumford1970 §1 (locator unverified). Kill criterion: no stated route after two thinker sessions leaves T1 at its first instance. Failed so far: nothing (new). Size: large."
+    },
+    {
+      "id": "weil-surface",
+      "title": "T1 in general: theorem : WeilClassesAlgebraicSurface",
+      "status": "open",
+      "kind": "case",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "weil-surface-statement",
+        "weil-surface-reduction",
+        "abelian-surface-uniformization",
+        "torus-singular-cohomology",
+        "pullback-singular-naturality"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node G3. Parked behind abelian-surface-uniformization. Failed so far: nothing (new). Size: large."
+    },
+    {
       "id": "cycle-classes-are-hodge",
       "title": "Prove the known half: theorem : HodgeLadder.CycleClassesAreHodge",
       "status": "open",
@@ -708,10 +1165,12 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "lefschetz-1-1-equality"
+        "lefschetz-1-1-equality",
+        "torus-singular-cohomology",
+        "pullback-singular-naturality"
       ],
       "contributors": [],
-      "note": "Research note 2026-11-24 §3. Shows on upstream definitions that Hodge classes depend on the periods, not the Hodge diamond (dimension 2, 3 or 4). Also checks the Hodge numbers of products of elliptic curves against the refined Künneth count. Needs the cohomology of tori on upstream definitions."
+      "note": "Research note 2026-11-24 §3. Shows on upstream definitions that Hodge classes depend on the periods, not the Hodge diamond (dimension 2, 3 or 4). Also checks the Hodge numbers of products of elliptic curves against the refined Künneth count. Needs the cohomology of tori on upstream definitions. 2026-11-27: the T1 plan (docs/notes/2026-11-27-t1-plan.md) builds one product of elliptic curves, E × E with E : y² = x³ − x, and the inputs this test shares with it: torus-singular-cohomology (H¹ and H² of a real torus) and pullback-singular-naturality. General E₁, E₂ also need elliptic curves with arbitrary lattices and Hom(E₁, E₂); no rung yet."
     },
     {
       "id": "cup-front",
@@ -1392,10 +1851,11 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-singular-comparison-absolute"
+        "cup-singular-comparison-absolute",
+        "elliptic-curve-torus-data"
       ],
       "contributors": [],
-      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree. 2026-11-26: the weaker companion cup-odd-degree-gm2 is checked (𝔾ₘ², affine), through torus-cycle-pairing, winding-torus-cup and cup-odd-degree-transfer. This rung stays open: no curve of positive genus or abelian surface exists at the pin with the torus data cup-odd-degree-transfer asks for. Missing pieces and proposed sub-rungs (elliptic-curve-witness, elliptic-curve-uniformization, elliptic-curve-torus-data): docs/sketches/cup-odd-degree-test.md. Kill criterion (red team): mark dead when elliptic-curve-uniformization reaches needs-split (three releases) and the counting sub-rung out of the split is itself released."
+      "note": "Red-team change: the smallest test that sees the sign (−1)^{pq} with p, q odd and rules out a square-zero product in positive degree. 2026-11-26: the weaker companion cup-odd-degree-gm2 is checked (𝔾ₘ², affine), through torus-cycle-pairing, winding-torus-cup and cup-odd-degree-transfer. This rung stays open: no curve of positive genus or abelian surface exists at the pin with the torus data cup-odd-degree-transfer asks for. Missing pieces and proposed sub-rungs (elliptic-curve-witness, elliptic-curve-uniformization, elliptic-curve-torus-data): docs/sketches/cup-odd-degree-test.md. Kill criterion (red team): mark dead when elliptic-curve-uniformization reaches needs-split (three releases) and the counting sub-rung out of the split is itself released. 2026-11-27: the elliptic sub-rungs of the sketch are in the ledger (elliptic-curve-witness, split into plane-cubic-subscheme, elliptic-curve-smooth, elliptic-curve-integral; elliptic-curve-points; elliptic-curve-uniformization; elliptic-curve-torus-data), shared with the T1 chain of docs/notes/2026-11-27-t1-plan.md; this rung now depends on elliptic-curve-torus-data, which supplies the hypotheses of cup-odd-degree-transfer on the plane cubic y²z = x³ − xz²."
     },
     {
       "id": "torus-cycle-pairing",
@@ -4512,7 +4972,7 @@
         "lefschetz-1-1-equality"
       ],
       "contributors": [],
-      "note": "Front abelian. The Lefschetz checkpoint is checked and the inventory is written (docs/notes/2026-11-25-markman-inventory.md); front cup closed (decision 0012); first Markman-directed rung is the inventory's T1 (Weil classes on abelian surfaces of Weil type). Source Markman2025 is an unrefereed preprint (latest arXiv v2, 2025-06-08); its all-discriminant proof passes through Weil classes on sixfolds (degree six), and Voisin2026Bourbaki (Lemma 2.9, Cor 2.10) replaces Schoen's degeneration by a product reduction. Only the discriminant-1 route (Markman2023, refereed) stays in degree four. The statement records which source it rests on and the discriminant convention (docs/conventions.md). Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization."
+      "note": "Front abelian. The Lefschetz checkpoint is checked and the inventory is written (docs/notes/2026-11-25-markman-inventory.md); front cup closed (decision 0012); first Markman-directed rung is the inventory's T1 (Weil classes on abelian surfaces of Weil type). Source Markman2025 is an unrefereed preprint (latest arXiv v2, 2025-06-08); its all-discriminant proof passes through Weil classes on sixfolds (degree six), and Voisin2026Bourbaki (Lemma 2.9, Cor 2.10) replaces Schoen's degeneration by a product reduction. Only the discriminant-1 route (Markman2023, refereed) stays in degree four. The statement records which source it rests on and the discriminant convention (docs/conventions.md). Markman's method produces a sheaf whose characteristic class must equal a given Weil class with exact normalization; the statement records the normalization. 2026-11-27: T1 is in the ledger as a chain of 32 rungs (docs/notes/2026-11-27-t1-plan.md, decision 0013): the reduction weil-surface-reduction, its first instance weil-elliptic-square on E × E with CM by ℤ[i], and the general case weil-surface."
     },
     {
       "id": "Z-cycles",
