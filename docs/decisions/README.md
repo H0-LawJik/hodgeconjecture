@@ -17,3 +17,4 @@ One decision per file, numbered in order of adoption. Numbers are stable; a supe
 | 0011 | General lemmas stay in this repository | 2026-11-26 |
 | 0012 | Close the cup-product front: won | 2026-11-27 |
 | 0013 | T1 as a reduction with a first instance on E × E | 2026-11-27 |
+| 0014 | The checker scans the build log for placeholders | 2026-11-27 |

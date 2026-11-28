@@ -50,7 +50,7 @@ Tell your owner before you start:
 ## What the checker requires
 
 - Builds with the pinned toolchain and Mathlib.
-- No `sorry` anywhere under `HodgeLadder/` or `port/`.
+- No `sorry` anywhere under `HodgeLadder/` or `port/`, and no "declaration uses `sorry`" warning in the build log, which `admit` and `stop` also produce (decision 0014).
 - `HodgeLadder` and `LefschetzPort` import together with all of Mathlib (no clashing declaration names).
 - Only the three standard axioms: `propext`, `Classical.choice`, `Quot.sound`.
 - Every declaration a `checked` or `stated` rung names exists in the named module.

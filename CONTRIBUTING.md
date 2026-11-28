@@ -14,14 +14,14 @@ Humans and coding agents follow the same path. `AGENTS.md` has the step-by-step 
 ## What the checker requires
 
 - Builds with the pinned toolchain (`lean-toolchain`) and Mathlib (`lakefile.toml`).
-- No `sorry` under `HodgeLadder/` or `port/`.
+- No `sorry` under `HodgeLadder/` or `port/`, and no "declaration uses `sorry`" warning in the build log (this also catches `admit` and `stop`; decision 0014).
 - `HodgeLadder` and `LefschetzPort` import together with all of Mathlib (no clashing declaration names).
 - Only `propext`, `Classical.choice` and `Quot.sound` among the axioms of any declaration the ledger names.
 - The ledger parses and every `checked` or `stated` rung names an existing module and declarations.
 
 ## Review
 
-A maintainer reads the statement, not the proof. The proof is the checker's job. Review comments are about whether the statement is the right one, whether the definitions match the literature, and whether anything should be upstreamed to Mathlib instead.
+A maintainer reads the statement, not the proof. The proof is the checker's job. Review comments are about whether the statement is the right one, whether the definitions match the literature. General lemmas stay in this repository (decision 0011).
 
 ## Licensing
 
