@@ -1080,15 +1080,27 @@
     {
       "id": "rect-argument-principle",
       "title": "rectIntegral (logDeriv f) z w = 2πi · Σᶠ over the open rectangle of divisor f, for meromorphic f of finite order everywhere, analytic and nonzero on the boundary",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
       "module": "HodgeLadder.Rect.ArgumentPrinciple",
-      "declarations": [],
+      "declarations": [
+        "HodgeLadder.Rect.rectIntegral_const_mul",
+        "HodgeLadder.Rect.rectIntegral_add",
+        "HodgeLadder.Rect.rectIntegral_sub_inv_of_notMem",
+        "HodgeLadder.Rect.rect_subset_ball",
+        "HodgeLadder.Rect.rectIntegral_logDeriv",
+        "HodgeLadder.Rect.meromorphicOrderAt_id_eq",
+        "HodgeLadder.Rect.rect_test_mem",
+        "HodgeLadder.Rect.rectIntegral_logDeriv_id",
+        "HodgeLadder.Rect.rectIntegral_logDeriv_inv"
+      ],
       "depends_on": [
         "rect-winding"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 3). Kill criterion: released twice opens a thinker session on the covering fallback (new rung elliptic-curve-covering). Failed so far: nothing (new). Size: medium to large. Needs two glue lemmas beyond rect-winding: rectIntegral of a finite sum of boundary-continuous functions is the sum, and rectIntegral f z w = rectIntegral g z w when f = g on [[z.re, w.re]] ×ℂ [[z.im, w.im]] \\ (Ioo z.re w.re ×ℂ Ioo z.im w.im) (the partial-fraction identity holds only near the boundary). Interior points go through rectIntegral_sub_inv, points outside the closed rectangle through rectIntegral_eq_zero_of_differentiableOn; same corner order, no sign flip (docs/sketches/rect-winding.redteam.md, finding 8). Both glue lemmas are checked in HodgeLadder.Rect.Winding: rectIntegral_finsetSum and rectIntegral_congr."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 3). Kill criterion: released twice opens a thinker session on the covering fallback (new rung elliptic-curve-covering). Size: medium to large. Needs two glue lemmas beyond rect-winding: rectIntegral of a finite sum of boundary-continuous functions is the sum, and rectIntegral f z w = rectIntegral g z w when f = g on [[z.re, w.re]] ×ℂ [[z.im, w.im]] \\ (Ioo z.re w.re ×ℂ Ioo z.im w.im) (the partial-fraction identity holds only near the boundary). Interior points go through rectIntegral_sub_inv, points outside the closed rectangle through rectIntegral_eq_zero_of_differentiableOn; same corner order, no sign flip (docs/sketches/rect-winding.redteam.md, finding 8). Both glue lemmas are checked in HodgeLadder.Rect.Winding: rectIntegral_finsetSum and rectIntegral_congr. Proof: on the ball U around z of radius |w.re − z.re| + |w.im − z.im| + 1, MeromorphicOn.extract_zeros_poles gives f = (∏ᶠ u, (· − u) ^ d u) • g codiscretely with g analytic and zero-free; at a boundary point both sides are analytic, so they agree near it and logDeriv f = Σ d u (p − u)⁻¹ + logDeriv g there; integrate by rectIntegral_congr, linearity, rectIntegral_sub_inv inside, Cauchy outside and for logDeriv g. Value +2πi · Σ divisor, counterclockwise (row \"Rectangle boundary orientation\"); zeros positive, poles negative (Mathlib's divisor): tests rectIntegral_logDeriv_id (simple zero, 2πi) and rectIntegral_logDeriv_inv (simple pole, −2πi). hre and him are unused by the proof (when either fails the open rectangle is empty and both sides are 0); kept as posted, linter silenced on that declaration. Mathlib only."
     },
     {
       "id": "rect-periodic",
