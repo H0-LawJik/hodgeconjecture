@@ -5053,13 +5053,25 @@
     {
       "id": "ext-map-cocycle",
       "title": "An exact functor carries cocycle-named derived maps to cocycle-named maps: cocycleMap F z and mapDerivedCategory_shiftedHom_cocycle, F.mapDerivedCategory sends the class named by z to the class named by cocycleMap F z, exactly",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.General.ExtMapCocycle",
+      "declarations": [
+        "HodgeLadder.ExtMapCocycle.cocycleMap",
+        "HodgeLadder.ExtMapCocycle.cocycleMap_v",
+        "HodgeLadder.ExtMapCocycle.cocycleMap_id",
+        "HodgeLadder.ExtMapCocycle.cocycleMap_injective",
+        "HodgeLadder.ExtMapCocycle.cocycleMap_precomp",
+        "HodgeLadder.ExtMapCocycle.cocycleMap_postcomp",
+        "HodgeLadder.ExtMapCocycle.equivHomShift_symm_cocycleMap",
+        "HodgeLadder.ExtMapCocycle.mapDerivedCategory_shiftedHom_cocycle",
+        "HodgeLadder.ExtMapCocycle.mapExactFunctor_hom_named"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R2). Failed so far: nothing (new). Size: 80 to 150 lines; general, kept local (decision 0011). Kill criterion: on every route; if two prover sessions leave it open, stop and record a decision."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R2); statements as posted there. For F : C ⥤ D additive and exact between abelian categories with derived categories, mapDerivedCategory_shiftedHom_cocycle: ShiftedHom.map (ShiftedHom.map (equivHomShift.symm z) Q) F.mapDerivedCategory = F.mapDerivedCategoryFactors.hom.app K ≫ ShiftedHom.map (equivHomShift.symm (cocycleMap F z)) Q ≫ (F.mapDerivedCategoryFactors.inv.app L)⟦n⟧', exact, no sign. Proof: equivHomShift_symm_cocycleMap (on cochain complexes the named map of cocycleMap F z is ShiftedHom.map along F.mapHomologicalComplex, whose shift isos are the identity in every degree), then ShiftedHom.comp_map and ShiftedHom.map_naturality_2 with Mathlib's NatTrans.CommShift instance on F.mapDerivedCategoryFactors.hom. No (−1)^n enters. mapExactFunctor_hom_named is the Ext form R3 needs: an Ext class named by z through ι goes under Ext.mapExactFunctor F to the class named by (cocycleMap F z).precomp ((F.mapCochainComplexSingleFunctor 0).inv.app X), no sign. cocycleMap_precomp and cocycleMap_postcomp are for R3 (pullbackCocycle). Sanity: cocycleMap_id (cocycleMap (𝟭 C) z = z, rfl) and cocycleMap_injective (faithful F). Red team: docs/sketches/ext-map-cocycle.redteam.md, pass with changes, applied. General, kept local (decision 0011); about 3 s to elaborate."
     },
     {
       "id": "supported-pair-named",
