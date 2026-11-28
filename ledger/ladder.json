@@ -4867,18 +4867,66 @@
         "supported-pair-forget"
       ],
       "contributors": [],
-      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11)."
     },
     {
       "id": "local-class-pullback-submersion",
       "title": "For a holomorphic submersion written in charts as a coordinate projection, the pullback of chartNormalProjectionCoclass of Z is chartNormalProjectionCoclass of the preimage of Z",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Local.ClassPullback",
+      "declarations": [
+        "HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap",
+        "HodgeLadder.LocalClassPullback.inclusion_comp_pullbackPairMap",
+        "HodgeLadder.LocalClassPullback.pullbackPairMap_comp_chartNormalProjectionPair",
+        "HodgeLadder.LocalClassPullback.chartNormalProjectionCoclass_pullback",
+        "HodgeLadder.LocalClassPullback.chartNormalProjectionCoclass_pullback_preimage",
+        "HodgeLadder.LocalClassPullback.restrict_pullback_eq_chartNormalProjectionCoclass",
+        "HodgeLadder.LocalClassPullback.chartNormalProjectionCoclass_flattened_ne_zero"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sub-rung of fibre-class-pullback: local classes pull back along a submersion. Chart-level, upstream's chartNormalProjectionPair and relativeCohomologyMap. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Exact, sign +, no scalar. Chart form, stronger than the title: for any continuous f : M′ → M, charts e of M and e′ of M′ in upstream's E × ℂ^c form (normal block second, the same c), adapted to S and S′ (hS, hS′), f mapping W′ ⊆ e′.source into W ⊆ e.source with f⁻¹ S ∩ W′ ⊆ S′ (hSS) and (e (f y)).2 = (e′ y).2 on W′ (hn), the pullback along the map of pairs neighborhoodSupportPullbackPairMap of chartNormalProjectionCoclass of e on W is chartNormalProjectionCoclass of e′ on W′. No holomorphy is assumed; a submersion written in charts as a coordinate projection satisfies hn. Proof: the two normal projections agree as maps of pairs (pullbackPairMap_comp_chartNormalProjectionPair, from hn), and both coclasses pull back the same class u_c of (ℂ^c, ℂ^c ∖ 0) (relativeCohomologyMap_comp), so no sign can enter. Restricted form restrict_pullback_eq_chartNormalProjectionCoclass is the shape fibre-class-pullback consumes at V = V′ = ⊤ (red team scratch: composed with cycle-class-germ on ℙ¹ and ℙ¹ × ℙ¹). Literature: naturality of the Thom class under maps that are orientation-preserving isomorphisms on fibres [MilnorStasheff1974; Bredon1993; numbering unverified]. Register row Pullback of local classes along a chart projection. Tests: local-class-pullback-submersion-p1p1. Red team: pass with changes (docs/sketches/local-class-pullback-submersion.redteam.md)."
+    },
+    {
+      "id": "local-class-pullback-submersion-p1p1",
+      "title": "The pullback along pr₁ : ℙ¹ × ℙ¹ → ℙ¹ of the chart coclass of ∞ in the chart x₀ ≠ 0 is the chart coclass of {∞} × ℙ¹ in the product chart split with the first factor's coordinate as normal block; both charts holomorphic in the sense of cycle-class-germ; both sides nonzero at the two chart sources",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.P1p1FstPullback",
+      "declarations": [
+        "HodgeLadder.Tests.lineAdaptedChart",
+        "HodgeLadder.Tests.lineAdaptedChart_source",
+        "HodgeLadder.Tests.lineAdaptedChart_apply_snd",
+        "HodgeLadder.Tests.fstSplit",
+        "HodgeLadder.Tests.p1p1FstChart",
+        "HodgeLadder.Tests.p1p1FstChart_source",
+        "HodgeLadder.Tests.p1p1FstChart_apply_snd",
+        "HodgeLadder.Tests.mem_infty_support_iff",
+        "HodgeLadder.Tests.lineAdaptedChart_adapted",
+        "HodgeLadder.Tests.map_fst_mem_infty_support_iff",
+        "HodgeLadder.Tests.mem_p1p1FibreFst_support_iff'",
+        "HodgeLadder.Tests.p1p1Fst_chartNormalProjectionCoclass_pullback",
+        "HodgeLadder.Tests.lineAdaptedChart_holomorphic",
+        "HodgeLadder.Tests.p1p1FstChart_holomorphic",
+        "HodgeLadder.Tests.p1p1CornerPoint_mem_p1p1FstChart_source",
+        "HodgeLadder.Tests.p1p1Fst_chartNormalProjectionCoclass_ne_zero",
+        "HodgeLadder.Tests.mapsTo_fst_p1p1FstChart_source",
+        "HodgeLadder.Tests.p1p1Fst_chartNormalProjectionCoclass_pullback_source_ne_zero",
+        "HodgeLadder.Tests.transport_supportedClass_eq_chartNormalProjectionCoclass_source_of_dim",
+        "HodgeLadder.Tests.infty_transport_eq_lineAdaptedChart_coclass",
+        "HodgeLadder.Tests.p1p1FibreFst_transport_eq_p1p1FstChart_coclass"
+      ],
+      "depends_on": [
+        "local-class-pullback-submersion",
+        "p1p1-fibres-transversal"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Instance of local-class-pullback-submersion at pr₁, the first use named by fibre-class-pullback. e = lineAdaptedChart (lineChart with an empty tangent block, ℂ^0 × ℂ^1), e′ = p1p1FstChart = p1p1Chart followed by fstSplit (v₀, v₁) ↦ ((v₁), (v₀)): tangent block the second factor's coordinate, normal block the first's; hn is p1p1FstChart_apply_snd. fstSplit enters cycle-class-germ only as L = fstSplit.symm in he; it does not occur in either coclass. Non-vacuity: p1p1Fst_chartNormalProjectionCoclass_pullback_source_ne_zero (both sides nonzero at W = lineAdaptedChart.source, W′ = p1p1FstChart.source). The product chart misses (∞, [0 : 1]); fibre-class-pullback needs a second chart pair there. Red team: docs/sketches/local-class-pullback-submersion.redteam.md. Optional change O3 of the red team, taken: transport_supportedClass_eq_chartNormalProjectionCoclass_source_of_dim states cycle-class-germ's source form (HodgeLadder.Normalization.transport_supportedClass_eq_chartNormalProjectionCoclass_source, no smooth-locus hypothesis) with he over Fin d → ℂ for any d certifying smoothness (upstream SmoothOfRelativeDimension.dim_eq); infty_transport_eq_lineAdaptedChart_coclass and p1p1FibreFst_transport_eq_p1p1FstChart_coclass feed both charts to it, so on each chart source the chart coclass is the restriction of the transported supported class [∞], respectively [{∞} × ℙ¹]. Exact, no sign."
     },
     {
       "id": "fibre-class-pullback",
@@ -4894,7 +4942,7 @@
         "cycle-class-germ"
       ],
       "contributors": [],
-      "note": "A foundation with sub-rungs (red team finding 15): pullback of supported classes compatible with forgetSupport (supported-class-pullback) and with upstream's normalization (supported-pullback-transport, local-class-pullback-submersion). Literature: compatibility of the cycle map with flat pullback [Fulton1998 ch. 19; numbering unverified]. Only the ℙ¹ × ℙ¹ path needs it (decision 0010). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "A foundation with sub-rungs (red team finding 15): pullback of supported classes compatible with forgetSupport (supported-class-pullback) and with upstream's normalization (supported-pullback-transport, local-class-pullback-submersion). Literature: compatibility of the cycle map with flat pullback [Fulton1998 ch. 19; numbering unverified]. Only the ℙ¹ × ℙ¹ path needs it (decision 0010). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. local-class-pullback-submersion checked 2026-11-27 (chart form, any continuous f with tied normal coordinates). Red team finding 11: the local identity at pr₁ composes in scratch from cycle-class-germ (no-reg form) on ℙ¹ and on ℙ¹ × ℙ¹ and restrict_pullback_eq_chartNormalProjectionCoclass at ⊤. Remaining at pr₁: supported-class-pullback; supported-pullback-transport in the pair-map spelling above; a second chart pair at (∞, [0 : 1]), which p1p1FstChart misses; germs to sections on Y ∖ T_sing = Y, then cycleComponentSupportedInjectiveClass_unique and forgetSupport. A general smooth f also needs charts e′ with (e′ ·).2 = (e ·).2 ∘ f (holomorphic submersion normal form; unverified at the pin)."
     },
     {
       "id": "p1p1-point-class-nonzero",
