@@ -24,6 +24,8 @@ analytification is the section sheaf of a holomorphic unit extension
 * `HodgeLadder.cycleComponentSheafClass_mem_hodgeClasses_one`
 * `HodgeLadder.cycleClassesAreHodgeOne_holds`
 * `HodgeLadder.lefschetzOneOneEquality_holds`
+* `HodgeLadder.le_algebraicCycleClassSpan_one_iff`: a submodule of `H²` lies in the algebraic
+  span exactly when it lies in `Hdg^1`.
 -/
 
 @[expose] public noncomputable section
@@ -58,5 +60,12 @@ theorem cycleClassesAreHodgeOne_holds : CycleClassesAreHodgeOne := by
 ℚ-span of the classes of prime divisors. -/
 theorem lefschetzOneOneEquality_holds : LefschetzOneOneEquality :=
   lefschetzOneOneEquality_iff.mpr ⟨lefschetzOneOne_holds, cycleClassesAreHodgeOne_holds⟩
+
+/-- On a smooth projective integral `X`, a submodule of `H^(2 * 1)(X; ℚ)` consists of algebraic
+classes exactly when it consists of Hodge classes, by `lefschetzOneOneEquality_holds`. -/
+theorem le_algebraicCycleClassSpan_one_iff (X : Over (Spec ↧ℂ)) [IsIntegral X.left]
+    [Smooth X.hom] [IsProjective X.hom] (S : Submodule ℚ H^(2 * 1)(X; ℚ)) :
+    S ≤ algebraicCycleClassSpan X 1 ↔ S ≤ Hdg^1(X; ℚ) := by
+  rw [lefschetzOneOneEquality_holds X]
 
 end HodgeLadder

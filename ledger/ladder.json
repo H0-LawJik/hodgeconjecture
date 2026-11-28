@@ -474,16 +474,29 @@
     {
       "id": "weil-space",
       "title": "The Weil space weilSpace X f d = {w ∈ H²(X; ℚ) : f^* w = −d • w} for an endomorphism f, with weilSpace X (𝟙 X) 1 = ⊥ and, on smooth projective integral X, weilSpace ≤ algebraicCycleClassSpan X 1 ↔ weilSpace ≤ Hdg^1",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Weil.Space",
+      "declarations": [
+        "HodgeLadder.Weil.weilSpace",
+        "HodgeLadder.Weil.mem_weilSpace_iff",
+        "HodgeLadder.Weil.weilSpace_eq_ker_sub",
+        "HodgeLadder.Weil.weilSpace_eq_eigenspace",
+        "HodgeLadder.Weil.weilSpace_id_one",
+        "HodgeLadder.Weil.weilSpace_id_neg_one",
+        "HodgeLadder.Weil.weilSpace_le_algebraic_iff_le_hodge",
+        "HodgeLadder.le_algebraicCycleClassSpan_one_iff",
+        "HodgeLadder.Tests.projectiveLine_weilSpace_id_neg_one_ne_bot"
+      ],
       "depends_on": [
         "pullback-functorial",
-        "lefschetz-1-1-equality"
+        "lefschetz-1-1-equality",
+        "projective-line-class-nonzero"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A3. W_K as the −d-eigenspace of f^* on H², with f^* ∘ f^* = −d on H¹ (K = ℚ(√−d)); on an abelian surface this is ∧²_K H¹ inside ∧²_ℚ H¹ = H² (Weil1977, vanGeemen2022 §4, locators unverified; derivation in the plan §1). No exterior algebra needed. Failed so far: nothing (new). Conventions row \"Weil space\" (sign −d, pullback direction) owed by the red team before weil-surface-statement is posted. Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. weilSpace X f d := ker (pullbackCohLinear f 2 + d • id), the −d-eigenspace of f^* on H²(X; ℚ), d : ℚ unrestricted; mem_weilSpace_iff (f^* w = −d • w), the bridges weilSpace_eq_ker_sub and weilSpace_eq_eigenspace, weilSpace_id_one (⊥ at d = 1) and weilSpace_id_neg_one (⊤ at d = −1), with projectiveLine_weilSpace_id_neg_one_ne_bot (HodgeLadder.Tests.WeilSpace) pinning the sign at the pin; weilSpace_le_algebraic_iff_le_hodge in HodgeLadder.Weil.Algebraic, from the general le_algebraicCycleClassSpan_one_iff (any submodule S ≤ H^(2 * 1), added to HodgeLadder.Divisor.LefschetzEquality) by lefschetzOneOneEquality_holds, so HodgeLadder.Weil.Space depends on the pullback alone. On an abelian surface this is W_K = ∧²_K H¹ (Weil1977, vanGeemen1994 §5, locators unverified); the eigenspace description is specific to surfaces. Names differ from plan §4 A3 (mem_weilSpace_iff, weilSpace_le_algebraic_iff_le_hodge). Conventions row \"Weil space\". Kernel about 120 s for the four original declarations (docs/gaps.md, Known weaknesses). Red team docs/sketches/weil-space.redteam.md."
     },
     {
       "id": "de-rham-pullback",
