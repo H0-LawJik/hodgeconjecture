@@ -201,7 +201,9 @@ public import HodgeLadder.General.CircleArcs
 public import HodgeLadder.General.MayerVietorisRank
 public import HodgeLadder.General.CircleCylinderHomology
 public import HodgeLadder.Torus.Winding.Duality
+public import HodgeLadder.Cup.SingularCupLinear
 public import HodgeLadder.Torus.HomologyBound
+public import HodgeLadder.Torus.Singular.Cohomology
 public import HodgeLadder.General.ProjQuotient
 public import HodgeLadder.General.Hypersurface
 public import HodgeLadder.Tests.EllipticCurve

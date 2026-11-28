@@ -1067,19 +1067,48 @@
     },
     {
       "id": "torus-singular-cohomology",
-      "title": "Rational singular cohomology of the real torus UnitAddTorus (Fin n) in degrees 1 and 2 (n = 2, 4): H¹ is spanned by the n coordinate winding classes, H² by their pairwise cups, with the dimensions n and n(n−1)/2",
-      "status": "open",
+      "title": "Rational singular cohomology of the real torus UnitAddTorus (Fin n) in degrees 1 and 2: for n ≥ 2 the coordinate winding classes aᵢ are a basis of H¹, for every n the cups aᵢ ⌣ aⱼ (cupSing, i < j) are a basis of H², so dim H¹ = n and dim H² = n.choose 2 (tests n = 2, 4)",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Torus.Singular.Cohomology",
+      "declarations": [
+        "HodgeLadder.Torus.linearIndependent_coordWinding",
+        "HodgeLadder.Torus.span_coordWinding",
+        "HodgeLadder.Torus.finrank_cohomology_one_torus",
+        "HodgeLadder.Torus.span_coordCup",
+        "HodgeLadder.Torus.finrank_cohomology_two_torus",
+        "HodgeLadder.Torus.finiteDimensional_cohomology_torus",
+        "HodgeLadder.Torus.finrank_cohomology_torus_eq",
+        "HodgeLadder.Torus.finrank_cohomology_torus_le",
+        "HodgeLadder.Torus.card_coordPairs",
+        "HodgeLadder.Torus.coordWindingBasis",
+        "HodgeLadder.Torus.coordCupBasis",
+        "HodgeLadder.Torus.coordWinding_zero_ne_one_two",
+        "HodgeLadder.Torus.finrank_cohomology_one_torus_two",
+        "HodgeLadder.Torus.finrank_cohomology_two_torus_two",
+        "HodgeLadder.Torus.finrank_cohomology_one_torus_four",
+        "HodgeLadder.Torus.finrank_cohomology_two_torus_four",
+        "HodgeLadder.Cup.cupSingBilin",
+        "HodgeLadder.Cup.cupSingBilin_apply",
+        "HodgeLadder.Cup.cupSing_add_left",
+        "HodgeLadder.Cup.cupSing_smul_left",
+        "HodgeLadder.Cup.cupSing_add_right",
+        "HodgeLadder.Cup.cupSing_smul_right",
+        "HodgeLadder.Cup.cupSingRight",
+        "HodgeLadder.Cup.cupSingRight_apply",
+        "HodgeLadder.Cup.cohIso_cohomologyMap",
+        "HodgeLadder.Cup.cupSing_cohomologyMap"
+      ],
       "depends_on": [
         "torus-cycle-pairing",
         "torus-homology-bound",
         "torus-winding-duality",
         "winding-torus-cup"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C6. Known: H*(Tⁿ; ℚ) = ∧*ℚⁿ (Hatcher2002 §3.2, locator unverified). Tau Ceti has H* of the 2-torus and a singular Künneth formula (unverified here). Kill criterion: no stated route (backport or Mayer–Vietoris) after two thinker sessions marks the E × E instance blocked; the reduction stays. Failed so far: nothing (new). Size: large. Update 2026-11-27: thinker sketch docs/sketches/torus-singular-cohomology.md; route: upper bounds from upstream's singular Mayer–Vietoris and homotopy invariance, lower bounds from torusEval; no Künneth. Stated for all n as LinearIndependent plus span = ⊤ for H¹ (n ≥ 2) and the i < j cups in H²; sub-rungs circle-arc-cover, homology-prod-contractible, mayer-vietoris-finrank, torus-winding-duality, circle-cylinder-homology, torus-homology-bound; consumers reach E through winding-class-pullback."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/torus-singular-cohomology.md (order 4, steps 7 and 9). On Tⁿ = UnitAddTorus (Fin n): linearIndependent_coordWinding and span_coordWinding (n ≥ 2), finrank_cohomology_one_torus = n; span_coordCup (every n, independence is linearIndependent_coordCup of torus-winding-duality), finrank_cohomology_two_torus = n.choose 2; finite dimensionality as an instance (finiteDimensional_cohomology_torus) and dim H^k = dim H_k ≤ n.choose k (finrank_cohomology_torus_eq, _le) through upstream's cohomologyEquivDualHomology and torus-homology-bound. Independence in H¹: cup Σ cᵢ aᵢ = 0 on the right with a_m, m ≠ k, evaluate on T_km, read c_k (n ≥ 2 enters here only; n = 0 holds trivially, n = 1 closes after winding-class-pullback by pulling back along T² → T¹). New: cupSing is ℚ-bilinear (cupSingBilin, cupSing_add_left/right, cupSing_smul_left/right, cupSingRight) and natural (cupSing_cohomologyMap: f^*(a ⌣ b) = f^*a ⌣ f^*b, exact, through cohIso_cohomologyMap and Tau Ceti's singularCup_naturality, for winding-class-pullback); module HodgeLadder.Cup.SingularCupLinear, a leaf off the frozen SingularCup. Bases as Basis values: coordWindingBasis, coordCupBasis. Exact, no sign: every conclusion is a span, an independence or a dimension; aⱼ ⌣ aᵢ = −aᵢ ⌣ aⱼ and Ψ's −1 in degree (1, 1) are units. Nonvacuity: tests at n = 2, 4 with values 2, 1, 4, 6, and a₀ ≠ a₁ on T². Red team: docs/sketches/torus-singular-cohomology.redteam.md, pass with changes. About 5 s to elaborate. Earlier: Plan: docs/notes/2026-11-27-t1-plan.md, node C6. Known: H*(Tⁿ; ℚ) = ∧*ℚⁿ (Hatcher2002 §3.2, locator unverified). Tau Ceti has H* of the 2-torus and a singular Künneth formula (unverified here). Kill criterion: no stated route (backport or Mayer–Vietoris) after two thinker sessions marks the E × E instance blocked; the reduction stays. Failed so far: nothing (new). Size: large. Update 2026-11-27: thinker sketch docs/sketches/torus-singular-cohomology.md; route: upper bounds from upstream's singular Mayer–Vietoris and homotopy invariance, lower bounds from torusEval; no Künneth. Stated for all n as LinearIndependent plus span = ⊤ for H¹ (n ≥ 2) and the i < j cups in H²; sub-rungs circle-arc-cover, homology-prod-contractible, mayer-vietoris-finrank, torus-winding-duality, circle-cylinder-homology, torus-homology-bound; consumers reach E through winding-class-pullback."
     },
     {
       "id": "winding-class-pullback",
