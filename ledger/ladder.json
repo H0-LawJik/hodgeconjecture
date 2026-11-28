@@ -1031,7 +1031,7 @@
       "declarations": [],
       "depends_on": [],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C1. Mathlib only. Known: g₃(ℤ[i]) = 0, g₂(ℤ[i]) ≠ 0 (Silverman2009 ch. VI, unverified locator). Failed so far: nothing (new). Size: medium."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C1. Mathlib only. Known: g₃(ℤ[i]) = 0, g₂(ℤ[i]) ≠ 0 (Silverman2009 ch. VI, unverified locator). Failed so far: nothing (new). Size: medium. Three conjuncts follow in a few lines from period-pair-normalize: ℘(iz) = −℘(z) is weierstrassP_gaussianPair_I_mul, ℘′(iz) = i℘′(z) is derivWeierstrassP_gaussianPair_I_mul, and g₃ = 0 follows from G_smul at μ = i (i⁻⁶ = −1; checked in the red team's scratch). The content left is g₂(ℤ[i]) ≠ 0."
     },
     {
       "id": "weierstrass-surjective",
@@ -1093,13 +1093,63 @@
     {
       "id": "period-pair-normalize",
       "title": "∃ L' μ, μ ≠ 0, L'.ω₁ = 1, 0 < Im L'.ω₂, lattice transport, and ℘_{L'}(μ z) = μ⁻² ℘_L(z)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Period.Pair.Normalize",
+      "declarations": [
+        "HodgeLadder.Period.swap",
+        "HodgeLadder.Period.smul",
+        "HodgeLadder.Period.swap_lattice",
+        "HodgeLadder.Period.weierstrassP_congr",
+        "HodgeLadder.Period.mem_smul_lattice",
+        "HodgeLadder.Period.smulLatticeEquiv",
+        "HodgeLadder.Period.weierstrassP_smul",
+        "HodgeLadder.Period.derivWeierstrassP_smul",
+        "HodgeLadder.Period.G_smul",
+        "HodgeLadder.Period.g₂_smul",
+        "HodgeLadder.Period.g₃_smul",
+        "HodgeLadder.Period.ω₁_ne_zero",
+        "HodgeLadder.Period.ω₂_ne_zero",
+        "HodgeLadder.Period.im_div_ne_zero",
+        "HodgeLadder.Period.oriented",
+        "HodgeLadder.Period.oriented_of_pos",
+        "HodgeLadder.Period.oriented_of_neg",
+        "HodgeLadder.Period.oriented_lattice",
+        "HodgeLadder.Period.im_div_oriented_pos",
+        "HodgeLadder.Period.normalizeScale",
+        "HodgeLadder.Period.normalizeScale_ne_zero",
+        "HodgeLadder.Period.normalize",
+        "HodgeLadder.Period.normalize_ω₁",
+        "HodgeLadder.Period.normalize_ω₂",
+        "HodgeLadder.Period.normalize_of_pos",
+        "HodgeLadder.Period.normalize_of_neg",
+        "HodgeLadder.Period.exists_normalized",
+        "HodgeLadder.Period.gaussianPair",
+        "HodgeLadder.Period.conjGaussianPair",
+        "HodgeLadder.Period.oriented_gaussianPair",
+        "HodgeLadder.Period.normalizeScale_gaussianPair",
+        "HodgeLadder.Period.normalize_gaussianPair_ω₂",
+        "HodgeLadder.Period.oriented_conjGaussianPair",
+        "HodgeLadder.Period.normalizeScale_conjGaussianPair",
+        "HodgeLadder.Period.normalize_conjGaussianPair_ω₂",
+        "HodgeLadder.Period.smul_I_gaussianPair_lattice",
+        "HodgeLadder.Period.weierstrassP_gaussianPair_I_mul",
+        "HodgeLadder.Period.exists_weierstrassP_ne_zero",
+        "HodgeLadder.Period.weierstrassP_smul_two",
+        "HodgeLadder.Period.not_weierstrassP_smul_two_sq",
+        "HodgeLadder.Period.not_forall_mem_smul_two_iff_two_mul_mem",
+        "HodgeLadder.Period.normalize_of_eq_I_mul",
+        "HodgeLadder.Period.normalize_of_eq_neg_I_mul",
+        "HodgeLadder.Period.oriented_ω₂_eq_I_mul",
+        "HodgeLadder.Period.oriented_swap",
+        "HodgeLadder.Period.derivWeierstrassP_congr",
+        "HodgeLadder.Period.derivWeierstrassP_gaussianPair_I_mul"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 6); records the basis swap so C3 inherits no hidden orientation. Failed so far: nothing (new). Size: small to medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 6). Witnesses normalize L = μ · oriented L and μ = normalizeScale L. Orientation: oriented L keeps (ω₁, ω₂) when Im(ω₂/ω₁) > 0 and swaps to (ω₂, ω₁) when Im(ω₂/ω₁) < 0 (0 excluded by ℝ-independence); then μ = ω₁⁻¹ of the oriented basis, so τ = ω₂/ω₁ (no swap, μ = ω₁⁻¹) or τ = ω₁/ω₂ (swap, μ = ω₂⁻¹): normalize_of_pos, normalize_of_neg. Lattice transport μz ∈ L'.lattice ↔ z ∈ L.lattice; homogeneity weierstrassP_smul ℘_{μΛ}(μz) = μ⁻² ℘_Λ(z) for every μ ≠ 0 by reindexing the tsum along l ↦ μl; also ℘′ (weight −3), G_n (−n), g₂ (−4), g₃ (−6) for fixing c with g₂ = 4 in C3; ℘ depends only on the lattice (weierstrassP_congr). Tests: (1, i) normalized with scale 1, τ = i; (1, −i) swapped, scale i, τ = i; ℘_{ℤ[i]}(iz) = −℘_{ℤ[i]}(z). Mathlib only. No sign beyond the orientation Im τ > 0. Red team: pass with changes (docs/sketches/period-pair-normalize.redteam.md). Tests separate μ⁻² from μ² (μ = 2, ℘ ≢ 0: not_weierstrassP_smul_two_sq), μ⁻³ from μ³ (℘′(iz) = i℘′(z) on ℤ[i]) and the transport direction (not_forall_mem_smul_two_iff_two_mul_mem). (c, ic) is kept with μ = c⁻¹; (c, −ic) is swapped to (−ic, c) with μ = i c⁻¹; both give τ = i and an oriented basis with ω₂ = iω₁, on which multiplication by i is rot. Row \"Period-pair normalization and homogeneity of ℘\" in docs/conventions.md."
     },
     {
       "id": "weierstrass-order-sum",
@@ -1146,7 +1196,7 @@
         "elliptic-curve-witness"
       ],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C3. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted for the specific cubic). Known: Silverman2009 ch. VI (locators unverified). Failed so far: nothing (new). Size: medium. Needs CompactSpace (ℂ ⧸ L.lattice.toAddSubgroup), not inferred at the pin (route: Mathlib's IsZLattice.isCompact_range_of_periodic), and ℘/℘' → 0, 1/℘' → 0 at Λ for continuity in the chart y ≠ 0 (red team of elliptic-curve-points, finding 10)."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C3. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted for the specific cubic). Known: Silverman2009 ch. VI (locators unverified). Failed so far: nothing (new). Size: medium. Needs CompactSpace (ℂ ⧸ L.lattice.toAddSubgroup), not inferred at the pin (route: Mathlib's IsZLattice.isCompact_range_of_periodic), and ℘/℘' → 0, 1/℘' → 0 at Λ for continuity in the chart y ≠ 0 (red team of elliptic-curve-points, finding 10). Basis (red team period-pair-normalize, finding 7): build Φ on the PeriodPair (c, ic) with c > 0 real; normalize keeps it with μ = c⁻¹ (normalize_of_eq_I_mul). From (c, −ic), normalize swaps to (−ic, c) with μ = i c⁻¹, and ℘, ℘′ pick up −c² and i c³ (the automorphism [i]). Fix c through g₂_smul: g₂(cℤ[i]) = c⁻⁴ g₂(ℤ[i])."
     },
     {
       "id": "elliptic-curve-torus-data",
