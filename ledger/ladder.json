@@ -1158,16 +1158,58 @@
     },
     {
       "id": "winding-class-pullback",
-      "title": "windingClass_comp, windingClass_mul, rot_pullback_coordWinding (rot^* a₀ = −a₁, rot^* a₁ = a₀) and span_windingClass_of_homeomorph for any Y ≃ₜ Tⁿ, feeding elliptic-curve-cohomology and elliptic-square-cohomology",
-      "status": "open",
+      "title": "Winding classes pull back and add: f^*[g] = [g ∘ f] and [g g'] = [g] + [g'], exact; on T², rot x = ![-x 1, x 0] has rot^* a₀ = −a₁, rot^* a₁ = a₀, (rot^*)² = −1 on H¹ and rot^* = id on H²; H¹(Tⁿ; ℚ) has basis a₀, …, a_{n−1} for every n; for any h : Y ≃ₜ Tⁿ the classes h^* aᵢ and their cups with i < j are bases of H¹(Y; ℚ) and H²(Y; ℚ), feeding elliptic-curve-cohomology and elliptic-square-cohomology",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Torus.Singular.Pullback",
+      "declarations": [
+        "HodgeLadder.Cup.windingClass_eq_rationalWindingCohomologyClass",
+        "HodgeLadder.Cup.windingClass_comp",
+        "HodgeLadder.Cup.cocycleOf_add",
+        "HodgeLadder.Cup.windingTC_mul",
+        "HodgeLadder.Cup.windingClass_mul",
+        "HodgeLadder.Cup.windingClass_of_eq_one",
+        "HodgeLadder.Cup.windingClass_ext",
+        "HodgeLadder.Cup.windingClass_eq_neg_of_mul_eq_one",
+        "HodgeLadder.Cup.cohomologyEquivOfHomeomorph",
+        "HodgeLadder.Cup.cohomologyEquivOfHomeomorph_apply",
+        "HodgeLadder.Torus.rot",
+        "HodgeLadder.Torus.rot_pullback_coordWinding_zero",
+        "HodgeLadder.Torus.rot_pullback_coordWinding_one",
+        "HodgeLadder.Torus.rot_pullback_coordWinding",
+        "HodgeLadder.Torus.rot_pullback_coordWinding_zero_ne",
+        "HodgeLadder.Torus.rot_pullback_sq",
+        "HodgeLadder.Torus.rot_pullback_coordCup",
+        "HodgeLadder.Torus.projFirst",
+        "HodgeLadder.Torus.projFirst_pullback_coordWinding",
+        "HodgeLadder.Torus.coordWinding_torus_one_ne_zero",
+        "HodgeLadder.Torus.linearIndependent_coordWinding_all",
+        "HodgeLadder.Torus.span_coordWinding_all",
+        "HodgeLadder.Torus.finrank_cohomology_one_torus_all",
+        "HodgeLadder.Torus.homeoWinding",
+        "HodgeLadder.Torus.cohomologyEquivOfHomeomorph_coordWinding",
+        "HodgeLadder.Torus.linearIndependent_windingClass_of_homeomorph",
+        "HodgeLadder.Torus.span_windingClass_of_homeomorph",
+        "HodgeLadder.Torus.homeoCup",
+        "HodgeLadder.Torus.cohomologyEquivOfHomeomorph_coordCup",
+        "HodgeLadder.Torus.linearIndependent_cupWinding_of_homeomorph",
+        "HodgeLadder.Torus.span_cupWinding_of_homeomorph",
+        "HodgeLadder.Torus.homeoWindingBasis",
+        "HodgeLadder.Torus.homeoCupBasis",
+        "HodgeLadder.Torus.finrank_cohomology_one_of_homeomorph",
+        "HodgeLadder.Torus.finrank_cohomology_two_of_homeomorph",
+        "HodgeLadder.Torus.homeoWinding_pullback_of_comm_rot",
+        "HodgeLadder.Torus.prodTorusHomeo",
+        "HodgeLadder.Torus.homeoWinding_prodTorusHomeo_castAdd",
+        "HodgeLadder.Torus.homeoWinding_prodTorusHomeo_natAdd"
+      ],
       "depends_on": [
         "torus-singular-cohomology"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 5). Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/torus-singular-cohomology.md (order 5). windingClass_eq_rationalWindingCohomologyClass: windingClass g hg is the port's ChernWinding.rationalWindingCohomologyClass g hg (one cochain, rationalWindingCochain, through dualIsoYoneda), so windingClass_comp (pullback along f : Y' ⟶ Y) is the port's rationalWindingCohomologyClass_naturality and windingClass_mul is rationalWindingCochain_mul; module HodgeLadder.Cup.WindingPullback, any space, with cohomologyEquivOfHomeomorph (h^* as a linear equivalence, from cohomologyMap_comp and cohomologyMap_id). rot^* from coordChar 0 ∘ rot = (coordChar 1)⁻¹ and coordChar 1 ∘ rot = coordChar 0 pointwise; rot is multiplication by i on ℂ/Λ for the basis (ω₁, ω₂) = (c, ic), Im(ω₂/ω₁) > 0; the basis (c, −ic) gives rot⁻¹ and swaps both signs; (rot^*)² = −1 and rot^* (a₀ ⌣ a₁) = a₀ ⌣ a₁ hold for either. homeoWinding_pullback_of_comm_rot: if h ∘ e = rot ∘ h then e^* x₀ = −x₁, e^* x₁ = x₀. prodTorusHomeo h₁ h₂ (through Fin.appendHomeomorph, first factor first): coordinate castAdd i is pr₁^* of homeoWinding h₁ i, natAdd j is pr₂^* of homeoWinding h₂ j. The n = 1 case of the H¹ basis of torus-singular-cohomology closes by pulling back along projFirst : T² → T¹. Transport along h : Y ≃ₜ Tⁿ through cupSing_cohomologyMap. Exact, no scalar; singular only, Ψ does not enter. Nonvacuity: rot_pullback_coordWinding_zero_ne (rot^* a₀ ≠ a₁, which rot⁻¹ fails), coordWinding_torus_one_ne_zero. Red team: docs/sketches/winding-class-pullback.redteam.md, pass with changes. Sketch: docs/sketches/torus-singular-cohomology.md (order 5). Failed so far: nothing (new). Size: medium."
     },
     {
       "id": "elliptic-curve-cohomology",
@@ -1183,7 +1225,7 @@
         "winding-class-pullback"
       ],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C7. The signs of ellipticI^* depend on the orientation of (ω₁, ω₂); the plan uses only (ellipticI^*)² = −1. Failed so far: nothing (new). Size: medium."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C7. The signs of ellipticI^* depend on the orientation of (ω₁, ω₂); the plan uses only (ellipticI^*)² = −1. Failed so far: nothing (new). Size: medium. Sign check (red team winding-class-pullback, finding 2): the title's ellipticI^* x₁ = −x₂, ellipticI^* x₂ = x₁ holds when h : E(ℂ) ≃ₜ T² satisfies h ∘ ellipticI = rot ∘ h, i.e. h⁻¹(s, t) = Φ(s c + t·ic) on Λ = c·ℤ[i], (ω₁, ω₂) = (c, ic), Im(ω₂/ω₁) > 0; then x₁, x₂ are homeoWinding h 0, homeoWinding h 1. For (ω₁, ω₂) = (c, −ic) the conjugate is rot⁻¹ and the signs swap (ellipticI^* x₁ = x₂, ellipticI^* x₂ = −x₁). (ellipticI^*)² = −1 holds for both."
     },
     {
       "id": "elliptic-square-cohomology",
