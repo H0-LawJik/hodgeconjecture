@@ -1,0 +1,10 @@
+# Handoff 2026-11-27: `de-rham-scalar-sheaf`
+
+- Checked: `HodgeLadder/Hodge/DeRhamScalarSheaf.lean`, imported from `HodgeLadder.lean`, 44 declarations in the ledger, standard axioms only. The first draft sat at `next.py`'s fallback path `HodgeLadder/De/Rham/Scalar/Sheaf.lean`; it moved next to the other modules of the front (red team change 5).
+- Definition: `rationalDeRhamScalar X c`, written S_c, the extension to ℤ of `sheafifyQ.map (c • ·)` on `rationalHolomorphicFormPresheaf X d p`; forgetting ℚ at presheaf level gives upstream's `scalarHolomorphicDeRhamPresheaf X d p c` by `rfl`.
+- Upstream tie: `forget_rationalDeRhamScalar`, a commuting square with `forgetRationalDeRhamIso X` and `scalarHolomorphicDeRhamComplexInt X c`, exact; `eq_rationalDeRhamScalar_of_forget` shows it determines S_c; `rationalHypercohomologyEquiv_smul` reads upstream's `c •` on `H_dR^n(X)` as postcomposition with `(Q.map S_c)⟦n⟧'`.
+- Scalar laws: `rationalDeRhamScalar_tensorHom_id_comp_deRhamWedge`, `rationalDeRhamScalar_id_tensorHom_comp_deRhamWedge`, from a generic version for `extendMul` and the sheaf-level laws (naturality of Mathlib's `μ`). S_c has degree zero, so no Koszul sign enters.
+- Algebra and tests: S_1, S_0, S_{ab} = S_b ≫ S_a (upstream's order), S_{a+b}, S_{−1} = −𝟙; on every smooth integral X, S_{−1} ≠ 𝟙, S_c ≠ 0 for c ≠ 0, c ↦ S_c injective, and the first-factor law holds with S_{c'} on the target only for c' = c.
+- Cost: module about 45 s with `lake env lean`; kernel about 10 s per complex-level scalar law, 3 s for the forget square. The bridge needs the `rh*` local instances of `HodgeLadder.Hodge.RationalHypercohomology` and `Eq.trans` in place of a `rw` chain.
+- Red team: `docs/sketches/de-rham-scalar-sheaf.redteam.md`, pass with changes, changes 1 to 7 implemented; the status block (change 8) is left for the merge.
+- Next: `de-rham-cup`, whose ℂ-bilinearity is now assembly from `rationalHypercohomologyEquiv_smul`, the two scalar laws as the `hm` of `pairProductShQ_naturality`, and `de-rham-cup-exact`.
