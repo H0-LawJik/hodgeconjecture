@@ -221,3 +221,5 @@ public import HodgeLadder.Weil.Space
 public import HodgeLadder.Weil.Algebraic
 public import HodgeLadder.Tests.WeilSpace
 public import HodgeLadder.Segre.General
+public import HodgeLadder.Cup.WindingPullback
+public import HodgeLadder.Torus.Singular.Pullback

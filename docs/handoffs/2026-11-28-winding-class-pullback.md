@@ -1,0 +1,10 @@
+# Handoff 2026-11-28: `winding-class-pullback`
+
+- Checked: the leaf `HodgeLadder/Cup/WindingPullback.lean` (layer 12, any space) and `HodgeLadder/Torus/Singular/Pullback.lean` (layer 15), both imported from `HodgeLadder.lean`, 39 declarations in the ledger (module set to the torus file, which imports the leaf), standard axioms only. Node order 5 of `docs/sketches/torus-singular-cohomology.md`.
+- Any space: `windingClass_eq_rationalWindingCohomologyClass` identifies the ladder's winding class with the port's (one cochain through `dualIsoYoneda`), so `windingClass_comp` (f^*[g] = [g ∘ f]) is the port's naturality in one `exact`; `windingClass_mul`, `windingClass_of_eq_one`, `windingClass_eq_neg_of_mul_eq_one` from the cochain identities; `cohomologyEquivOfHomeomorph` from upstream's `cohomologyMap_comp`, `cohomologyMap_id`.
+- Sign: rot x = ![-x 1, x 0] gives rot^* a₀ = −a₁, rot^* a₁ = a₀, as the title says, from `AddCircle.toCircle_neg`; `rot_pullback_coordWinding_zero_ne` pins it (rot⁻¹ fails it). (rot^*)² = −1 on H¹ and rot^* fixes a₀ ⌣ a₁ (the −1 of gradedComm cancels). Which lattice basis makes ellipticI correspond to rot is recorded on `elliptic-curve-cohomology`'s ledger note and in the conventions row "Winding-class pullback and the rotation of T²".
+- n = 1 of the H¹ basis closes (`coordWinding_torus_one_ne_zero` via `projFirst : T² → T¹`); `_all` versions hold for every n.
+- Transport: bases `homeoWindingBasis`, `homeoCupBasis` and dims n, n.choose 2 for any h : Y ≃ₜ Tⁿ. Red team options taken: O1 `homeoWinding_pullback_of_comm_rot` (h ∘ e = rot ∘ h gives e^* x₀ = −x₁, e^* x₁ = x₀), O2 `prodTorusHomeo` with the castAdd / natAdd coordinate lemmas (first factor first), O3 the rename.
+- Timing: each module elaborates in under 15 s wall, imports included.
+- Red team: `docs/sketches/winding-class-pullback.redteam.md`, pass with changes; changes 1 to 7 applied.
+- Next: `elliptic-curve-cohomology` (supply h with `∀ y, h (ellipticI y) = rot (h y)` and apply O1), `elliptic-square-cohomology` (through `prodTorusHomeo`).
