@@ -1,0 +1,10 @@
+# 2026-11-27 ext-map-cocycle (R2 of supported-pullback-transport)
+
+- Checked: `HodgeLadder.General.ExtMapCocycle`, statements as posted in `docs/sketches/supported-pullback-transport.md` (R2), for any exact `F : C ⥤ D` between abelian categories with derived categories. Nothing concrete is instantiated.
+- `mapDerivedCategory_shiftedHom_cocycle`: `F.mapDerivedCategory` sends the class named by `z` to `mapDerivedCategoryFactors.hom.app K ≫ (class named by cocycleMap F z) ≫ (mapDerivedCategoryFactors.inv.app L)⟦n⟧'`. Exact, no sign.
+- Proof in two steps. `equivHomShift_symm_cocycleMap` works on cochain complexes, where the shift isos of `F.mapHomologicalComplex` are the identity in each degree; the derived step is `ShiftedHom.comp_map` with `ShiftedHom.map_naturality_2` and Mathlib's `NatTrans.CommShift` instance on `mapDerivedCategoryFactors.hom`. No (−1)^n enters.
+- Extras for R3: `cocycleMap_precomp`, `cocycleMap_postcomp`, and `mapExactFunctor_hom_named` (the `Ext` form: an `Ext` class named by `z` goes under `Ext.mapExactFunctor F` to the class named by `(cocycleMap F z).precomp ((F.mapCochainComplexSingleFunctor 0).inv.app X)`, no sign; the module now imports `Mathlib.Algebra.Homology.DerivedCategory.Ext.Map`). Sanity: `cocycleMap_v`, `cocycleMap_id` (both `rfl`), `cocycleMap_injective` for faithful `F`.
+- Red team (`docs/sketches/ext-map-cocycle.redteam.md`): pass with changes, all applied: a `docs/conventions.md` row "Exact functors on Hom-complex cocycles", both upstream `cocycleMap` names in the gaps row, changes C and D in the module, and the `pullbackAb` instance note in `docs/sketches/supported-pullback-transport.md`.
+- Instance note for R3: at `pullbackAb` use named `noncomputable local instance` declarations of `HasDerivedCategory.standard _`; the `attribute [local instance]` form leaves the `CommShift` instance unsynthesized.
+- Cost: the file elaborates in about 4 s; `tools/check.py` exits 0.
+- Next: R3 `supported-pullback-named` can use `pullbackCocycle` with `cocycleMap` from this module; with R1 (`singular-cochain-pullback`) it is ready, and its algebra at a general exact functor is `mapExactFunctor_hom_named`.

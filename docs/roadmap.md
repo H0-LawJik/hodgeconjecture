@@ -192,7 +192,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `supported-class-pullback-test` | test | checked | `supported-class-pullback`, `p1p1-witness` | degree zero, support ⊤, on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹ |
 | `supported-pullback-functorial` | foundation | open | `supported-class-pullback` | supportedPullback along 𝟙 X is the identity and along h ≫ g is the composite; with Z = ⊤ a positive-degree value test |
 | `singular-cochain-pullback` | foundation | open | `supported-class-pullback` | f⁻¹𝒮•_X ⟶ 𝒮•_Y on sheafified singular cochains, constants pinned exactly (sketch R1) |
-| `ext-map-cocycle` | foundation | open | none | exact functors carry cocycle-named derived maps to cocycle-named maps (sketch R2, general) |
+| `ext-map-cocycle` | foundation | checked | none | exact functors carry cocycle-named derived maps to cocycle-named maps, exact, no sign (sketch R2, general); `HodgeLadder.General.ExtMapCocycle` |
 | `supported-pair-named` | foundation | open | `singular-cochain-pullback` | a class named by supCocycle (rawMap y) has the singular class of y (sketch R5) |
 | `supported-pullback-named` | foundation | open | `singular-cochain-pullback`, `ext-map-cocycle`, `supported-class-pullback` | the supported pullback of a named class is named by the pulled-back cocycle (sketch R3) |
 | `supported-pullback-section` | foundation | open | `singular-cochain-pullback`, `supported-pullback-named` | the transported section cocycle is the pulled-back relative cocycle (sketch R4) |
