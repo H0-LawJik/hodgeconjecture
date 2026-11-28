@@ -744,15 +744,48 @@
     {
       "id": "segre-general",
       "title": "Products of projective objects are projective: IsProjective X.hom → IsProjective Y.hom → IsProjective (X ⨯ Y).hom in Over (Spec ↧ℂ), through a Segre closed immersion ℙ^m ×_R ℙ^n ⟶ ℙ^{(m+1)(n+1)−1}",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Segre.General",
+      "declarations": [
+        "HodgeLadder.Segre.General.segreDim",
+        "HodgeLadder.Segre.General.segreDim_add_one",
+        "HodgeLadder.Segre.General.prodP",
+        "HodgeLadder.Segre.General.prodCover",
+        "HodgeLadder.Segre.General.pairEquiv",
+        "HodgeLadder.Segre.General.pairEquiv_val",
+        "HodgeLadder.Segre.General.segreF",
+        "HodgeLadder.Segre.General.segreF_X",
+        "HodgeLadder.Segre.General.segreF_X_self",
+        "HodgeLadder.Segre.General.segreF_unit",
+        "HodgeLadder.Segre.General.segre_hX",
+        "HodgeLadder.Segre.General.segre_hC",
+        "HodgeLadder.Segre.General.segre",
+        "HodgeLadder.Segre.General.prodCover_f_segre",
+        "HodgeLadder.Segre.General.segre_toSpec",
+        "HodgeLadder.Segre.General.mem_segre_preimage",
+        "HodgeLadder.Segre.General.mem_range_prodCover_f",
+        "HodgeLadder.Segre.General.segre_preimage",
+        "HodgeLadder.Segre.General.awayEvalOf_segre_surjective",
+        "HodgeLadder.Segre.General.isClosedImmersion_segre",
+        "HodgeLadder.Segre.General.segre_one_one",
+        "HodgeLadder.Segre.General.okaIsoSpace_inv_toSpec",
+        "HodgeLadder.Segre.General.presentation_oka_w",
+        "HodgeLadder.Segre.General.prodImmersion",
+        "HodgeLadder.Segre.General.isClosedImmersion_prodImmersion",
+        "HodgeLadder.Segre.General.prodImmersion_fst",
+        "HodgeLadder.Segre.General.prodPresentation",
+        "HodgeLadder.Segre.General.isProjective_prod",
+        "HodgeLadder.Segre.General.isProjective_p1p2",
+        "HodgeLadder.Segre.General.not_isProjective_affineLine"
+      ],
       "depends_on": [
         "p1p1-witness"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E6. Needed for E × E; also gives ℙ^m × ℙ^n test objects. Failed so far: nothing (new); the checked Segre glue covers m = n = 1 only. Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E6. Checked: segre R m n : ℙₒ(m; R) ×_R ℙₒ(n; R) ⟶ ℙₒ(mn + m + n; R) over every ring, glued from the (m + 1)(n + 1) chart products with x_{(k, l)} = a_k b_l at index l + (n + 1)k (finProdFinEquiv, lexicographic), a closed immersion over Spec R; segre R 1 1 = HodgeLadder.Segre.segre R by rfl. Instance isProjective_prod : IsProjective (X ⨯ Y).hom in Over (Spec ℂ) from the two presentations, base change and the Segre map; instance search tested on p1p1, nested products and failing goals (all under 3 ms). Test: ℙ¹ × ℙ² projective. Red team pass with changes (docs/sketches/segre-general.redteam.md): presentation checked field by field against upstream's Presentation, ambient dimension segreDim d e = de + d + e; segre_one_one is a real check against the reviewed ℙ¹ × ℙ¹ map; IsProjective (ellipticCurve ⨯ ellipticCurve).hom resolves; the instance matches X ⨯ Y and not Mathlib's X ⊗ Y; instance traces on 16 existing searches change only on product-shaped IsProjective goals; non-vacuity test not_isProjective_affineLine. No sign."
     },
     {
       "id": "elliptic-square-witness",
