@@ -236,3 +236,5 @@ public import HodgeLadder.Period.Pair.Normalize
 public import HodgeLadder.Rect.Winding
 public import HodgeLadder.General.WeierstrassSurjective
 public import HodgeLadder.Rect.Periodic
+public import HodgeLadder.Supported.PullbackSection
+public import HodgeLadder.Tests.SupportedPullbackSection

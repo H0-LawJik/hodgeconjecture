@@ -1,0 +1,11 @@
+# Handoff 2026-11-28: `supported-pullback-section`
+
+- Checked: `HodgeLadder/Supported/PullbackSection.lean` (layer 23) and the test `HodgeLadder/Tests/SupportedPullbackSection.lean`, both imported from `HodgeLadder.lean`; eleven declarations in the ledger, standard axioms only. Sub-rung R4 of `supported-pullback-transport`, issue #276; statement as posted in the sketch.
+- Result: `pullbackCocycle_supCocycle`, for a relative cocycle x on (X(ℂ), X(ℂ) ∖ Z), `pullbackCocycle g Z Z' hZ (supCocycle (rawMap x)) = supCocycle (rawMap (relPullback x))`. Exact, no sign, no scalar. `relPullback` is the `forget₂` image of upstream's `relativeDualCochainShortComplexIntMap` τ₁ along `openPairPullback`, the map of open pairs given by g; both are defined here.
+- Proof: `pairCocycle_ext` reduces to the generator value; `gen_supportPairMap` (the pair map sends the generator to the unit image of the generator), `unit_comp_singularPullbackInt` (from R1's `unit_comp_singularPullbackSheaf`), `gen_supCocycle` (the generator value is the sheafified cochain), upstream's `toSheafify_comp_singularRestrictionSheaf`, and `singularRestriction_relPullback`, whose last step is `rfl`.
+- Test: `HodgeLadder.Tests.supCocycle_relPullback_prodFst_ne_zero`, on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹ with support ⊤ in degree 0 the right side has nonzero derived class.
+- Pitfalls: name the space explicitly (`(TopCat.of (ComplexPoint Y))`) in `supportedSection_eq_pairEval'`, `rawMapMid_apply`, `rawMap_comm₁₂_apply`; with `_` unification hits the heartbeat limit. In degree 0 write `((0 : ℕ) : ℤ)`.
+- Cleanup per the red team: the unused `SupportedForgetGen` import, the `local implicit_reducible` line and both `maxHeartbeats` options removed; the file builds without them. Module moved to the flat name `Supported/PullbackSection`.
+- Timing: about 110 s of kernel type checking for the file, 82 s for the main theorem; the module builds in about 2 min. Known-weaknesses row in `docs/gaps.md`.
+- Red team: `docs/sketches/supported-pullback-section.redteam.md`, pass with changes; changes A to G applied. Change H (R6 text) is left for the R6 rung.
+- Next: `supported-pullback-transport` (R6), using change H of the red-team file, then `supported-pullback-transport-test`.
