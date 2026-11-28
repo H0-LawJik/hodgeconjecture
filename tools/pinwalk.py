@@ -51,7 +51,8 @@ PHRASES = {
         r"codimensionCycleSubgroup_one", r"isIso_cycleComponentι"],
     "Local cohomology, orientation and the cycle class": [
         r"Support\w*OnOpen$", r"normalizedRelativeCoclass\w*relativeCohomologyMap",
-        r"complexLocalOrientation\w*smul", r"chartNormalProjectionCoclass\w*ne_zero"],
+        r"complexLocalOrientation\w*smul", r"chartNormalProjectionCoclass\w*ne_zero",
+        r"[Pp]ullbackPairMap|chartNormalProjectionCoclass_pullback"],
     "De Rham complex and holomorphic forms": [
         r"formWedge|holomorphicWedge", r"deRham\w*[Cc]up", r"HolomorphicForm\w*[Mm]odule",
         r"holomorphicFormOfConstant\w*ne_zero"],
