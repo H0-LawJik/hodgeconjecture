@@ -203,6 +203,8 @@ public import HodgeLadder.Torus.Winding.Duality
 public import HodgeLadder.General.ProjQuotient
 public import HodgeLadder.General.Hypersurface
 public import HodgeLadder.Tests.EllipticCurve
+public import HodgeLadder.General.HypersurfaceSmooth
+public import HodgeLadder.Tests.EllipticCurveSmooth
 public import HodgeLadder.Pullback.Functorial
 public import HodgeLadder.Tests.PullbackFunctorial
 public import HodgeLadder.Supported.SingularCochainPullback
