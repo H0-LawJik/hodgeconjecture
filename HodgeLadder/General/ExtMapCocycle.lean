@@ -38,6 +38,9 @@ Everything is stated for a general exact functor; nothing concrete is instantiat
 * `HodgeLadder.ExtMapCocycle.mapExactFunctor_hom_named`: the `Ext` form, `Ext.mapExactFunctor F`
   carries an `Ext` class named by `z` to the class named by `cocycleMap F z`, read through the
   comparison of single complexes, no sign
+* `HodgeLadder.ExtMapCocycle.mk₀_comp_named`, `HodgeLadder.ExtMapCocycle.comp_mk₀_named`:
+  pre- and postcomposition of a named `Ext` class by degree-zero classes;
+  `HodgeLadder.ExtMapCocycle.precomp_postcomp_precomp`
 * `HodgeLadder.ExtMapCocycle.cocycleMap_id`, `HodgeLadder.ExtMapCocycle.cocycleMap_injective`:
   sanity checks, `cocycleMap (𝟭 C)` is the identity and `cocycleMap F` is injective for faithful
   `F`
@@ -177,5 +180,54 @@ theorem mapExactFunctor_hom_named [HasExt.{t} C] [HasExt.{t'} D] {X Y : C} {n : 
   simp [ShiftedHom.map]
 
 end Derived
+
+section Named
+
+variable {C : Type*} [Category* C] [Abelian C] [HasDerivedCategory C] [HasExt.{t} C]
+
+/-- **Precomposition by a degree-zero class keeps a class named.** If `e : Ext Y A n` is named by
+`w` through `ι : A[0] ⟶ L`, then `mk₀ s ∘ e` is named by `w` precomposed with `s[0]`. Exact, no
+sign. -/
+theorem mk₀_comp_named {X Y A : C} {L : CochainComplex C ℤ} {n : ℕ} (e : Ext.{t} Y A n)
+    (ι : (CochainComplex.singleFunctor C 0).obj A ⟶ L)
+    (w : Cocycle ((CochainComplex.singleFunctor C 0).obj Y) L n)
+    (h : e.hom ≫ (DerivedCategory.Q.map ι)⟦(n : ℤ)⟧' =
+      ShiftedHom.map (Cocycle.equivHomShift.symm w) DerivedCategory.Q) (s : X ⟶ Y) :
+    ((Ext.mk₀ s).comp e (zero_add n)).hom ≫ (DerivedCategory.Q.map ι)⟦(n : ℤ)⟧' =
+      ShiftedHom.map (Cocycle.equivHomShift.symm
+        (w.precomp ((CochainComplex.singleFunctor C 0).map s))) DerivedCategory.Q := by
+  rw [Ext.comp_hom, Ext.mk₀_hom, ShiftedHom.mk₀_comp, assoc, h,
+    Cocycle.equivHomShift_symm_precomp]
+  simp only [ShiftedHom.map, Functor.map_comp, assoc]
+  rfl
+
+/-- **Postcomposition by a degree-zero class along a commuting square keeps a class named.** If
+`e : Ext X A n` is named by `w` through `ι : A[0] ⟶ L`, and `c[0] ≫ ι' = ι ≫ φ` for a chain map
+`φ : L ⟶ L'`, then `e ∘ mk₀ c` is named by `w` postcomposed with `φ`, through `ι'`. Exact, no
+sign. -/
+theorem comp_mk₀_named {X A A' : C} {L L' : CochainComplex C ℤ} {n : ℕ} (e : Ext.{t} X A n)
+    (ι : (CochainComplex.singleFunctor C 0).obj A ⟶ L)
+    (w : Cocycle ((CochainComplex.singleFunctor C 0).obj X) L n)
+    (h : e.hom ≫ (DerivedCategory.Q.map ι)⟦(n : ℤ)⟧' =
+      ShiftedHom.map (Cocycle.equivHomShift.symm w) DerivedCategory.Q) (c : A ⟶ A')
+    (ι' : (CochainComplex.singleFunctor C 0).obj A' ⟶ L') (φ : L ⟶ L')
+    (hsq : (CochainComplex.singleFunctor C 0).map c ≫ ι' = ι ≫ φ) :
+    (e.comp (Ext.mk₀ c) (add_zero n)).hom ≫ (DerivedCategory.Q.map ι')⟦(n : ℤ)⟧' =
+      ShiftedHom.map (Cocycle.equivHomShift.symm (w.postcomp φ)) DerivedCategory.Q := by
+  rw [Ext.comp_hom, Ext.mk₀_hom, ShiftedHom.comp_mk₀, assoc, ← Functor.map_comp,
+    ← DerivedCategory.Q_map_single_map, ← Functor.map_comp]
+  rw [hsq]
+  rw [Functor.map_comp, Functor.map_comp, ← assoc, h, Cocycle.equivHomShift_symm_postcomp]
+  simp only [ShiftedHom.map, Functor.map_comp, assoc, Functor.commShiftIso_hom_naturality]
+
+omit [HasDerivedCategory C] [HasExt.{t} C] in
+/-- Reassociation of pre- and postcomposition of Hom-complex cocycles by chain maps. -/
+theorem precomp_postcomp_precomp {K K' K'' L L' : CochainComplex C ℤ} {n : ℤ}
+    (z : Cocycle K L n) (a : K'' ⟶ K') (b : K' ⟶ K) (φ : L ⟶ L') :
+    ((z.precomp b).postcomp φ).precomp a = (z.precomp (a ≫ b)).postcomp φ := by
+  apply Cocycle.equivHomShift.symm.injective
+  simp only [Cocycle.equivHomShift_symm_precomp, Cocycle.equivHomShift_symm_postcomp, assoc]
+
+end Named
 
 end HodgeLadder.ExtMapCocycle

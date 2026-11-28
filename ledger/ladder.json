@@ -5512,16 +5512,18 @@
       "declarations": [
         "HodgeLadder.Tests.exists_forgetSupport_supportedPullback_eq_one",
         "HodgeLadder.Tests.supportedPullback_top_ne_zero",
-        "HodgeLadder.Tests.supportedPullback_prodFst_ne_zero"
+        "HodgeLadder.Tests.supportedPullback_prodFst_ne_zero",
+        "HodgeLadder.Tests.pullbackCocycle_prodFst_ne_zero"
       ],
       "depends_on": [
         "supported-class-pullback",
-        "p1p1-witness"
+        "p1p1-witness",
+        "supported-pullback-named"
       ],
       "contributors": [
         "claude-code"
       ],
-      "note": "Degree zero, support the whole space only: rules out the zero map and a global sign in degree 0, and instantiates on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹. Positive degrees and supports Z' ≠ ⊤ are untested here; the first value test there is fibre-class-pullback (pr₁*[∞] = [{∞} × ℙ¹])."
+      "note": "Degree zero, support the whole space only: rules out the zero map and a global sign in degree 0, and instantiates on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹. Positive degrees and supports Z' ≠ ⊤ are untested here; the first value test there is fibre-class-pullback (pr₁*[∞] = [{∞} × ℙ¹]). pullbackCocycle_prodFst_ne_zero (added with rung supported-pullback-named): on pr₁, some pulled-back pair cocycle has nonzero derived class in degree 0, so supportedPullback_named is not a 0 = 0 identity there."
     },
     {
       "id": "supported-pullback-functorial",
@@ -5625,17 +5627,29 @@
     {
       "id": "supported-pullback-named",
       "title": "supportedPullback_named: if α ∘ ι_X is named by the cocycle z, then g^*α ∘ ι_X' is named by pullbackCocycle g Z Z' hZ z",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Supported.PullbackNamed",
+      "declarations": [
+        "HodgeLadder.ExtMapCocycle.mk₀_comp_named",
+        "HodgeLadder.ExtMapCocycle.comp_mk₀_named",
+        "HodgeLadder.ExtMapCocycle.precomp_postcomp_precomp",
+        "HodgeLadder.Supported.pullbackCocycle",
+        "HodgeLadder.Supported.iotaQ_square",
+        "HodgeLadder.Supported.supportedPullback_named",
+        "HodgeLadder.Supported.exists_named_supportedPullback"
+      ],
       "depends_on": [
         "singular-cochain-pullback",
         "ext-map-cocycle",
-        "supported-class-pullback"
+        "supported-class-pullback",
+        "cup-singular-comparison",
+        "end-class-right-mult"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R3). Failed so far: nothing (new). Size: 150 to 250 lines."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R3), statement as posted. A supported class α ∈ H^n_Z(X; ℚ) is named by z : PairCocycle X Z n when α.hom ≫ (Q.map (iotaQ X))⟦n⟧' = ShiftedHom.map (equivHomShift.symm z) Q, the form exists_supported_rep produces. pullbackCocycle g Z Z' hZ z: cocycleMap of z along pullbackAb (pointMap g), precomposed with the pair map supportPairMap (through mapCochainComplexSingleFunctor) and postcomposed with singularPullbackInt g. supportedPullback_named: if z names α then pullbackCocycle g Z Z' hZ z names supportedPullback g Z Z' hZ n α, exact, no sign, no scalar. Proof: mapExactFunctor_hom_named, the constants square iotaQ_square (a reassociation of iotaQ_comp_singularPullbackInt), and the general mk₀_comp_named, comp_mk₀_named, precomp_postcomp_precomp (HodgeLadder.General.ExtMapCocycle). Non-vacuity: exists_named_supportedPullback (every g^*α with X integral and smooth is named by a pulled-back cocycle) and HodgeLadder.Tests.pullbackCocycle_prodFst_ne_zero (rung supported-class-pullback-test: on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹ some pulled-back cocycle has nonzero derived class in degree 0). Instances: SupportedFinal's finHasDerivedCategory, finSiteHasDerivedCategory, the same terms as exists_supported_rep; R5's local copies agree by rfl. In red-team scratch, the composite with R5's supportedEquivPair_of_named (R4 as a hypothesis) closes. Kernel time about 160 to 200 s. Red team docs/sketches/supported-pullback-named.redteam.md."
     },
     {
       "id": "supported-pullback-section",
