@@ -242,3 +242,5 @@ public import HodgeLadder.Tests.EllipticCurveCoordinates
 public import HodgeLadder.General.TriangleShiftedHom
 public import HodgeLadder.Hodge.FilteredOneInjective
 public import HodgeLadder.Tests.PointFunctionsSurjective
+public import HodgeLadder.Hodge.CompactHolomorphic
+public import HodgeLadder.Tests.CompactHolomorphicP1

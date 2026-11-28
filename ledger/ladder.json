@@ -1676,13 +1676,31 @@
     {
       "id": "compact-holomorphic-locally-constant",
       "title": "Global C^ω functions on compact X(ℂ) are locally constant (MDifferentiable.isLocallyConstant, IsProjective.complexPoint_compactSpace)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S1). Failed so far: nothing (new). Size: small."
+      "module": "HodgeLadder.Tests.CompactHolomorphicP1",
+      "declarations": [
+        "HodgeLadder.compactSpace_opens_top",
+        "HodgeLadder.preconnectedSpace_opens_top",
+        "HodgeLadder.isLocallyConstant_contMDiffMap_top",
+        "HodgeLadder.holomorphicTopSection",
+        "HodgeLadder.isLocallyConstant_holomorphicFunctionSheaf_top",
+        "HodgeLadder.isLocallyConstant_holomorphicFunctionSheaf_top_of_isProjective",
+        "HodgeLadder.holomorphicTopToLocallyConstant",
+        "HodgeLadder.holomorphicTopToLocallyConstant_apply",
+        "HodgeLadder.holomorphicTopToLocallyConstant_injective",
+        "HodgeLadder.exists_eq_const_holomorphicFunctionSheaf_top",
+        "HodgeLadder.Tests.projectiveLineConst",
+        "HodgeLadder.Tests.projectiveLine_existsUnique_const",
+        "HodgeLadder.Tests.projectiveLine_exists_nonconstant_section"
+      ],
+      "depends_on": [
+        "projective-line-witness"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S1). For X smooth of relative dimension d with X(ℂ) compact (instance from IsProjective, upstream complexPoint_compactSpace), every global section of upstream's holomorphicFunctionSheaf X d (by definition a C^ω map ⊤ → ℂ in upstream's charts) is locally constant: Mathlib's MDifferentiable.isLocallyConstant on the manifold of upstream's isManifold_omega. Form for S2a: holomorphicTopToLocallyConstant, a ring map into LocallyConstant ⊤ ℂ (global sections of the ladder's locallyConstantSheaf) with underlying function the section, injective. Constant when X(ℂ) is preconnected. Nonvacuity: on ℙ¹, c ↦ the constant section c is a bijection ℂ → Γ(ℙ¹(ℂ), 𝒪) (projectiveLine_existsUnique_const; connectedness and a point from upstream's ComplexPoint.connectedSpace, library Other), and upstream's 𝒪 has a section with two values on a chart domain of ℙ¹ (projectiveLine_exists_nonconstant_section), so compactness is load-bearing. General lemmas in HodgeLadder.Hodge.CompactHolomorphic, the module S2a imports. No sign, no scalar. Red team pass with changes (docs/sketches/compact-holomorphic-locally-constant.redteam.md)."
     },
     {
       "id": "de-rham-functions-surjective-zero",
@@ -1696,7 +1714,7 @@
         "chern-classes-are-hodge"
       ],
       "contributors": [],
-      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S2a). Failed so far: nothing (new). Size: medium."
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S2a). Import HodgeLadder.Hodge.CompactHolomorphic (S1, checked): holomorphicTopToLocallyConstant X d is the ring map from global sections of holomorphicFunctionSheaf X d to LocallyConstant ⊤ ℂ under CompactSpace (ComplexPoint X). First step compiled by the S1 red team, optional change O1 of docs/sketches/compact-holomorphic-locally-constant.redteam.md (exact text there): a sheaf map locallyConstantSheaf → holomorphicAdditiveSheaf X d, complexConstantsToHolomorphicSheaf X d = (constantSheafIsoLocallyConstantSheaf _ ℂ).hom ≫ that map (sheafifyLift_unique, toSheafify_constantSheafToLocallyConstantSheaf_hom), hence (complexConstantsToHolomorphicSheaf X d).hom.app (op ⊤) is onto on a compact X(ℂ); keep it in a new leaf module (it imports the port). Remaining: ℍ⁰ of a degree-0 sheaf as global sections and the square constantsToHolomorphicDeRhamComplex_comp_toFunctions. Failed so far: nothing (new). Size: medium."
     },
     {
       "id": "filtered-one-injective",
