@@ -135,8 +135,9 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `derived-tensor-bounded` | foundation | checked | `tensor-bounded-quasi-iso` | additive derived functor `derivedTensorRight` of − ⊗ B on D(ShQ) for bounded B, by `Localization.lift`, natural in chain maps of B; generic layer `derivedMapBifunctorRight` with unit iso |
 | `pairing-product` | foundation | checked | `derived-tensor-bounded` | pairProduct m x y := y ≫ (x ⊗ B)⟦b⟧ ≫ m, no sign; natural in chain maps, biadditive; on ℚ_X[0] with m = λ it is y.comp x; generic layer for any additive bifunctor, sheaf instance `pairProductShQ` |
 | `de-rham-injective` | foundation | checked | | `fieldToDeRhamCohomology ℚ X n` is injective |
-| `de-rham-cup` | foundation | open | `pairing-product`, `wedge-sheaf-map`, `rational-hypercohomology-equiv`, `de-rham-scalar-sheaf` | deRhamCup x y := pairProduct μ y x, ℂ-bilinear; ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign |
-| `de-rham-cup-test-p2` | test | open | `de-rham-cup`, `de-rham-injective`, `cup-positive-degree-test-p2` | deRhamCup (ι [L₀]) (ι [L₁]) ≠ 0 on ℙ² |
+| `de-rham-cup-exact` | foundation | open | `pairing-product`, `wedge-sheaf-map`, `rational-hypercohomology-equiv` | deRhamCup x y := pairProduct μ y x, biadditive; ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign |
+| `de-rham-cup` | foundation | open | `de-rham-cup-exact`, `de-rham-scalar-sheaf` | deRhamCup is ℂ-bilinear (the definition and the exact identity are in `de-rham-cup-exact`) |
+| `de-rham-cup-test-p2` | test | open | `de-rham-cup-exact`, `de-rham-injective`, `cup-positive-degree-test-p2` | deRhamCup (ι [L₀]) (ι [L₁]) ≠ 0 on ℙ² |
 | `cup-hodge-filtration` | foundation | open | `de-rham-cup`, `wedge-sheaf-map`, `de-rham-cup-test-p2` | deRhamCup (F^p) (F^q) ⊆ F^{p+q} for complex classes, statement (a), needed by T1 |
 | `cup-hodge-classes` | foundation | stated | `cup-hodge-reduction`, `cup-hodge-filtration`, `de-rham-cup` | Hdg^p ∪ Hdg^q ⊆ Hdg^{p+q} and its rational filtration form (`HodgeLadder.CupPreservesHodgeClasses`, `HodgeLadder.CupRespectsHodgeFiltrationRational`) |
 | `cup-hodge-classes-test-p2` | test | checked | `prime-divisors-cartier`, `cup-positive-degree-test-p2` | on ℙ² two Hodge classes of codimension one have nonzero cup product; `HodgeLadder.Tests.HodgeCupP2` |

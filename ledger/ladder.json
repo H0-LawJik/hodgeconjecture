@@ -3021,8 +3021,8 @@
       "note": "Proposed by the red team of wedge-sheaf-map (finding 8), split from de-rham-cup so that the exact identity fieldToDeRhamCohomology_cup is not blocked by ℂ-bilinearity. Degreewise S_c is the sheafification of (c • ·) on rationalHolomorphicFormPresheaf X d p (ℂ-linear maps, ℚ-linear by restriction), commuting with the differential since holomorphicFormDifferential is ℂ-linear. Tie to upstream through the pin toSheafify_comp_forgetRationalHolomorphicFormSheafIso (rung rational-de-rham-complex) and deRham_complex_smul_eq. The scalar laws in each factor follow from map_smul of holomorphicWedge in each argument through toSheafifyTensor_hom_ext, as in the wedge-sheafify red team's RT4 (about 15 lines each), then through eq_extendMul_of_components or degreewise ext on the summands. Budget kernel time as in docs/gaps.md (name the sheaf-level maps; tensorHomShQ for f ⊗ g)."
     },
     {
-      "id": "de-rham-cup",
-      "title": "deRhamCup on H_dR^*: deRhamCup x y := pairProduct μ y x, ℂ-bilinear, with fieldToDeRhamCohomology_cup: ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign",
+      "id": "de-rham-cup-exact",
+      "title": "deRhamCup x y := pairProduct μ y x on H_dR^*, biadditive, and fieldToDeRhamCohomology_cup: ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign",
       "status": "open",
       "kind": "foundation",
       "module": null,
@@ -3030,11 +3030,24 @@
       "depends_on": [
         "pairing-product",
         "wedge-sheaf-map",
-        "rational-hypercohomology-equiv",
+        "rational-hypercohomology-equiv"
+      ],
+      "contributors": [],
+      "note": "Split from de-rham-cup (2026-11-27) so the exact identity is not blocked by the ℂ-scalar laws of rung de-rham-scalar-sheaf. Per the wedge-sheaf-map red team (finding 8), fieldToDeRhamCohomology_cup uses only deRhamWedge_unit_unit and pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, with pairProductShQ_unit. Biadditivity comes from the pairing (pairing-product). The guidance in the de-rham-cup note on instances, named sheaf-level maps and kernel budget applies here unchanged."
+    },
+    {
+      "id": "de-rham-cup",
+      "title": "deRhamCup on H_dR^*: deRhamCup x y := pairProduct μ y x, ℂ-bilinear, with fieldToDeRhamCohomology_cup: ι (α ∪ β) = deRhamCup (ι α) (ι β), exact, no sign",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "de-rham-cup-exact",
         "de-rham-scalar-sheaf"
       ],
       "contributors": [],
-      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit. Owed (red team of wedge-sheafify, finding 4c): the scalar endomorphism S_c := sheafifyQ.map (c • ·) of Ω^p_ℚ and its identification with upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso; the ℂ-scalar laws (S_c ▷ Ω^q_ℚ) ≫ wedgeSheaf = wedgeSheaf ≫ S_c and (Ω^p_ℚ ◁ S_c) ≫ wedgeSheaf = wedgeSheaf ≫ S_c then follow as in that red team's RT4, about 15 lines each, from map_smul of holomorphicWedge in each argument. Update 2026-11-27 (red team of wedge-sheaf-map, finding 8): the exact identity fieldToDeRhamCohomology_cup uses only the unit law deRhamWedge_unit_unit and pairProductShQ_naturality, and does not need S_c; only the ℂ-bilinearity of deRhamCup does, through rung de-rham-scalar-sheaf."
+      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit. Owed (red team of wedge-sheafify, finding 4c): the scalar endomorphism S_c := sheafifyQ.map (c • ·) of Ω^p_ℚ and its identification with upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso; the ℂ-scalar laws (S_c ▷ Ω^q_ℚ) ≫ wedgeSheaf = wedgeSheaf ≫ S_c and (Ω^p_ℚ ◁ S_c) ≫ wedgeSheaf = wedgeSheaf ≫ S_c then follow as in that red team's RT4, about 15 lines each, from map_smul of holomorphicWedge in each argument. Update 2026-11-27 (red team of wedge-sheaf-map, finding 8): the exact identity fieldToDeRhamCohomology_cup uses only the unit law deRhamWedge_unit_unit and pairProductShQ_naturality, and does not need S_c; only the ℂ-bilinearity of deRhamCup does, through rung de-rham-scalar-sheaf. Update 2026-11-27: the definition of deRhamCup and the exact identity moved to rung de-rham-cup-exact; this rung keeps the ℂ-bilinearity, from de-rham-cup-exact and de-rham-scalar-sheaf."
     },
     {
       "id": "de-rham-cup-test-p2",
@@ -3044,7 +3057,7 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "de-rham-cup",
+        "de-rham-cup-exact",
         "de-rham-injective",
         "cup-positive-degree-test-p2"
       ],
