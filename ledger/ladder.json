@@ -5466,15 +5466,26 @@
     {
       "id": "supported-pair-named",
       "title": "supportedEquivPair_of_named: a supported class named by supCocycle (rawMap y) has the singular class of y under supportedEquivPair",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "singular-cochain-pullback"
+      "module": "HodgeLadder.Supported.PairNamed",
+      "declarations": [
+        "HodgeLadder.Supported.supportedEquivPair_of_named",
+        "HodgeLadder.Supported.exists_named",
+        "HodgeLadder.Supported.exists_supportedEquivPair_eq",
+        "HodgeLadder.Supported.exists_named_ne_zero"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R5). Failed so far: nothing (new). Size: 60 to 100 lines."
+      "depends_on": [
+        "singular-cochain-pullback",
+        "cup-singular-comparison",
+        "supported-step2-cocycle-class",
+        "supported-singular-class",
+        "cup-comparison-supported-pair"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. If β ∈ H_[Z]^p(X; ℚ) is named through iotaQ X by supCocycle (rawMap y) for a relative cocycle y on (X(ℂ), X(ℂ) ∖ Z), then supportedEquivPair X Z p β is the relative class of y, read by upstream's relativeDualCochainCohomologyEquiv and moved along topPairIso; exact, no sign, no scalar. The cone identifications enter only through supported_singular_class, where shortExactHomologyIsoCone occurs at both ends and cancels, so R6's common ε(n) is 1. exists_named: the hypothesis holds for some β for every y; exists_named_ne_zero: every nonzero β gives a nonzero instance (with supportedEquivPair_supportedClass_ne_zero, on every smooth projective X). Kernel type checking about 76 s for the file, 31 s for the main theorem (maxHeartbeats 1000000). Red team docs/sketches/supported-pair-named.redteam.md."
     },
     {
       "id": "supported-pullback-named",
