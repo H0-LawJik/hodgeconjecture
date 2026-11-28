@@ -656,6 +656,80 @@
       "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C5. Needed to compute f^* on winding classes. Ψ is a three-step composite. Failed so far: nothing (new). Size: medium to large."
     },
     {
+      "id": "circle-arc-cover",
+      "title": "The circle cover: U₀ = {↑0}ᶜ and V₀ = {↑(1/2)}ᶜ in AddCircle (1 : ℝ) are open, cover, contractible; U₀ ∩ V₀ is two disjoint open contractible arcs W₁ ∪ W₂ with ↑(1/4) ∈ W₁",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "homology-prod-contractible",
+      "title": "Nonempty (Homology ℚ (TopCat.of (Y × W)) k ≅ Homology ℚ Y k) for a contractible space W, through upstream's singularChainHomotopyEquivOfHomotopyEquiv",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "mayer-vietoris-finrank",
+      "title": "Dimension counts from upstream's singular Mayer–Vietoris (Other.AlgebraicTopology.Singular.MayerVietoris): finrank_homology_succ_add_le and finrank_homology_le_of_disjoint, with degree 0 via HomologicalComplex.epi_homologyMap_of_epi_of_not_rel",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: medium. Kill criterion: if released twice, switch to the Künneth route with one thinker session. Library Other is outside upstream's statement-import guard: drift-check this module at each pin bump."
+    },
+    {
+      "id": "torus-winding-duality",
+      "title": "coordChar, coordWinding, coordTorus on UnitAddTorus (Fin n) and torusEval_coordTorus_cup: ⟨aᵢ ∪ aⱼ, T_kl⟩ = [i = k][j = l] − [i = l][j = k], exact, both orders",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "winding-torus-cup"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "circle-cylinder-homology",
+      "title": "finrank_homology_prod_circle_le: H_{k+1}(Y × S¹; ℚ) is finite-dimensional with dim ≤ b_{k+1}(Y) + b_k(Y) when both are finite",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "circle-arc-cover",
+        "homology-prod-contractible",
+        "mayer-vietoris-finrank"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 2). Failed so far: nothing (new). Size: medium; split if kernel time passes 10 minutes."
+    },
+    {
+      "id": "torus-homology-bound",
+      "title": "finiteDimensional_homology_torus n k and finrank_homology_torus_le n k : finrank ℚ H_k(UnitAddTorus (Fin n); ℚ) ≤ n.choose k",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "circle-cylinder-homology"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 3). Failed so far: nothing (new). Size: small."
+    },
+    {
       "id": "torus-singular-cohomology",
       "title": "Rational singular cohomology of the real torus UnitAddTorus (Fin n) in degrees 1 and 2 (n = 2, 4): H¹ is spanned by the n coordinate winding classes, H² by their pairwise cups, with the dimensions n and n(n−1)/2",
       "status": "open",
@@ -663,11 +737,26 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "winding-torus-cup",
-        "torus-cycle-pairing"
+        "torus-cycle-pairing",
+        "torus-homology-bound",
+        "torus-winding-duality",
+        "winding-torus-cup"
       ],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C6. Known: H*(Tⁿ; ℚ) = ∧*ℚⁿ (Hatcher2002 §3.2, locator unverified). Tau Ceti has H* of the 2-torus and a singular Künneth formula (unverified here). Kill criterion: no stated route (backport or Mayer–Vietoris) after two thinker sessions marks the E × E instance blocked; the reduction stays. Failed so far: nothing (new). Size: large."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C6. Known: H*(Tⁿ; ℚ) = ∧*ℚⁿ (Hatcher2002 §3.2, locator unverified). Tau Ceti has H* of the 2-torus and a singular Künneth formula (unverified here). Kill criterion: no stated route (backport or Mayer–Vietoris) after two thinker sessions marks the E × E instance blocked; the reduction stays. Failed so far: nothing (new). Size: large. Update 2026-11-27: thinker sketch docs/sketches/torus-singular-cohomology.md; route: upper bounds from upstream's singular Mayer–Vietoris and homotopy invariance, lower bounds from torusEval; no Künneth. Stated for all n as LinearIndependent plus span = ⊤ for H¹ (n ≥ 2) and the i < j cups in H²; sub-rungs circle-arc-cover, homology-prod-contractible, mayer-vietoris-finrank, torus-winding-duality, circle-cylinder-homology, torus-homology-bound; consumers reach E through winding-class-pullback."
+    },
+    {
+      "id": "winding-class-pullback",
+      "title": "windingClass_comp, windingClass_mul, rot_pullback_coordWinding (rot^* a₀ = −a₁, rot^* a₁ = a₀) and span_windingClass_of_homeomorph for any Y ≃ₜ Tⁿ, feeding elliptic-curve-cohomology and elliptic-square-cohomology",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "torus-singular-cohomology"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 5). Failed so far: nothing (new). Size: medium."
     },
     {
       "id": "elliptic-curve-cohomology",
@@ -677,9 +766,10 @@
       "module": null,
       "declarations": [],
       "depends_on": [
-        "torus-singular-cohomology",
         "elliptic-curve-torus-data",
-        "pullback-singular-naturality"
+        "pullback-singular-naturality",
+        "torus-singular-cohomology",
+        "winding-class-pullback"
       ],
       "contributors": [],
       "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C7. The signs of ellipticI^* depend on the orientation of (ω₁, ω₂); the plan uses only (ellipticI^*)² = −1. Failed so far: nothing (new). Size: medium."
@@ -694,8 +784,9 @@
       "depends_on": [
         "elliptic-curve-cohomology",
         "elliptic-square-witness",
+        "pullback-functorial",
         "torus-singular-cohomology",
-        "pullback-functorial"
+        "winding-class-pullback"
       ],
       "contributors": [],
       "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C8. Discharges the rank and span hypotheses of weil-surface-reduction at E × E. Failed so far: nothing (new). Size: medium."
