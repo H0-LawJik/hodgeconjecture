@@ -1701,15 +1701,29 @@
     {
       "id": "filtered-one-injective",
       "title": "Surjectivity of deRhamToHolomorphicFunctionCohomology X 0 implies filteredToDeRhamCohomology X 1 1 is injective (the connecting map in firstFiltrationShortComplex_shortExact vanishes)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.FilteredOneInjective",
+      "declarations": [
+        "CategoryTheory.Pretriangulated.Triangle.shifted_coyoneda_injective₁",
+        "HodgeLadder.filteredToDeRhamCohomology_one_one_injective",
+        "HodgeLadder.filteredOneOneEquivHodgeFiltration",
+        "HodgeLadder.filteredOneOneEquivHodgeFiltration_apply",
+        "HodgeLadder.filteredOneOneEquivHodgeFiltrationComplexSubmodule",
+        "HodgeLadder.filteredOneOneEquivHodgeFiltrationComplexSubmodule_apply",
+        "HodgeLadder.Tests.smoothOfRelativeDimension_point",
+        "HodgeLadder.Tests.dim_point",
+        "HodgeLadder.Tests.isIso_holomorphicDeRhamToFunctionsComplexInt_point",
+        "HodgeLadder.Tests.deRhamToHolomorphicFunctionCohomology_point_surjective",
+        "HodgeLadder.Tests.filteredToDeRhamCohomology_point_injective"
+      ],
       "depends_on": [
         "chern-classes-are-hodge"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S2b). Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S2b). From Functor.homologySequence_exact₁ and comp_homologySequenceδ for preadditiveCoyoneda of ℤ[0] on the triangle of firstFiltrationShortComplex_shortExact: a class of ℍ¹(F¹Ω•) killed in H_dR^1 is δ of a class of ℍ⁰(𝒪[0]), which by the hypothesis is the image of ℍ⁰(Ω•), and δ vanishes there. General step: Triangle.shifted_coyoneda_injective₁ (HodgeLadder.General.TriangleShiftedHom). Corollary: ℍ¹(X; F¹Ω•) ≃+ F¹ H_dR^1(X) (both the AddSubgroup hodgeFiltration X 1 1 and the submodule), pinned to filteredToDeRhamCohomology X 1 1 by rfl. No sign: only δ = 0 is used. Nonvacuity: the hypothesis holds at Spec ℂ, where Ω• → 𝒪[0] is an isomorphism of complexes (Ω^p = 0 for p > dim = 0); there the conclusion is degenerate, F¹Ω• being zero (HodgeLadder.Tests.deRhamToHolomorphicFunctionCohomology_point_surjective). In positive dimension S2a de-rham-functions-surjective-zero (open) supplies it on compact X(ℂ). Red team: pass with changes."
     },
     {
       "id": "curve-one-form-class",
