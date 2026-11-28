@@ -82,7 +82,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Mostaed2026` | A. Mostaed, McMullen's curve, the Weil locus, and the Hodge conjecture for abelian sixfolds, arXiv:2603.20268 (preprint) | research program toward abelian sixfolds; proves no case |
 | `Mukai1981` | S. Mukai, Duality between D(X) and D(X̂) with its application to Picard sheaves, Nagoya Math. J. 81 (1981) | Fourier–Mukai transform on abelian varieties |
 | `Mumford1968` | D. Mumford, Rational equivalence of 0-cycles on surfaces, J. Math. Kyoto Univ. 9 (1968) | CH_0 infinite dimensional |
-| `Mumford1970` | D. Mumford, Abelian Varieties, Tata Institute of Fundamental Research and Oxford University Press 1970; 2nd ed. 1974 | analytic model ℂ^g/Λ, dual abelian variety, Pic⁰, Poincaré bundle |
+| `Mumford1970` | D. Mumford, Abelian Varieties, Tata Institute of Fundamental Research and Oxford University Press 1970; 2nd ed. 1974 | analytic model ℂ^g/Λ, dual abelian variety, Pic⁰, Poincaré bundle; cohomology ring of a complex torus, H*(X; ℤ) ≅ ∧*H¹ (§1, locator unverified) |
 | `Murre1977` | J. P. Murre, On the Hodge conjecture for unirational fourfolds, Indag. Math. 80 (1977) | unirational fourfolds |
 | `Orlov2002` | D. Orlov, Derived categories of coherent sheaves on abelian varieties and equivalences between them, Izv. Math. 66 (2002) | derived equivalences of abelian varieties; Spin(V)-equivariance |
 | `PatelZhang2025` | D. Patel, Y. Zhang, Algebraicity of Hodge classes on some generalized Prym varieties, arXiv:2506.13729 (v2 2026-05-23); J. Algebra 712 (2027) 101–122, doi:10.1016/j.jalgebra.2026.07.007 (from Crossref) | Schoen's cycles on Prym varieties through geometric class field theory |

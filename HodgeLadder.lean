@@ -220,6 +220,7 @@ public import HodgeLadder.Tests.DeRhamPullbackP1p1
 public import HodgeLadder.Weil.Space
 public import HodgeLadder.Weil.Algebraic
 public import HodgeLadder.Weil.Surface.Statement
+public import HodgeLadder.Weil.Surface.Reduction
 public import HodgeLadder.Tests.WeilSpace
 public import HodgeLadder.Segre.General
 public import HodgeLadder.Cup.WindingPullback
