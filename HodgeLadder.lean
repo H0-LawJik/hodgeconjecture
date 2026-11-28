@@ -203,3 +203,5 @@ public import HodgeLadder.Torus.Winding.Duality
 public import HodgeLadder.General.ProjQuotient
 public import HodgeLadder.General.Hypersurface
 public import HodgeLadder.Tests.EllipticCurve
+public import HodgeLadder.Pullback.Functorial
+public import HodgeLadder.Tests.PullbackFunctorial

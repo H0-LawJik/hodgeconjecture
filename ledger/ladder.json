@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-27",
+  "updated": "2026-11-28",
   "project": "hodgeconjecture",
   "repo": "H0-LawJik/hodgeconjecture",
   "toolchain": {
@@ -383,15 +383,70 @@
     {
       "id": "pullback-functorial",
       "title": "Pullback on H^*(X; ℚ) is functorial and ℚ-linear: pullbackCoh (g ≫ h) = pullbackCoh g ∘ pullbackCoh h, pullbackCoh (𝟙 X) = id, bundled as pullbackCohLinear",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Pullback.Functorial",
+      "declarations": [
+        "HodgeLadder.Pullback.pullbackCoh_comp",
+        "HodgeLadder.Pullback.pullbackCoh_id",
+        "HodgeLadder.Pullback.pullbackCohLinear",
+        "HodgeLadder.Pullback.pullbackCohLinear_apply",
+        "HodgeLadder.Pullback.pullbackCohLinear_comp",
+        "HodgeLadder.Pullback.pullbackCohLinear_id",
+        "HodgeLadder.Pullback.pullbackCoh_injective_of_section",
+        "HodgeLadder.Pullback.pullbackH_comp",
+        "HodgeLadder.Pullback.pullbackH_id",
+        "HodgeLadder.Pullback.pullbackQComp",
+        "HodgeLadder.Pullback.pullbackQId",
+        "HodgeLadder.Pullback.pullbackQX_comp",
+        "HodgeLadder.Pullback.pullbackQX_id",
+        "HodgeLadder.Pullback.conjExt_pullbackQ_comp",
+        "HodgeLadder.Pullback.conjExt_pullbackQ_id",
+        "HodgeLadder.Pullback.isoConj",
+        "HodgeLadder.Pullback.isoConj_trans",
+        "HodgeLadder.Pullback.isoConj_refl",
+        "HodgeLadder.Pullback.conjExt_eq_isoConj",
+        "HodgeLadder.Pullback.mapExactFunctor_natIso",
+        "HodgeLadder.Pullback.conjExt_natIso",
+        "HodgeLadder.Pullback.conjExt_comp_functor",
+        "HodgeLadder.Pullback.conjExt_id_functor",
+        "HodgeLadder.Pullback.conjExt_eq_of_comp_iso",
+        "HodgeLadder.Pullback.conjExt_eq_of_id_iso",
+        "HodgeLadder.Pullback.leftAdjointUniq_hom_app_eq",
+        "HodgeLadder.Pullback.leftAdjointUniq_comp_triangle",
+        "HodgeLadder.Pullback.leftAdjointUniq_id_triangle",
+        "HodgeLadder.Pullback.sheafPullbackComp",
+        "HodgeLadder.Pullback.sheafPullbackId",
+        "HodgeLadder.Pullback.pullbackCoh_comm"
+      ],
       "depends_on": [
         "cup-pullback"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A1. T1 input: every computation of f^* on a product (f ≫ prod.fst = prod.fst ≫ i). The checked rung cup-pullback has no composition or identity law and no ℚ-linear bundling. Failed so far: nothing (new). The work is TopCat.Sheaf.pullback along a composite and the uniqueness of the left adjoint behind pullbackQX. Size: small to medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. For g : X ⟶ Y and h : Y ⟶ Z over Spec ℂ, pullbackCoh (g ≫ h) n α = pullbackCoh g n (pullbackCoh h n α) and pullbackCoh (𝟙 X) n α = α, exact, no sign, no scalar; pullbackCohLinear g n : H^n(X; ℚ) →ₗ[ℚ] H^n(X'; ℚ) bundles pullbackCoh with upstream's ℚ-structure fieldCohomologyModule ℚ (rfl), with _comp and _id. Space level: pullbackH_comp, pullbackH_id for continuous maps of TopCat.{0}. Route: conjExt is invariant under a natural iso of exact functors and compatible with composition of functors (Mathlib Ext.comp_mapExactFunctor, Ext.mapExactFunctor_comp_mk₀_natTransApp); (f₁ ≫ f₂)⁻¹ ≅ f₂⁻¹ ⋙ f₁⁻¹ and (𝟙 X)⁻¹ ≅ 𝟭 by leftAdjointUniq, with pullbackQX_comp and pullbackQX_id from the abstract triangle lemmas. With pullbackH_eq_pullbackConst this makes the port's H.pullback followed by f⁻¹ℚ_X ≅ ℚ_Y functorial for coefficients ℚ. Kernel cost about 7 to 25 s per declaration mentioning pullbackCohLinear (docs/gaps.md, Known weaknesses). Non-vacuity in pullback-functorial-test. Red team docs/sketches/pullback-functorial.redteam.md. Also: sheafPullbackComp and sheafPullbackId, the composition and identity isos of TopCat.Sheaf.pullback for any coefficient category (pullbackQComp and pullbackQId are their instances at ModuleCat ℚ, for reuse by supported-pullback-functorial at AddCommGrpCat), and pullbackCoh_comm, pullback along a commutative square f ≫ g = f' ≫ g'."
+    },
+    {
+      "id": "pullback-functorial-test",
+      "title": "Non-vacuity of pullback-functorial: prod.fst^* : H^n(ℙ¹; ℚ) → H^n(ℙ¹ × ℙ¹; ℚ) is injective through the section prod.lift (𝟙) ∞, and the pullback of the point class [∞] ∈ H²(ℙ¹; ℚ) is nonzero",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.PullbackFunctorial",
+      "declarations": [
+        "HodgeLadder.Tests.p1p1_pullbackCoh_fst_injective",
+        "HodgeLadder.Tests.p1p1_pullbackCoh_fst_class_ne_zero",
+        "HodgeLadder.Tests.pullbackCoh_fieldScalar"
+      ],
+      "depends_on": [
+        "pullback-functorial",
+        "projective-line-class-nonzero",
+        "p1p1-fibres-transversal"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Uses both laws (s^* ∘ p^* = (s ≫ p)^* = id) and rules out zero groups and the zero map in degree 2. It pins injectivity only; the first value test of a pullback in positive degree is fibre-class-pullback (pr₁^*[∞] = [{∞} × ℙ¹]). pullbackCoh_fieldScalar pins the ℚ-structure of pullbackCohLinear against upstream's scalar action Sheaf.H.map (fieldScalarSheaf ℚ X q)."
     },
     {
       "id": "weil-eigen-algebra",
