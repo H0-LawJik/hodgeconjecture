@@ -1,0 +1,117 @@
+# Red team: `weil-surface-statement`
+
+Date: 2026-11-28. Candidate: WIP commit `9e42400` on `track/weil-surface-statement`, file `HodgeLadder/Weil/Surface/Statement.lean` (module `HodgeLadder.Weil.Surface.Statement`, namespace `HodgeLadder.Weil`, 24 declarations), root-imported from `HodgeLadder.lean`. Base `7715b27` (`main`); pin upstream `2ead713`, Lean and Mathlib `v4.35.0-rc4`, identical `lakefile.toml` on base and branch.
+
+Read: the ledger entries `weil-surface-statement`, `weil-space`, `weil-surface-reduction`, `weil-elliptic-square`, `weil-elliptic-square-nonzero`, `abelian-surface-uniformization`; plan `docs/notes/2026-11-27-t1-plan.md` §§1, 4 (G1, B, F1, F2, G2, G3), 6; decision 0013; `docs/notes/2026-11-25-markman-inventory.md` (T1 row and its correction); `docs/sketches/weil-space.redteam.md`; `docs/conventions.md` rows "Weil space", "Hodge filtration", "Discriminant of an abelian variety of Weil type", "Complex structure on H_dR", "Pullback on de Rham cohomology", "Complex multiplication on E"; upstream `HodgeConjecture/Variants.lean`, `Definitions/Topology/Dimension/Basic.lean` (`dim`), `Definitions/AlgebraicGeometry/Hodge/Filtration.lean` (`DeRhamHypercohomology`, `hodgeFiltration`, `hodgeFiltrationComplexSubmodule`); this repository's `HodgeLadder/Weil/{Space,Algebraic}.lean`, `HodgeLadder/Hodge/DeRhamPullback.lean`, `HodgeLadder/Pullback/Functorial.lean` (`pullbackCohLinear`), `HodgeLadder/General/EigenProducts.lean`; `docs/references.md` keys `Weil1977`, `vanGeemen1994`, `vanGeemen1996`, `Markman2023`, `Mumford1970`.
+
+Scratch: `rt-wss-scratch/` in the worktree (`Probe.lean`, `Rank.lean`, `Ax.lean`), each run with `lake env lean` against the built `.olean`; deleted after the pass. Every Lean claim marked "scratch" below elaborated there.
+
+**Verdict: pass with changes.** `WeilClassesAlgebraicSurface` is T1 for every complex abelian surface of Weil type, on upstream's abelian-variety binder (instance term identical to upstream's), with the sign −d right, the root choice provably immaterial, and every hypothesis load-bearing. It is at least as strong as the literature statement: it quantifies over all morphisms `A ⟶ A` and does not assume `finrank F¹H¹_dR = 2` or a compatible polarization, and on a genuine abelian surface each of these extra generalities is equivalent to the literature form. The domain has no known element at the pin, and the planned first instance `weil-elliptic-square` does not supply one, since no rung gives `E × E` a `GrpObj` instance; the module docstring says otherwise and must be corrected. The other changes are ledger, gaps and conventions rows. No change to any statement is required.
+
+## Findings
+
+1. **Fidelity: the statement is T1.** Literature ([Weil1977]; [vanGeemen1994] §5; locators unverified): A a complex abelian surface, K = ℚ(√−d) ⊂ End⁰(A) with d > 0, K acting on H^{1,0}(A) with signature (1, 1) (each embedding once); W_K = ∧²_K H¹(A; ℚ) ⊂ H²(A; ℚ), two-dimensional over ℚ, consists of Hodge classes, hence (Lefschetz (1,1)) of algebraic classes. Field by field against `9e42400`:
+
+   | Field | Literature | Lean | Match |
+   |---|---|---|---|
+   | abelian surface | projective connected group variety of dimension 2 over ℂ | `A : Over (Spec ↧ℂ)`, `[IsIntegral A.left] [Smooth A.hom] [IsProjective A.hom] [GrpObj A]`, `dim A.left = 2` | yes. The binder is upstream's abelian-variety binder from `HodgeConjectureForAbelianVarieties` and `…InDimensionLE` ("an abelian variety over ℂ is an integral smooth projective group object over Spec ℂ"). Scratch: the `GrpObj` binder of both `WeilClassesAlgebraicSurface` and `HodgeConjectureForAbelianVarieties` elaborates, with `pp.explicit`, to `@GrpObj (Over (Spec (CommRingCat.of ℂ))) instCategoryOver (instCartesianMonoidalCategoryOverScheme (Spec (CommRingCat.of ℂ))) A`, the same term; and `fun A _ _ _ _ hA => h A hA.le 1` type-checks for `h : HodgeConjectureForAbelianVarietiesInDimensionLE 2`, so T1's binder feeds upstream's statement with no coercion |
+   | dimension | 2 | upstream's `TopologicalSpace.dim A.left = 2`, `((topologicalKrullDim _).unbotD 0).toNat` of the Zariski space | yes; the same spelling as upstream's `dim X.left ≤ n`. The `toNat` sends infinite Krull dimension to 0, so `= 2` excludes it. Load-bearing (finding 3) |
+   | K-action | K = ℚ(√−d) ⊂ End⁰(A) | one `f : A ⟶ A` with `(f^*)² = −d` on `H¹(A; ℚ)`, `f^* = Cup.pullbackCoh f 1` | yes, see finding 2 |
+   | Weil type | signature (1, 1) on H^{1,0} | `IsBalanced (F^1 H_dR^1(A)) (deRhamPullback f 1) (weilRoot d)` | yes on every abelian surface, see finding 4 |
+   | W_K | ∧²_K H¹, complexification ∧²V₊ ⊕ ∧²V₋ | `weilSpace A f d`, the −d-eigenspace of `pullbackCohLinear f 2` on `H²(A; ℚ)`, `d` cast ℕ → ℚ (scratch: `weilSpace A f d = weilSpace A f ((d : ℚ))` by `rfl`) | yes for surfaces, checked in `weil-space` (red team there, finding 1) |
+   | conclusion | W_K consists of algebraic classes | `weilSpace A f d ≤ algebraicCycleClassSpan A 1` | yes; the Hodge form `≤ Hdg^1(A; ℚ)` is equivalent by `weilClassesAlgebraicSurface_iff_hodge`, through the checked Lefschetz (1,1) equality |
+   | polarization | some sources add a polarization E with E(kx, ky) = N(k) E(x, y) (needed for the discriminant) | absent | harmless: the Hodge-class argument (plan §1) uses only the signature, so dropping the polarization makes the Lean statement stronger and it stays true |
+
+   T1 is not stated upstream (no Weil-class definition in `Variants.lean` at `2ead713`), so the rung restates nothing of record. `IsWeilTypeSurface` is a `Prop` on upstream objects, no interface structure (decision 0003).
+
+2. **One morphism encodes K exactly, and `f` need not be a homomorphism.**
+   - `(f^*)² = −d` on H¹ is equivalent to f² = [−d] for a homomorphism f. Pullback is contravariant, (h ∘ h)^* = h^* ∘ h^*, and [m]^* = m on H¹. The rational representation End(A) → End(H¹(A; ℤ)) is injective ([Mumford1970] §1, locator unverified), so (h^*)² = −d on H¹ holds exactly when h² = [−d] in End(A). Then ℚ[h] ≅ ℚ(√−d) ⊂ End⁰(A). Conversely every K ⊂ End⁰(A) contains some m√−d ∈ End(A), with square −m²d; the statement covers it at `d = m² d₀`, and the Weil space is unchanged (`∧²(mφ) = m² ∧²φ`; conventions row "Weil space").
+   - `f` ranges over all morphisms `A ⟶ A` in `Over (Spec ↧ℂ)`, homomorphisms or not. By rigidity ([Mumford1970] §4, locator unverified) every such f is t_a ∘ h with h a homomorphism and t_a a translation; t_a is homotopic to the identity on the path-connected A(ℂ), so f^* = h^* on H¹, H² and H_dR. The statement with all morphisms is the same statement as with homomorphisms, and truth is unchanged. `Over (Spec ↧ℂ)` excludes non-ℂ-linear scheme maps (field automorphisms of ℂ), which would be wrong to include. The docstrings say "endomorphism" without saying this; change 2 adds one sentence.
+   - `d : ℕ` with no squarefree condition: correct, as above. `0 < d` keeps K a field; −d is not a square in ℚ for d > 0.
+
+3. **Every hypothesis is load-bearing.**
+   - `0 < d`: scratch shows `weilRoot 0 = 0` and `IsBalanced F 0 (weilRoot 0)` for any `F ≠ ⊥`. Mathematically, without `0 < d` a constant map f (f^* = 0 in positive degree, as it factors through a point) with d = 0 satisfies conditions 2 and 3, and `weilSpace A f 0 = ker 0 = H²(A; ℚ)`, which contains classes with a nonzero H^{2,0} component on every abelian surface; the statement would be false.
+   - `dim A.left = 2`: in dimension 1 balance fails (F¹H¹ is a line and balance needs two independent vectors, `IsBalanced.exists_linearIndependent`). In dimension 3 with signature (2, 1), V₊ ∩ H^{1,0} is a plane and ∧²V₊ ⊂ W meets H^{2,0}; the eigenspace definition of W is the surface one (row "Weil space"), so without the dimension hypothesis the statement would be false.
+   - Balance: signature (2, 0) makes W ⊗ ℂ = H^{2,0} ⊕ H^{0,2} (plan §1), so W ≠ 0 and W ∩ Hdg^1 = 0. The model check `not_isBalanced_model_two_zero` confirms balance rejects the (2, 0) configuration; the model is a genuine weight-one Hodge structure (F ⊕ conj F = ℂ⁴ in both models, computed in this pass).
+   - `[GrpObj A]`: without it the statement would quantify over all smooth projective surfaces with an f satisfying conditions 1 to 3, where H² ≠ ∧²H¹ in general and the −d-eigenspace can contain transcendental classes. Not tested here; it is in any case the literature hypothesis.
+
+4. **Balance is signature (1, 1) on every abelian surface, and the `≠ ⊥` form is the stronger statement.** Upstream's `F^1 H_dR^1(A)` is the image of ℍ¹(F¹Ω•) → ℍ¹(Ω•), which is H⁰(Ω¹) = H^{1,0}, of dimension 2 on an abelian surface (literature, unchecked at the pin). New in this pass, scratch `Rank.lean`, compiled:
+
+   ```lean
+   theorem IsBalanced.finrank_inf_eq_one {V : Type*} [AddCommGroup V] [Module ℂ V]
+       {F : Submodule ℂ V} {φ : V →ₗ[ℂ] V} {c : ℂ} [FiniteDimensional ℂ F]
+       (h : IsBalanced F φ c) (hc : c ≠ 0) (hF : Module.finrank ℂ F = 2) :
+       Module.finrank ℂ (F ⊓ LinearMap.ker (φ - c • LinearMap.id) : Submodule ℂ V) = 1 ∧
+       Module.finrank ℂ (F ⊓ LinearMap.ker (φ + c • LinearMap.id) : Submodule ℂ V) = 1
+   ```
+
+   (proof: the two intersections are disjoint by `disjoint_ker_sub_smul_ker_add_smul`, each has positive rank by balance, and their sup lies in F; `omega`). So with finrank F¹ = 2, balance gives two lines whose sum is F¹, and this needs no f-stability of F¹ (the open rung `hodge-filtration-pullback`). A finrank form of the hypothesis (each intersection of rank 1, or finrank F¹ = 2 as a further hypothesis) adds hypotheses and so weakens the statement; on genuine abelian surfaces it is equivalent. Keep the `≠ ⊥` form. Balance can hold with F of the wrong dimension (scratch: `F = ⊤` is balanced in the model, and balance is monotone in F), which would matter only if upstream's `F^1` were not H^{1,0}; that is a property of the statement of record, recorded in row "Hodge filtration" (proper on ℙ² in degrees 2 and 4), and affects every Hodge-class statement equally.
+
+5. **Not trivially true.** Attempts (scratch `Probe.lean`): after `intro A _ _ _ _ hA f d hW` and unfolding `IsWeilTypeSurface` and `IsBalanced`, `simp at hb1` only rewrites `≠` to `¬ … = ⊥` and leaves the goal `weilSpace A f ↑d ≤ algebraicCycleClassSpan A 1`; `exact bot_le` fails; `simp` fails; `exact le_top` runs out of heartbeats at `whnf`. No definition unfolds to `True`; `dim` is a `ℕ`, no `ℕ∞` coercion; no empty index type. A Lean-level contradiction in the hypotheses would need `H¹(A; ℚ) = 0` or `F¹H¹_dR(A) = ⊥` for every abelian surface, which is false mathematically (b₁ = 4), and nothing at the pin proves either. In the abstract model the three conditions hold together (`modelEndo_modelEndo` at d = 1, `isBalanced_model_one_one`).
+
+6. **Not trivially false.** The only known failure modes of the inclusion are signature (2, 0), d = 0, the sign +d and dimension ≠ 2, each excluded (findings 3, 7). The Hodge-class argument (plan §1) applies to every A, f, d meeting the hypotheses: V₊ splits along the f-stable H^{1,0} ⊕ H^{0,1} into a line a ∈ H^{1,0} and a line b ∈ H^{0,1} = conj(V₋ ∩ H^{1,0}), so ∧²V₊ = ℂ(a ∧ b) ⊂ H^{1,1}, and likewise for V₋. No discriminant enters: for n = 1 every Weil-type surface has W_K Hodge, whatever the discriminant (change 6).
+
+7. **Signs and normalizations.** Each convention the statement uses:
+
+   | Convention | Where fixed | Truth depends on it? | Status |
+   |---|---|---|---|
+   | eigenvalue −d on H² | `weilSpace`, row "Weil space" | yes: with +d the space is V₊ ∧ V₋, which contains a₊ ∧ a₋ spanning H^{2,0} on a balanced surface, and T1 is false | pinned by `weilSpace_id_one`, `projectiveLine_weilSpace_id_neg_one_ne_bot` |
+   | `(f^*)² = −(d : ℚ)` on H¹ | condition 2 | yes, as the meaning of d; consistent with `weilRoot_sq : (i√d)² = −d` and with `IsWeilTypeSurface.deRhamPullback_sq` (the ℂ-extension satisfies the same square) | checked in the file |
+   | root `weilRoot d = Complex.I * ↑(Real.sqrt ↑d)` | this rung | no: `isBalanced_neg_iff` (balance at −c is balance at c) | checked |
+   | pullback direction (f^* against f_*) | row "Pullback of cohomology" | no: f^* on H^{1,0} is the transpose of df on T₀A, same eigenvalues with multiplicity; on H², f_* = d²(f^*)⁻¹ has the same eigenspaces (red team `weil-space`) | recorded |
+   | ℂ-action on H_dR | upstream `deRhamHypercohomologyComplexModule`, row "Complex structure on H_dR" | no for balance: a conjugated action swaps V₊ and V₋, and balance is symmetric | recorded |
+   | `deRhamPullback` as the ℂ-extension of the rational pullback | row "Pullback on de Rham cohomology" | no for truth: the ℂ-extension of f^* through the natural comparison is the pullback of forms mathematically; the Lean identification is the open `de-rham-hypercohomology-pullback`, which the statement does not need | recorded |
+   | `F^1 H_dR^1` | upstream `hodgeFiltrationComplexSubmodule 1 1`, row "Hodge filtration" | yes: balance is read against it; finding 4 | recorded |
+   | discriminant | row "Discriminant of an abelian variety of Weil type" | no for T1 (finding 6) | row says "to check before any Weil-class rung", names T1; change 6 |
+
+   No new instance, attribute, notation or `set_option` in the file (grep: none). The degree casts (`H_dR^1` with `1 : ℤ` from `F^1 H_dR^1(A)` against `H_dR^(↑(1 : ℕ))` from `deRhamPullback f 1`) unify as elaborated; they agree definitionally.
+
+8. **Equality first (decision 0004).** T1 is an inclusion in the literature. On a surface it is equivalent to `weilSpace ≤ Hdg^1` through the checked equality `lefschetzOneOneEquality_holds` (`weilSpace_le_algebraic_iff_le_hodge`), so its whole content is the inclusion `weilSpace ≤ Hdg^1` of a rational subspace in the Hodge classes; the equality it serves is `Hdg^1 = algebraicCycleClassSpan 1` (`lefschetz-1-1-equality`, checked), and its use on the ladder is the Weil-class route toward T3 and T4. The companion identity that rules out a vacuous inclusion is `finrank ℚ (weilSpace A f d) = 2`; it exists as the instance test `weil-elliptic-square-nonzero` (open) and has no general rung (optional change O2).
+
+9. **Non-vacuity at the pin, and the instance.** The pin has no abelian surface and no X with b₁ ≠ 0, so no `A` meeting the hypotheses is known. The smallest test that would fail if the hypotheses were contradictory is
+
+   ```lean
+   example : ∃ (A : Over (Spec ↧ℂ)) (_ : IsIntegral A.left) (_ : Smooth A.hom)
+       (_ : IsProjective A.hom) (_ : GrpObj A) (f : A ⟶ A) (d : ℕ),
+       dim A.left = 2 ∧ IsWeilTypeSurface A f d
+   ```
+
+   It does not exist and no rung plans it. The planned first instance `weil-elliptic-square` (open) targets the conclusion for `Tests.ellipticSquare` directly and would establish `IsWeilTypeSurface Tests.ellipticSquare Tests.ellipticWeilEndo 1` as a step (plan F1), but no rung gives E or E × E a `GrpObj` instance (grep of plan and ledger: none; the group law on E as a scheme morphism is large). So F1 is no instance of `WeilClassesAlgebraicSurface`, and the module docstring's "The first instance is `weil-elliptic-square`" overstates it (change 1). Before F1 the closest checked guard is the abstract model and `not_isWeilTypeSurface_id`.
+
+10. **Checker, axioms, declarations.** `python3 tools/check.py --no-build` exits 0 on the branch (`ACCEPTED: all checks passed`), without covering this rung, since the ledger names no declaration yet. Scratch `Ax.lean`: `#print axioms` on `WeilClassesAlgebraicSurface`, `WeilClassesHodgeSurface`, `weilClassesAlgebraicSurface_iff_hodge`, `isWeilTypeSurface_iff`, `IsWeilTypeSurface.deRhamPullback_sq`, `.isCompl`, `.exists_linearIndependent`, `not_isWeilTypeSurface_id`, `isBalanced_model_one_one`, `not_isBalanced_model_two_zero`, `isBalanced_neg_iff`, `weilRoot_sq` gives `[propext, Classical.choice, Quot.sound]` for each. No `sorry`, `native_decide` or `axiom` in the file.
+
+11. **Pin drift.** None: `weil-space`, `de-rham-pullback`, `weil-eigen-algebra` and this candidate are all at upstream `2ead713`; the definitions read (`dim`, `GrpObj` binder, `hodgeFiltrationComplexSubmodule`, `DeRhamHypercohomology`) are the ones at that commit.
+
+12. **Placement and bookkeeping.**
+    - The file uses `isCompl_ker_sub_smul_ker_add_smul` (rung `weil-eigen-algebra`) and imports `HodgeLadder.General.EigenProducts`; the ledger's `depends_on` lists only `weil-space`, `de-rham-pullback` (change 3).
+    - `disjoint_ker_sub_smul_ker_add_smul`, `IsBalanced`, `isBalanced_neg_iff`, `IsBalanced.exists_linearIndependent`, `not_isBalanced_id` are general linear algebra over ℂ, with no gaps row (decision 0011; change 4). The first restates a case of Mathlib's `Module.End.disjoint_genEigenspace` (present at the pin, `LinearAlgebra/Eigenspace/Basic.lean:650`), which the docstring already says.
+    - Ledger entry still `open`, `module: null`, `declarations: []` (change 3).
+    - The model docstring and the module docstring are otherwise accurate: the eigenvectors listed for `modelEndo` were recomputed in this pass.
+
+## Required changes
+
+1. Module docstring, section "Checks, and what cannot be checked at the pin": replace the sentence "The first instance is `weil-elliptic-square` (`E × E`, `f = [i] × [i]⁻¹`, `d = 1`)." by: "The first instance of the conclusion is planned as `weil-elliptic-square` (`E × E`, `f = [i] × [i]⁻¹`, `d = 1`), which also establishes `IsWeilTypeSurface` for that pair; it instantiates `WeilClassesAlgebraicSurface` only once `E × E` carries a `GrpObj` instance, and no rung supplies one."
+
+2. Docstring of `WeilClassesAlgebraicSurface`, after "every endomorphism `f` of Weil type for `d`": add the sentence "Here `f` is any morphism `A ⟶ A` over `Spec ℂ`; by rigidity ([Mumford1970] §4, locator unverified) it is a homomorphism followed by a translation, and translations act trivially on cohomology, so this is the statement for homomorphisms. With `f` a homomorphism, `(f^*)² = −d` on `H¹` is `f² = [−d]` in `End(A)`, by faithfulness of the rational representation."
+
+3. `ledger/ladder.json`, rung `weil-surface-statement`: `status` `stated`; `module` `HodgeLadder.Weil.Surface.Statement`; `declarations` at least `HodgeLadder.Weil.IsBalanced`, `HodgeLadder.Weil.weilRoot`, `HodgeLadder.Weil.IsWeilTypeSurface`, `HodgeLadder.Weil.WeilClassesAlgebraicSurface`, `HodgeLadder.Weil.WeilClassesHodgeSurface`, `HodgeLadder.Weil.weilClassesAlgebraicSurface_iff_hodge`, `HodgeLadder.Weil.isWeilTypeSurface_iff`, `HodgeLadder.Weil.isBalanced_neg_iff`, `HodgeLadder.Weil.weilRoot_sq`, `HodgeLadder.Weil.IsWeilTypeSurface.deRhamPullback_sq`, `HodgeLadder.Weil.IsWeilTypeSurface.isCompl`, `HodgeLadder.Weil.IsWeilTypeSurface.exists_linearIndependent`, `HodgeLadder.Weil.not_isWeilTypeSurface_id`, `HodgeLadder.Weil.isBalanced_model_one_one`, `HodgeLadder.Weil.not_isBalanced_model_two_zero`; add `weil-eigen-algebra` to `depends_on`; note: "Stated 2026-11-28. T1 on upstream's abelian-variety binder ([GrpObj A], instance term identical to HodgeConjectureForAbelianVarieties), dim A.left = 2, any f : A ⟶ A with (f^*)² = −d on H¹ and F¹H¹_dR balanced against ker (deRhamPullback f 1 ∓ i√d); open. Every hypothesis load-bearing (d = 0 with a constant map, signature (2, 0), dimension 3 each falsify the inclusion). No element of the domain is known at the pin; weil-elliptic-square gives IsWeilTypeSurface on E × E without a GrpObj instance. Red team docs/sketches/weil-surface-statement.redteam.md."
+
+4. `docs/gaps.md`, "Linear algebra: eigenspaces" table, new row: "| `HodgeLadder.Weil.disjoint_ker_sub_smul_ker_add_smul` (for `c ≠ 0` over ℂ, `ker (φ − c • id)` and `ker (φ + c • id)` are disjoint), `IsBalanced`, `isBalanced_neg_iff`, `IsBalanced.exists_linearIndependent`, `not_isBalanced_id` | `HodgeLadder.Weil.Surface.Statement` | (from `python3 tools/pinwalk.py`) | the first is a kernel-form case of Mathlib's `Module.End.disjoint_genEigenspace`; the balance predicate has no Mathlib counterpart; rung `weil-surface-statement` | 2026-11-28 |".
+
+5. `docs/conventions.md`, new row after "Weil space": "| Weil type (balance) and the root i√d | this repository, `HodgeLadder.Weil.IsBalanced`, `weilRoot`, `IsWeilTypeSurface`, `isBalanced_neg_iff` (`HodgeLadder/Weil/Surface/Statement.lean`, rung `weil-surface-statement`); upstream `hodgeFiltrationComplexSubmodule 1 1` | `IsWeilTypeSurface A f d := 0 < d ∧ (∀ x : H¹(A; ℚ), f^* (f^* x) = −d • x) ∧ IsBalanced (F^1 H_dR^1(A)) (deRhamPullback f 1) (i√d)`, balance being `F ⊓ ker (φ − c) ≠ ⊥ ∧ F ⊓ ker (φ + c) ≠ ⊥`; `weilRoot d = Complex.I * ↑(Real.sqrt ↑d)`, `(i√d)² = −d`; `d : ℕ`, not necessarily squarefree; with `finrank F¹H¹_dR = 2` (abelian surfaces, literature) balance is signature (1, 1) with each intersection a line, and no f-stability of F¹ is needed | none for the root (`isBalanced_neg_iff`), the pullback direction or a conjugated ℂ-action (each swaps V₊ and V₋); T1 depends on `0 < d` (d = 0 with a constant map makes the Weil space all of H²) and on balance (signature (2, 0) gives W ⊗ ℂ = H^{2,0} ⊕ H^{0,2}) | root invariance and the (1, 1) against (2, 0) model checked in the file; finrank form checked in scratch (red team 2026-11-28, `docs/sketches/weil-surface-statement.redteam.md`) |".
+
+6. `docs/conventions.md`, row "Discriminant of an abelian variety of Weil type", column "Results whose truth depends on it": replace "the inventory's T1 to T3" by "the inventory's T2 and T3 (T1, `weil-surface-statement`, has no discriminant hypothesis: on a surface of Weil type W_K is Hodge for every discriminant, red team 2026-11-28)".
+
+7. `docs/conventions.md`, row "Weil space", column "Status": append "; used with `d : ℕ` cast to ℚ in `WeilClassesAlgebraicSurface`, `weilSpace A f d = weilSpace A f ((d : ℚ))` by `rfl` (red team 2026-11-28, `weil-surface-statement`)".
+
+## Optional changes
+
+- O1. Add `IsBalanced.finrank_inf_eq_one` (finding 4, text above, compiled in scratch) to the Checks section, with the docstring "With `finrank F = 2` and `c ≠ 0`, balance is signature `(1, 1)`: each intersection is a line. On an abelian surface `F¹H¹_dR` has rank 2 (literature), so `IsWeilTypeSurface` is the signature-(1, 1) condition."
+- O2. New rung (test, open), `weil-elliptic-square-grpobj`: a `GrpObj Tests.ellipticSquare` instance and the existential of finding 9 at `Tests.ellipticSquare`, `Tests.ellipticWeilEndo`, `1`. It is the first non-vacuity witness for the domain of `WeilClassesAlgebraicSurface`; size large (the group law on E as a morphism of schemes). Also consider a reduction-form rank rung: under the rank and span hypotheses of `weil-surface-reduction`, `finrank ℚ (weilSpace A f d) = 2`, which would show that B's inclusion holds on a nonzero space wherever its hypotheses hold.
+- O3. Move `disjoint_ker_sub_smul_ker_add_smul` to `HodgeLadder.General.EigenProducts` (any field, `2 * c ≠ 0`) beside `isCompl_ker_sub_smul_ker_add_smul`, so the statement file holds only Weil-specific declarations.
+
+## Attempts that failed
+
+- A short proof of `WeilClassesAlgebraicSurface` by `simp`, `exact bot_le`, `exact le_top` (heartbeat timeout at `whnf`), and by deriving `False` from the unfolded hypotheses (`simp at hb1` makes no contradiction). All fail, as they should.
+- A Lean-level refutation of `IsWeilTypeSurface` on a general `A`: no lemma at the pin forces `H¹(A; ℚ) = 0` or `F¹H¹_dR(A) = ⊥`; `not_isWeilTypeSurface_id` covers the identity only.
+- An instance-mismatch between this file's `[GrpObj A]` and upstream's: none (finding 1).

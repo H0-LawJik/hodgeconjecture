@@ -26,6 +26,8 @@ Mathlib only; no sign conventions enter.
   `W`, the products `B (e i) (e j)` span `W` (the span hypothesis in the form the theorems take).
 * `HodgeLadder.isCompl_ker_sub_smul_ker_add_smul`: if `T (T x) = (s * s) • x` with `s ≠ 0` and
   `2 ≠ 0` in `K`, then `V` is the direct sum of the `s`- and `-s`-eigenspaces of `T`.
+* `HodgeLadder.disjoint_ker_sub_smul_ker_add_smul`: for `s ≠ 0` and `2 ≠ 0`, the `s`- and
+  `-s`-eigenspaces of any `T` are disjoint.
 * `HodgeLadder.EigenProductExample.apply_zero_zero_of_mem_ker`: the inclusion applied in the
   example; `HodgeLadder.EigenProductExample.not_ker_le_span_without_hspan`: the span hypothesis
   cannot be dropped.
@@ -155,6 +157,24 @@ theorem isCompl_ker_sub_smul_ker_add_smul {K V : Type*} [Field K] [AddCommGroup 
         LinearMap.id_apply, map_smul, map_sub, hT]
       rw [show s • (T x + s • x) - ((s * s) • x + s • T x) = 0 by
         rw [smul_add, mul_smul]; abel, smul_zero]
+
+/-- **Disjoint `±s`-eigenspaces.** Over a field with `2 ≠ 0`, for `s ≠ 0` the kernels of
+`T - s • id` and `T + s • id` are disjoint: a common vector satisfies `(2 * s) • x = 0`. A
+kernel-form case of Mathlib's `Module.End.disjoint_genEigenspace`, with no hypothesis on `T`;
+the disjoint half of `isCompl_ker_sub_smul_ker_add_smul`. -/
+theorem disjoint_ker_sub_smul_ker_add_smul {K V : Type*} [Field K] [AddCommGroup V]
+    [Module K V] (T : V →ₗ[K] V) {s : K} (hs : s ≠ 0) (h2 : (2 : K) ≠ 0) :
+    Disjoint (LinearMap.ker (T - s • LinearMap.id)) (LinearMap.ker (T + s • LinearMap.id)) := by
+  rw [Submodule.disjoint_def]
+  intro x h₁ h₂
+  rw [LinearMap.mem_ker] at h₁ h₂
+  have h : (2 * s) • x =
+      (T + s • LinearMap.id : V →ₗ[K] V) x - (T - s • LinearMap.id : V →ₗ[K] V) x := by
+    simp only [LinearMap.add_apply, LinearMap.sub_apply, LinearMap.smul_apply,
+      LinearMap.id_apply, two_mul, add_smul]
+    abel
+  rw [h₁, h₂, sub_zero] at h
+  exact (smul_eq_zero.mp h).resolve_left (mul_ne_zero h2 hs)
 
 namespace EigenProductExample
 
