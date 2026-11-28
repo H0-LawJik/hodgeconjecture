@@ -4027,20 +4027,33 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "Checked 2026-11-27. Existence from H₃(ℙ²(ℂ) ∖ pt; ℚ) = 0, uniqueness from H₄(ℙ²(ℂ) ∖ pt; ℚ) = 0: sheaf vanishing (p2-point-class-nonzero, cycle-class-sign-test-p2), carried to singular cohomology of the open by upstream's support-⊤ transport complexSupportInjectiveSectionCohomologyEquiv (vanishing only, so no scalar matters), universal coefficients over ℚ, and the homology sequence of the pair. No sign enters. μ is the literature's [ℙ²] for the complex orientation given row \"Complex orientation of ℂ^p\"; with deg [pt] = 1 this gives Ψ [pt] = PD(pt) exactly. The scalars of [L₀], [L₁] against the line class still satisfy only c₀ · c₁ = 1: a uniform (−1)^p in codimension p is invisible; naturality under the coordinate swap would give c₀ = c₁ = ±1, and the sign needs [L] evaluated on a fundamental class of a line or the divisor–Chern identity against c₁(𝒪(1)). Not proved: that μ restricts to complexLocalOrientation at every other point (not needed for the one-point reading; rung p2-fundamental-class-every-point). The rung module HodgeLadder.Tests.ProjectivePlaneFundamental holds the existence half (exists_restrict_complexLocalOrientation) and does not import CycleClassSignTestP2; the module named here imports both and holds the ∃! form and the degree corollaries. Red team: docs/sketches/p2-fundamental-class.redteam.md, pass with changes A to H. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Checked 2026-11-27. Existence from H₃(ℙ²(ℂ) ∖ pt; ℚ) = 0, uniqueness from H₄(ℙ²(ℂ) ∖ pt; ℚ) = 0: sheaf vanishing (p2-point-class-nonzero, cycle-class-sign-test-p2), carried to singular cohomology of the open by upstream's support-⊤ transport complexSupportInjectiveSectionCohomologyEquiv (vanishing only, so no scalar matters), universal coefficients over ℚ, and the homology sequence of the pair. No sign enters. μ is the literature's [ℙ²] for the complex orientation given row \"Complex orientation of ℂ^p\"; with deg [pt] = 1 this gives Ψ [pt] = PD(pt) exactly. The scalars of [L₀], [L₁] against the line class still satisfy only c₀ · c₁ = 1: a uniform (−1)^p in codimension p is invisible; naturality under the coordinate swap would give c₀ = c₁ = ±1, and the sign needs [L] evaluated on a fundamental class of a line or the divisor–Chern identity against c₁(𝒪(1)). That μ restricts to complexLocalOrientation at every other point is rung p2-fundamental-class-every-point (checked). The rung module HodgeLadder.Tests.ProjectivePlaneFundamental holds the existence half (exists_restrict_complexLocalOrientation) and does not import CycleClassSignTestP2; the module named here imports both and holds the ∃! form and the degree corollaries. Red team: docs/sketches/p2-fundamental-class.redteam.md, pass with changes A to H. Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "p2-fundamental-class-every-point",
       "title": "For every y ∈ ℙ²(ℂ), the image of the fundamental class μ of p2-fundamental-class in H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ y; ℚ) is complexLocalOrientation projectivePlane 2 y",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.ProjectivePlaneFundamentalEveryPoint",
+      "declarations": [
+        "HodgeLadder.Tests.existsUnique_forall_restrict_complexLocalOrientation",
+        "HodgeLadder.Tests.relativeHomologyProjection_eq_complexLocalOrientation_of_planeOrigin",
+        "HodgeLadder.Tests.complexLocalOrientation_ne_neg",
+        "HodgeLadder.LocalOrientation.homologySheafStalkIso_germ_section",
+        "HodgeLadder.LocalOrientation.eventually_restrict_eq_smul",
+        "HodgeLadder.LocalOrientation.exists_eq_smul_complexLocalOrientation",
+        "HodgeLadder.LocalOrientation.smul_complexLocalOrientation_injective",
+        "HodgeLadder.LocalOrientation.restrict_top_eq_complexLocalOrientation",
+        "HodgeLadder.LocalOrientation.relativeHomologyProjection_pointComplementPair_eq",
+        "HodgeLadder.LocalOrientation.relativeHomologyProjection_eq_complexLocalOrientation_of_eq"
+      ],
       "depends_on": [
         "p2-fundamental-class"
       ],
-      "contributors": [],
-      "note": "Proposed by the red team of p2-fundamental-class (change H). Route: the set of good points is open and closed, and ℙ²(ℂ) is connected. On upstream's chart neighborhood N = complexLocalOrientationNeighborhood projectivePlane 2 y, μ and complexLocalOrientationNeighborhoodClass both live in H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ N; ℚ), and the second restricts to complexLocalOrientation at every z ∈ N (complexLocalOrientationNeighborhoodClass_restrict); if that group maps injectively to H₄(ℙ²(ℂ), ℙ²(ℂ) ∖ z; ℚ) for every z ∈ N, μ is good at one point of N exactly when it is good at all of them. That injectivity is not at the pin in this form. It tests upstream's coherence and the full literature definition; it cannot change any sign on ℙ², since H⁴ is one-dimensional and the degree is pinned by one value."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Exactly one μ ∈ H₄(ℙ²(ℂ); ℚ) restricts to complexLocalOrientation projectivePlane 2 y at every y (Hatcher's definition of the fundamental class of an orientation); any μ restricting to it at [0 : 0 : 1] does. Route: a relative class on an open U gives a section of upstream's singular homology sheaf whose germ at z is its restriction to H(X, X ∖ z) (relativeHomologyToHomologySheafSection_germ); comparing germs with upstream's complexLocalOrientationNeighborhoodClass makes the coefficient against the orientation locally constant (TopCat.Presheaf.germ_eq), hence constant on connected ℙ²(ℂ), and 1 at [0 : 0 : 1]. No sign or scalar: the coefficient is 1 at every point. A chart-change flip would contradict upstream's checked coherence localClassOfChart_localChart_eq (holomorphic transitions); a uniform fault in the orientation of ℂ² is invisible here and carried by row \"Complex orientation of ℂ^p\". General lemmas in HodgeLadder.General.LocalOrientation, for any smooth X with X(ℂ) Hausdorff and preconnected. Red team: docs/sketches/p2-fundamental-class-every-point.redteam.md, pass with changes 1 to 6."
     },
     {
       "id": "complex-points-prod",
