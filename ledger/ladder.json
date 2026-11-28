@@ -488,18 +488,50 @@
     {
       "id": "de-rham-pullback",
       "title": "deRhamPullback g n : H_dR^n(Y) →ₗ[ℂ] H_dR^n(X), the ℂ-linear extension of pullbackCoh through deRhamBaseChangeEquiv, compatible with ι, deRhamCup, deRhamConj, composition and identity",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.DeRhamPullback",
+      "declarations": [
+        "HodgeLadder.deRhamPullback",
+        "HodgeLadder.deRhamPullback_fieldToDeRhamCohomology",
+        "HodgeLadder.deRhamPullback_unique",
+        "HodgeLadder.deRhamPullback_comp",
+        "HodgeLadder.deRhamPullback_id",
+        "HodgeLadder.deRhamPullback_injective_of_section",
+        "HodgeLadder.deRhamPullback_cupBilinear",
+        "HodgeLadder.deRhamPullback_cup",
+        "HodgeLadder.deRhamPullback_conj"
+      ],
       "depends_on": [
         "pullback-functorial",
         "de-rham-rational-base-change",
         "de-rham-rational-span",
         "de-rham-cup"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node A5. Smooth projective integral X, Y. Defined from rational classes, so it carries no information about forms; that F^p is preserved is the separate rung hodge-filtration-pullback. Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. For g : X ⟶ Y between smooth projective integral X, Y over Spec ℂ, deRhamPullback g n : H_dR^n(Y) →ₗ[ℂ] H_dR^n(X) is deRhamBaseChangeEquiv X n ∘ (pullbackCohLinear g n).baseChange ℂ ∘ (deRhamBaseChangeEquiv Y n)⁻¹, defined from rational classes, so it carries no information about forms (agreement with a pullback of forms is de-rham-hypercohomology-pullback; F^p is hodge-filtration-pullback). Laws, all exact with no sign and no scalar: deRhamPullback g n (ι α) = ι (pullbackCoh g n α); (g ≫ h)^* = g^* ∘ₗ h^*; (𝟙 X)^* = id; the cup law for a + b = n in ℕ, bundled as (deRhamCupBilinear Y a b n _).compr₂ g^* = (deRhamCupBilinear X a b n _).compl₁₂ g^* g^* and pointwise as g^* (deRhamCup x y n _) = deRhamCup (g^* x) (g^* y) n _ (degree proofs (a : ℤ) + b = n by lia); deRhamConj X n (g^* x) = g^* (deRhamConj Y n x). Route: the ι law from deRhamBaseChangeEquiv_tmul at 1 ⊗ α; the rest on ι-images (pullbackCoh_comp, pullbackCoh_id, Cup.pullbackCoh_cup with fieldToDeRhamCohomology_cup, deRhamConj_fieldToDeRhamCohomology) extended by span_range_fieldToDeRhamCohomology_rat and LinearMap.ext_on (semilinear for conjugation, via deRhamConjSemilinear). Also deRhamPullback_injective_of_section: p^* is injective when s ≫ p = 𝟙. Non-vacuity in de-rham-pullback-test. Uniqueness: deRhamPullback_unique, a ℂ-linear map sending ι α to ι (pullbackCoh g n α) is deRhamPullback g n (the step de-rham-hypercohomology-pullback closes through). Kernel cost: about 27 s for the definition, 37 s for the ι law, 14 s for uniqueness, 3 to 10 s for each other law; a consumer-side Module ℚ shortcut instance does not reduce it (docs/gaps.md, Known weaknesses). Red team docs/sketches/de-rham-pullback.redteam.md, pass with changes."
+    },
+    {
+      "id": "de-rham-pullback-test",
+      "title": "Non-vacuity of de-rham-pullback: along prod.fst : ℙ¹ × ℙ¹ ⟶ ℙ¹, deRhamPullback is injective in every degree through the section fibreSectionSnd, and deRhamPullback prod.fst 2 (ι [∞]) ≠ 0",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.DeRhamPullbackP1p1",
+      "declarations": [
+        "HodgeLadder.Tests.p1p1_deRhamPullback_fst_class_ne_zero",
+        "HodgeLadder.Tests.p1p1_deRhamPullback_fst_injective"
+      ],
+      "depends_on": [
+        "de-rham-pullback",
+        "pullback-functorial-test",
+        "de-rham-injective"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. p1p1_deRhamPullback_fst_class_ne_zero: deRhamPullback (prod.fst : p1p1 ⟶ projectiveLine) (2 * 1) (ι [∞]) ≠ 0, from deRhamPullback_fieldToDeRhamCohomology, fieldToDeRhamCohomology_rat_injective and p1p1_pullbackCoh_fst_class_ne_zero; so deRhamPullback is nonzero on a non-identity morphism and H²_dR(ℙ¹ × ℙ¹) is nontrivial. p1p1_deRhamPullback_fst_injective: injective in every degree n by deRhamPullback_injective_of_section with fibreSectionSnd = prod.lift (𝟙 _) constInfty, which exercises deRhamPullback_comp and deRhamPullback_id on a non-identity morphism. Split from de-rham-pullback on the red team's optional change 2 (docs/sketches/de-rham-pullback.redteam.md)."
     },
     {
       "id": "weil-surface-statement",

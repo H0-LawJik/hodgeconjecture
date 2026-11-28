@@ -212,3 +212,5 @@ public import HodgeLadder.Tests.PullbackFunctorial
 public import HodgeLadder.Supported.SingularCochainPullback
 public import HodgeLadder.General.ProjQuotientMap
 public import HodgeLadder.Tests.EllipticCurveCM
+public import HodgeLadder.Hodge.DeRhamPullback
+public import HodgeLadder.Tests.DeRhamPullbackP1p1
