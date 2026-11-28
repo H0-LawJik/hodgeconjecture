@@ -227,7 +227,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `circle-arc-cover` | foundation | checked | none | two contractible arcs cover S¹, overlap two disjoint arcs, ↑(1/4) in the overlap (torus sketch); `HodgeLadder.General.CircleArcs` |
 | `homology-prod-contractible` | foundation | checked | none | H_k(Y × W) ≅ H_k(Y) for contractible W, forward map the projection, inverse the section y ↦ (y, w₀), exact, no sign; also H_k of a homeomorphism; `HodgeLadder.General.HomologyProdContractible` |
 | `mayer-vietoris-finrank` | foundation | checked | none | exact Mayer–Vietoris count with finite dimension; disjoint covers as an equivalence in every degree |
-| `torus-winding-duality` | foundation | open | `winding-torus-cup` | ⟨aᵢ ∪ aⱼ, T_kl⟩ = [i = k][j = l] − [i = l][j = k] on Tⁿ |
+| `torus-winding-duality` | foundation | checked | `winding-torus-cup` | ⟨aᵢ ⌣ aⱼ, T_kl⟩ = [i = k][j = l] − [i = l][j = k] on Tⁿ, singular cup `cupSing`, exact, k ≠ l |
 | `circle-cylinder-homology` | foundation | open | `circle-arc-cover`, `homology-prod-contractible`, `mayer-vietoris-finrank` | b_{k+1}(Y × S¹) ≤ b_{k+1}(Y) + b_k(Y) |
 | `torus-homology-bound` | foundation | open | `circle-cylinder-homology` | b_k(Tⁿ) ≤ n.choose k, finite-dimensional |
 | `torus-singular-cohomology` | foundation | open | `winding-torus-cup`, `torus-cycle-pairing`, `torus-homology-bound`, `torus-winding-duality` | upper bound: homotopy invariance and a Künneth or Mayer–Vietoris step Y × S¹; lower bound: the torus pairing of winding-torus-cup on coordinate 2-tori; size large; `docs/notes/2026-11-27-t1-plan.md` |
