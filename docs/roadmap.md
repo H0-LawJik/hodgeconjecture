@@ -225,7 +225,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `elliptic-curve-torus-data` | foundation | open | `elliptic-curve-uniformization` | T(s, t) = Φ (s ω₁ + t ω₂); gₖ = exp(2πi · coordinate of Φ⁻¹ in the basis ω₁, ω₂); size small; `docs/notes/2026-11-27-t1-plan.md` |
 | `pullback-singular-naturality` | foundation | open | `pullback-functorial`, `cup-singular-comparison-absolute` | naturality of each step of Ψ (singular cochain resolution, flasque model, Ext bridge) under the inverse image along a continuous map; size medium; `docs/notes/2026-11-27-t1-plan.md` |
 | `circle-arc-cover` | foundation | checked | none | two contractible arcs cover S¹, overlap two disjoint arcs, ↑(1/4) in the overlap (torus sketch); `HodgeLadder.General.CircleArcs` |
-| `homology-prod-contractible` | foundation | open | none | H_k(Y × W) ≅ H_k(Y) for contractible W |
+| `homology-prod-contractible` | foundation | checked | none | H_k(Y × W) ≅ H_k(Y) for contractible W, forward map the projection, inverse the section y ↦ (y, w₀), exact, no sign; also H_k of a homeomorphism; `HodgeLadder.General.HomologyProdContractible` |
 | `mayer-vietoris-finrank` | foundation | open | none | dimension counts from upstream's singular Mayer–Vietoris |
 | `torus-winding-duality` | foundation | open | `winding-torus-cup` | ⟨aᵢ ∪ aⱼ, T_kl⟩ = [i = k][j = l] − [i = l][j = k] on Tⁿ |
 | `circle-cylinder-homology` | foundation | open | `circle-arc-cover`, `homology-prod-contractible`, `mayer-vietoris-finrank` | b_{k+1}(Y × S¹) ≤ b_{k+1}(Y) + b_k(Y) |

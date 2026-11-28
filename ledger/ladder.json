@@ -696,13 +696,34 @@
     {
       "id": "homology-prod-contractible",
       "title": "Nonempty (Homology ℚ (TopCat.of (Y × W)) k ≅ Homology ℚ Y k) for a contractible space W, through upstream's singularChainHomotopyEquivOfHomotopyEquiv",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.General.HomologyProdContractible",
+      "declarations": [
+        "HodgeLadder.homotopic_of_contractibleSpace",
+        "HodgeLadder.prodFst",
+        "HodgeLadder.prodSection",
+        "HodgeLadder.prodContractibleHomotopyEquiv",
+        "HodgeLadder.homologyProdContractibleIso",
+        "HodgeLadder.homologyProdContractibleIso_hom",
+        "HodgeLadder.homologyProdContractibleIso_inv",
+        "HodgeLadder.homologyProdContractibleEquiv",
+        "HodgeLadder.homologyProdContractibleEquiv_toLinearMap",
+        "HodgeLadder.homologyProdContractibleEquiv_symm_toLinearMap",
+        "HodgeLadder.homologyMap_prodFst_comp_prodSection",
+        "HodgeLadder.homologyMap_prodSection_comp_prodFst",
+        "HodgeLadder.homologyMap_prodFst_bijective",
+        "HodgeLadder.homologyMap_prodSection_bijective",
+        "HodgeLadder.homologyIsoOfHomeomorph",
+        "HodgeLadder.homologyIsoOfHomeomorph_hom",
+        "HodgeLadder.nonempty_homology_prod_contractible_iso",
+        "HodgeLadder.finrank_homology_zero_point_prod"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Sketch: docs/sketches/torus-singular-cohomology.md (order 1, step 2). For W contractible and w₀ : W, nonempty_homology_prod_contractible_iso: Nonempty (Homology ℚ (TopCat.of (Y × W)) k ≅ Homology ℚ Y k), Y : TopCat.{0}; the explicit iso homologyProdContractibleIso Y W R w₀ k (any commutative R, any universe u) is HomotopyEquiv.toHomologyIso of upstream's singularChainHomotopyEquivOfHomotopyEquiv on prodContractibleHomotopyEquiv (pr₁ with inverse y ↦ (y, w₀)); its hom is homologyMap R k (prodFst Y W) and its inv homologyMap R k (prodSection Y W w₀), both rfl. Composition laws: pr₁ ∘ section = id with no contractibility; section ∘ pr₁ = id for contractible W. Exact, no sign. Nonvacuity: finrank_homology_zero_point_prod, dim H_0(pt × W; ℚ) = 1. Also homologyIsoOfHomeomorph: H_k(A; R) ≅ H_k(B; R) for A ≃ₜ B, forward map homologyMap of the homeomorphism by rfl (red-team R1, for circle-cylinder-homology). With circle-arc-cover and mayer-vietoris-finrank the overlap bound of circle-cylinder-homology was closed in red-team scratch, through Homeomorph.Set.prod and TopCat.isoOfHomeo. Red team: docs/sketches/homology-prod-contractible.redteam.md, pass with changes. General, kept local (decision 0011); about 3 s to elaborate."
     },
     {
       "id": "mayer-vietoris-finrank",
