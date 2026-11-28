@@ -229,3 +229,5 @@ public import HodgeLadder.Tests.EllipticCurveWitness
 public import HodgeLadder.General.GeometricallyIntegralCover
 public import HodgeLadder.Tests.EllipticSquareWitness
 public import HodgeLadder.Supported.PullbackNamed
+public import HodgeLadder.General.QuotAlgHom
+public import HodgeLadder.Tests.EllipticCurvePoints

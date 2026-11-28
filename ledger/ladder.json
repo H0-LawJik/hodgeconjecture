@@ -954,15 +954,58 @@
     {
       "id": "elliptic-curve-points",
       "title": "Complex points of the plane cubic in charts: the opens z ≠ 0 and y ≠ 0 of ellipticCurve(ℂ) are homeomorphic to {(x, y) ∈ ℂ² : y² = x³ − x} and {(u, w) ∈ ℂ² : w = u³ − uw²}, covering it, with the transition (x, y) ↦ (x/y, 1/y)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.EllipticCurvePoints",
+      "declarations": [
+        "HodgeLadder.QuotAlgHom.zeroSet",
+        "HodgeLadder.QuotAlgHom.quotAlgHomOfZero_mk",
+        "HodgeLadder.QuotAlgHom.quotAlgHomHomeomorph",
+        "HodgeLadder.Tests.chartOpen",
+        "HodgeLadder.Tests.chartOverIso",
+        "HodgeLadder.Tests.chartHomeomorph",
+        "HodgeLadder.Tests.chartHomeomorph_symm_apply",
+        "HodgeLadder.Tests.chartComplexPoint_mem_chartOpen_iff",
+        "HodgeLadder.Tests.chartOpen_two_sup_one",
+        "HodgeLadder.Tests.chartComplexPoint_dehomogenizeVec_eq",
+        "HodgeLadder.Tests.affineCurve",
+        "HodgeLadder.Tests.infinityCurve",
+        "HodgeLadder.Tests.ellipticAffineOpen",
+        "HodgeLadder.Tests.ellipticInfinityOpen",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph",
+        "HodgeLadder.Tests.ellipticInfinityHomeomorph",
+        "HodgeLadder.Tests.affinePoint",
+        "HodgeLadder.Tests.infinityPoint",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph_symm_apply",
+        "HodgeLadder.Tests.ellipticInfinityHomeomorph_symm_apply",
+        "HodgeLadder.Tests.eq_affinePoint",
+        "HodgeLadder.Tests.eq_infinityPoint",
+        "HodgeLadder.Tests.ellipticAffineOpen_sup_ellipticInfinityOpen",
+        "HodgeLadder.Tests.affinePoint_eq_infinityPoint",
+        "HodgeLadder.Tests.infinityPoint_eq_affinePoint",
+        "HodgeLadder.Tests.mem_ellipticInfinityOpen_iff",
+        "HodgeLadder.Tests.ellipticInfinityHomeomorph_of_mem",
+        "HodgeLadder.Tests.mem_ellipticAffineOpen_iff",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph_of_mem",
+        "HodgeLadder.Tests.compl_ellipticAffineOpen",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph_origin",
+        "HodgeLadder.Tests.ellipticInfinityHomeomorph_infinity",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph_twoTorsionPos",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph_twoTorsionNeg",
+        "HodgeLadder.Tests.ellipticAffineHomeomorph_chartMeet",
+        "HodgeLadder.Tests.ellipticInfinityHomeomorph_chartMeet",
+        "HodgeLadder.Tests.ellipticCurveInfinity_not_mem_ellipticAffineOpen",
+        "HodgeLadder.Tests.ellipticCurveOrigin_not_mem_ellipticInfinityOpen",
+        "HodgeLadder.Tests.isOpenEmbedding_affinePoint",
+        "HodgeLadder.Tests.isOpenEmbedding_infinityPoint"
+      ],
       "depends_on": [
         "plane-cubic-subscheme"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C0. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted in chart form). Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Plan: docs/notes/2026-11-27-t1-plan.md, node C0. Each chart homeomorphism is upstream's openHomeomorph (inverse), isoMapHomeomorph of chartOverIso (Hypersurface.chartIso over Spec ℂ), affineSpecHomeomorph and the general quotAlgHomHomeomorph ((ℂ[Y] ⧸ (f) →ₐ[ℂ] ℂ) ≃ₜ {v : f(v) = 0}, pointwise convergence against the subspace topology of ℂⁿ; HodgeLadder.General.QuotAlgHom), then Homeomorph.finTwoArrow; pinned by its inverse, (x, y) ↦ chartComplexPoint 2 ![x, y] = [x : y : 1] and (u, w) ↦ [u : 1 : w]. The cover from ellipticCurve_chart_cover; the transition (x, y) ↦ (x/y, 1/y) on y ≠ 0 and (u, w) ↦ (u/w, 1/w) on w ≠ 0, read in ℙ² through the port's chart_base_evalPoint_eq and upstream's underlying_injective_of_locallyOfFiniteType (library Other, Other/AlgebraicGeometry/ComplexPoint/ClosedImmersion.lean; on the drift list); the complement of z ≠ 0 is {[0 : 1 : 0]}. Tests: the origin, (±1, 0) and (i, 1 − i) in z ≠ 0, [0 : 1 : 0] = (0, 0) in y ≠ 0, (i, 1 − i) ↦ ((−1 + i)/2, (1 + i)/2). For C3: (℘, ℘'/2) lies on y² = x³ − x when g₂ = 4, g₃ = 0. No sign. Red team: pass with changes (docs/sketches/elliptic-curve-points.redteam.md)."
     },
     {
       "id": "weierstrass-lattice-i",
@@ -1001,7 +1044,7 @@
         "elliptic-curve-witness"
       ],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C3. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted for the specific cubic). Known: Silverman2009 ch. VI (locators unverified). Failed so far: nothing (new). Size: medium."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C3. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted for the specific cubic). Known: Silverman2009 ch. VI (locators unverified). Failed so far: nothing (new). Size: medium. Needs CompactSpace (ℂ ⧸ L.lattice.toAddSubgroup), not inferred at the pin (route: Mathlib's IsZLattice.isCompact_range_of_periodic), and ℘/℘' → 0, 1/℘' → 0 at Λ for continuity in the chart y ≠ 0 (red team of elliptic-curve-points, finding 10)."
     },
     {
       "id": "elliptic-curve-torus-data",
