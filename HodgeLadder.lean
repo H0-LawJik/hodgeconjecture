@@ -12,6 +12,7 @@ public import HodgeLadder.General.Codimension
 public import HodgeLadder.General.LocalOrientation
 public import HodgeLadder.General.SimplicialCochainSpan
 public import HodgeLadder.General.SimplicialCochainSpanProof
+public import HodgeLadder.General.HomologyProdContractible
 public import HodgeLadder.Upstream.Statements
 public import HodgeLadder.CycleClass.Pins
 public import HodgeLadder.CycleClass.Statements

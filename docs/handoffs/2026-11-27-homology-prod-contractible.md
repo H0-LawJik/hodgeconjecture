@@ -1,0 +1,10 @@
+# 2026-11-27 homology-prod-contractible (order 1 of torus-singular-cohomology)
+
+- Checked: `HodgeLadder.General.HomologyProdContractible`, layer 0. Rung statement `nonempty_homology_prod_contractible_iso`: `Nonempty (Homology ℚ (TopCat.of (Y × W)) k ≅ Homology ℚ Y k)` for `Y : TopCat.{0}` and contractible `W : Type`.
+- The explicit iso `homologyProdContractibleIso Y W R w₀ k` works for any commutative `R` in any universe. It is `HomotopyEquiv.toHomologyIso` of upstream's `singularChainHomotopyEquivOfHomotopyEquiv` on `prodContractibleHomotopyEquiv` (projection, with the section `y ↦ (y, w₀)` as inverse). Its `hom` is `homologyMap R k (prodFst Y W)` and its `inv` is `homologyMap R k (prodSection Y W w₀)`, both `rfl`. Exact, no sign.
+- Composition laws: `homologyMap_prodFst_comp_prodSection` holds with no contractibility (the composite of spaces is `𝟙 Y`); `homologyMap_prodSection_comp_prodFst` uses contractibility. Both induced maps are bijective.
+- The homotopy `(y, w) ↦ (y, w₀) ≃ id` comes from `homotopic_of_contractibleSpace` (any two maps into a contractible space are homotopic), stated at `{X W : Type*}`. It factors both maps through `W → Unit → W`.
+- Nonvacuity: `finrank_homology_zero_point_prod`, dim H_0(pt × W; ℚ) = 1, through Mathlib's `singularHomologyFunctorZeroOfTotallyDisconnectedSpace` and `coproductUniqueIso`.
+- Red team (`docs/sketches/homology-prod-contractible.redteam.md`): pass with changes. Applied A (ledger), B (gaps row and diff list), C (conventions row), R1 (`homologyIsoOfHomeomorph` with its `rfl` `_hom` lemma), R2 (`Type*`), R3 (`prodFst` docstring) and R4 (`Hatcher2002` locator, marked unverified).
+- Cost: the file elaborates in about 4 s; `tools/check.py` exits 0.
+- Next: `circle-cylinder-homology` can bridge `univ ×ˢ U₀` and the overlap pieces to `Y × W` with `homologyIsoOfHomeomorph`, then apply `homologyProdContractibleIso`. The red team closed the overlap bound this way in scratch, once `circle-arc-cover` and `mayer-vietoris-finrank` land.
