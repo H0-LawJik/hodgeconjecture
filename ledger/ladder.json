@@ -717,29 +717,76 @@
     {
       "id": "elliptic-curve-integral",
       "title": "IsIntegral for HodgeLadder.Tests.ellipticCurve.left: ℂ[x, y]/(y² − x³ + x) is a domain and the chart z ≠ 0 is dense",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.EllipticCurveIntegral",
+      "declarations": [
+        "HodgeLadder.Tests.isIntegral_ellipticCurve",
+        "HodgeLadder.Tests.isIntegral_ellipticCurveScheme",
+        "HodgeLadder.Tests.isReduced_ellipticCurveScheme",
+        "HodgeLadder.Tests.irreducibleSpace_ellipticCurveScheme",
+        "HodgeLadder.Tests.isDomain_affineChartRing",
+        "HodgeLadder.Tests.isDomain_infinityChartRing",
+        "HodgeLadder.Tests.irreducible_affineEquation",
+        "HodgeLadder.Tests.irreducible_infinityEquation",
+        "HodgeLadder.Tests.isPrime_span_affineEquation",
+        "HodgeLadder.Tests.isPrime_span_infinityEquation",
+        "HodgeLadder.Tests.irreducible_affinePoly",
+        "HodgeLadder.Tests.irreducible_infinityPoly",
+        "HodgeLadder.Tests.bivariateEquiv",
+        "HodgeLadder.Tests.bivariateEquivSwap",
+        "HodgeLadder.Tests.isIntegral_ellipticAffineChart",
+        "HodgeLadder.Tests.isIntegral_ellipticInfinityChart",
+        "HodgeLadder.Tests.ellipticCurveChartMeet_mem_affineChart",
+        "HodgeLadder.Tests.ellipticCurveChartMeet_mem_infinityChart",
+        "HodgeLadder.Tests.dense_ellipticAffineChart",
+        "HodgeLadder.Tests.ellipticAffineChart",
+        "HodgeLadder.Tests.ellipticInfinityChart",
+        "HodgeLadder.Tests.ellipticCurveChartMeet",
+        "HodgeLadder.Tests.eval_chartMeet",
+        "HodgeLadder.Tests.bivariateEquivSwap_affineEquation",
+        "HodgeLadder.Tests.bivariateEquiv_infinityEquation",
+        "HodgeLadder.Tests.sq_ne_X_pow_three_sub_X",
+        "HodgeLadder.Tests.pow_three_sub_X_sq_mul_sub_X_ne_zero"
+      ],
       "depends_on": [
         "plane-cubic-subscheme"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E3. Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Both chart rings are domains: under ℂ[x, y] ≅ ℂ[x][y] (Mathlib's Polynomial.Bivariate.equivMvPolynomial) the affine equation is y² − (x³ − x), monic of degree two with no root (r² = x³ − x forces x ∣ r, then x s² = x² − 1 fails at x = 0); under ℂ[u, w] ≅ ℂ[w][u] the equation at infinity is −(u³ − w² u − w), monic of degree three up to −1 with no root (same check at w = 0); Mathlib's Monic.irreducible_iff_roots_eq_zero_of_degree_le_three over a domain, then irreducible ⇒ prime in the UFD ℂ[X₀, X₁]. Reduced by IsReduced.of_openCover on the two charts; irreducible by irreducibleSpace_of_cover (p2-witness) with the point (i, 1 − i) in both charts. The chart z ≠ 0 is dense (dense_ellipticAffineChart). No sign convention enters the truth; (i, 1 − i) pins the sign of the linear term at build time. The witness assembly (elliptic-curve-witness) elaborates as one-liners: T2Space (ComplexPoint ellipticCurve) by inferInstance, dim = 1 by SmoothOfRelativeDimension.dim_eq, paracompact opens by ComplexPoint.openParacompactSpace. Red team: pass with changes (docs/sketches/elliptic-curve-integral.redteam.md)."
     },
     {
       "id": "elliptic-curve-witness",
       "title": "The plane cubic y²z = x³ − xz² as an object of Over (Spec ↧ℂ) is integral, smooth of relative dimension 1 and projective, with Hausdorff complex points, paracompact opens, dim 1 and a complex point",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.EllipticCurveWitness",
+      "declarations": [
+        "HodgeLadder.Tests.ellipticCurve_witness",
+        "HodgeLadder.Tests.ellipticCurve_t2Space",
+        "HodgeLadder.Tests.ellipticCurve_openParacompactSpace",
+        "HodgeLadder.Tests.dim_ellipticCurve",
+        "HodgeLadder.Tests.relativeDimension_ellipticCurve_eq",
+        "HodgeLadder.Tests.ellipticCurve_complexPoint_nonempty",
+        "HodgeLadder.Tests.hodgeConjecture_ellipticCurve",
+        "HodgeLadder.Tests.lefschetzOneOne_ellipticCurve",
+        "HodgeLadder.Tests.hodge_eq_span_zero_ellipticCurve",
+        "HodgeLadder.Tests.ellipticCurve_fundamentalClass_ne_zero",
+        "HodgeLadder.Tests.ellipticCurveChartMeet_eq_pointI"
+      ],
       "depends_on": [
         "elliptic-curve-smooth",
-        "elliptic-curve-integral"
+        "elliptic-curve-integral",
+        "elliptic-curve-cm",
+        "lefschetz-1-1",
+        "nonvacuity-tests"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E4. Proposed in docs/sketches/cup-odd-degree-test.md §5 (same id, adopted). The first smooth projective X at the pin with b₁ ≠ 0 once elliptic-curve-cohomology lands. Failed so far: nothing; split into plane-cubic-subscheme, elliptic-curve-smooth, elliptic-curve-integral before a prover starts (sketch estimate: two sessions). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Plan: docs/notes/2026-11-27-t1-plan.md, node E4. The four scheme instances at ellipticCurve by inferInstance (isIntegral_ellipticCurve, smoothOfRelativeDimension_ellipticCurve, smooth_ellipticCurve, isProjective_ellipticCurve); T2Space from upstream's IsProjective.complexPoint_t2Space; paracompact opens from upstream's ComplexPoint.openParacompactSpace; dim = 1 and uniqueness of the relative dimension from upstream's SmoothOfRelativeDimension.dim_eq; a complex point (the origin). Upstream's HodgeConjecture specializes at E; the checked Lefschetz (1,1) theorem and the codimension-zero equality hold at E, and the class of E at its generic point is nonzero (upstream's cycleComponentSheafClass_genericPoint_ne_zero). ellipticCurveChartMeet = ellipticCurvePointI by rfl. No sign. Red team: pass (docs/sketches/elliptic-curve-integral.redteam.md)."
     },
     {
       "id": "segre-general",
