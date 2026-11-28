@@ -16,3 +16,4 @@ One decision per file, numbered in order of adoption. Numbers are stable; a supe
 | 0010 | Cycle classes multiply on the singular side; ℙ² is the first test case | 2026-11-26 |
 | 0011 | General lemmas stay in this repository | 2026-11-26 |
 | 0012 | Close the cup-product front: won | 2026-11-27 |
+| 0013 | T1 as a reduction with a first instance on E × E | 2026-11-27 |

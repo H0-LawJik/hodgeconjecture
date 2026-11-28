@@ -81,3 +81,5 @@ The discriminant convention (split means discriminant 1 for fourfolds and −1 f
 | T5 | Moonen–Zarhin reduction: HC for abelian fourfolds follows from algebraicity of Weil classes | Mumford–Tate classification; last |
 
 T1 is the first Markman-directed rung. It is a theorem in the literature, it can be stated on upstream definitions, and it needs nothing beyond the cup-product front and pullback. Its new content is the inclusion of the Weil space in the Hodge classes, which with Lefschetz (1,1) gives algebraicity.
+
+Correction 2026-11-27 (`docs/notes/2026-11-27-t1-plan.md` §6, decision 0013): T1 needs more than the cup-product front and pullback. The inclusion also needs H²(A) spanned by cup products of H¹ classes with b₁ = 4 (gap 2 above), and checking the Weil-type condition on a concrete A needs the Hodge filtration preserved by pullback. The pin has no abelian surface and no X with b₁ ≠ 0. The linear-algebra step is the conditional rung `weil-surface-reduction`; the first instance is E × E with CM by ℤ[i].
