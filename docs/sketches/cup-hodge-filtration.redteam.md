@@ -189,13 +189,13 @@ def deRhamCup {a b : ℤ} (x : H_dR^a(X)) (y : H_dR^b(X)) (n : ℤ) (h : a + b =
 theorem fieldToDeRhamCohomology_cup {a b n : ℕ} (h : a + b = n)
     (α : H^a(X; ℚ)) (β : H^b(X; ℚ)) :
     fieldToDeRhamCohomology ℚ X n (Cup.cup α β n h) =
-      deRhamCup X (fieldToDeRhamCohomology ℚ X a α) (fieldToDeRhamCohomology ℚ X b β) n
+      deRhamCup (fieldToDeRhamCohomology ℚ X a α) (fieldToDeRhamCohomology ℚ X b β) n
         (by omega)
 
 theorem deRhamCup_mem_hodgeFiltration {a b n : ℤ} (h : a + b = n) {p q : ℤ}
     {x : H_dR^a(X)} {y : H_dR^b(X)}
     (hx : x ∈ hodgeFiltration X p a) (hy : y ∈ hodgeFiltration X q b) :
-    deRhamCup X x y n h ∈ hodgeFiltration X (p + q) n
+    deRhamCup x y n h ∈ hodgeFiltration X (p + q) n
 ```
 
    with `deRhamCup_add_left`, `deRhamCup_add_right`, `deRhamCup_smul_left (c : ℂ)`, `deRhamCup_smul_right (c : ℂ)` for upstream's complex structure on `H_dR^*` (`deRham_complex_smul_eq`).
