@@ -1019,15 +1019,102 @@
       "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C1. Mathlib only. Known: g₃(ℤ[i]) = 0, g₂(ℤ[i]) ≠ 0 (Silverman2009 ch. VI, unverified locator). Failed so far: nothing (new). Size: medium."
     },
     {
-      "id": "weierstrass-two-to-one",
-      "title": "℘ is two-to-one on ℂ/Λ: for z, w ∉ Λ, ℘ z = ℘ w ↔ z − w ∈ Λ ∨ z + w ∈ Λ, and ℘ takes every complex value off Λ",
+      "id": "weierstrass-surjective",
+      "title": "weierstrassP_surjOn (L : PeriodPair) (c : ℂ) : ∃ z ∉ L.lattice, L.weierstrassP z = c (by Liouville on (℘ − c)⁻¹)",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C2. Largest analytic gap of the elliptic route (docs/sketches/cup-odd-degree-test.md §5). Kill criterion (inherited from cup-odd-degree-test): released twice without a stated counting sub-rung marks the elliptic route dead, with T1 left at weil-surface-reduction. Failed so far: nothing (new). Size: large."
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 1). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "rect-winding",
+      "title": "rectIntegral (fun p ↦ (p − a)⁻¹) z w = 2πi for a in the open rectangle (z, w), counterclockwise as in Mathlib's integral_boundary_rect_eq_zero_of_differentiableOn",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 2); red team: test the value differs from −2πi. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "rect-argument-principle",
+      "title": "rectIntegral (logDeriv f) z w = 2πi · Σᶠ over the open rectangle of divisor f, for meromorphic f of finite order everywhere, analytic and nonzero on the boundary",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "rect-winding"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 3). Kill criterion: released twice opens a thinker session on the covering fallback (new rung elliptic-curve-covering). Failed so far: nothing (new). Size: medium to large."
+    },
+    {
+      "id": "rect-periodic",
+      "title": "rectIntegral h a (a + 1 + τ.im • I) = 0 when h has periods 1 and τ",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 4). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "lattice-fundamental-rectangle",
+      "title": "For ω₁ = 1, Im ω₂ > 0 and countable S, some fundamental rectangle has boundary missing S + Λ, and every z has a unique lattice shift into the half-open rectangle",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 5). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "period-pair-normalize",
+      "title": "∃ L' μ, μ ≠ 0, L'.ω₁ = 1, 0 < Im L'.ω₂, lattice transport, and ℘_{L'}(μ z) = μ⁻² ℘_L(z)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 6); records the basis swap so C3 inherits no hidden orientation. Failed so far: nothing (new). Size: small to medium."
+    },
+    {
+      "id": "weierstrass-order-sum",
+      "title": "∃ F : Finset ℂ of pairwise incongruent c-points off Λ covering every c-class with Σ_{u ∈ F} divisor (℘ − c) u = 2 (ω₁ = 1, Im ω₂ > 0)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "rect-argument-principle",
+        "rect-periodic",
+        "lattice-fundamental-rectangle"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 7); the stated counting sub-rung the inherited kill criterion asks for. Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "weierstrass-two-to-one",
+      "title": "℘ is two-to-one on ℂ/Λ: for z, w ∉ Λ, ℘ z = ℘ w ↔ z − w ∈ Λ ∨ z + w ∈ Λ, and ℘ takes every complex value off Λ",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "period-pair-normalize",
+        "weierstrass-order-sum",
+        "weierstrass-surjective"
+      ],
+      "contributors": [],
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node C2. Largest analytic gap of the elliptic route (docs/sketches/cup-odd-degree-test.md §5). Kill criterion (inherited from cup-odd-degree-test): released twice without a stated counting sub-rung marks the elliptic route dead, with T1 left at weil-surface-reduction. Failed so far: nothing (new). Size: large. Update 2026-11-28: thinker sketch docs/sketches/weierstrass-two-to-one.md, argument principle on a period rectangle; sub-rungs weierstrass-surjective, rect-winding, rect-argument-principle, rect-periodic, lattice-fundamental-rectangle, period-pair-normalize, weierstrass-order-sum; this rung adds two_le_divisor_of_two_mul_mem and the test ℘(ω₁/2) ≠ ℘(ω₂/2)."
     },
     {
       "id": "elliptic-curve-uniformization",
@@ -1492,6 +1579,98 @@
       "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D4. Known: morphisms induce morphisms of Hodge structures (Voisin2002, locator unverified). Also needed for T2 to T5 and for any concrete Weil-type check. Failed so far: nothing (new). Size: medium."
     },
     {
+      "id": "compact-holomorphic-locally-constant",
+      "title": "Global C^ω functions on compact X(ℂ) are locally constant (MDifferentiable.isLocallyConstant, IsProjective.complexPoint_compactSpace)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S1). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "de-rham-functions-surjective-zero",
+      "title": "deRhamToHolomorphicFunctionCohomology X 0 is surjective under CompactSpace (ComplexPoint X)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "compact-holomorphic-locally-constant",
+        "chern-classes-are-hodge"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S2a). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "filtered-one-injective",
+      "title": "Surjectivity of deRhamToHolomorphicFunctionCohomology X 0 implies filteredToDeRhamCohomology X 1 1 is injective (the connecting map in firstFiltrationShortComplex_shortExact vanishes)",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "chern-classes-are-hodge"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S2b). Failed so far: nothing (new). Size: small."
+    },
+    {
+      "id": "curve-one-form-class",
+      "title": "For dim X.left = 1 (as a hypothesis), an additive map Γ(Ω¹) →+ ℍ¹(X; F¹Ω•) and its injectivity",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S3, long pole). Kill criterion: released twice without a stated replacement ends route (a). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-coordinate-functions",
+      "title": "The chart coordinates x, y, u, w of ellipticCurve as holomorphic functions (regularFunctionsToHolomorphic), with values at the named points, the chart relations and the overlap identities",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-curve-points",
+        "lefschetz-port"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S4). Failed so far: nothing (new). Size: medium."
+    },
+    {
+      "id": "elliptic-omega",
+      "title": "ellipticOmega : the holomorphic 1-form dx/y on E(ℂ), glued from y⁻¹dx, 2(3x²−1)⁻¹dy, −2(1+2uw)⁻¹du on three opens, with its restriction pin and ellipticOmega_ne_zero",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "elliptic-coordinate-functions",
+        "elliptic-curve-witness"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S5); split if released once. Failed so far: nothing (new). Size: medium to large."
+    },
+    {
+      "id": "curve-hodge-filtration-section",
+      "title": "On a compact curve (dim X.left = 1 as a hypothesis), a nonzero global holomorphic 1-form gives F^1 H_dR^1(X) ≠ ⊥",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "de-rham-functions-surjective-zero",
+        "filtered-one-injective",
+        "curve-one-form-class"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/elliptic-curve-holomorphic-form.md (S6). Failed so far: nothing (new). Size: small."
+    },
+    {
       "id": "elliptic-curve-holomorphic-form",
       "title": "F^1 H_dR^1(ellipticCurve) ≠ ⊥",
       "status": "open",
@@ -1499,11 +1678,13 @@
       "module": null,
       "declarations": [],
       "depends_on": [
+        "curve-hodge-filtration-section",
+        "elliptic-curve-points",
         "elliptic-curve-witness",
-        "elliptic-curve-points"
+        "elliptic-omega"
       ],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D5. Kill criterion: neither route stated after two thinker sessions marks the Hodge route of the instance dead. Failed so far: nothing (new). Size: large."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node D5. Kill criterion: neither route stated after two thinker sessions marks the Hodge route of the instance dead. Failed so far: nothing (new). Size: large. Update 2026-11-28: thinker session 1 states route (a) (docs/sketches/elliptic-curve-holomorphic-form.md): no uniformization, b₁ or GAGA; sub-rungs S1 to S6; this rung is the assembly with ellipticOmegaClass_ne_zero. Convention to record: ω = dx/y, [i]^*ω = iω."
     },
     {
       "id": "elliptic-curve-h1-eigen",
