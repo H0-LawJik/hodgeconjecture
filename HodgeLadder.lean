@@ -226,4 +226,6 @@ public import HodgeLadder.Cup.WindingPullback
 public import HodgeLadder.Torus.Singular.Pullback
 public import HodgeLadder.Tests.EllipticCurveIntegral
 public import HodgeLadder.Tests.EllipticCurveWitness
+public import HodgeLadder.General.GeometricallyIntegralCover
+public import HodgeLadder.Tests.EllipticSquareWitness
 public import HodgeLadder.Supported.PullbackNamed
