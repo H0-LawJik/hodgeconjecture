@@ -205,3 +205,4 @@ public import HodgeLadder.General.Hypersurface
 public import HodgeLadder.Tests.EllipticCurve
 public import HodgeLadder.Pullback.Functorial
 public import HodgeLadder.Tests.PullbackFunctorial
+public import HodgeLadder.Supported.SingularCochainPullback

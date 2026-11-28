@@ -5242,15 +5242,40 @@
     {
       "id": "singular-cochain-pullback",
       "title": "Pullback of sheafified singular cochains: singularPullbackSheaf f n : f⁻¹𝒮ⁿ_X ⟶ 𝒮ⁿ_Y, the adjoint of upstream's singularRestrictionSheafComplex along a continuous f, commuting with the coboundary, with constants_comp_singularPullbackSheaf pinning f⁻¹ℚ_X ≅ ℚ_Y exactly; integral form singularPullbackInt g and iotaQ_comp_singularPullbackInt",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
-      "depends_on": [
-        "supported-class-pullback"
+      "module": "HodgeLadder.Supported.SingularCochainPullback",
+      "declarations": [
+        "HodgeLadder.extendMap_single_square",
+        "HodgeLadder.Supported.singularPullbackSheaf",
+        "HodgeLadder.Supported.singularPullbackSheaf_comm",
+        "HodgeLadder.Supported.unit_comp_singularPullbackSheaf",
+        "HodgeLadder.Supported.constants_comp_singularPullbackSheaf",
+        "HodgeLadder.Supported.singularPullbackSheafComplex",
+        "HodgeLadder.Supported.constants_comp_singularPullbackSheafComplex",
+        "HodgeLadder.Supported.pullbackAb_additive",
+        "HodgeLadder.Supported.pullbackAb_preservesFiniteLimits",
+        "HodgeLadder.Supported.pullbackAb_preservesFiniteColimits",
+        "HodgeLadder.Supported.constants_comp_singularPullbackSheaf_ne_zero",
+        "HodgeLadder.Supported.singularPullbackSheaf_zero_ne_zero",
+        "HodgeLadder.Supported.pointPullbackAdditive",
+        "HodgeLadder.Supported.pointPullbackPreservesFiniteLimits",
+        "HodgeLadder.Supported.pointPullbackPreservesFiniteColimits",
+        "HodgeLadder.Supported.singularPullbackInt",
+        "HodgeLadder.Supported.iotaQ_comp_singularPullbackInt",
+        "HodgeLadder.Supported.PairCocycle",
+        "HodgeLadder.Supported.RelCochain"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R1). Failed so far: nothing (new). Size: 200 to 300 lines."
+      "depends_on": [
+        "supported-class-pullback",
+        "end-class-right-mult",
+        "cup-pullback",
+        "supported-raw-map"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. For any continuous f : Y ⟶ X in TopCat.{0}, singularPullbackSheaf f n : f⁻¹𝒮ⁿ_X ⟶ 𝒮ⁿ_Y is the transpose under pullbackPushforwardAdjunction of upstream's singularRestrictionSheaf ℚ f n (cochain φ ↦ φ ∘ f_#; upstream's file speaks of open embeddings but takes any map); unit_comp_singularPullbackSheaf is the defining property. singularPullbackSheaf_comm: it commutes with the sheafified singular coboundary, exact. constants_comp_singularPullbackSheaf: on constants it is the port's pullbackConstantSheafIso f (the iso supportedPullback postcomposes with) followed by the inclusion of constants, exact, no sign, no scalar. In ℤ-degrees along g : X' ⟶ X over Spec ℂ, singularPullbackInt g and iotaQ_comp_singularPullbackInt (the same square for iotaQ, through mapCochainComplexSingleFunctor). Non-vacuity constants_comp_singularPullbackSheaf_ne_zero and singularPullbackSheaf_zero_ne_zero on nonempty Y. The composite with mapExactFunctor_hom_named at pullbackAb (pointMap g), the core of supported-pullback-named, compiled in red-team scratch. iotaQ_comp_singularPullbackInt takes about 37 s of kernel time. Red team docs/sketches/singular-cochain-pullback.redteam.md."
     },
     {
       "id": "ext-map-cocycle",
