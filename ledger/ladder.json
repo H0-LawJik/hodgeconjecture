@@ -1092,14 +1092,22 @@
     },
     {
       "id": "rect-periodic",
-      "title": "rectIntegral h a (a + 1 + τ.im • I) = 0 when h has periods 1 and τ",
-      "status": "open",
+      "title": "rectIntegral h a (a + 1 + τ.im * I) = 0 when h has periods 1 and τ",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Rect.Periodic",
+      "declarations": [
+        "HodgeLadder.Rect.rectIntegral_eq_zero_of_periodic",
+        "HodgeLadder.Rect.boundary_im_ne_zero",
+        "HodgeLadder.Rect.im_periodic_one_not_I",
+        "HodgeLadder.Rect.boundary_re_ne_zero",
+        "HodgeLadder.Rect.re_periodic_I_not_one"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 4). Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 4). Checked for any h : ℂ → E (E a complex normed space) with periods 1 and τ, τ arbitrary (not necessarily purely imaginary), no integrability, continuity or holomorphy; the left side is Mathlib's boundary expression of integral_boundary_rect_eq_zero_of_differentiableOn written out at z = a, w = a + 1 + τ.im * I, so it is rectIntegral h a (a + 1 + τ.im * I) (rung rect-winding) by rfl at default transparency. Proof: vertical sides agree by period 1; top integrand is the bottom one shifted by τ.re (period τ), and Function.Periodic.intervalIntegral_add_eq moves the window. Test: h p = Im p (period 1, lacks period I) gives −1 at a = 0, τ = I, so the τ hypothesis is used; h p = Re p (period I, lacks period 1) gives I there, so the period-1 hypothesis is used. No sign. Red team: docs/sketches/rect-periodic.redteam.md (pass with changes)."
     },
     {
       "id": "lattice-fundamental-rectangle",
@@ -1186,7 +1194,7 @@
         "lattice-fundamental-rectangle"
       ],
       "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 7); the stated counting sub-rung the inherited kill criterion asks for. Failed so far: nothing (new). Size: medium."
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 7); the stated counting sub-rung the inherited kill criterion asks for. Failed so far: nothing (new). Size: medium. Using rect-periodic: its left side is rectIntegral by rfl at default transparency only, so apply it as a term (exact/refine), and rw or simp with it will not fire on rectIntegral; periodicity of logDeriv (℘ − c) under 1 and ω₂ at every point follows from PeriodPair.weierstrassP_add_coe and deriv_comp_add_const; the corners (a + 1 + ω₂.im * I).re = a.re + 1 and .im = a.im + ω₂.im are by simp (docs/sketches/rect-periodic.redteam.md, finding 4)."
     },
     {
       "id": "weierstrass-two-to-one",

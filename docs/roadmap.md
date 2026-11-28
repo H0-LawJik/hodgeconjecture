@@ -226,7 +226,7 @@ Each row is a live rung in `ledger/ladder.json`. Status words: `checked` (the ch
 | `weierstrass-surjective` | foundation | checked | none | weierstrassP_surjOn (L : PeriodPair) (c : ℂ) : ∃ z ∉ L.lattice, L.weierstrassP z = c (by Liouville on (℘ − c)⁻¹) |
 | `rect-winding` | foundation | checked | none | `rectIntegral_sub_inv`: rectIntegral (fun p ↦ (p − a)⁻¹) z w = 2πi for z.re < a.re < w.re, z.im < a.im < w.im, with rectIntegral the left side of Mathlib's `integral_boundary_rect_eq_zero_of_differentiableOn` (counterclockwise); four log differences, corners telescope to πI + πI by `arg_neg_eq_arg_add_pi_of_im_neg`, `arg_neg_eq_arg_sub_pi_of_im_pos`; value ≠ −2πi; `HodgeLadder.Rect.Winding` |
 | `rect-argument-principle` | foundation | open | `rect-winding` | rectIntegral (logDeriv f) z w = 2πi · Σᶠ over the open rectangle of divisor f, for meromorphic f of finite order everywhere, analytic and no |
-| `rect-periodic` | foundation | open | none | rectIntegral h a (a + 1 + τ.im • I) = 0 when h has periods 1 and τ |
+| `rect-periodic` | foundation | checked | none | rectIntegral h a (a + 1 + τ.im * I) = 0 when h has periods 1 and τ |
 | `lattice-fundamental-rectangle` | foundation | open | none | For ω₁ = 1, Im ω₂ > 0 and countable S, some fundamental rectangle has boundary missing S + Λ, and every z has a unique lattice shift into th |
 | `period-pair-normalize` | foundation | checked | none | ∃ L' μ, μ ≠ 0, L'.ω₁ = 1, 0 < Im L'.ω₂, lattice transport, and ℘_{L'}(μ z) = μ⁻² ℘_L(z) |
 | `weierstrass-order-sum` | foundation | open | `rect-argument-principle`, `rect-periodic`, `lattice-fundamental-rectangle` | ∃ F : Finset ℂ of pairwise incongruent c-points off Λ covering every c-class with Σ_{u ∈ F} divisor (℘ − c) u = 2 (ω₁ = 1, Im ω₂ > 0) |

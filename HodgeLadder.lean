@@ -235,3 +235,4 @@ public import HodgeLadder.Tests.EllipticCurvePoints
 public import HodgeLadder.Period.Pair.Normalize
 public import HodgeLadder.Rect.Winding
 public import HodgeLadder.General.WeierstrassSurjective
+public import HodgeLadder.Rect.Periodic
