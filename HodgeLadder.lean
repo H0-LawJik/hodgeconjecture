@@ -238,3 +238,4 @@ public import HodgeLadder.General.WeierstrassSurjective
 public import HodgeLadder.Rect.Periodic
 public import HodgeLadder.Supported.PullbackSection
 public import HodgeLadder.Tests.SupportedPullbackSection
+public import HodgeLadder.Supported.PullbackTransport
