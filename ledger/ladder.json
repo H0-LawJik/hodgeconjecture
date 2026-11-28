@@ -4159,15 +4159,47 @@
     {
       "id": "p1p1-witness",
       "title": "ℙ¹ ×_ℂ ℙ¹ as an object of Over (Spec ℂ) is integral, smooth of relative dimension 2 and projective",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.P1p1Witness",
+      "declarations": [
+        "HodgeLadder.Tests.geometricallyIntegral_toSpec",
+        "HodgeLadder.Tests.geometricallyIntegral_projectiveLine",
+        "HodgeLadder.Tests.isIntegral_p1p1",
+        "HodgeLadder.Tests.smoothOfRelativeDimension_p1p1",
+        "HodgeLadder.Tests.smooth_p1p1",
+        "HodgeLadder.Tests.t2Space_p1p1",
+        "HodgeLadder.Tests.exists_segre_oka",
+        "HodgeLadder.Tests.p1p1OkaIso",
+        "HodgeLadder.Tests.isProjective_p1p1",
+        "HodgeLadder.Tests.p1p1_witness",
+        "HodgeLadder.Tests.dim_p1p1",
+        "HodgeLadder.Tests.p1p1_openParacompactSpace",
+        "HodgeLadder.Segre.point_eq_point",
+        "HodgeLadder.Segre.zpoint_eq_of_smul",
+        "HodgeLadder.Segre.exists_unit_of_zpoint_eq",
+        "HodgeLadder.Segre.comp_chart",
+        "HodgeLadder.Segre.glue",
+        "HodgeLadder.Segre.ι_glue",
+        "HodgeLadder.Segre.segre",
+        "HodgeLadder.Segre.segre_toSpec",
+        "HodgeLadder.Segre.segre_preimage",
+        "HodgeLadder.Segre.isClosedImmersion_segre",
+        "HodgeLadder.Tests.p1p1",
+        "HodgeLadder.Segre.pairEquiv",
+        "HodgeLadder.Segre.segreF_X",
+        "HodgeLadder.Tests.p1p1OkaIso_hom_fst",
+        "HodgeLadder.Tests.nonempty_complexPoint_p1p1",
+        "HodgeLadder.Tests.pairEquiv_values",
+        "HodgeLadder.Tests.segreF_quadric"
+      ],
       "depends_on": [
         "projective-line-witness"
       ],
-      "contributors": [],
-      "note": "Projectivity needs a Segre closed immersion into ℙ³ (missing); integrality from Mathlib's GeometricallyIntegral pullback instances once ℙ¹ is geometrically integral. Sketch: docs/sketches/cycle-class-multiplicative.md. Spell the surface as projectiveLine ⨯ projectiveLine in Over (Spec ℂ), the product that complex-points-prod uses (pointProdHomeomorph, prodChart_mem_maximalAtlas, smoothOfRelativeDimension_prod at d = e = 1); Mathlib's pullback instances reach its .left through Over.prodLeftIsoPullback. If X ⊗ Y is used instead, transport through Point.isoMapHomeomorph of IsLimit.conePointUniqueUpToIso (tensorProductIsBinaryProduct X Y) (limit.isLimit _), as in pointTensorHomeomorph. Smooth (X ⨯ Y).hom is inferred from the factors by the instance smooth_prod (HodgeLadder.General.ComplexPointProd)."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. p1p1 := projectiveLine ⨯ projectiveLine in Over (Spec ℂ). Integral: Oka's ℙₒ(n; K) is integral over every field, so ℙₒ(n; R) ⟶ Spec R is geometrically integral (Oka's isPullback_map), and Mathlib's fibre-product instance (geometrically integral, flat, universally open factor over an integral locally noetherian one) gives IsIntegral through Over.prodLeftIsoPullback. Smooth of relative dimension 2 by inferInstanceAs (… (1 + 1) _), Smooth by smooth_prod. Projective: the Segre closed immersion ℙ¹ ×_R ℙ¹ ⟶ ℙ³ over Spec R for every ring R (HodgeLadder.General.Segre: morphisms to ℙₒ(N; R) from local homogeneous coordinates agreeing up to units on overlaps, glued on the four products of standard charts; x_{(k,l)} = a_k b_l indexed by finProdFinEquiv; preimage of D₊(x_{(k,l)}) is the piece (k,l), where the map is Spec of a surjection), transported by p1p1OkaIso and okaIsoSpace 3, ambient dimension 3. T2 complex points from pointProdHomeomorph; open subsets paracompact by upstream's openParacompactSpace; dim = 2. No sign. Red team pass with changes (docs/sketches/p1p1-witness.redteam.md): upstream's HodgeConjecture, SmoothProjectiveComplexVariety, cycleComponentSheafClass and cycleComponentSheafClass_cup_of_transversal_noReg (d := 2) elaborate at p1p1 with the instances found by search; ComplexPoint p1p1 is nonempty. Segre coordinates: conventions row \"Segre embedding of ℙ¹ × ℙ¹\"; downstream rungs cite the object as HodgeLadder.Tests.p1p1 and pass d := 2 explicitly."
     },
     {
       "id": "p1p1-fibres-transversal",
