@@ -483,16 +483,55 @@
     {
       "id": "plane-cubic-subscheme",
       "title": "The plane cubic E = V₊(y²z − x³ + xz²) ⊂ ℙ² as HodgeLadder.Tests.ellipticCurve : Over (Spec ↧ℂ), IsProjective, with its two affine charts z ≠ 0 and y ≠ 0 identified with Spec ℂ[x, y]/(y² − x³ + x) and Spec ℂ[u, w]/(w − u³ + uw²)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.EllipticCurve",
+      "declarations": [
+        "HodgeLadder.Tests.cubicForm",
+        "HodgeLadder.Tests.cubicForm_mem",
+        "HodgeLadder.Tests.ellipticCurve",
+        "HodgeLadder.Tests.ellipticCurve_hom",
+        "HodgeLadder.Tests.ellipticCurveToPlane",
+        "HodgeLadder.Tests.isClosedImmersion_ellipticCurveToPlane",
+        "HodgeLadder.Tests.isProjective_ellipticCurve",
+        "HodgeLadder.Tests.dehomogenize_two_cubicForm",
+        "HodgeLadder.Tests.dehomogenize_one_cubicForm",
+        "HodgeLadder.Tests.affineEquation",
+        "HodgeLadder.Tests.infinityEquation",
+        "HodgeLadder.Tests.ellipticCurveChartAffine",
+        "HodgeLadder.Tests.ellipticCurveChartInfinity",
+        "HodgeLadder.Tests.ellipticCurveChartAffine_inv_ι",
+        "HodgeLadder.Tests.ellipticCurveChartInfinity_inv_ι",
+        "HodgeLadder.Tests.ellipticCurve_chart_cover",
+        "HodgeLadder.Tests.ellipticCurveOrigin",
+        "HodgeLadder.Tests.ellipticCurveInfinity",
+        "HodgeLadder.Tests.ellipticCurveOrigin_ι",
+        "HodgeLadder.Tests.ellipticCurveInfinity_ι",
+        "HodgeLadder.Tests.ellipticCurveTwoTorsionPos",
+        "HodgeLadder.Tests.ellipticCurveTwoTorsionNeg",
+        "HodgeLadder.Tests.nonempty_complexPoint_ellipticCurve",
+        "HodgeLadder.Tests.nonempty_ellipticCurve",
+        "HodgeLadder.Tests.compl_chartAffine",
+        "HodgeLadder.ProjQuotient.gradedAlgebra",
+        "HodgeLadder.ProjQuotient.mkGraded",
+        "HodgeLadder.ProjQuotient.isClosedImmersion_map",
+        "HodgeLadder.ProjQuotient.quotι",
+        "HodgeLadder.ProjQuotient.isClosedImmersion_quotι",
+        "HodgeLadder.Hypersurface.scheme",
+        "HodgeLadder.Hypersurface.ι",
+        "HodgeLadder.Hypersurface.awayEquiv",
+        "HodgeLadder.Hypersurface.chartIso",
+        "HodgeLadder.Hypersurface.chartIso_inv_ι",
+        "HodgeLadder.Hypersurface.chartPoint_ι"
+      ],
       "depends_on": [
         "p2-witness",
         "p1p1-witness"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E1, first part of elliptic-curve-witness (docs/sketches/cup-odd-degree-test.md §5). Mathlib's WeierstrassCurve has points over rings and no scheme over Spec ℂ; Proj.map of a graded surjection has no closed-immersion lemma at the pin. Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. E = Proj (ℂ[x, y, z] ⧸ (y²z − x³ + xz²)) with x = X 0, y = X 1, z = X 2 (HodgeLadder.General.Hypersurface on HodgeLadder.General.ProjQuotient: the quotient grading by a homogeneous ideal, and Proj.map of a graded map onto every piece is a closed immersion, Spec of a surjection over each D₊(s)). Projective: the presentation ellipticCurveι ≫ okaIsoSpace 2, ambient dimension 2, into projectivePlane. Charts z ≠ 0 and y ≠ 0 are Spec ℂ[x, y]/(y² − x³ + x) and Spec ℂ[u, w]/(w − u³ + uw²) over the standard charts of ℙ², covering E; tests: [0 : 0 : 1], [0 : 1 : 0], the two-torsion points (±1, 0), and the complement of z ≠ 0 is the single point [0 : 1 : 0]. No sign in the rung; the curve's linear term is a choice recorded in the conventions row \"Plane cubic E and its charts\" (load-bearing for elliptic-curve-uniformization). Red team: pass with changes (docs/sketches/plane-cubic-subscheme.redteam.md)."
     },
     {
       "id": "elliptic-curve-cm",
@@ -505,7 +544,7 @@
         "plane-cubic-subscheme"
       ],
       "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E5. Known: y² = x³ − x has CM by ℤ[i] with [i](x, y) = (−x, iy) (Silverman2009, locator unverified). Failed so far: nothing (new). Size: small."
+      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E5. Known: y² = x³ − x has CM by ℤ[i] with [i](x, y) = (−x, iy) (Silverman2009, locator unverified). Failed so far: nothing (new). Size: small. Caution (red team of plane-cubic-subscheme, docs/sketches/plane-cubic-subscheme.redteam.md §6): define ellipticNeg by the substitution (x, y, z) ↦ (x, −y, z) itself, since Proj.map identifies graded maps that differ by a common unit scaling of the variables, so ellipticI ≫ ellipticI = ellipticNeg follows from Proj.map_comp and a ring identity; Proj.map is contravariant (Proj.map f : Proj ℬ ⟶ Proj 𝒜 for f : 𝒜 →+*ᵍ ℬ, and Proj.map_comp reverses order); HodgeLadder.ProjQuotient has no lemma producing the graded map S/I → S/I from a graded map S → S preserving I, which this rung writes."
     },
     {
       "id": "elliptic-curve-smooth",
