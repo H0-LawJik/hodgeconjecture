@@ -1,0 +1,13 @@
+# 2026-11-27 mayer-vietoris-finrank (order 1 of torus-singular-cohomology)
+
+- Checked: `HodgeLadder.General.MayerVietorisRank`, namespace `HodgeLadder.MayerVietoris`, 26 declarations, for any `X : TopCat.{0}` with an open cover `X = U ∪ V`. Steps 3 and 4 of `docs/sketches/torus-singular-cohomology.md`, each sharpened to an equality.
+- Exact count `finiteDimensional_homology_succ_and_finrank_eq`: with H_{k+1}(U), H_{k+1}(V), H_k(U ∩ V) finite-dimensional, H_{k+1}(X) is finite-dimensional and dim H_{k+1}(X) + rank φ_{k+1} + rank φ_k = dim H_{k+1}(U) + dim H_{k+1}(V) + dim H_k(U ∩ V), φ_n = (i_*, −j_*). The sketch's `finrank_homology_succ_add_le` follows; read it with `finiteDimensional_homology_succ`.
+- Disjoint cover: `homologyEquivOfDisjoint`, H_k(U) × H_k(V) ≃ H_k(X) by the sum of the inclusions, every degree; degree 0 through `HomologicalComplex.epi_homologyMap_of_epi_of_not_rel`, higher degrees through exactness at H_k(X) and H_{k−1}(∅) = 0. `finrank_homology_eq_of_disjoint` and `_le_` follow.
+- Sign: upstream's (i, −j) only, pinned by `sumHomologyEquiv_comp_overlap`; it enters ranks only. The boundary map appears in no statement. Conventions row "Singular Mayer–Vietoris (homology)".
+- Nonvacuity: `finrank_homology_zero_bool` (dim H_0(Bool) = 2) and `finrank_range_overlap_zero_punit` (rank φ₀ = 1 at the point, read off the exact count). The positive-degree exercise is the circle, recorded as a requirement in the `circle-cylinder-homology` ledger note.
+- For the consumer: `finrank_le_finrank_range_of_comp_eq_id` (p ∘ f ∘ s = id gives dim ≤ rank f), `finrank_homology_zero_of_pathConnected`, `subsingleton_homology_succ_of_totallyDisconnected`.
+- Drift: the statements name upstream `Other` definitions `subsetIntersectionToLeft`, `subsetIntersectionToRight`, pinned by `rfl`; the declarations to diff are listed in `docs/gaps.md`, singular category. Library `Other` sits outside upstream's statement-import guard.
+- Instance note: upstream's `homologyMap` lives over `CommRing.toCommSemiring.toSemiring`, `LinearMap.prod` over `Rat.semiring`; `rw` and `simp` with `biprod.lift_fst` fail across that path. The overlap proof moves the unification into `exact … .trans`; `sum_comp_sumHomologyEquiv_symm` keeps four `erw`.
+- Cost: the module elaborates in about 8 s; the import adds upstream `Excision.Field` and `MayerVietoris` (about 8 s) to the default build.
+- Red team: `docs/sketches/mayer-vietoris-finrank.redteam.md`, pass with changes; changes 1 to 8 and options O1, O2, O3 applied.
+- Next: `circle-cylinder-homology` once `circle-arc-cover` and `homology-prod-contractible` land.

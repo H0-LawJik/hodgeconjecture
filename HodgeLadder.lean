@@ -198,3 +198,4 @@ public import HodgeLadder.Supported.Pullback
 public import HodgeLadder.Tests.SupportedPullback
 public import HodgeLadder.General.ExtMapCocycle
 public import HodgeLadder.General.CircleArcs
+public import HodgeLadder.General.MayerVietorisRank

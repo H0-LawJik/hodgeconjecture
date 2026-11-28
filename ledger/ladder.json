@@ -728,13 +728,42 @@
     {
       "id": "mayer-vietoris-finrank",
       "title": "Dimension counts from upstream's singular Mayer–Vietoris (Other.AlgebraicTopology.Singular.MayerVietoris): finrank_homology_succ_add_le and finrank_homology_le_of_disjoint, with degree 0 via HomologicalComplex.epi_homologyMap_of_epi_of_not_rel",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.General.MayerVietorisRank",
+      "declarations": [
+        "HodgeLadder.MayerVietoris.finrank_add_finrank_range_of_exact",
+        "HodgeLadder.MayerVietoris.sumHomologyEquiv",
+        "HodgeLadder.MayerVietoris.subsetIntersectionToLeft_apply",
+        "HodgeLadder.MayerVietoris.subsetIntersectionToRight_apply",
+        "HodgeLadder.MayerVietoris.sumHomologyEquiv_comp_overlap",
+        "HodgeLadder.MayerVietoris.finiteDimensional_homology_succ_and_finrank_eq",
+        "HodgeLadder.MayerVietoris.finrank_range_le_finrank_range_prod",
+        "HodgeLadder.MayerVietoris.finrank_le_finrank_range_of_comp_eq_id",
+        "HodgeLadder.MayerVietoris.finiteDimensional_homology_succ",
+        "HodgeLadder.MayerVietoris.finrank_homology_succ_add_le",
+        "HodgeLadder.MayerVietoris.subsingleton_homology_of_isEmpty",
+        "HodgeLadder.MayerVietoris.bijective_sumChainMap_homology_of_disjoint",
+        "HodgeLadder.MayerVietoris.biprod_inl_biprodIsoProd_hom",
+        "HodgeLadder.MayerVietoris.biprod_inr_biprodIsoProd_hom",
+        "HodgeLadder.MayerVietoris.sum_comp_sumHomologyEquiv_symm",
+        "HodgeLadder.MayerVietoris.bijective_coprod_homologyMap_of_disjoint",
+        "HodgeLadder.MayerVietoris.homologyEquivOfDisjoint",
+        "HodgeLadder.MayerVietoris.homologyEquivOfDisjoint_apply",
+        "HodgeLadder.MayerVietoris.finiteDimensional_homology_of_disjoint",
+        "HodgeLadder.MayerVietoris.finrank_homology_eq_of_disjoint",
+        "HodgeLadder.MayerVietoris.finrank_homology_le_of_disjoint",
+        "HodgeLadder.MayerVietoris.finiteDimensional_homology_zero_of_pathConnected",
+        "HodgeLadder.MayerVietoris.finrank_homology_zero_of_pathConnected",
+        "HodgeLadder.MayerVietoris.subsingleton_homology_succ_of_totallyDisconnected",
+        "HodgeLadder.MayerVietoris.finrank_range_overlap_zero_punit",
+        "HodgeLadder.MayerVietoris.finrank_homology_zero_bool"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: medium. Kill criterion: if released twice, switch to the Künneth route with one thinker session. Library Other is outside upstream's statement-import guard: drift-check this module at each pin bump."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Exact count finiteDimensional_homology_succ_and_finrank_eq: for an open cover X = U ∪ V with H_{k+1}(U), H_{k+1}(V), H_k(U ∩ V) finite-dimensional over ℚ, H_{k+1}(X) is finite-dimensional and dim H_{k+1}(X) + rank φ_{k+1} + rank φ_k = dim H_{k+1}(U) + dim H_{k+1}(V) + dim H_k(U ∩ V), φ_n = (i_*, −j_*); the sketch's bound finrank_homology_succ_add_le follows, with finiteness from finiteDimensional_homology_succ. Disjoint cover: homologyEquivOfDisjoint, H_k(U) × H_k(V) ≃ H_k(X) by the sum of the inclusions, every degree (degree 0 through HomologicalComplex.epi_homologyMap_of_epi_of_not_rel). Sign: upstream's (i, −j) enters ranks only; the boundary map appears in no statement (conventions row \"Singular Mayer–Vietoris (homology)\"). Nonvacuity: finrank_homology_zero_bool (dim H_0(Bool) = 2 from the disjoint equality) and finrank_range_overlap_zero_punit (rank φ₀ = 1 read off the exact count at the point). Positive-degree exercise deferred to circle-cylinder-homology at Y = point (dim H_1(S¹) ≤ 1). Imports upstream Other.AlgebraicTopology.Singular.MayerVietoris (library Other, outside upstream's statement-import guard; about 8 s added to the default build): drift-check its declarations at each pin bump (docs/gaps.md, singular category). Red team: docs/sketches/mayer-vietoris-finrank.redteam.md, pass with changes."
     },
     {
       "id": "torus-winding-duality",
@@ -762,7 +791,7 @@
         "mayer-vietoris-finrank"
       ],
       "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 2). Failed so far: nothing (new). Size: medium; split if kernel time passes 10 minutes."
+      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 2). Failed so far: nothing (new). Size: medium; split if kernel time passes 10 minutes. Nonvacuity requirement (red team mayer-vietoris-finrank, change 7): instantiate at Y = point to get FiniteDimensional ℚ (Homology ℚ (TopCat.of UnitAddCircle) 1) and dim ≤ 1; this is the first positive-degree exercise of finrank_homology_succ_add_le. The rank bound from a section needs p ∘ f ∘ s = id ⇒ dim ≤ rank f (finrank_le_finrank_range_of_comp_eq_id, mayer-vietoris-finrank option O1, or a local copy)."
     },
     {
       "id": "torus-homology-bound",
