@@ -591,15 +591,47 @@
     {
       "id": "elliptic-curve-cm",
       "title": "Complex multiplication by i on the plane cubic: ellipticI : ellipticCurve ⟶ ellipticCurve induced by [x : y : z] ↦ [−x : iy : z], with ellipticI ≫ ellipticI = ellipticNeg ([x : y : z] ↦ [x : −y : z]) and ellipticI⁴ = 𝟙",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.EllipticCurveCM",
+      "declarations": [
+        "HodgeLadder.ProjQuotient.quotMap",
+        "HodgeLadder.ProjQuotient.quotMap_comp_mkGraded",
+        "HodgeLadder.ProjQuotient.irrelevant_le_map_quotMap",
+        "HodgeLadder.ProjQuotient.projQuotMap",
+        "HodgeLadder.ProjQuotient.projQuotMap_quotι",
+        "HodgeLadder.ProjQuotient.projQuotMap_comp",
+        "HodgeLadder.ProjQuotient.projQuotMap_id",
+        "HodgeLadder.Tests.diagHom",
+        "HodgeLadder.Tests.diagHom_comp",
+        "HodgeLadder.Tests.diagHom_one",
+        "HodgeLadder.Tests.chart_comp_linearSubstMap_diag",
+        "HodgeLadder.Tests.chartComplexPoint_comp_diagHom",
+        "HodgeLadder.Tests.chartComplexPoint_injective",
+        "HodgeLadder.Tests.diagSubst_iScalars_cubicForm",
+        "HodgeLadder.Tests.diagSubst_negScalars_cubicForm",
+        "HodgeLadder.Tests.ellipticI",
+        "HodgeLadder.Tests.ellipticNeg",
+        "HodgeLadder.Tests.ellipticI_comp_self",
+        "HodgeLadder.Tests.ellipticNeg_comp_self",
+        "HodgeLadder.Tests.ellipticI_pow_four",
+        "HodgeLadder.Tests.ellipticIIso",
+        "HodgeLadder.Tests.ellipticIIso_inv",
+        "HodgeLadder.Tests.ellipticCurveOrigin_comp_ellipticI",
+        "HodgeLadder.Tests.ellipticCurveTwoTorsionPos_comp_ellipticI",
+        "HodgeLadder.Tests.ellipticCurvePointI_comp_ellipticI",
+        "HodgeLadder.Tests.ellipticCurvePointI_comp_ellipticNeg",
+        "HodgeLadder.Tests.ellipticI_ne_id",
+        "HodgeLadder.Tests.ellipticI_ne_ellipticNeg",
+        "HodgeLadder.Tests.ellipticNeg_ne_id"
+      ],
       "depends_on": [
         "plane-cubic-subscheme"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E5. Known: y² = x³ − x has CM by ℤ[i] with [i](x, y) = (−x, iy) (Silverman2009, locator unverified). Failed so far: nothing (new). Size: small. Caution (red team of plane-cubic-subscheme, docs/sketches/plane-cubic-subscheme.redteam.md §6): define ellipticNeg by the substitution (x, y, z) ↦ (x, −y, z) itself, since Proj.map identifies graded maps that differ by a common unit scaling of the variables, so ellipticI ≫ ellipticI = ellipticNeg follows from Proj.map_comp and a ring identity; Proj.map is contravariant (Proj.map f : Proj ℬ ⟶ Proj 𝒜 for f : 𝒜 →+*ᵍ ℬ, and Proj.map_comp reverses order); HodgeLadder.ProjQuotient has no lemma producing the graded map S/I → S/I from a graded map S → S preserving I, which this rung writes."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. ellipticI = Proj.map of x ↦ −x, y ↦ iy, z ↦ z on ℂ[x, y, z] ⧸ (F), which sends F to −F (HodgeLadder.General.ProjQuotientMap: a graded map preserving homogeneous ideals induces the graded map of quotients and its Proj.map, over the closed immersion); ellipticNeg by y ↦ −y itself. ellipticI ≫ ellipticI = ellipticNeg, ellipticNeg ≫ ellipticNeg = 𝟙, ellipticI⁴ = 𝟙 exactly, as equalities of substitutions through Proj.map_comp, no common rescaling; ellipticIIso with inverse ellipticI³. On points (x, y) ↦ (−x, iy) in the chart z ≠ 0 (Silverman's normalized [i]); tests: the origin is fixed, (±1, 0) are swapped by [i] and fixed by [−1], (i, 1 − i) ↦ (−i, 1 + i) pins i against −i, [−1] moves (i, 1 − i), so [i] has order four. Conventions row \"Complex multiplication on E\" (load-bearing for elliptic-curve-uniformization). Red team: pass with changes (docs/sketches/elliptic-curve-cm.redteam.md)."
     },
     {
       "id": "elliptic-curve-smooth",
