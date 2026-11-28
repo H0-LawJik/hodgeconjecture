@@ -183,3 +183,5 @@ public import HodgeLadder.General.ComplexPointProd
 public import HodgeLadder.General.Segre
 public import HodgeLadder.Tests.P1p1Witness
 public import HodgeLadder.Normalization.ProductChart
+public import HodgeLadder.Tests.P1p1Fibres
+public import HodgeLadder.Tests.CycleClassMultiplicativeP1p1

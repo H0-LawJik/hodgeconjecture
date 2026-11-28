@@ -4239,33 +4239,89 @@
     },
     {
       "id": "p1p1-fibres-transversal",
-      "title": "On ℙ¹ × ℙ¹ the fibres {∞} × ℙ¹, ℙ¹ × {∞} and the point (∞, ∞) have coheight 1, 1, 2, their supports meet as required, the product of the chart openOne satisfies the transversality hypothesis, and (∞, ∞) lies in the smooth locus of each fibre's reduced closure",
-      "status": "open",
+      "title": "On ℙ¹ × ℙ¹ the fibres {∞} × ℙ¹, ℙ¹ × {∞} and the point (∞, ∞), ∞ = [1 : 0], have coheight 1, 1, 2, their complex supports meet in (∞, ∞) alone, the product of the chart x₀ ≠ 0 of ℙ¹ with itself (coordinate x₁ / x₀ on each factor, first factor first) satisfies the transversality hypothesis htr with {∞} × ℙ¹ as coordinate 0, and (∞, ∞) lies in the smooth locus of each fibre's reduced closure",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.P1p1Fibres",
+      "declarations": [
+        "HodgeLadder.Tests.lineChart",
+        "HodgeLadder.Tests.lineChart_mem_maximalAtlas",
+        "HodgeLadder.Tests.inftyPoint",
+        "HodgeLadder.Tests.inftyPoint_underlying",
+        "HodgeLadder.Tests.underlying_eq_infty_iff",
+        "HodgeLadder.Tests.eq_inftyPoint_of_underlying",
+        "HodgeLadder.Tests.constInfty",
+        "HodgeLadder.Tests.fibreSectionFst",
+        "HodgeLadder.Tests.fibreSectionSnd",
+        "HodgeLadder.Tests.p1p1FibreFst",
+        "HodgeLadder.Tests.p1p1FibreSnd",
+        "HodgeLadder.Tests.p1p1CornerPoint",
+        "HodgeLadder.Tests.p1p1Corner",
+        "HodgeLadder.Tests.fst_p1p1FibreFst",
+        "HodgeLadder.Tests.snd_p1p1FibreFst",
+        "HodgeLadder.Tests.fst_p1p1FibreSnd",
+        "HodgeLadder.Tests.snd_p1p1FibreSnd",
+        "HodgeLadder.Tests.mem_p1p1FibreFst_support_iff_fst",
+        "HodgeLadder.Tests.mem_p1p1FibreSnd_support_iff_snd",
+        "HodgeLadder.Tests.p1p1Corner_lt_p1p1FibreFst",
+        "HodgeLadder.Tests.p1p1Corner_lt_p1p1FibreSnd",
+        "HodgeLadder.Tests.p1p1FibreFst_lt_top",
+        "HodgeLadder.Tests.p1p1FibreSnd_lt_top",
+        "HodgeLadder.Tests.coheight_p1p1FibreFst",
+        "HodgeLadder.Tests.coheight_p1p1FibreSnd",
+        "HodgeLadder.Tests.coheight_p1p1Corner",
+        "HodgeLadder.Tests.coheight_p1p1Corner_add",
+        "HodgeLadder.Tests.mem_p1p1Fibres_inter_iff",
+        "HodgeLadder.Tests.p1p1Corner_support_eq_inter",
+        "HodgeLadder.Tests.p1p1Corner_support_eq_singleton",
+        "HodgeLadder.Tests.p1p1Chart",
+        "HodgeLadder.Tests.p1p1Chart_mem_maximalAtlas",
+        "HodgeLadder.Tests.p1p1Chart_apply_zero",
+        "HodgeLadder.Tests.p1p1Chart_apply_one",
+        "HodgeLadder.Tests.mem_p1p1FibreFst_support_iff",
+        "HodgeLadder.Tests.mem_p1p1FibreSnd_support_iff",
+        "HodgeLadder.Tests.p1p1Fibres_transversal",
+        "HodgeLadder.Tests.isClosedImmersion_fibreSectionFst",
+        "HodgeLadder.Tests.isClosedImmersion_fibreSectionSnd",
+        "HodgeLadder.Tests.ker_eq_vanishingIdeal_of_isReduced",
+        "HodgeLadder.Tests.smooth_cycleComponentι_of_closedImmersion",
+        "HodgeLadder.Tests.smooth_cycleComponentι_p1p1FibreFst",
+        "HodgeLadder.Tests.smooth_cycleComponentι_p1p1FibreSnd",
+        "HodgeLadder.Tests.p1p1Corner_support_subset_smoothSupportAmbientOpen_fst",
+        "HodgeLadder.Tests.p1p1Corner_support_subset_smoothSupportAmbientOpen_snd",
+        "HodgeLadder.Tests.p1p1FibreFst_ne_p1p1FibreSnd",
+        "HodgeLadder.Tests.p1p1Chart_p1p1CornerPoint",
+        "HodgeLadder.Tests.not_forall_mem_p1p1FibreFst_iff_coord_one"
+      ],
       "depends_on": [
         "p1p1-witness",
         "complex-points-prod",
         "projective-line-point",
-        "affine-chart-analytic"
+        "affine-chart-analytic",
+        "affine-chart-analytic-p2"
       ],
-      "contributors": [],
-      "note": "Red team finding 12. Items: (i) the product chart, from an isomorphism of the product of the two charts with 𝔸², is in the maximal atlas by affine-chart-analytic; (ii) hxreg, hwreg need the closed subscheme cycleComponentι of each fibre computed on that chart. After the ℙ² rungs (decision 0010). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Red team finding 12 on cycle-class-multiplicative. ∞ = [1 : 0] is infty of projective-line-point. The fibres are images of the generic point of ℙ¹ under the sections prod.lift constInfty (𝟙 _) and prod.lift (𝟙 _) constInfty, constInfty the constant map at inftyPoint = lineChart.symm 0; the corner is prod.lift inftyPoint inftyPoint. Checked: coheights 1, 1, 2 from the chain (∞, ∞) < fibre < ⊤ and upstream's coheight_le_complex at d = 2 (hx, hw; ht as ↑1 + ↑1 in coheight_p1p1Corner_add); p1p1Corner_support_eq_inter (hT) on complex points, with the singleton form; p1p1Fibres_transversal (htr) with p1p1Chart = prodChart of lineChart = projectiveChart 1 0 (coordinate x₁ / x₀, vanishing exactly at ∞) with itself, first factor first, in the ω-maximal atlas by prodChart_mem_maximalAtlas and projectiveChart_mem_maximalAtlas; {∞} × ℙ¹ is coordinate 0 and ℙ¹ × {∞} coordinate 1. The planned chart openOne (x₁ ≠ 0) misses ∞ and was not used; no isomorphism with 𝔸² is built. hxreg, hwreg: each section is a closed immersion (a section of a separated projection), its source ℙ¹ is reduced, so its kernel is the vanishing ideal of the fibre's closure (ker_eq_vanishingIdeal_of_isReduced) and upstream's cycleComponentι is ℙ¹ through Mathlib's Hom.toImage, smooth over ℂ (smooth_cycleComponentι_of_closedImmersion). Both cycleComponentSheafClass_cup_of_transversal and its _noReg form apply by term at p1p1 (d := 2), a = b = 1. No sign: conventions rows \"Point ∞ of ℙ¹ and the fibres of ℙ¹ × ℙ¹\" and \"Complex points of a product and product charts\". Red team pass with changes (docs/sketches/p1p1-fibres-transversal.redteam.md). Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "cycle-class-multiplicative-p1p1",
       "title": "On ℙ¹ × ℙ¹, [{∞} × ℙ¹] ∪ [ℙ¹ × {∞}] = [(∞, ∞)]",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.CycleClassMultiplicativeP1p1",
+      "declarations": [
+        "HodgeLadder.Tests.p1p1Fibres_cup_eq_p1p1Corner"
+      ],
       "depends_on": [
         "cycle-class-multiplicative",
         "p1p1-fibres-transversal"
       ],
-      "contributors": [],
-      "note": "Second transversal case, after cycle-class-multiplicative-p2 (decision 0010; decision 0009 had named it first). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Second transversal case, after cycle-class-multiplicative-p2 (decision 0010; decision 0009 had named it first). p1p1Fibres_cup_eq_p1p1Corner: cup [{∞} × ℙ¹] [ℙ¹ × {∞}] (2 * (1 + 1)) = [(∞, ∞)] in H⁴(ℙ¹ × ℙ¹; ℚ), exact, sign +, by term from cycleComponentSheafClass_cup_of_transversal p1p1 (d := 2), a = b = 1, every hypothesis from p1p1-fibres-transversal (the _noReg form applies as well). {∞} × ℙ¹ is the first cup factor, matching pr₁*[pt] ∪ pr₂*[pt] of cup-positive-degree-test. The identity holds for [(∞, ∞)] = 0 as well; it becomes a non-vacuous test once p1p1-point-class-nonzero is checked. Folded into the p1p1-fibres-transversal pull request (red team optional change O1, docs/sketches/p1p1-fibres-transversal.redteam.md). Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "supported-class-pullback",
