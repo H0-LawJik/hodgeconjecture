@@ -69,13 +69,13 @@ def deRhamCup {a b : ℤ} (x : H_dR^a(X)) (y : H_dR^b(X)) (n : ℤ) (h : a + b =
 theorem fieldToDeRhamCohomology_cup {a b n : ℕ} (h : a + b = n)
     (α : H^a(X; ℚ)) (β : H^b(X; ℚ)) :
     fieldToDeRhamCohomology ℚ X n (Cup.cup α β n h) =
-      deRhamCup X (fieldToDeRhamCohomology ℚ X a α) (fieldToDeRhamCohomology ℚ X b β) n
+      deRhamCup (fieldToDeRhamCohomology ℚ X a α) (fieldToDeRhamCohomology ℚ X b β) n
         (by omega)
 
 theorem deRhamCup_mem_hodgeFiltration {a b n : ℤ} (h : a + b = n) {p q : ℤ}
     {x : H_dR^a(X)} {y : H_dR^b(X)}
     (hx : x ∈ hodgeFiltration X p a) (hy : y ∈ hodgeFiltration X q b) :
-    deRhamCup X x y n h ∈ hodgeFiltration X (p + q) n
+    deRhamCup x y n h ∈ hodgeFiltration X (p + q) n
 ```
 
 with `deRhamCup_add_left`, `deRhamCup_add_right`, `deRhamCup_smul_left (c : ℂ)`, `deRhamCup_smul_right (c : ℂ)` for upstream's complex structure (`deRham_complex_smul_eq`). The factor swap sits in the definition (red team finding 5): the primitive `pairProduct m x y = y ≫ (x ⊗ B)⟦b⟧` is `y.comp x` on `ℚ_X[0]`, so `deRhamCup x y := pairProduct μ y x` makes `ι` a homomorphism, exact, with no sign. Rule for the ladder: sheaf-side products (`Cup.cup`, `deRhamCup`) are diagrammatic; cochain and form products (`cupSing`, `relCupSing`, `formWedge`) are classical; comparisons between the two reverse the factors with no sign (conventions row "de Rham cup order (proposed)").
@@ -335,7 +335,7 @@ Registered by the red team in `docs/conventions.md`: "Tensor product of ℤ-inde
 
 ## Issue body (`cup-hodge-filtration`)
 
-> **Rung `cup-hodge-filtration`** (front `cup`, open). Prove `deRhamCup_mem_hodgeFiltration`: for `x ∈ hodgeFiltration X p a` and `y ∈ hodgeFiltration X q b`, `deRhamCup X x y n h ∈ hodgeFiltration X (p + q) n`, where `deRhamCup` is the de Rham cup of sub-rung `de-rham-cup` (`deRhamCup x y := pairProduct μ y x`, pinned by `ι (α ∪ β) = deRhamCup (ι α) (ι β)`). Depends on `de-rham-cup`, `wedge-sheaf-map`, `de-rham-cup-test-p2`. Start with `rational-hypercohomology-equiv`, then `tensor-bounded-quasi-iso` (`HodgeLadder.TensorBoundedQuasiIso`) and `wedge-descends` (`HodgeLadder.WedgeDescends`), both stated in `HodgeLadder.Hodge.CupFiltration`. Route and signatures: `docs/sketches/cup-hodge-filtration.md`; red team: `docs/sketches/cup-hodge-filtration.redteam.md`. The statement for rational classes and for Hodge classes is rung `cup-hodge-classes` (stated), reduced to the rational filtration form by the checked `cup-hodge-reduction`.
+> **Rung `cup-hodge-filtration`** (front `cup`, open). Prove `deRhamCup_mem_hodgeFiltration`: for `x ∈ hodgeFiltration X p a` and `y ∈ hodgeFiltration X q b`, `deRhamCup x y n h ∈ hodgeFiltration X (p + q) n`, where `deRhamCup` is the de Rham cup of sub-rung `de-rham-cup` (`deRhamCup x y := pairProduct μ y x`, pinned by `ι (α ∪ β) = deRhamCup (ι α) (ι β)`). Depends on `de-rham-cup`, `wedge-sheaf-map`, `de-rham-cup-test-p2`. Start with `rational-hypercohomology-equiv`, then `tensor-bounded-quasi-iso` (`HodgeLadder.TensorBoundedQuasiIso`) and `wedge-descends` (`HodgeLadder.WedgeDescends`), both stated in `HodgeLadder.Hodge.CupFiltration`. Route and signatures: `docs/sketches/cup-hodge-filtration.md`; red team: `docs/sketches/cup-hodge-filtration.redteam.md`. The statement for rational classes and for Hodge classes is rung `cup-hodge-classes` (stated), reduced to the rational filtration form by the checked `cup-hodge-reduction`.
 
 ## rational-hypercohomology-equiv: statement
 
