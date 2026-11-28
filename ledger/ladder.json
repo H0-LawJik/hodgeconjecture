@@ -3009,16 +3009,63 @@
     {
       "id": "de-rham-scalar-sheaf",
       "title": "The scalar endomorphism S_c := sheafifyQ.map (c • ·) of Ω•_ℚ as a chain map, forget(S_c) = upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso, and the ℂ-scalar laws (S_c ⊗ 𝟙) ≫ deRhamWedge = deRhamWedge ≫ S_c, (𝟙 ⊗ S_c) ≫ deRhamWedge = deRhamWedge ≫ S_c",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.DeRhamScalarSheaf",
+      "declarations": [
+        "HodgeLadder.extendTensor_hom_ext",
+        "HodgeLadder.embeddingUpNat_f_add",
+        "HodgeLadder.tensorHom_extendMap_id_comp_extendMul",
+        "HodgeLadder.tensorHom_id_extendMap_comp_extendMul",
+        "HodgeLadder.sheafify_whiskerRight_comp_μ_map",
+        "HodgeLadder.sheafify_whiskerLeft_comp_μ_map",
+        "HodgeLadder.rationalScalarPresheaf",
+        "HodgeLadder.whiskerRight_rationalScalarPresheaf",
+        "HodgeLadder.rationalScalarPresheaf_comp_differential",
+        "HodgeLadder.rationalScalarPresheaf_one",
+        "HodgeLadder.rationalScalarPresheaf_mul",
+        "HodgeLadder.rationalScalarPresheaf_zero",
+        "HodgeLadder.rationalScalarPresheaf_add",
+        "HodgeLadder.rationalScalarPresheaf_whiskerRight_wedge",
+        "HodgeLadder.rationalScalarPresheaf_whiskerLeft_wedge",
+        "HodgeLadder.rationalScalarSheaf",
+        "HodgeLadder.toSheafify_comp_rationalScalarSheaf",
+        "HodgeLadder.rationalScalarSheaf_comp_differential",
+        "HodgeLadder.rationalScalarSheaf_whiskerRight_wedgeSheaf",
+        "HodgeLadder.rationalScalarSheaf_whiskerLeft_wedgeSheaf",
+        "HodgeLadder.rationalScalarComplexNat",
+        "HodgeLadder.rationalScalarComplexNat_f",
+        "HodgeLadder.rationalScalarComplexNat_one",
+        "HodgeLadder.rationalScalarComplexNat_zero",
+        "HodgeLadder.rationalScalarComplexNat_mul",
+        "HodgeLadder.rationalScalarComplexNat_add",
+        "HodgeLadder.forget_rationalScalarComplexNat",
+        "HodgeLadder.rationalDeRhamScalar",
+        "HodgeLadder.rationalDeRhamScalar_f",
+        "HodgeLadder.forget_rationalDeRhamScalar",
+        "HodgeLadder.rationalDeRhamScalar_tensorHom_id_comp_deRhamWedge",
+        "HodgeLadder.rationalDeRhamScalar_id_tensorHom_comp_deRhamWedge",
+        "HodgeLadder.rationalDeRhamScalar_one",
+        "HodgeLadder.rationalDeRhamScalar_zero",
+        "HodgeLadder.rationalDeRhamScalar_mul",
+        "HodgeLadder.rationalDeRhamScalar_add",
+        "HodgeLadder.rationalDeRhamScalar_neg_one",
+        "HodgeLadder.rationalDeRhamScalar_neg_one_ne_id",
+        "HodgeLadder.rationalDeRhamScalar_ne_zero",
+        "HodgeLadder.rationalDeRhamScalar_injective",
+        "HodgeLadder.eq_rationalDeRhamScalar_of_forget",
+        "HodgeLadder.eq_of_tensorHom_id_comp_deRhamWedge",
+        "HodgeLadder.forgetRationalDeRhamIso_inv_comp_forget_rationalDeRhamScalar",
+        "HodgeLadder.rationalHypercohomologyEquiv_smul"
+      ],
       "depends_on": [
         "wedge-sheaf-map",
         "rational-de-rham-complex"
       ],
-      "contributors": [],
-      "note": "Proposed by the red team of wedge-sheaf-map (finding 8), split from de-rham-cup so that the exact identity fieldToDeRhamCohomology_cup is not blocked by ℂ-bilinearity. Degreewise S_c is the sheafification of (c • ·) on rationalHolomorphicFormPresheaf X d p (ℂ-linear maps, ℚ-linear by restriction), commuting with the differential since holomorphicFormDifferential is ℂ-linear. Tie to upstream through the pin toSheafify_comp_forgetRationalHolomorphicFormSheafIso (rung rational-de-rham-complex) and deRham_complex_smul_eq. The scalar laws in each factor follow from map_smul of holomorphicWedge in each argument through toSheafifyTensor_hom_ext, as in the wedge-sheafify red team's RT4 (about 15 lines each), then through eq_extendMul_of_components or degreewise ext on the summands. Budget kernel time as in docs/gaps.md (name the sheaf-level maps; tensorHomShQ for f ⊗ g)."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Red team docs/sketches/de-rham-scalar-sheaf.redteam.md: pass with changes, implemented. S_c := rationalDeRhamScalar X c, the extension to ℤ of the sheafified c • on HolomorphicForm (rationalScalarSheaf), forget(S_c) = upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso (forget_rationalDeRhamScalar, exact; rfl at presheaf level, whiskerRight_rationalScalarPresheaf), and that square determines S_c (eq_rationalDeRhamScalar_of_forget). Upstream's c • on H_dR^n(X) is postcomposition with (Q.map S_c)⟦n⟧' through the bridge (rationalHypercohomologyEquiv_smul). Scalar laws in both factors, tensorHomShQ S_c 𝟙 ≫ deRhamWedge X = deRhamWedge X ≫ S_c and tensorHomShQ 𝟙 S_c ≫ deRhamWedge X = deRhamWedge X ≫ S_c, no sign (S_c has degree zero); they are the hm of pairProductShQ_naturality with m = m' = deRhamWedge X, k = S_c, (f, g) = (S_c, 𝟙) or (𝟙, S_c), no conversion. S_{ab} = S_b ≫ S_a (upstream's order), S_1, S_0, S_{a+b}, S_{−1} = −𝟙; S_{−1} ≠ 𝟙, S_c ≠ 0 for c ≠ 0, c ↦ S_c injective on every smooth integral X; the first-factor law fails with S_{c'} on the target for c' ≠ c (eq_of_tensorHom_id_comp_deRhamWedge). Module build about 35 s. Consumers activate wsmCurriedTensorAdditive, wsmTensorLeftAdditive, wsmTensorRightPreservesEmpty, and for the bridge the local instances of HodgeLadder.Hodge.RationalHypercohomology."
     },
     {
       "id": "de-rham-cup-exact",
@@ -3047,7 +3094,7 @@
         "de-rham-scalar-sheaf"
       ],
       "contributors": [],
-      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit. Owed (red team of wedge-sheafify, finding 4c): the scalar endomorphism S_c := sheafifyQ.map (c • ·) of Ω^p_ℚ and its identification with upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso; the ℂ-scalar laws (S_c ▷ Ω^q_ℚ) ≫ wedgeSheaf = wedgeSheaf ≫ S_c and (Ω^p_ℚ ◁ S_c) ≫ wedgeSheaf = wedgeSheaf ≫ S_c then follow as in that red team's RT4, about 15 lines each, from map_smul of holomorphicWedge in each argument. Update 2026-11-27 (red team of wedge-sheaf-map, finding 8): the exact identity fieldToDeRhamCohomology_cup uses only the unit law deRhamWedge_unit_unit and pairProductShQ_naturality, and does not need S_c; only the ℂ-bilinearity of deRhamCup does, through rung de-rham-scalar-sheaf. Update 2026-11-27: the definition of deRhamCup and the exact identity moved to rung de-rham-cup-exact; this rung keeps the ℂ-bilinearity, from de-rham-cup-exact and de-rham-scalar-sheaf."
+      "note": "Signatures in docs/sketches/cup-hodge-filtration.md (red team change 5). Record deRhamCup and the pairing in docs/gaps.md when they land. State the plumbing in the generic form of derivedMapBifunctorRight and instantiate at ShQ once, as for pairing-product (kernel cost of mapBifunctorMap at ShQ, docs/gaps.md). Guidance from the pairing-product red team (change 5): state the wedge unit law of wedge-sheaf-map as HomologicalComplex.tensorHom u (𝟙 Ω•_ℚ) ≫ deRhamWedge X = (HomologicalComplex.leftUnitor Ω•_ℚ).hom (the unitor of complexLeftUnitor_hom_naturality), and the scalar laws in both factors, (c • 𝟙 ⊗ 𝟙) ≫ μ = μ ≫ c • 𝟙 and (𝟙 ⊗ c • 𝟙) ≫ μ = μ ≫ c • 𝟙, which give ℂ-linearity through pairProductShQ_naturality and upstream's deRham_complex_smul_eq. Pin unitComplex (TopCat.of (ComplexPoint X)) = rationalUnitComplex X by rfl (checked at a variable Y in the red team). Activate main's local instances of HodgeLadder.Hodge.RationalHypercohomology (rhQHasDerivedCategory and the others listed there; conventions row 'Derived-category instances in statements'); pairProductShQ takes any HasDerivedCategory instance. Name every sheaf-level map that enters a statement (as unitComplexMul does for the left unitor) and write objects out in place of _: a written-out unitor as m costs about 8 s per declaration, a placeholder 𝟙 _ about 23 s of elaboration. With deRhamCup x y := pairProduct μ y x, ι (α ∪ β) = deRhamCup (ι α) (ι β) follows from pairProductShQ_naturality at m = unitComplexMul, f = g = k = u, m' = μ, and pairProductShQ_unit. Owed (red team of wedge-sheafify, finding 4c): the scalar endomorphism S_c := sheafifyQ.map (c • ·) of Ω^p_ℚ and its identification with upstream's scalarHolomorphicDeRhamComplexInt X c through forgetRationalDeRhamIso; the ℂ-scalar laws (S_c ▷ Ω^q_ℚ) ≫ wedgeSheaf = wedgeSheaf ≫ S_c and (Ω^p_ℚ ◁ S_c) ≫ wedgeSheaf = wedgeSheaf ≫ S_c then follow as in that red team's RT4, about 15 lines each, from map_smul of holomorphicWedge in each argument. Update 2026-11-27 (red team of wedge-sheaf-map, finding 8): the exact identity fieldToDeRhamCohomology_cup uses only the unit law deRhamWedge_unit_unit and pairProductShQ_naturality, and does not need S_c; only the ℂ-bilinearity of deRhamCup does, through rung de-rham-scalar-sheaf. Update 2026-11-27: the definition of deRhamCup and the exact identity moved to rung de-rham-cup-exact; this rung keeps the ℂ-bilinearity, from de-rham-cup-exact and de-rham-scalar-sheaf. Update 2026-11-27 (rung de-rham-scalar-sheaf, checked): the bridge is rationalHypercohomologyEquiv_smul (upstream's c • on H_dR^n(X) is postcomposition with (Q.map S_c)⟦n⟧'), and the scalar laws rationalDeRhamScalar_tensorHom_id_comp_deRhamWedge and rationalDeRhamScalar_id_tensorHom_comp_deRhamWedge are the hm of pairProductShQ_naturality, so the ℂ-bilinearity of deRhamCup is assembly from checked pieces."
     },
     {
       "id": "de-rham-cup-test-p2",
