@@ -4333,7 +4333,7 @@
       "contributors": [
         "claude-code"
       ],
-      "note": "Checked 2026-11-27. Second transversal case, after cycle-class-multiplicative-p2 (decision 0010; decision 0009 had named it first). p1p1Fibres_cup_eq_p1p1Corner: cup [{∞} × ℙ¹] [ℙ¹ × {∞}] (2 * (1 + 1)) = [(∞, ∞)] in H⁴(ℙ¹ × ℙ¹; ℚ), exact, sign +, by term from cycleComponentSheafClass_cup_of_transversal p1p1 (d := 2), a = b = 1, every hypothesis from p1p1-fibres-transversal (the _noReg form applies as well). {∞} × ℙ¹ is the first cup factor, matching pr₁*[pt] ∪ pr₂*[pt] of cup-positive-degree-test. The identity holds for [(∞, ∞)] = 0 as well; it becomes a non-vacuous test once p1p1-point-class-nonzero is checked. Folded into the p1p1-fibres-transversal pull request (red team optional change O1, docs/sketches/p1p1-fibres-transversal.redteam.md). Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Checked 2026-11-27. Second transversal case, after cycle-class-multiplicative-p2 (decision 0010; decision 0009 had named it first). p1p1Fibres_cup_eq_p1p1Corner: cup [{∞} × ℙ¹] [ℙ¹ × {∞}] (2 * (1 + 1)) = [(∞, ∞)] in H⁴(ℙ¹ × ℙ¹; ℚ), exact, sign +, by term from cycleComponentSheafClass_cup_of_transversal p1p1 (d := 2), a = b = 1, every hypothesis from p1p1-fibres-transversal (the _noReg form applies as well). {∞} × ℙ¹ is the first cup factor, matching pr₁*[pt] ∪ pr₂*[pt] of cup-positive-degree-test. Non-vacuous since p1p1-point-class-nonzero (checked 2026-11-27): [(∞, ∞)] ≠ 0 (p1p1_point_class_ne_zero), so both sides are nonzero (p1p1Fibres_cup_ne_zero) and the identity excludes the square-zero product on ℙ¹ × ℙ¹ in degrees (2, 2). The sign + is fixed against upstream's normalization alone: ℙ¹ × ℙ¹ has no degree map on H⁴ at the pin (ℙ² has planeDegree, cycle-class-sign-test-p2). Folded into the p1p1-fibres-transversal pull request (red team optional change O1, docs/sketches/p1p1-fibres-transversal.redteam.md). Sketch: docs/sketches/cycle-class-multiplicative.md."
     },
     {
       "id": "supported-class-pullback",
@@ -4392,16 +4392,40 @@
     {
       "id": "p1p1-point-class-nonzero",
       "title": "The class of the point (∞, ∞) is nonzero in H⁴(ℙ¹ × ℙ¹; ℚ)",
-      "status": "open",
+      "status": "checked",
       "kind": "test",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.P1p1PointClassNonzero",
+      "declarations": [
+        "HodgeLadder.Tests.p1p1_point_class_ne_zero",
+        "HodgeLadder.Tests.p1p1Fibres_cup_ne_zero",
+        "HodgeLadder.Tests.subsingleton_H'_three_compl_p1p1Corner",
+        "HodgeLadder.Tests.subsingleton_H'_two_chartPreOpen_coord_ne_zero",
+        "HodgeLadder.Tests.p1p1Corner_support_compl",
+        "HodgeLadder.Tests.p1p1StdOpen_inf_one_zero",
+        "HodgeLadder.Tests.p1p1StdOpen_sup_inf_zero_one",
+        "HodgeLadder.Tests.mem_projectiveChart_source_iff_underlying",
+        "HodgeLadder.Tests.mem_projectiveChart_source_iff_coord",
+        "HodgeLadder.Tests.exists_mem_projectiveChart_source",
+        "HodgeLadder.Tests.mem_projectiveChart_one_source_iff",
+        "HodgeLadder.Tests.contractibleSpace_chartPreOpen",
+        "HodgeLadder.Tests.contractibleSpace_p1p1StdOpen",
+        "HodgeLadder.Tests.p1p1StdChart_target",
+        "HodgeLadder.Tests.eq_p1p1CornerPoint_iff"
+      ],
       "depends_on": [
         "p1p1-fibres-transversal",
-        "forget-support-exact"
+        "forget-support-exact",
+        "cycle-class-multiplicative-p1p1",
+        "p2-point-class-nonzero",
+        "contractible-open-acyclic",
+        "lefschetz-port",
+        "complex-points-prod",
+        "affine-chart-analytic"
       ],
-      "contributors": [],
-      "note": "forget-support-exact with H³ of the complement zero. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. p1p1_point_class_ne_zero: cycleComponentSheafClass p1p1 p1p1Corner coheight_p1p1Corner_add ≠ 0 in H⁴(ℙ¹ × ℙ¹; ℚ), ∞ = [1 : 0], by cycleComponentSheafClass_ne_zero_of_subsingleton_odd at p = 1 (p2-point-class-nonzero; forget-support-exact at n = 3) from H³((ℙ¹ × ℙ¹)(ℂ) ∖ (∞, ∞); ℚ) = 0 (subsingleton_H'_three_compl_p1p1Corner). The complement is the union of the product charts {x₁ ≠ 0} × {x₀ ≠ 0}, {x₁ ≠ 0} × {x₁ ≠ 0} and {x₀ ≠ 0} × {x₁ ≠ 0} (p1p1StdChart, each onto ℂ²); two Mayer–Vietoris steps at q = 2 (the port's TopCat.Sheaf.subsingleton_H'_sup) reduce H³ to H² of {v₁ ≠ 0} in the first chart and {v₀ ≠ 0} in the third, copies of ℂ* × ℂ, which vanishes by subsingleton_H'_two_chartPreOpen_coord_ne_zero (any chart onto ℂⁿ, any coordinate: slit pieces, then half-spaces, q = 1, 0); every piece is star-convex in a chart (contractible-open-acyclic). p1p1Fibres_cup_ne_zero: the left side of p1p1Fibres_cup_eq_p1p1Corner is nonzero, so cycle-class-multiplicative-p1p1 is a non-vacuous identity. A nonvanishing: no sign or scalar enters. Red team: docs/sketches/p1p1-point-class-nonzero.redteam.md."
     },
     {
       "id": "hard-lefschetz",
