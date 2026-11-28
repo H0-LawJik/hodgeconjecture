@@ -62,7 +62,8 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `docs/conventions.md` | Register of sign and normalization conventions every statement and proof depends on; maintained by the red team. |
 | `docs/audits/` | Dated conformance audits against the literature. |
 | `docs/notes/` | Dated research notes: ideas reviewed against the literature, kept in corrected form, with what was set aside and why. A note can propose rungs; it is not a result. |
-| `docs/gaps.md` | Acknowledged gaps: general lemmas kept local, known weaknesses, dropped threads. |
+| `docs/gaps.md` | Acknowledged gaps: general lemmas kept local (grouped by the Mathlib or upstream area they shadow, with import layers), known weaknesses, dropped threads. |
+| `docs/pin-walk.md`, `tools/pinwalk.py` | Pin-bump procedure: walk the `docs/gaps.md` kept-local categories in layer order, `python3 tools/pinwalk.py --clash <Mathlib or upstream dir>` for name and phrase candidates, `--hubs` for frozen hub modules (do not edit a checked hub; add lemmas in new leaf modules), then the pin modules and the `docs/conventions.md` drift list. |
 | `docs/decisions/` | Architecture decision records, one decision per file, numbered; numbers are permanent. |
 | `.github/workflows/ci.yml` | Runs `tools/check.py` on pushes to `main` and on pull requests from forks (decision 0007). |
 | `.github/ISSUE_TEMPLATE/gap.md`, `.github/PULL_REQUEST_TEMPLATE.md` | Intake shapes for a new rung and for a proof. |
@@ -78,6 +79,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | `python3 tools/next.py [id]` | Brief for the next ready rung, or the named one. Start of every prover session. |
 | `/prove-rung <id>`, `/post-rungs`, `/red-team <id>` | The three session modes, as skills. |
 | `lake update` | Only after editing `lakefile.toml`; commit `lake-manifest.json`. |
+| `python3 tools/pinwalk.py [--hubs \| --clash DIR]` | Layers, frozen hubs and clash candidates for a pin bump (`docs/pin-walk.md`). |
 
 ## Conventions
 
@@ -97,7 +99,7 @@ Keep this block to one paragraph per state change, newest first, and trim anythi
 | **Add a rung** | 1. `ledger/ladder.json` entry with `depends_on` 2. `docs/roadmap.md` row 3. open a GitHub issue from the gap template so outside agents can find it |
 | **Use a new upstream statement** | 1. confirm it exists at the pin 2. ledger rung with `kind` and the upstream declaration names 3. red-team pass 4. `docs/statement.md` if it is a new variant |
 | **Add a local definition Mathlib lacks** | 1. The module 2. `docs/gaps.md` "General lemmas kept local" table |
-| **Bump the upstream pin (and with it Lean and Mathlib)** | 1. red-team drift check of the definitions in `docs/conventions.md` 2. `lakefile.toml` (upstream rev, Mathlib rev) and `lean-toolchain` 3. `lake update`, commit `lake-manifest.json` 4. `ledger/ladder.json` toolchain block 5. `README.md` version line 6. handoff noting the drift result |
+| **Bump the upstream pin (and with it Lean and Mathlib)** | 0. follow `docs/pin-walk.md` 1. red-team drift check of the definitions in `docs/conventions.md` 2. `lakefile.toml` (upstream rev, Mathlib rev) and `lean-toolchain` 3. `lake update`, commit `lake-manifest.json` 4. `ledger/ladder.json` toolchain block 5. `README.md` version line 6. handoff noting the drift result |
 | **Add or change a role or prompt** | 1. `docs/harness.md` roles table 2. `.claude/agents/<role>.md` 3. `AGENTS.md` if the outside-agent path changed 4. the skill that invokes it |
 | **Open or kill a front** | 1. `docs/decisions/` record 2. `docs/strategy.md` fronts table 3. ledger rung with `kind: "front"` 4. issue |
 | **Change the checker rules** | 1. `tools/check.py` 2. `CONTRIBUTING.md` "What the checker requires" 3. `AGENTS.md` same list 4. `docs/decisions/` record |
