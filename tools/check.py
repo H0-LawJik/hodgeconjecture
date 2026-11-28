@@ -48,7 +48,31 @@ def check_build() -> bool:
         sys.stderr.write(r.stderr[-4000:])
         return False
     accept("build")
+    check_build_log(r.stdout + r.stderr)
     return True
+
+
+SORRY_WARNING = re.compile(r"declaration uses [`'\"]sorry[`'\"]")
+
+
+def check_build_log(log: str) -> None:
+    """Reject a build whose log carries Lean's placeholder warning (decision 0014).
+
+    `sorry`, `admit` and `stop` all elaborate to `sorryAx` and make Lean print this
+    warning; the text scan below catches only the literal word. Lake replays the
+    logs of cached modules, so the warning survives an up-to-date build.
+    """
+    hits = sorted({line.strip() for line in log.splitlines() if SORRY_WARNING.search(line)})
+    if hits:
+        reject("placeholder in build log: " + "; ".join(hits[:20]))
+    else:
+        accept("build log: no placeholder warning")
+
+
+def check_replayed_log() -> None:
+    """In `--no-build` mode, replay cached build logs and scan them (decision 0014)."""
+    r = run(["lake", "build", "--no-build"])
+    check_build_log(r.stdout + r.stderr)
 
 
 def check_no_sorry() -> None:
@@ -170,6 +194,8 @@ def main() -> int:
     args = ap.parse_args()
     if not args.no_build and not check_build():
         return 1
+    if args.no_build:
+        check_replayed_log()
     check_no_sorry()
     check_import_clash()
     data = load_ledger()
