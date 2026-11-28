@@ -583,11 +583,23 @@
     },
     {
       "id": "weil-surface-reduction",
-      "title": "T1's linear-algebra step: on a smooth projective integral surface A with IsWeilTypeSurface A f d, finrank H_dR^1(A) = 4 and H_dR^2(A) spanned by deRhamCup of H¹ classes, weilSpace A f d ≤ Hdg^1(A; ℚ), hence ≤ algebraicCycleClassSpan A 1",
-      "status": "open",
+      "title": "T1's linear-algebra step: on a smooth projective integral A over ℂ (no dimension hypothesis) with IsWeilTypeSurface A f d, finrank ℂ H_dR^1(A) = 4 and H_dR^2(A) spanned by deRhamCup of H¹ classes, weilSpace A f d ≤ Hdg^1(A; ℚ), hence ≤ algebraicCycleClassSpan A 1; so WeilClassesAlgebraicSurface follows from rank 4 and span on every abelian surface",
+      "status": "checked",
       "kind": "reduction",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Weil.Surface.Reduction",
+      "declarations": [
+        "HodgeLadder.Weil.ker_sub_smul_le_of_isBalanced",
+        "HodgeLadder.deRhamConj_deRhamConj",
+        "HodgeLadder.Weil.weilSpace_le_hodge_of_rank_span",
+        "HodgeLadder.Weil.weilSpace_le_algebraic_of_rank_span",
+        "HodgeLadder.Weil.weilClassesAlgebraicSurface_of_rank_span",
+        "HodgeLadder.Weil.ker_modelWedgeEndo_le_one_one",
+        "HodgeLadder.Weil.ker_modelWedgeEndo_ne_bot",
+        "HodgeLadder.Weil.ker_modelWedgeEndo_ne_top",
+        "HodgeLadder.Weil.modelWedgeHodgeOneOne_ne_top",
+        "HodgeLadder.Weil.not_ker_modelWedgeEndo_le_two_zero",
+        "HodgeLadder.Weil.not_ker_model31WedgeEndo_le"
+      ],
       "depends_on": [
         "weil-space",
         "weil-eigen-algebra",
@@ -595,11 +607,14 @@
         "cup-hodge-filtration",
         "cup-hodge-reduction",
         "de-rham-cup-antisymm-h1",
-        "rational-cohomology-finite-dimensional",
+        "de-rham-rational-span",
+        "chern-classes-are-hodge",
         "weil-surface-statement"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node B. A conditional theorem whose two extra hypotheses are statements on upstream definitions (rank and span of H_dR); every input is checked or small. Vacuous at the pin until an X with b₁ = 4 exists (weil-elliptic-square discharges it). Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Conditional theorem on upstream definitions, no dimension hypothesis: IsWeilTypeSurface A f d, finrank ℂ H_dR^1(A) = 4 and the span of deRhamCup on H¹ × H¹ give weilSpace A f d ≤ Hdg^1(A; ℚ) exactly, the conjugate condition of Hdg^1 through mem_hodgeClasses_of_mem_hodgeFiltration; algebraic form by Lefschetz (1,1) as an equality; WeilClassesAlgebraicSurface from rank and span on every abelian surface (literature b₁ = 4, H² = ∧²H¹; Mumford1970 §1, GriffithsHarris1978 ch. 2 §6, locators unverified). Linear algebra in ker_sub_smul_le_of_isBalanced (abstract ℂ-spaces); injectivity of conjugation from deRhamConj_deRhamConj, placed in HodgeLadder.Hodge.DeRhamPullback beside deRhamPullback_conj. Signs: −d through weilRoot_sq, Koszul (−1)^(1·1) through deRhamCup_self_of_odd, nothing else. Model checks on ℂ⁴, ∧²ℂ⁴: conclusion nontrivial, fails for signature (2, 0); a rank-(3, 1) model without conjugation also fails (not_ker_model31WedgeEndo_le). Vacuous at the pin: no X with a checked b₁ ≠ 0; instance planned on E × E (elliptic-square-cohomology, weil-elliptic-square). Future test, no rung yet: ¬ weilSpace (E × E) ([i] × [i]) 1 ≤ Hdg^1 (signature (2, 0)), which needs an X with h^{2,0} ≠ 0 and would refute F¹H² = ⊤ at the pin as a cause of the inclusion. Companion rank identity: weil-surface-rank (open). Red team docs/sketches/weil-surface-reduction.redteam.md."
     },
     {
       "id": "weil-surface-rank",

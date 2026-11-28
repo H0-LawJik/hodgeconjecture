@@ -57,6 +57,8 @@ cast equation `(a : ℤ) + b = n` to `deRhamCup` and `deRhamCupBilinear`, the sa
   with `g^*` in each factor
 * `HodgeLadder.deRhamPullback_cup`: `g^* (deRhamCup x y n _) = deRhamCup (g^* x) (g^* y) n _`
 * `HodgeLadder.deRhamPullback_conj`: `deRhamConj X n (g^* x) = g^* (deRhamConj Y n x)`
+* `HodgeLadder.deRhamConj_deRhamConj`: conjugation is an involution on `H_dR^n(X)` (added by rung
+  `weil-surface-reduction`)
 -/
 
 @[expose] public noncomputable section
@@ -172,5 +174,20 @@ theorem deRhamPullback_conj (g : X ⟶ Y) (n : ℕ) (x : H_dR^n(Y)) :
     rw [deRhamConj_fieldToDeRhamCohomology, deRhamPullback_fieldToDeRhamCohomology,
       deRhamConj_fieldToDeRhamCohomology]
   exact congrArg (fun f => f x) key
+
+variable (X) in
+/-- **Conjugation is an involution** on `H_dR^n(X)` for smooth projective integral `X`: the
+composite of `deRhamConjSemilinear X n` with itself is `ℂ`-linear and agrees with the identity on
+the de Rham images of rational classes, which conjugation fixes
+(`deRhamConj_fieldToDeRhamCohomology`) and which span (`span_range_fieldToDeRhamCohomology_rat`).
+Used by rung `weil-surface-reduction` for injectivity of `deRhamConj`. -/
+theorem deRhamConj_deRhamConj (n : ℕ) (x : H_dR^n(X)) :
+    deRhamConj X n (deRhamConj X n x) = x := by
+  have key : (deRhamConjSemilinear X n).comp (deRhamConjSemilinear X n) = LinearMap.id := by
+    refine LinearMap.ext_on (span_range_fieldToDeRhamCohomology_rat X n) ?_
+    rintro _ ⟨α, rfl⟩
+    rw [LinearMap.comp_apply, deRhamConjSemilinear_apply, deRhamConjSemilinear_apply,
+      deRhamConj_fieldToDeRhamCohomology, deRhamConj_fieldToDeRhamCohomology, LinearMap.id_apply]
+  exact LinearMap.congr_fun key x
 
 end HodgeLadder
