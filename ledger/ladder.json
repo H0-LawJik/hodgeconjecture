@@ -1036,13 +1036,17 @@
     {
       "id": "weierstrass-surjective",
       "title": "weierstrassP_surjOn (L : PeriodPair) (c : ℂ) : ∃ z ∉ L.lattice, L.weierstrassP z = c (by Liouville on (℘ − c)⁻¹)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.General.WeierstrassSurjective",
+      "declarations": [
+        "HodgeLadder.weierstrassP_surjOn"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 1). Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. For every PeriodPair L and c : ℂ, ∃ z ∉ L.lattice, L.weierstrassP z = c; Mathlib only, no sign. Route (sketch docs/sketches/weierstrass-two-to-one.md, sub-rung 1): if ℘ never took c off Λ, g = (℘ − c)⁻¹ off Λ and 0 on Λ is analytic everywhere (at l ∈ Λ, ℘ − c has order −2 by order_weierstrassP and meromorphicOrderAt_add_eq_left_of_lt, so g has order 2 and value 0, AnalyticAt.of_meromorphicOrderAt_pos), Λ-periodic, bounded by IsZLattice.isCompact_range_of_periodic, constant by Liouville, hence 0, against g (ω₁/2) ≠ 0. The hypothesis z ∉ Λ carries weight: ℘ has the junk value 0 on Λ (weierstrassP_coe). About 4 s to elaborate. Red team: pass with changes (docs/sketches/weierstrass-surjective.redteam.md)."
     },
     {
       "id": "rect-winding",

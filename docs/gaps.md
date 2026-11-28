@@ -166,11 +166,12 @@ Diff at a bump: Mathlib `Geometry/Manifold/`, `Analysis/Analytic/`, `Analysis/Co
 
 ### Complex analysis and elliptic functions
 
-Diff at a bump: Mathlib `Analysis/SpecialFunctions/Elliptic/`, `Analysis/Complex/`, `NumberTheory/ModularForms/EisensteinSeries/`.
+Diff at a bump: Mathlib `Analysis/SpecialFunctions/Elliptic/`, `Analysis/Complex/`, `Analysis/Meromorphic/Order.lean`, `Algebra/Module/ZLattice/Basic.lean`, `NumberTheory/ModularForms/EisensteinSeries/`.
 
 | Local declaration | Module | Layer | Why local | Opened |
 |---|---|---|---|---|
 | `HodgeLadder.Period.swap`, `smul`, `swap_lattice`, `mem_smul_lattice`, `smulLatticeEquiv`, `weierstrassP_congr`, `derivWeierstrassP_congr`, `weierstrassP_smul`, `derivWeierstrassP_smul`, `G_smul`, `g₂_smul`, `g₃_smul`, `ω₁_ne_zero`, `ω₂_ne_zero`, `im_div_ne_zero`, `oriented`, `oriented_swap`, `normalizeScale`, `normalize` and their lemmas (basis swap and scaling of Mathlib's `PeriodPair`, the oriented basis with Im(ω₂/ω₁) > 0, the normalized pair (1, τ), homogeneity of ℘, ℘′, G_n, g₂, g₃, `exists_weierstrassP_ne_zero`) | `HodgeLadder.Period.Pair.Normalize` | 0 | Mathlib at the pin has `PeriodPair` and ℘ with no basis change, no scaling and no homogeneity lemma (`PeriodPair` occurs only in `Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`); they belong next to `PeriodPair.weierstrassP`; at a bump check that file for a `PeriodPair.smul`, a homogeneity lemma for `weierstrassP` or `G`, or a lattice-only `weierstrassP`; rung `period-pair-normalize` | 2026-11-28 |
+| `HodgeLadder.weierstrassP_surjOn` (Mathlib's Weierstrass ℘ takes every complex value at a point off the lattice, by Liouville on (℘ − c)⁻¹) | `HodgeLadder.General.WeierstrassSurjective` | 0 | Mathlib at the pin has ℘, its order −2 on Λ and `derivWeierstrassP_sq`, and no value or surjectivity statement; natural next to `derivWeierstrassP_sq` in `Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`, so at a pin bump check that file for a surjectivity or value-distribution lemma; rung `weierstrass-surjective` | 2026-11-28 |
 
 ### Port-specific
 
