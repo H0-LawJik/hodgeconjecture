@@ -175,3 +175,5 @@ public import HodgeLadder.General.ComplexPoint
 public import HodgeLadder.Tests.ComplexPointNonempty
 public import HodgeLadder.Hodge.WedgeSheafMap
 public import HodgeLadder.Hodge.DeRhamScalarSheaf
+public import HodgeLadder.General.ComplexPointProd
+public import HodgeLadder.Normalization.ProductChart
