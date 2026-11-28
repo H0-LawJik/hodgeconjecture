@@ -604,15 +604,38 @@
     {
       "id": "elliptic-curve-smooth",
       "title": "SmoothOfRelativeDimension 1 for the plane cubic HodgeLadder.Tests.ellipticCurve, by the Jacobian criterion on its two charts",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Tests.EllipticCurveSmooth",
+      "declarations": [
+        "HodgeLadder.Tests.smoothOfRelativeDimension_ellipticCurve",
+        "HodgeLadder.Tests.smooth_ellipticCurve",
+        "HodgeLadder.Tests.smoothOfRelativeDimension_affineChart",
+        "HodgeLadder.Tests.smoothOfRelativeDimension_infinityChart",
+        "HodgeLadder.Tests.span_pderiv_affineEquation",
+        "HodgeLadder.Tests.span_pderiv_infinityEquation",
+        "HodgeLadder.Tests.pderiv_zero_affineEquation",
+        "HodgeLadder.Tests.pderiv_one_affineEquation",
+        "HodgeLadder.Tests.pderiv_zero_infinityEquation",
+        "HodgeLadder.Tests.pderiv_one_infinityEquation",
+        "HodgeLadder.Tests.cusp_span_pderiv_ne_top",
+        "HodgeLadder.HypersurfaceSmooth.naivePresentation",
+        "HodgeLadder.HypersurfaceSmooth.naivePresentation_jacobian",
+        "HodgeLadder.HypersurfaceSmooth.awayPresentation",
+        "HodgeLadder.HypersurfaceSmooth.isStandardSmoothOfRelativeDimension_away",
+        "HodgeLadder.HypersurfaceSmooth.locally",
+        "HodgeLadder.HypersurfaceSmooth.smoothOfRelativeDimension_spec",
+        "HodgeLadder.Tests.affineChartAway",
+        "HodgeLadder.Tests.affineEquation_eval_I",
+        "HodgeLadder.Tests.rank_kaehlerDifferential_affineChartAway"
+      ],
       "depends_on": [
         "plane-cubic-subscheme"
       ],
-      "contributors": [],
-      "note": "Plan: docs/notes/2026-11-27-t1-plan.md, node E2. The general Jacobian criterion is missing at the pin (jacobian-smooth-point needs 'a regular local ring is a domain'); the explicit presentation avoids it. Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. SmoothOfRelativeDimension 1 ellipticCurve.hom (and Smooth), local on the source over the two charts of ellipticCurve_chart_cover. Each chart Spec ℂ[x, y] ⧸ (f) is smooth of relative dimension 2 − 1 by HodgeLadder.General.HypersurfaceSmooth: when the classes of the partial derivatives generate the unit ideal, each localization away from one of them has the submersive presentation localizationAway.comp naive (Jacobian the partial derivative squared, dimension 1). Combinations: z ≠ 0, (4 − 6x²) f_x − 9xy f_y = 4 − 18x f; y ≠ 0, u² h_u + (1 + uw) h_w = 1 + 3u h. Test: the cusp y² = x³ fails the hypothesis (cusp_span_pderiv_ne_top). No sign. The general Jacobian criterion at a point (jacobian-smooth-point) stays open and is not used. Red team: pass with changes (docs/sketches/elliptic-curve-smooth.redteam.md)."
     },
     {
       "id": "elliptic-curve-integral",
