@@ -177,6 +177,8 @@ public import HodgeLadder.Hodge.WedgeSheafMap
 public import HodgeLadder.Hodge.DeRhamScalarSheaf
 public import HodgeLadder.Hodge.DeRhamCup
 public import HodgeLadder.Tests.DeRhamCupGm2
+public import HodgeLadder.Hodge.DeRhamCupBilinear
+public import HodgeLadder.Tests.DeRhamCupP2
 public import HodgeLadder.General.ComplexPointProd
 public import HodgeLadder.General.Segre
 public import HodgeLadder.Tests.P1p1Witness
