@@ -189,6 +189,7 @@ public import HodgeLadder.Tests.CycleClassMultiplicativeP1p1
 public import HodgeLadder.Tests.ChartCohomology
 public import HodgeLadder.Tests.P1p1PointClassNonzero
 public import HodgeLadder.Hodge.CupHodgeFiltration
+public import HodgeLadder.General.EigenProducts
 public import HodgeLadder.Tests.CupHodgeFiltrationP2
 public import HodgeLadder.Local.ClassPullback
 public import HodgeLadder.Tests.P1p1FstPullback
