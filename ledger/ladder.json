@@ -6089,16 +6089,36 @@
     {
       "id": "supported-pullback-section",
       "title": "pullbackCocycle_supCocycle: the transported supCocycle (rawMap x) is supCocycle (rawMap (relPullback x)), the pair map sending generator to generator",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Supported.PullbackSection",
+      "declarations": [
+        "HodgeLadder.Supported.openPairPullback",
+        "HodgeLadder.Supported.relPullback",
+        "HodgeLadder.Supported.pullbackCocycle_supCocycle",
+        "HodgeLadder.Supported.pairCocycle_ext",
+        "HodgeLadder.Supported.fromSingleEquiv_precomp_map_postcomp",
+        "HodgeLadder.Supported.gen_supportPairMap",
+        "HodgeLadder.Supported.singularPullbackInt_f_sInt_XIso",
+        "HodgeLadder.Supported.unit_comp_singularPullbackInt",
+        "HodgeLadder.Supported.singularRestriction_relPullback",
+        "HodgeLadder.Supported.gen_supCocycle",
+        "HodgeLadder.Tests.supCocycle_relPullback_prodFst_ne_zero"
+      ],
       "depends_on": [
         "singular-cochain-pullback",
-        "supported-pullback-named"
+        "supported-pullback-named",
+        "ext-map-cocycle",
+        "supported-class-pullback",
+        "cup-singular-comparison",
+        "supported-raw-map",
+        "supported-relative-cup",
+        "right-mult-cocycle"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R4). Failed so far: nothing (new). Size: 200 to 350 lines. If it closes only with a scalar or a sign, mark it refuted and open a signed rung."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R4), statement as posted. For a relative cocycle x on (X(ℂ), X(ℂ) ∖ Z), pullbackCocycle g Z Z' hZ (supCocycle (rawMap x)) = supCocycle (rawMap (relPullback x)), where relPullback is the forget₂ image of upstream's relativeDualCochainShortComplexIntMap τ₁ along openPairPullback, the map of open pairs (⊤, Z'ᶜ) ⟶ (⊤, Zᶜ) given by g (relativeCohomologyMap's own cochain map). Exact, no sign, no scalar: a pair cocycle is fixed by its generator value (pairCocycle_ext); the pair map sends the generator to the unit image of the generator (gen_supportPairMap); unit then g_* of the cochain pullback is upstream's restriction (unit_comp_singularPullbackInt); upstream's raw restriction and relPullback agree by rfl. Non-vacuity: supCocycle_relPullback_prodFst_ne_zero (pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹, support ⊤, degree 0). The red team assembled R6 from R3, R4 and R5 in scratch (all three statements, standard axioms, no sign); text in the red-team file, change H. Kernel type checking about 110 s for the file, 82 s for the main theorem. Red team docs/sketches/supported-pullback-section.redteam.md."
     },
     {
       "id": "supported-pullback-transport",
@@ -6115,7 +6135,7 @@
         "supported-pullback-section"
       ],
       "contributors": [],
-      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11). Statement: supportedEquivPair X' Z' n (supportedPullback g Z Z' hZ n α) = relativeCohomologyMap ℚ n (TopPair.ofSubsetHom (pointMap g) (fun _ ha => compl_le_of_preimage_subset g Z Z' hZ ha)) (supportedEquivPair X Z n α), for X, X' integral, smooth, T2 and paracompact on opens (elaborates at 2ead713). Missing input: a cochain map f⁻¹𝒮•_X ⟶ 𝒮•_Y of sheafified singular cochains over the augmentations, and naturality of upstream's flasque supported-sections model for it; split before proving. Absolute case: Ψ_{X'} (pullbackCoh g n β) = cohomologyMap ℚ n (pointMap g) (Ψ_X β). Update 2026-11-27: split into sub-rungs R1 to R5 per docs/sketches/supported-pullback-transport.md (singular-cochain-pullback, ext-map-cocycle, supported-pair-named, supported-pullback-named, supported-pullback-section); this rung is R6, with the test supported-pullback-transport-test. Order: R1, R2, R5 in parallel, then R3, R4, R6. If any of R3 to R6 passes 600 s of kernel type checking, split it; if the total passes 1500 lines, re-plan."
+      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11). Statement: supportedEquivPair X' Z' n (supportedPullback g Z Z' hZ n α) = relativeCohomologyMap ℚ n (TopPair.ofSubsetHom (pointMap g) (fun _ ha => compl_le_of_preimage_subset g Z Z' hZ ha)) (supportedEquivPair X Z n α), for X, X' integral, smooth, T2 and paracompact on opens (elaborates at 2ead713). Missing input: a cochain map f⁻¹𝒮•_X ⟶ 𝒮•_Y of sheafified singular cochains over the augmentations, and naturality of upstream's flasque supported-sections model for it; split before proving. Absolute case: Ψ_{X'} (pullbackCoh g n β) = cohomologyMap ℚ n (pointMap g) (Ψ_X β). Update 2026-11-27: split into sub-rungs R1 to R5 per docs/sketches/supported-pullback-transport.md (singular-cochain-pullback, ext-map-cocycle, supported-pair-named, supported-pullback-named, supported-pullback-section); this rung is R6, with the test supported-pullback-transport-test. Order: R1, R2, R5 in parallel, then R3, R4, R6. If any of R3 to R6 passes 600 s of kernel type checking, split it; if the total passes 1500 lines, re-plan. Update 2026-11-28: all three statements compiled in scratch from R3, R4 and R5 (standard axioms, no sign, about 65 s); Lean text in docs/sketches/supported-pullback-section.redteam.md, change H."
     },
     {
       "id": "supported-pullback-transport-test",
