@@ -186,3 +186,5 @@ public import HodgeLadder.Tests.P1p1Witness
 public import HodgeLadder.Normalization.ProductChart
 public import HodgeLadder.Tests.P1p1Fibres
 public import HodgeLadder.Tests.CycleClassMultiplicativeP1p1
+public import HodgeLadder.Tests.ChartCohomology
+public import HodgeLadder.Tests.P1p1PointClassNonzero
