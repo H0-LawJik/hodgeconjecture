@@ -767,16 +767,47 @@
     },
     {
       "id": "torus-winding-duality",
-      "title": "coordChar, coordWinding, coordTorus on UnitAddTorus (Fin n) and torusEval_coordTorus_cup: ⟨aᵢ ∪ aⱼ, T_kl⟩ = [i = k][j = l] − [i = l][j = k], exact, both orders",
-      "status": "open",
+      "title": "coordChar, coordWinding, coordTorus on UnitAddTorus (Fin n) and torusEval_coordTorus_cup: ⟨aᵢ ⌣ aⱼ, T_kl⟩ (singular cup cupSing) = [i = k][j = l] − [i = l][j = k], exact, both orders",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Torus.Winding.Duality",
+      "declarations": [
+        "HodgeLadder.Torus.torus",
+        "HodgeLadder.Torus.coordChar",
+        "HodgeLadder.Torus.coordChar_ne_zero",
+        "HodgeLadder.Torus.coordWinding",
+        "HodgeLadder.Torus.coordTorus",
+        "HodgeLadder.Torus.coordTorus_apply",
+        "HodgeLadder.Torus.coordTorus_one_left",
+        "HodgeLadder.Torus.coordTorus_one_right",
+        "HodgeLadder.Torus.coordPhase",
+        "HodgeLadder.Torus.continuous_coordPhase",
+        "HodgeLadder.Torus.coordChar_coordTorus",
+        "HodgeLadder.Torus.val_frontEdge_of_phase",
+        "HodgeLadder.Torus.val_backEdge_of_phase",
+        "HodgeLadder.Torus.val_frontEdge_coord",
+        "HodgeLadder.Torus.val_backEdge_coord",
+        "HodgeLadder.Torus.torusEval_coordTorus_cup",
+        "HodgeLadder.Torus.torusEval_coordTorus_cup_diag",
+        "HodgeLadder.Torus.torusEval_coordTorus_cup_all",
+        "HodgeLadder.Torus.torusEval_coordTorus_cup_kl",
+        "HodgeLadder.Torus.torusEval_coordTorus_cup_lk",
+        "HodgeLadder.Torus.torusEval_coordTorus_swap",
+        "HodgeLadder.Torus.torusEval_coordTorus_cup_self",
+        "HodgeLadder.Torus.coordWinding_cup_ne_zero",
+        "HodgeLadder.Torus.torus_two_cup_ne_zero",
+        "HodgeLadder.Torus.torus_two_cup_self_eval",
+        "HodgeLadder.Torus.torus_two_cup_swap_ne",
+        "HodgeLadder.Torus.coordCup",
+        "HodgeLadder.Torus.linearIndependent_coordCup"
+      ],
       "depends_on": [
         "winding-torus-cup"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. On Tⁿ = UnitAddTorus (Fin n), with aᵢ the winding class of exp(2πi xᵢ) and T_kl (s, t) putting s in coordinate k and t in coordinate l: ⟨aᵢ ⌣ aⱼ, T_kl⟩ = [i = k][j = l] − [i = l][j = k] for k ≠ l, exact, singular cup cupSing (front face times back face), cycle lower − upper; T_lk gives the negative, a sheaf cup read through Ψ the negative. Reduces to winding-torus-cup at n = 2. Also checked: torusEval_coordTorus_cup_all (the formula for all k, l; both sides 0 on the circle T_kk, torusEval_coordTorus_cup_diag) and linearIndependent_coordCup (the products aᵢ ⌣ aⱼ with i < j, coordCup, are linearly independent in H²(Tⁿ; ℚ) for every n; the independence half of torus-singular-cohomology in degree 2). Red team: docs/sketches/torus-winding-duality.redteam.md, pass with changes, applied. About 5 s to elaborate."
     },
     {
       "id": "circle-cylinder-homology",
