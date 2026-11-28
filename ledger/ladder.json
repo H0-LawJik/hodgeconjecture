@@ -4940,10 +4940,77 @@
       "module": null,
       "declarations": [],
       "depends_on": [
+        "supported-class-pullback",
+        "supported-pullback-transport"
+      ],
+      "contributors": [],
+      "note": "Statements (elaborate at 2ead713, red team docs/sketches/supported-class-pullback.redteam.md, finding 10): theorem supportedPullback_id {X : Over (Spec ↧ℂ)} (Z : Closeds (ComplexPoint X)) (n : ℕ) (α : H_[Z]^n(X; ℚ)) : supportedPullback (𝟙 X) Z Z (fun _ h => h) n α = α; theorem supportedPullback_comp {X X' X'' : Over (Spec ↧ℂ)} (h : X'' ⟶ X') (g : X' ⟶ X) (Z : Closeds (ComplexPoint X)) (Z' : Closeds (ComplexPoint X')) (Z'' : Closeds (ComplexPoint X'')) (hZ : ⇑(Point.continuousMap g) ⁻¹' (Z : Set (ComplexPoint X)) ⊆ Z') (hZ' : ⇑(Point.continuousMap h) ⁻¹' (Z' : Set (ComplexPoint X')) ⊆ Z'') (n : ℕ) (α : H_[Z]^n(X; ℚ)) : supportedPullback (h ≫ g) Z Z'' (fun _ ha => hZ' (hZ ha)) n α = supportedPullback h Z' Z'' hZ' n (supportedPullback g Z Z' hZ n α). Missing input: Mathlib at the pin has no identity or composition isomorphism for TopCat.Sheaf.pullback; build pullback (h ≫ g) ≅ pullback g ⋙ pullback h from leftAdjointUniq with its compatibility with pullbackConstantSheafIso and freePullback. Not on the route of fibre-class-pullback; with Z = ⊤ in positive degree it is the first positive-degree value test of supported-class-pullback. Not attempted. Update 2026-11-27: the transport sketch derives identity and composition from supported-pullback-transport, since supportedEquivPair is an equivalence; depends on it."
+    },
+    {
+      "id": "singular-cochain-pullback",
+      "title": "Pullback of sheafified singular cochains: singularPullbackSheaf f n : f⁻¹𝒮ⁿ_X ⟶ 𝒮ⁿ_Y, the adjoint of upstream's singularRestrictionSheafComplex along a continuous f, commuting with the coboundary, with constants_comp_singularPullbackSheaf pinning f⁻¹ℚ_X ≅ ℚ_Y exactly; integral form singularPullbackInt g and iotaQ_comp_singularPullbackInt",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
         "supported-class-pullback"
       ],
       "contributors": [],
-      "note": "Statements (elaborate at 2ead713, red team docs/sketches/supported-class-pullback.redteam.md, finding 10): theorem supportedPullback_id {X : Over (Spec ↧ℂ)} (Z : Closeds (ComplexPoint X)) (n : ℕ) (α : H_[Z]^n(X; ℚ)) : supportedPullback (𝟙 X) Z Z (fun _ h => h) n α = α; theorem supportedPullback_comp {X X' X'' : Over (Spec ↧ℂ)} (h : X'' ⟶ X') (g : X' ⟶ X) (Z : Closeds (ComplexPoint X)) (Z' : Closeds (ComplexPoint X')) (Z'' : Closeds (ComplexPoint X'')) (hZ : ⇑(Point.continuousMap g) ⁻¹' (Z : Set (ComplexPoint X)) ⊆ Z') (hZ' : ⇑(Point.continuousMap h) ⁻¹' (Z' : Set (ComplexPoint X')) ⊆ Z'') (n : ℕ) (α : H_[Z]^n(X; ℚ)) : supportedPullback (h ≫ g) Z Z'' (fun _ ha => hZ' (hZ ha)) n α = supportedPullback h Z' Z'' hZ' n (supportedPullback g Z Z' hZ n α). Missing input: Mathlib at the pin has no identity or composition isomorphism for TopCat.Sheaf.pullback; build pullback (h ≫ g) ≅ pullback g ⋙ pullback h from leftAdjointUniq with its compatibility with pullbackConstantSheafIso and freePullback. Not on the route of fibre-class-pullback; with Z = ⊤ in positive degree it is the first positive-degree value test of supported-class-pullback. Not attempted."
+      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R1). Failed so far: nothing (new). Size: 200 to 300 lines."
+    },
+    {
+      "id": "ext-map-cocycle",
+      "title": "An exact functor carries cocycle-named derived maps to cocycle-named maps: cocycleMap F z and mapDerivedCategory_shiftedHom_cocycle, F.mapDerivedCategory sends the class named by z to the class named by cocycleMap F z, exactly",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R2). Failed so far: nothing (new). Size: 80 to 150 lines; general, kept local (decision 0011). Kill criterion: on every route; if two prover sessions leave it open, stop and record a decision."
+    },
+    {
+      "id": "supported-pair-named",
+      "title": "supportedEquivPair_of_named: a supported class named by supCocycle (rawMap y) has the singular class of y under supportedEquivPair",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "singular-cochain-pullback"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R5). Failed so far: nothing (new). Size: 60 to 100 lines."
+    },
+    {
+      "id": "supported-pullback-named",
+      "title": "supportedPullback_named: if α ∘ ι_X is named by the cocycle z, then g^*α ∘ ι_X' is named by pullbackCocycle g Z Z' hZ z",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "singular-cochain-pullback",
+        "ext-map-cocycle",
+        "supported-class-pullback"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R3). Failed so far: nothing (new). Size: 150 to 250 lines."
+    },
+    {
+      "id": "supported-pullback-section",
+      "title": "pullbackCocycle_supCocycle: the transported supCocycle (rawMap x) is supCocycle (rawMap (relPullback x)), the pair map sending generator to generator",
+      "status": "open",
+      "kind": "foundation",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "singular-cochain-pullback",
+        "supported-pullback-named"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung R4). Failed so far: nothing (new). Size: 200 to 350 lines. If it closes only with a scalar or a sign, mark it refuted and open a signed rung."
     },
     {
       "id": "supported-pullback-transport",
@@ -4954,10 +5021,27 @@
       "declarations": [],
       "depends_on": [
         "supported-class-pullback",
-        "supported-pair-forget"
+        "supported-pair-forget",
+        "supported-pair-named",
+        "supported-pullback-named",
+        "supported-pullback-section"
       ],
       "contributors": [],
-      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11). Statement: supportedEquivPair X' Z' n (supportedPullback g Z Z' hZ n α) = relativeCohomologyMap ℚ n (TopPair.ofSubsetHom (pointMap g) (fun _ ha => compl_le_of_preimage_subset g Z Z' hZ ha)) (supportedEquivPair X Z n α), for X, X' integral, smooth, T2 and paracompact on opens (elaborates at 2ead713). Missing input: a cochain map f⁻¹𝒮•_X ⟶ 𝒮•_Y of sheafified singular cochains over the augmentations, and naturality of upstream's flasque supported-sections model for it; split before proving. Absolute case: Ψ_{X'} (pullbackCoh g n β) = cohomologyMap ℚ n (pointMap g) (Ψ_X β)."
+      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11). Statement: supportedEquivPair X' Z' n (supportedPullback g Z Z' hZ n α) = relativeCohomologyMap ℚ n (TopPair.ofSubsetHom (pointMap g) (fun _ ha => compl_le_of_preimage_subset g Z Z' hZ ha)) (supportedEquivPair X Z n α), for X, X' integral, smooth, T2 and paracompact on opens (elaborates at 2ead713). Missing input: a cochain map f⁻¹𝒮•_X ⟶ 𝒮•_Y of sheafified singular cochains over the augmentations, and naturality of upstream's flasque supported-sections model for it; split before proving. Absolute case: Ψ_{X'} (pullbackCoh g n β) = cohomologyMap ℚ n (pointMap g) (Ψ_X β). Update 2026-11-27: split into sub-rungs R1 to R5 per docs/sketches/supported-pullback-transport.md (singular-cochain-pullback, ext-map-cocycle, supported-pair-named, supported-pullback-named, supported-pullback-section); this rung is R6, with the test supported-pullback-transport-test. Order: R1, R2, R5 in parallel, then R3, R4, R6. If any of R3 to R6 passes 600 s of kernel type checking, split it; if the total passes 1500 lines, re-plan."
+    },
+    {
+      "id": "supported-pullback-transport-test",
+      "title": "Along pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹ the supported pullback of [∞] is nonzero in degree 2",
+      "status": "open",
+      "kind": "test",
+      "module": null,
+      "declarations": [],
+      "depends_on": [
+        "supported-pullback-transport",
+        "local-class-pullback-submersion-p1p1"
+      ],
+      "contributors": [],
+      "note": "Sketch: docs/sketches/supported-pullback-transport.md (sub-rung test). Failed so far: nothing (new). Size: 30 to 60 lines."
     },
     {
       "id": "local-class-pullback-submersion",
