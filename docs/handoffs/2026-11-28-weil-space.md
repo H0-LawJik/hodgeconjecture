@@ -1,0 +1,12 @@
+# Handoff 2026-11-28: `weil-space`
+
+- Checked: `HodgeLadder/Weil/Space.lean` (layer 6, imports only `HodgeLadder.Pullback.Functorial`), `HodgeLadder/Weil/Algebraic.lean` (layer 47) and the test `HodgeLadder/Tests/WeilSpace.lean`, all imported from `HodgeLadder.lean`, standard axioms only. Plan node A3, issue #256.
+- Definition: `weilSpace X f d := LinearMap.ker (pullbackCohLinear f 2 + d • LinearMap.id)`, the `−d`-eigenspace of `f^*` on `H²(X; ℚ)`, `d : ℚ` with no condition. `mem_weilSpace_iff : w ∈ weilSpace X f d ↔ pullbackCoh f 2 w = -d • w`, by unfolding.
+- Bridges for `weil-surface-reduction`: `weilSpace_eq_ker_sub` (`ker (f^* − (−d) • id)`, the form `ker_sub_smul_le_span_of_eigen` consumes) and `weilSpace_eq_eigenspace` (`Module.End.eigenspace f^* (−d)`).
+- Sign pinned: `weilSpace_id_one` (`⊥` at `d = 1`), `weilSpace_id_neg_one` (`⊤` at `d = −1`), and `Tests.projectiveLine_weilSpace_id_neg_one_ne_bot` (nonzero on ℙ¹ through the point class). A swapped sign or an always-`⊥` definition fails one of them.
+- The iff `weilSpace_le_algebraic_iff_le_hodge` is the general `HodgeLadder.le_algebraicCycleClassSpan_one_iff` (any submodule of `H^(2 * 1)`, added to `HodgeLadder.Divisor.LefschetzEquality`, 8 downstream modules, not a frozen hub) at `S = weilSpace X f d`; red-team option O1, so consumers of the definition skip the Lefschetz stack.
+- Names: `mem_weilSpace_iff` and `weilSpace_le_algebraic_iff_le_hodge`, which differ from plan §4 A3; the ledger and roadmap carry the final names, and `weil-surface-reduction`'s brief should cite them.
+- Scope: the eigenspace description is Weil's `W_K` for abelian surfaces only; on a `2n`-fold with `n ≥ 2` the `(−d)^n`-eigenspace is larger (38 against 2 at `n = 2`). Conventions row "Weil space" added; reference key `vanGeemen1994` added with unverified locators.
+- Timing: `HodgeLadder.Weil.Space` builds in about 140 s, nearly all kernel time on upstream's `Module ℚ` instance term (`weilSpace` about 40 s, `mem_weilSpace_iff` about 28 s); the simp proof of the membership iff cost 77 s against 28 s for unfolding. Shortcut instances were measured by the red team and not adopted (`docs/gaps.md`, Known weaknesses); a decision is pending.
+- Red team: `docs/sketches/weil-space.redteam.md`, pass with changes; changes 1 to 8 and O1 applied, O2 (factor swap of ℙ¹ × ℙ¹) waits on `fibre-class-pullback`.
+- Next: `weil-surface-statement` (needs this and `de-rham-pullback`, both checked), then `weil-surface-reduction`.

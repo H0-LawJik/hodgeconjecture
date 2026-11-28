@@ -217,3 +217,6 @@ public import HodgeLadder.General.ProjQuotientMap
 public import HodgeLadder.Tests.EllipticCurveCM
 public import HodgeLadder.Hodge.DeRhamPullback
 public import HodgeLadder.Tests.DeRhamPullbackP1p1
+public import HodgeLadder.Weil.Space
+public import HodgeLadder.Weil.Algebraic
+public import HodgeLadder.Tests.WeilSpace

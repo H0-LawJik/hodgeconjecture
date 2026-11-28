@@ -102,6 +102,7 @@ Cite by key. A claim of "known" in any sketch, issue or docstring carries one of
 | `Stacks` | The Stacks Project, stacks.math.columbia.edu, cited by tag | scheme-theoretic definitions matching Mathlib |
 | `Tankeev1982` | S. Tankeev, Cycles on simple abelian varieties of prime dimension, Izv. 46 (1982); Math. USSR-Izv. 20 (1983) | prime dimension |
 | `Totaro1997` | B. Totaro, Torsion algebraic cycles and complex cobordism, J. AMS 10 (1997) | cobordism obstruction to integral HC |
+| `vanGeemen1994` | B. van Geemen, An introduction to the Hodge conjecture for abelian varieties, in: Algebraic Cycles and Hodge Theory (Torino, 1993), LNM 1594, Springer 1994, pp. 233–252 (pages unverified) | Weil classes: W_K = ∧^{2n}_K H¹(A; ℚ) for an abelian 2n-fold with K = ℚ(√−d) acting, complexification ∧^{2n}V_σ ⊕ ∧^{2n}V_σ̄, Hodge for Weil type (§5, locator unverified) |
 | `vanGeemen1996` | B. van Geemen, Theta functions and cycles on some abelian fourfolds, Math. Z. 221 (1996) 617–631, doi:10.1007/BF02622136 | special cases of algebraic Weil classes on fourfolds (exact scope unverified here) |
 | `vanGeemen2022` | B. van Geemen, Fourfolds of Weil type and the spinor map, arXiv:2205.00483 (no journal reference on arXiv; an earlier version of this row gave SIGMA 18 (2022) 097, which is arXiv:2108.02087) | spinors and Weil-type fourfolds |
 | `vanGeemenRapagnetta2026` | B. van Geemen, A. Rapagnetta, Hyperkähler sixfolds, abelian fourfolds of Weil type and a Hodge class, arXiv:2607.18341 (preprint) | Weil fourfolds, discriminant 1 |
