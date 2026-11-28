@@ -658,13 +658,40 @@
     {
       "id": "circle-arc-cover",
       "title": "The circle cover: U₀ = {↑0}ᶜ and V₀ = {↑(1/2)}ᶜ in AddCircle (1 : ℝ) are open, cover, contractible; U₀ ∩ V₀ is two disjoint open contractible arcs W₁ ∪ W₂ with ↑(1/4) ∈ W₁",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.General.CircleArcs",
+      "declarations": [
+        "HodgeLadder.CircleArcs.U₀",
+        "HodgeLadder.CircleArcs.V₀",
+        "HodgeLadder.CircleArcs.W₁",
+        "HodgeLadder.CircleArcs.W₂",
+        "HodgeLadder.CircleArcs.coe_eq_coe_iff_of_mem_Ico",
+        "HodgeLadder.CircleArcs.coe_mem_image_iff",
+        "HodgeLadder.CircleArcs.isOpen_U₀",
+        "HodgeLadder.CircleArcs.isOpen_V₀",
+        "HodgeLadder.CircleArcs.U₀_union_V₀",
+        "HodgeLadder.CircleArcs.contractibleSpace_compl_singleton",
+        "HodgeLadder.CircleArcs.contractibleSpace_U₀",
+        "HodgeLadder.CircleArcs.contractibleSpace_V₀",
+        "HodgeLadder.CircleArcs.U₀_inter_V₀",
+        "HodgeLadder.CircleArcs.isOpen_W₁",
+        "HodgeLadder.CircleArcs.isOpen_W₂",
+        "HodgeLadder.CircleArcs.disjoint_W₁_W₂",
+        "HodgeLadder.CircleArcs.W₁HomeomorphIoo",
+        "HodgeLadder.CircleArcs.W₂HomeomorphIoo",
+        "HodgeLadder.CircleArcs.contractibleSpace_W₁",
+        "HodgeLadder.CircleArcs.contractibleSpace_W₂",
+        "HodgeLadder.CircleArcs.quarter_mem_W₁",
+        "HodgeLadder.CircleArcs.threeQuarter_mem_W₂",
+        "HodgeLadder.CircleArcs.quarter_mem_U₀_inter_V₀",
+        "HodgeLadder.CircleArcs.circle_arc_cover"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 1). Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. Sketch: docs/sketches/torus-singular-cohomology.md (order 1, step 1). In UnitAddCircle = ℝ/ℤ: U₀ = {↑0}ᶜ and V₀ = {↑(1/2)}ᶜ are open, cover and are contractible (contractibleSpace_compl_singleton, any point of AddCircle p with 0 < p, through AddCircle.openPartialHomeomorphCoe p a onto Ioo a (a + p)); U₀ ∩ V₀ = W₁ ∪ W₂ with W₁ = ↑(0, 1/2), W₂ = ↑(1/2, 1) open, disjoint, homeomorphic to open intervals and contractible; ↑(1/4) ∈ W₁, ↑(3/4) ∈ W₂, ↑(1/4) ∈ U₀ ∩ V₀ (the section point of circle-cylinder-homology). circle_arc_cover bundles the clauses. Exact set identities, no sign. The consumer chain into circle-cylinder-homology (bridge Homeomorph.Set.prod univ U₀ then Homeomorph.Set.univ, the overlap split by the preimages of W₁, W₂, the section y ↦ (y, ↑(1/4))) was elaborated with closed proofs in red-team scratch. Red team: docs/sketches/circle-arc-cover.redteam.md, pass with changes. General, kept local (decision 0011); about 3 s to elaborate."
     },
     {
       "id": "homology-prod-contractible",
