@@ -1104,13 +1104,33 @@
     {
       "id": "lattice-fundamental-rectangle",
       "title": "For ω₁ = 1, Im ω₂ > 0 and countable S, some fundamental rectangle has boundary missing S + Λ, and every z has a unique lattice shift into the half-open rectangle",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Period.FundamentalRectangle",
+      "declarations": [
+        "HodgeLadder.Period.mem_lattice_of_ω₁_eq_one",
+        "HodgeLadder.Period.lattice_countable",
+        "HodgeLadder.Period.existsUnique_shift_mem_Ico",
+        "HodgeLadder.Period.exists_real_notMem",
+        "HodgeLadder.Period.exists_boundary_avoids",
+        "HodgeLadder.Period.exists_fundamental_rect",
+        "HodgeLadder.Period.shift_mem_Ico_iff",
+        "HodgeLadder.Period.eq_of_sub_mem_lattice",
+        "HodgeLadder.Period.mem_Ioo_of_boundary_avoids",
+        "HodgeLadder.Period.shearPair",
+        "HodgeLadder.Period.twoIPair",
+        "HodgeLadder.Period.gaussianPair_shift_iff",
+        "HodgeLadder.Period.shearPair_shift_iff",
+        "HodgeLadder.Period.shearPair_neg_ω₂_notMem",
+        "HodgeLadder.Period.not_existsUnique_conjGaussianPair",
+        "HodgeLadder.Period.not_exists_twoIPair",
+        "HodgeLadder.Period.lattice_point_mem_Ioo"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 5). Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 5). exists_fundamental_rect (L) (h₁ : L.ω₁ = 1) (h₂ : 0 < L.ω₂.im) (hS : S.Countable) : ∃ a, (∀ p ∈ [[a.re, a.re + 1]] ×ℂ [[a.im, a.im + L.ω₂.im]] \\ (Ioo ×ℂ Ioo), ∀ l ∈ L.lattice, p + l ∉ S) ∧ ∀ z, ∃! l : L.lattice, z + l ∈ Ico a.re (a.re + 1) ×ℂ Ico a.im (a.im + L.ω₂.im), as in the sketch. The unique shift holds for every corner a (existsUnique_shift_mem_Ico): n by existsUnique_add_zsmul_mem_Ico in the imaginary direction with period Im ω₂, then m in the real direction with period 1 after the shear n Re ω₂. The boundary clause excludes the countably many corners with a.re ∈ {(s − l).re, (s − l).re − 1} or a.im ∈ {(s − l).im, (s − l).im − Im ω₂}, s ∈ S, l ∈ Λ (Cardinal.not_countable_real). Counting forms for weierstrass-order-sum: shift_mem_Ico_iff, eq_of_sub_mem_lattice, mem_Ioo_of_boundary_avoids (representatives of S + Λ lie in the open rectangle), lattice_countable (S = Λ ∪ c-points). Heights match rect-periodic's rectangle a to a + 1 + L.ω₂.im * I. Tests: (1, i) and the sheared (1, 1/2 + i) with exact shifts −1 − 2i and 1/2 − i (the vertical guess −ω₂ misses); (1, −i) empty rectangle, so h₂ is used; (2, i) no shift of 3/2, so h₁ is used; for S = Λ the unique lattice point is interior. Mathlib only, no sign."
     },
     {
       "id": "period-pair-normalize",
