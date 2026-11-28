@@ -285,6 +285,11 @@ theorem ellipticFormThree_res {W : Opens (ComplexPoint ellipticCurve)}
   exact kaehler_ellipticThree _ _ _ _ _ (holY_sq_res _) (holW_mul_holY_res h1)
     (holX_mul_holW_res h1) hb
 
+theorem formClass_eq_zero_iff {V : Opens (ComplexPoint ellipticCurve)} (a v : Hol V) :
+    formClass a v = 0 ↔ Algebra.DeRham.mk ℂ (Hol V) 1 a ![v] ∈
+      chartEvaluationKernel ellipticCurve (TopologicalSpace.dim ellipticCurve.left) (op V) 1 :=
+  Submodule.Quotient.mk_eq_zero _
+
 end Forms
 
 section Glue
@@ -368,10 +373,109 @@ theorem ellipticOmega_res :
           (ellipticResInfinity ellipticW) ![ellipticResAffine ellipticX])) :=
   ellipticOmega_res_cover 0
 
+/-- No three distinct points of `z ≠ 0` share the value of `x`. -/
+theorem ellipticX_fibre_three {a b c : ellipticAffineOpen} (hab : a ≠ b) (hac : a ≠ c)
+    (hbc : b ≠ c) (h1 : ellipticX a = ellipticX b) (h2 : ellipticX a = ellipticX c) : False := by
+  rcases ellipticY_eq_or_eq_neg_of_ellipticX_eq h1 with hb | hb
+  · exact hab (eq_of_ellipticX_eq_of_ellipticY_eq h1 hb)
+  rcases ellipticY_eq_or_eq_neg_of_ellipticX_eq h2 with hc | hc
+  · exact hac (eq_of_ellipticX_eq_of_ellipticY_eq h2 hc)
+  have hy : ellipticY b = ellipticY c := by
+    have := hb.symm.trans hc
+    exact neg_injective this
+  exact hbc (eq_of_ellipticX_eq_of_ellipticY_eq (h1.symm.trans h2) hy)
+
+/-- On the overlap, `w` vanishes nowhere. -/
+theorem ellipticW_ne_zero_of_mem (z : ellipticOverlapOpen) :
+    ellipticResInfinity ellipticW z ≠ 0 := by
+  rw [ellipticW_eq_inv]
+  exact one_div_ne_zero (ellipticY_ne_zero_of_mem z)
+
 theorem ellipticFormOne_res_ne_zero {W : Opens (ComplexPoint ellipticCurve)}
     (hW : W ≤ ellipticOverlapOpen) (p : ComplexPoint ellipticCurve) (hp : p ∈ W) :
     ellipticFormPresheaf.map (homOfLE hW).op ellipticFormOne ≠ 0 := by
-  sorry
+  set d := TopologicalSpace.dim ellipticCurve.left
+  rw [ellipticFormOne, formClass_res]
+  intro h
+  rw [formClass_eq_zero_iff] at h
+  have hker := (mem_chartEvaluationKernel_iff _ _ _ 1 _).1 h p
+  set a : Hol W := holRes hW (holRes inf_le_right holW)
+  set v : Hol W := holRes hW (holRes inf_le_left holX)
+  set e := extChartAt (modelWithCornersSelf ℂ (Fin d → ℂ)) p
+  set D := chartSectionDomain ellipticCurve d (op W) p
+  have hpsource : p ∈ e.source := mem_extChartAt_source p
+  have hy₀ : e p ∈ D := by
+    refine ⟨mem_extChartAt_target p, ?_⟩
+    change e.symm (e p) ∈ W
+    rw [e.left_inv hpsource]
+    exact hp
+  have hDopen : IsOpen D := isOpen_chartSectionDomain _ _ _ _
+  -- the derivative of `x` in the chart vanishes on `D`
+  have hzero : ∀ y ∈ D, chartSectionDifferential ellipticCurve d (op W) p v y = 0 := by
+    intro y hy
+    have h1 := hker y hy
+    rw [chartEvaluation_mk _ _ _ _ _ _ _ hy] at h1
+    simp only [chartGeneratorEvaluation] at h1
+    have hc : chartSection ellipticCurve d (op W) p a y ≠ 0 := by
+      rw [chartSection_apply_of_mem _ _ _ _ _ hy]
+      exact ellipticW_ne_zero_of_mem ⟨e.symm y, hW hy.2⟩
+    have h2 := congrArg (fun f => (chartSection ellipticCurve d (op W) p a y)⁻¹ • f) h1
+    simp only [inv_smul_smul₀ hc] at h2
+    refine ContinuousLinearMap.ext fun vec => ?_
+    have h3 := congrArg (fun f => f ![vec]) h2
+    simpa [ContinuousAlternatingMap.wedgeCovectors_apply_eq_det] using h3
+  -- so `x` is constant on a ball around `e p`
+  set f := chartSection ellipticCurve d (op W) p v
+  obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.mp hDopen (e p) hy₀
+  have hconst : ∀ y ∈ Metric.ball (e p) r, f y = f (e p) := by
+    intro y hy
+    refine (convex_ball _ _).is_const_of_fderivWithin_eq_zero
+      (((chartSection_contDiffOn _ _ _ _ v).differentiableOn (by simp)).mono hball) ?_ hy
+      (Metric.mem_ball_self hr)
+    intro y' hy'
+    rw [fderivWithin_of_isOpen Metric.isOpen_ball hy', ← fderivWithin_of_isOpen hDopen (hball hy')]
+    exact hzero y' (hball hy')
+  -- three points of the ball
+  have hd : 0 < d := by
+    change 0 < TopologicalSpace.dim ellipticCurve.left
+    rw [dim_ellipticCurve]; exact Nat.one_pos
+  let i₀ : Fin d := ⟨0, hd⟩
+  let v₀ : Fin d → ℂ := fun _ => 1
+  have hv₀ : ‖v₀‖ ≤ 1 := (pi_norm_le_iff_of_nonneg zero_le_one).mpr fun _ => by simp [v₀]
+  let pt : ℝ → Fin d → ℂ := fun t => e p + (t : ℂ) • v₀
+  have hpt_mem : ∀ t : ℝ, |t| < r → pt t ∈ Metric.ball (e p) r := by
+    intro t ht
+    rw [Metric.mem_ball, dist_eq_norm]
+    simp only [pt, add_sub_cancel_left]
+    calc ‖(t : ℂ) • v₀‖ = |t| * ‖v₀‖ := by rw [norm_smul, Complex.norm_real, Real.norm_eq_abs]
+      _ ≤ |t| * 1 := mul_le_mul_of_nonneg_left hv₀ (abs_nonneg t)
+      _ < r := by rw [mul_one]; exact ht
+  have hpt_inj : ∀ s t : ℝ, pt s = pt t → s = t := by
+    intro s t hst
+    have := congrFun hst i₀
+    simp only [pt, v₀, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_one, add_right_inj] at this
+    exact_mod_cast this
+  let q : ∀ t : ℝ, |t| < r → ellipticAffineOpen := fun t ht =>
+    ⟨e.symm (pt t), (hW (hball (hpt_mem t ht)).2).1⟩
+  have hq_x : ∀ t (ht : |t| < r), ellipticX (q t ht) = f (e p) := by
+    intro t ht
+    rw [← hconst _ (hpt_mem t ht)]
+    show _ = chartSection ellipticCurve d (op W) p v (pt t)
+    rw [chartSection_apply_of_mem _ _ _ _ _ (hball (hpt_mem t ht))]
+    rfl
+  have hq_inj : ∀ s t (hs : |s| < r) (ht : |t| < r), q s hs = q t ht → s = t := by
+    intro s t hs ht hst
+    apply hpt_inj
+    have hst' : (q s hs).1 = (q t ht).1 := congrArg Subtype.val hst
+    exact e.symm.injOn (hball (hpt_mem s hs)).1 (hball (hpt_mem t ht)).1 hst'
+  have h0 : |(0 : ℝ)| < r := by simpa using hr
+  have h1 : |r / 2| < r := by rw [abs_of_pos (by positivity)]; linarith
+  have h2 : |r / 4| < r := by rw [abs_of_pos (by positivity)]; linarith
+  exact ellipticX_fibre_three (a := q 0 h0) (b := q (r / 2) h1) (c := q (r / 4) h2)
+    (fun h => by have := hq_inj 0 (r / 2) h0 h1 h; linarith)
+    (fun h => by have := hq_inj 0 (r / 4) h0 h2 h; linarith)
+    (fun h => by have := hq_inj (r / 2) (r / 4) h1 h2 h; linarith)
+    ((hq_x 0 h0).trans (hq_x (r / 2) h1).symm) ((hq_x 0 h0).trans (hq_x (r / 4) h2).symm)
 
 theorem toSheafify_ellipticFormOne_ne_zero :
     (toSheafify (Opens.grothendieckTopology (TopCat.of (ComplexPoint ellipticCurve)))
