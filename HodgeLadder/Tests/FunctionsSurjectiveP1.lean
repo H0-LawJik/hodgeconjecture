@@ -26,7 +26,7 @@ non-compact open of `ℙ¹`.
 
 @[expose] public noncomputable section
 
-open CategoryTheory AlgebraicGeometry ComplexPoint
+open CategoryTheory AlgebraicGeometry ComplexPoint TopologicalSpace
 
 namespace HodgeLadder.Tests
 
@@ -50,7 +50,7 @@ theorem filteredToDeRhamCohomology_projectiveLine_injective :
 /-- `ℍ⁰(ℙ¹; 𝒪[0])` has two distinct classes. -/
 theorem nontrivial_holomorphicFunctionCohomology_projectiveLine :
     Nontrivial (Hypercohomology projectiveLine
-      (holomorphicFunctionComplexInt projectiveLine (TopologicalSpace.dim projectiveLine.left)) 0) :=
+      (holomorphicFunctionComplexInt projectiveLine (dim projectiveLine.left)) 0) :=
   nontrivial_holomorphicFunctionCohomology_zero projectiveLine
 
 end HodgeLadder.Tests

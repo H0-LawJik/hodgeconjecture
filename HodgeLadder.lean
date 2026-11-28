@@ -244,3 +244,5 @@ public import HodgeLadder.Hodge.FilteredOneInjective
 public import HodgeLadder.Tests.PointFunctionsSurjective
 public import HodgeLadder.Hodge.CompactHolomorphic
 public import HodgeLadder.Tests.CompactHolomorphicP1
+public import HodgeLadder.Hodge.FunctionsSurjectiveZero
+public import HodgeLadder.Tests.FunctionsSurjectiveP1

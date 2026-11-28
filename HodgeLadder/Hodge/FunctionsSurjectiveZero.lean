@@ -82,7 +82,8 @@ theorem hypercohomologyZeroEquivGlobalSections_apply (F : AnalyticAdditiveSheaf 
     (α : Hypercohomology X (analyticSheafComplexInt X F) 0) :
     hypercohomologyZeroEquivGlobalSections X F α =
       TopCat.Sheaf.integerConstantHomAddEquivGlobalSections F
-        (Abelian.Ext.homEquiv₀.{0} (C := AnalyticAdditiveSheaf X) (analyticSheafCohomologyEquivExt X F 0 α)) := rfl
+        (Abelian.Ext.homEquiv₀.{0} (C := AnalyticAdditiveSheaf X)
+          (analyticSheafCohomologyEquivExt X F 0 α)) := rfl
 
 /-- In degree zero, the port's `ℍ⁰(F[0]) ≃ Ext⁰(ℤ, F)` sends the image of `α` under `c : F ⟶ G`
 to `mk₀ (φ ≫ c)`, where `φ : ℤ_X ⟶ F` is the sheaf map of `α`. -/
@@ -90,7 +91,9 @@ theorem analyticSheafCohomologyEquivExt_zero_naturality {F G : AnalyticAdditiveS
     (c : F ⟶ G) (α : Hypercohomology X (analyticSheafComplexInt X F) 0) :
     analyticSheafCohomologyEquivExt X G 0
         (hypercohomologyMap X (analyticSheafComplexIntMap X c) 0 α) =
-      Abelian.Ext.mk₀.{0} (C := AnalyticAdditiveSheaf X) (Abelian.Ext.homEquiv₀.{0} (C := AnalyticAdditiveSheaf X) (analyticSheafCohomologyEquivExt X F 0 α) ≫ c) := by
+      Abelian.Ext.mk₀.{0} (C := AnalyticAdditiveSheaf X)
+        (Abelian.Ext.homEquiv₀.{0} (C := AnalyticAdditiveSheaf X)
+          (analyticSheafCohomologyEquivExt X F 0 α) ≫ c) := by
   refine (analyticSheafCohomologyEquivExt_naturality X c 0 α).trans ?_
   conv_lhs => rw [← Abelian.Ext.mk₀_homEquiv₀_apply (analyticSheafCohomologyEquivExt X F 0 α)]
   exact Abelian.Ext.mk₀_comp_mk₀ _ _
