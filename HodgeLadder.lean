@@ -171,3 +171,4 @@ public import HodgeLadder.Tests.DeRhamUnitNonzero
 public import HodgeLadder.Hodge.WedgeSheafify
 public import HodgeLadder.General.ComplexPoint
 public import HodgeLadder.Tests.ComplexPointNonempty
+public import HodgeLadder.Hodge.WedgeSheafMap
