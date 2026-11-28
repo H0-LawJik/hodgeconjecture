@@ -233,3 +233,4 @@ public import HodgeLadder.Supported.PullbackNamed
 public import HodgeLadder.General.QuotAlgHom
 public import HodgeLadder.Tests.EllipticCurvePoints
 public import HodgeLadder.Period.Pair.Normalize
+public import HodgeLadder.Rect.Winding

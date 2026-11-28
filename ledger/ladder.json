@@ -1047,26 +1047,44 @@
     {
       "id": "rect-winding",
       "title": "rectIntegral (fun p ↦ (p − a)⁻¹) z w = 2πi for a in the open rectangle (z, w), counterclockwise as in Mathlib's integral_boundary_rect_eq_zero_of_differentiableOn",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Rect.Winding",
+      "declarations": [
+        "HodgeLadder.Rect.rectIntegral",
+        "HodgeLadder.Rect.rectIntegral_eq_zero_of_differentiableOn",
+        "HodgeLadder.Rect.log_neg_sub_log_of_im_neg",
+        "HodgeLadder.Rect.log_sub_log_neg_of_im_pos",
+        "HodgeLadder.Rect.integral_horizontal_sub_inv",
+        "HodgeLadder.Rect.integral_vertical_right_sub_inv",
+        "HodgeLadder.Rect.integral_vertical_left_sub_inv",
+        "HodgeLadder.Rect.rectIntegral_sub_inv",
+        "HodgeLadder.Rect.rectIntegral_sub_inv_ne_neg",
+        "HodgeLadder.Rect.rectIntegral_inv_square",
+        "HodgeLadder.Rect.rectIntegral_swap",
+        "HodgeLadder.Rect.mapsTo_rect_sides",
+        "HodgeLadder.Rect.rectIntegral_congr",
+        "HodgeLadder.Rect.rectIntegral_finsetSum",
+        "HodgeLadder.Rect.rectIntegral_bottom_square_im"
+      ],
       "depends_on": [],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 2); red team: test the value differs from −2πi. Failed so far: nothing (new). Size: medium."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 2). Four sides by the fundamental theorem of calculus: log (p − a) on bottom, top and right, log (a − p) on the left; the corners telescope to (log (−q₀₀) − log q₀₀) + (log q₀₁ − log (−q₀₁)) = πI + πI. Orientation: counterclockwise, value +2πi (row \"Rectangle boundary orientation\" of docs/conventions.md); rectIntegral_sub_inv_ne_neg (value ≠ −2πi) and the instance a = 0, z = −1 − I, w = 1 + I record it. Red team: docs/sketches/rect-winding.redteam.md (pass with changes). Mathlib only. Size: medium. Red-team options O1 (rectIntegral_bottom_square_im, an orientation test by arctan with no logarithm) and O2 (rectIntegral_swap) taken; the consumer's glue lemmas rectIntegral_congr and rectIntegral_finsetSum (finding 8) are proved here."
     },
     {
       "id": "rect-argument-principle",
       "title": "rectIntegral (logDeriv f) z w = 2πi · Σᶠ over the open rectangle of divisor f, for meromorphic f of finite order everywhere, analytic and nonzero on the boundary",
       "status": "open",
       "kind": "foundation",
-      "module": null,
+      "module": "HodgeLadder.Rect.ArgumentPrinciple",
       "declarations": [],
       "depends_on": [
         "rect-winding"
       ],
       "contributors": [],
-      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 3). Kill criterion: released twice opens a thinker session on the covering fallback (new rung elliptic-curve-covering). Failed so far: nothing (new). Size: medium to large."
+      "note": "Sketch: docs/sketches/weierstrass-two-to-one.md (sub-rung 3). Kill criterion: released twice opens a thinker session on the covering fallback (new rung elliptic-curve-covering). Failed so far: nothing (new). Size: medium to large. Needs two glue lemmas beyond rect-winding: rectIntegral of a finite sum of boundary-continuous functions is the sum, and rectIntegral f z w = rectIntegral g z w when f = g on [[z.re, w.re]] ×ℂ [[z.im, w.im]] \\ (Ioo z.re w.re ×ℂ Ioo z.im w.im) (the partial-fraction identity holds only near the boundary). Interior points go through rectIntegral_sub_inv, points outside the closed rectangle through rectIntegral_eq_zero_of_differentiableOn; same corner order, no sign flip (docs/sketches/rect-winding.redteam.md, finding 8). Both glue lemmas are checked in HodgeLadder.Rect.Winding: rectIntegral_finsetSum and rectIntegral_congr."
     },
     {
       "id": "rect-periodic",
