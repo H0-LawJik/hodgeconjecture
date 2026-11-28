@@ -1261,7 +1261,7 @@
       "contributors": [
         "H0-LawJik"
       ],
-      "note": "Checked 2026-11-25. For a continuous map f, the inverse image f⁻¹ of sheaves of ℚ-vector spaces is exact (representably flat for finite limits; left adjoint) and f⁻¹ ℚ_X ≅ ℚ_Y (uniqueness of left adjoints to global sections); conjugating Ext classes by an exact functor is multiplicative and unital (conjExt_comp, conjExt_id). For g : X' ⟶ X over Spec ℂ, pullbackCoh g is additive, multiplicative and sends 1 to 1. Open: agreement with the port's abelian-group pullback TopCat.Sheaf.H.pullback, and functoriality in g."
+      "note": "Checked 2026-11-25. For a continuous map f, the inverse image f⁻¹ of sheaves of ℚ-vector spaces is exact (representably flat for finite limits; left adjoint) and f⁻¹ ℚ_X ≅ ℚ_Y (uniqueness of left adjoints to global sections); conjugating Ext classes by an exact functor is multiplicative and unital (conjExt_comp, conjExt_id). For g : X' ⟶ X over Spec ℂ, pullbackCoh g is additive, multiplicative and sends 1 to 1. Agreement with the port's abelian-group pullback TopCat.Sheaf.H.pullback: checked, pullbackH_eq_pullbackConst (rung pullback-port-agreement). Open: functoriality in g, and agreement with singular cohomologyMap (absolute case of supported-pullback-transport)."
     },
     {
       "id": "sheaf-tensor-exact",
@@ -4845,29 +4845,107 @@
     {
       "id": "supported-class-pullback",
       "title": "Pullback of supported classes H^n_S(X; ℚ) → H^n_{f⁻¹ S}(Y; ℚ) along f : Y ⟶ X over Spec ℂ, through the inverse image of sheaves, commuting with forgetSupport against pullbackCoh f",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Supported.Pullback",
+      "declarations": [
+        "HodgeLadder.Supported.supportedPullback",
+        "HodgeLadder.Supported.supportedPullbackPreimage",
+        "HodgeLadder.Supported.preimageSupport",
+        "HodgeLadder.Supported.compl_le_of_preimage_subset",
+        "HodgeLadder.Supported.forgetSupport_eq",
+        "HodgeLadder.Supported.forgetSupport_supportedPullback",
+        "HodgeLadder.Supported.supportPullback",
+        "HodgeLadder.Supported.supportPairMap",
+        "HodgeLadder.Supported.pairPullback",
+        "HodgeLadder.Supported.freePullback",
+        "HodgeLadder.Supported.freePullback_naturality",
+        "HodgeLadder.Supported.terminal_square",
+        "HodgeLadder.Supported.supportH_forget_supportPullback",
+        "HodgeLadder.Supported.relH_forget_surjective_of_eq_bot",
+        "HodgeLadder.Supported.forgetSupport_surjective_of_eq_top"
+      ],
+      "depends_on": [
+        "cup-pullback",
+        "pullback-port-agreement"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. For g : X' ⟶ X over Spec ℂ and closed Z' ⊇ g⁻¹Z (as sets of complex points), supportedPullback g Z Z' hZ n : H_[Z]^n(X; ℚ) →+ H_[Z']^n(X'; ℚ) applies the exact inverse image f⁻¹ of abelian sheaves (the port's pullbackAb), precomposes with the pair map ℤ[Y, Y ∖ Z'] ⟶ f⁻¹ℤ[X, X ∖ Z] (cokernel map of ℤ[f⁻¹U] ⟶ f⁻¹ℤ[U], the unit image of the generator) and postcomposes with f⁻¹ℚ_X ≅ ℚ_Y. forgetSupport_supportedPullback: forgetSupport (g^* α) = pullbackCoh g (forgetSupport α), exact, no sign, through supportH_forget_supportPullback (any space, any coefficients) and pullbackH_eq_pullbackConst. The identity pins the supported map only when Z' = ⊤ (forgetSupport injective there); for Z' ≠ ⊤ it is pinned by supported-pullback-transport. Degree-zero tests in supported-class-pullback-test. Open: functoriality in g (supported-pullback-functorial). Red team docs/sketches/supported-class-pullback.redteam.md."
+    },
+    {
+      "id": "pullback-port-agreement",
+      "title": "cup-pullback's rational pullback pullbackH equals the port's abelian pullback TopCat.Sheaf.H.pullback followed by f⁻¹ℚ_X ≅ ℚ_Y, exactly",
+      "status": "checked",
+      "kind": "foundation",
+      "module": "HodgeLadder.Supported.Pullback",
+      "declarations": [
+        "HodgeLadder.Supported.pullbackH_eq_pullbackConst",
+        "HodgeLadder.Supported.pullbackConst",
+        "HodgeLadder.Supported.forgetPullbackMate",
+        "HodgeLadder.Supported.unit_forgetPullbackMate",
+        "HodgeLadder.Supported.forgetPullbackMate_square",
+        "HodgeLadder.Supported.unit_forgetQX",
+        "HodgeLadder.Supported.pullbackConstZIso_inv_kappa",
+        "HodgeLadder.Supported.conjExt_conjExt",
+        "HodgeLadder.Supported.conjExt_eq_of_natTrans"
+      ],
+      "depends_on": [
+        "cup-pullback",
+        "one-is-kappa"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-27. For continuous f : Y ⟶ X, pullbackH f n α = H.map (f⁻¹ℚ_X ≅ ℚ_Y) (H.pullback f α) on HQ X n, no sign, no scalar. The comparison f⁻¹(forget M) ⟶ forget(f⁻¹M) is the mate of f_* ∘ forget = forget ∘ f_*; it matches the two identifications of f⁻¹ℚ_X with ℚ_Y (forgetPullbackMate_square), and κ : ℤ_X → ℚ_X (one-is-kappa) moves the unit. Settles the agreement item of cup-pullback. Red team docs/sketches/supported-class-pullback.redteam.md, finding 8."
+    },
+    {
+      "id": "supported-class-pullback-test",
+      "title": "Non-vacuity of supported-class-pullback in degree zero: with support the whole space, the supported pullback sends a lift of 1 to a lift of 1 and is nonzero, on every smooth integral X' with a complex point and on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹",
+      "status": "checked",
+      "kind": "test",
+      "module": "HodgeLadder.Tests.SupportedPullback",
+      "declarations": [
+        "HodgeLadder.Tests.exists_forgetSupport_supportedPullback_eq_one",
+        "HodgeLadder.Tests.supportedPullback_top_ne_zero",
+        "HodgeLadder.Tests.supportedPullback_prodFst_ne_zero"
+      ],
+      "depends_on": [
+        "supported-class-pullback",
+        "p1p1-witness"
+      ],
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Degree zero, support the whole space only: rules out the zero map and a global sign in degree 0, and instantiates on pr₁ : ℙ¹ × ℙ¹ ⟶ ℙ¹. Positive degrees and supports Z' ≠ ⊤ are untested here; the first value test there is fibre-class-pullback (pr₁*[∞] = [{∞} × ℙ¹])."
+    },
+    {
+      "id": "supported-pullback-functorial",
+      "title": "Functoriality of the supported pullback: supportedPullback (𝟙 X) Z Z = id and supportedPullback (h ≫ g) = supportedPullback h ∘ supportedPullback g",
       "status": "open",
       "kind": "foundation",
       "module": null,
       "declarations": [],
       "depends_on": [
-        "cup-pullback"
+        "supported-class-pullback"
       ],
       "contributors": [],
-      "note": "Sub-rung of fibre-class-pullback. Inputs: the port's H.pullback and the exact inverse image used by cup-pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md."
+      "note": "Statements (elaborate at 2ead713, red team docs/sketches/supported-class-pullback.redteam.md, finding 10): theorem supportedPullback_id {X : Over (Spec ↧ℂ)} (Z : Closeds (ComplexPoint X)) (n : ℕ) (α : H_[Z]^n(X; ℚ)) : supportedPullback (𝟙 X) Z Z (fun _ h => h) n α = α; theorem supportedPullback_comp {X X' X'' : Over (Spec ↧ℂ)} (h : X'' ⟶ X') (g : X' ⟶ X) (Z : Closeds (ComplexPoint X)) (Z' : Closeds (ComplexPoint X')) (Z'' : Closeds (ComplexPoint X'')) (hZ : ⇑(Point.continuousMap g) ⁻¹' (Z : Set (ComplexPoint X)) ⊆ Z') (hZ' : ⇑(Point.continuousMap h) ⁻¹' (Z' : Set (ComplexPoint X')) ⊆ Z'') (n : ℕ) (α : H_[Z]^n(X; ℚ)) : supportedPullback (h ≫ g) Z Z'' (fun _ ha => hZ' (hZ ha)) n α = supportedPullback h Z' Z'' hZ' n (supportedPullback g Z Z' hZ n α). Missing input: Mathlib at the pin has no identity or composition isomorphism for TopCat.Sheaf.pullback; build pullback (h ≫ g) ≅ pullback g ⋙ pullback h from leftAdjointUniq with its compatibility with pullbackConstantSheafIso and freePullback. Not on the route of fibre-class-pullback; with Z = ⊤ in positive degree it is the first positive-degree value test of supported-class-pullback. Not attempted."
     },
     {
       "id": "supported-pullback-transport",
       "title": "Through upstream's singular transport on (X, X ∖ S) and (Y, Y ∖ f⁻¹ S), the supported pullback is relativeCohomologyMap along the map of pairs induced by f, with no sign",
       "status": "open",
       "kind": "foundation",
-      "module": null,
+      "module": "HodgeLadder.Supported.PullbackTransport",
       "declarations": [],
       "depends_on": [
         "supported-class-pullback",
         "supported-pair-forget"
       ],
       "contributors": [],
-      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11)."
+      "note": "Sub-rung of fibre-class-pullback: the normalization side of the pullback. Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. State the map of pairs as HodgeLadder.LocalClassPullback.neighborhoodSupportPullbackPairMap (Point.map f) (Point.continuous_map _) with W′ := ((⊤ : Opens (ComplexPoint Y)) : Set (ComplexPoint Y)), W := ((⊤ : Opens (ComplexPoint X)) : Set (ComplexPoint X)), hWW := fun _ _ => trivial, against complexSupportInjectiveSectionCohomologyEquiv at ⊤ on both sides, so that restrict_pullback_eq_chartNormalProjectionCoclass applies by term (red team of local-class-pullback-submersion, finding 11). Statement: supportedEquivPair X' Z' n (supportedPullback g Z Z' hZ n α) = relativeCohomologyMap ℚ n (TopPair.ofSubsetHom (pointMap g) (fun _ ha => compl_le_of_preimage_subset g Z Z' hZ ha)) (supportedEquivPair X Z n α), for X, X' integral, smooth, T2 and paracompact on opens (elaborates at 2ead713). Missing input: a cochain map f⁻¹𝒮•_X ⟶ 𝒮•_Y of sheafified singular cochains over the augmentations, and naturality of upstream's flasque supported-sections model for it; split before proving. Absolute case: Ψ_{X'} (pullbackCoh g n β) = cohomologyMap ℚ n (pointMap g) (Ψ_X β)."
     },
     {
       "id": "local-class-pullback-submersion",
@@ -4942,7 +5020,7 @@
         "cycle-class-germ"
       ],
       "contributors": [],
-      "note": "A foundation with sub-rungs (red team finding 15): pullback of supported classes compatible with forgetSupport (supported-class-pullback) and with upstream's normalization (supported-pullback-transport, local-class-pullback-submersion). Literature: compatibility of the cycle map with flat pullback [Fulton1998 ch. 19; numbering unverified]. Only the ℙ¹ × ℙ¹ path needs it (decision 0010). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. local-class-pullback-submersion checked 2026-11-27 (chart form, any continuous f with tied normal coordinates). Red team finding 11: the local identity at pr₁ composes in scratch from cycle-class-germ (no-reg form) on ℙ¹ and on ℙ¹ × ℙ¹ and restrict_pullback_eq_chartNormalProjectionCoclass at ⊤. Remaining at pr₁: supported-class-pullback; supported-pullback-transport in the pair-map spelling above; a second chart pair at (∞, [0 : 1]), which p1p1FstChart misses; germs to sections on Y ∖ T_sing = Y, then cycleComponentSupportedInjectiveClass_unique and forgetSupport. A general smooth f also needs charts e′ with (e′ ·).2 = (e ·).2 ∘ f (holomorphic submersion normal form; unverified at the pin)."
+      "note": "A foundation with sub-rungs (red team finding 15): pullback of supported classes compatible with forgetSupport (supported-class-pullback) and with upstream's normalization (supported-pullback-transport, local-class-pullback-submersion). Literature: compatibility of the cycle map with flat pullback [Fulton1998 ch. 19; numbering unverified]. Only the ℙ¹ × ℙ¹ path needs it (decision 0010). Not attempted. Sketch: docs/sketches/cycle-class-multiplicative.md. local-class-pullback-submersion checked 2026-11-27 (chart form, any continuous f with tied normal coordinates). Red team finding 11: the local identity at pr₁ composes in scratch from cycle-class-germ (no-reg form) on ℙ¹ and on ℙ¹ × ℙ¹ and restrict_pullback_eq_chartNormalProjectionCoclass at ⊤. Remaining at pr₁: supported-class-pullback; supported-pullback-transport in the pair-map spelling above; a second chart pair at (∞, [0 : 1]), which p1p1FstChart misses; germs to sections on Y ∖ T_sing = Y, then cycleComponentSupportedInjectiveClass_unique and forgetSupport. A general smooth f also needs charts e′ with (e′ ·).2 = (e ·).2 ∘ f (holomorphic submersion normal form; unverified at the pin). Remaining after supported-class-pullback: supported-pullback-transport, local-class-pullback-submersion, an adapted chart on X' in which g is a coordinate projection (complex-points-prod for pr₁), germ-to-section and cycleComponentSupportedInjectiveClass_unique; red team docs/sketches/supported-class-pullback.redteam.md, finding 9."
     },
     {
       "id": "p1p1-point-class-nonzero",

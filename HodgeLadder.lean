@@ -192,3 +192,5 @@ public import HodgeLadder.Hodge.CupHodgeFiltration
 public import HodgeLadder.Tests.CupHodgeFiltrationP2
 public import HodgeLadder.Local.ClassPullback
 public import HodgeLadder.Tests.P1p1FstPullback
+public import HodgeLadder.Supported.Pullback
+public import HodgeLadder.Tests.SupportedPullback
