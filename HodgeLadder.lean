@@ -212,6 +212,7 @@ public import HodgeLadder.Tests.EllipticCurveSmooth
 public import HodgeLadder.Pullback.Functorial
 public import HodgeLadder.Tests.PullbackFunctorial
 public import HodgeLadder.Supported.SingularCochainPullback
+public import HodgeLadder.Supported.PairNamed
 public import HodgeLadder.General.ProjQuotientMap
 public import HodgeLadder.Tests.EllipticCurveCM
 public import HodgeLadder.Hodge.DeRhamPullback
