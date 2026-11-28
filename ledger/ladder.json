@@ -3157,16 +3157,21 @@
     {
       "id": "de-rham-cup-unique",
       "title": "deRhamCup is characterized by the rational cup product: on smooth projective X, a ℂ-bilinear P : H_dR^a(X) →ₗ[ℂ] H_dR^b(X) →ₗ[ℂ] H_dR^n(X) with P (ι α) (ι β) = ι (α ∪ β) equals deRhamCupBilinear X a b n _",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.DeRhamCupGradedComm",
+      "declarations": [
+        "HodgeLadder.deRhamCupBilinear_unique",
+        "HodgeLadder.deRhamCupBilinear_eq_iff"
+      ],
       "depends_on": [
         "de-rham-cup",
         "de-rham-rational-span"
       ],
-      "contributors": [],
-      "note": "Proposed by the red team of de-rham-cup (docs/sketches/de-rham-cup.redteam.md, finding 6, RT6), after finding 9 of docs/sketches/de-rham-cup-exact.redteam.md. Statement: theorem deRhamCupBilinear_unique (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] {a b n : ℕ} (h : a + b = n) (P : H_dR^a(X) →ₗ[ℂ] H_dR^b(X) →ₗ[ℂ] H_dR^n(X)) (hP : ∀ (α : H^a(X; ℚ)) (β : H^b(X; ℚ)), P (fieldToDeRhamCohomology ℚ X a α) (fieldToDeRhamCohomology ℚ X b β) = fieldToDeRhamCohomology ℚ X n (Cup.cup α β n h)) : P = deRhamCupBilinear X a b n (by lia). Proved in scratch in 7 lines (LinearMap.ext_on twice with span_range_fieldToDeRhamCohomology_rat, then hP, deRhamCupBilinear_apply, fieldToDeRhamCohomology_cup), standard axioms; text in the red team file. It makes fieldToDeRhamCohomology_cup a characterization: on smooth projective X the product, sign and factor order included, is fixed by the rational cup product, and the dependence of the identity on the wedge through its unit law only (docs/gaps.md, Known weaknesses) has no effect on cohomology. Non-vacuity: P = deRhamCupBilinear satisfies hP, P = 0 and P = −deRhamCupBilinear fail it at a = b = n = 0 (deRhamCup_one_one_ne_zero, deRhamCup_one_one_ne_neg). Module HodgeLadder.Hodge.DeRhamCupUnique."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Proposed by the red team of de-rham-cup (docs/sketches/de-rham-cup.redteam.md, finding 6, RT6), after finding 9 of docs/sketches/de-rham-cup-exact.redteam.md. Statement: theorem deRhamCupBilinear_unique (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] {a b n : ℕ} (h : a + b = n) (P : H_dR^a(X) →ₗ[ℂ] H_dR^b(X) →ₗ[ℂ] H_dR^n(X)) (hP : ∀ (α : H^a(X; ℚ)) (β : H^b(X; ℚ)), P (fieldToDeRhamCohomology ℚ X a α) (fieldToDeRhamCohomology ℚ X b β) = fieldToDeRhamCohomology ℚ X n (Cup.cup α β n h)) : P = deRhamCupBilinear X a b n (by lia). Proved in scratch in 7 lines (LinearMap.ext_on twice with span_range_fieldToDeRhamCohomology_rat, then hP, deRhamCupBilinear_apply, fieldToDeRhamCohomology_cup), standard axioms; text in the red team file. It makes fieldToDeRhamCohomology_cup a characterization: on smooth projective X the product, sign and factor order included, is fixed by the rational cup product, and the dependence of the identity on the wedge through its unit law only (docs/gaps.md, Known weaknesses) has no effect on cohomology. Non-vacuity: P = deRhamCupBilinear satisfies hP, P = 0 and P = −deRhamCupBilinear fail it at a = b = n = 0 (deRhamCup_one_one_ne_zero, deRhamCup_one_one_ne_neg). Checked 2026-11-27 in HodgeLadder.Hodge.DeRhamCupGradedComm (shared with de-rham-cup-antisymm-h1): deRhamCupBilinear_unique with the statement above, the red team's RT6 text unchanged; deRhamCupBilinear_eq_iff adds the converse (P = deRhamCupBilinear X a b n _ iff P (ι α) (ι β) = ι (α ∪ β) for all rational α, β), so the hypothesis is satisfiable. Standard axioms; module about 37 s with the antisymmetry proofs. Red team: docs/sketches/de-rham-cup-graded-comm.redteam.md (pass with changes): 0 and −deRhamCupBilinear fail hP at degree (0, 0) on every smooth integral X and at degree (2, 2) on ℙ² (from planeLines_deRhamCup_ne_zero); a (−1)^{ab}-twisted or unsigned-swap product is separated only in odd degree, where no projective X at the pin has cohomology (on 𝔾ₘ² gm2_deRhamCup_twist_ne and gm2_deRhamCup_swap_ne, outside the theorem). Integrality is needed to state deRhamCup at the pin and matches upstream's HodgeConjecture."
     },
     {
       "id": "cup-hodge-filtration",
@@ -3224,17 +3229,24 @@
     {
       "id": "de-rham-cup-antisymm-h1",
       "title": "deRhamCup is antisymmetric on H¹_dR × H¹_dR (input of T1)",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Hodge.DeRhamCupGradedComm",
+      "declarations": [
+        "HodgeLadder.deRhamCup_antisymm_one",
+        "HodgeLadder.deRhamCup_gradedComm",
+        "HodgeLadder.deRhamCupBilinear_flip",
+        "HodgeLadder.deRhamCup_self_of_odd"
+      ],
       "depends_on": [
         "de-rham-cup",
         "de-rham-rational-span",
         "cup-graded-commutative"
       ],
-      "contributors": [],
-      "note": "From cup_gradedComm, fieldToDeRhamCohomology_cup and bilinearity once the image of ι spans (red team finding 10). Update 2026-11-27 (red team of de-rham-cup, RT7): theorem deRhamCup_antisymm_one (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] (x y : H_dR^1(X)) : deRhamCup y x 2 (by norm_num) = -deRhamCup x y 2 (by norm_num) is proved in scratch, standard axioms, from (deRhamCupBilinear X 1 1 2 _).flip = -deRhamCupBilinear X 1 1 2 _ by LinearMap.ext_on twice with span_range_fieldToDeRhamCohomology_rat, fieldToDeRhamCohomology_cup at ascribed degrees, Cup.cup_gradedComm (local instance openParacompactSpace X) and map_zsmul; text in docs/sketches/de-rham-cup.redteam.md."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "From cup_gradedComm, fieldToDeRhamCohomology_cup and bilinearity once the image of ι spans (red team finding 10). Update 2026-11-27 (red team of de-rham-cup, RT7): theorem deRhamCup_antisymm_one (X : Over (Spec ↧ℂ)) [IsIntegral X.left] [Smooth X.hom] [IsProjective X.hom] (x y : H_dR^1(X)) : deRhamCup y x 2 (by norm_num) = -deRhamCup x y 2 (by norm_num) is proved in scratch, standard axioms, from (deRhamCupBilinear X 1 1 2 _).flip = -deRhamCupBilinear X 1 1 2 _ by LinearMap.ext_on twice with span_range_fieldToDeRhamCohomology_rat, fieldToDeRhamCohomology_cup at ascribed degrees, Cup.cup_gradedComm (local instance openParacompactSpace X) and map_zsmul; text in docs/sketches/de-rham-cup.redteam.md. Checked 2026-11-27: deRhamCup_antisymm_one with the statement above, as the case a = b = 1 of deRhamCup_gradedComm (X smooth projective integral, a b n : ℕ, h : a + b = n, x : H_dR^a(X), y : H_dR^b(X)): deRhamCup y x n _ = (-1 : ℤ) ^ (a * b) • deRhamCup x y n _, the sign as a ℤ-scalar in the form of Cup.cup_gradedComm. Bundled: deRhamCupBilinear_flip, (deRhamCupBilinear X b a n _).flip = (-1 : ℤ) ^ (a * b) • deRhamCupBilinear X a b n _, by LinearMap.ext_on twice with span_range_fieldToDeRhamCohomology_rat, fieldToDeRhamCohomology_cup (rewritten at the general ℕ degrees, so the cast friction of RT7 does not arise), Cup.cup_gradedComm and map_zsmul; local instance openParacompactSpace X. No sign other than the graded-commutativity (−1)^{ab} enters. Non-vacuity: every smooth projective X at the pin (point, ℙ¹, ℙⁿ, ℙ¹ × ℙ¹) has b₁ = 0, so deRhamCup_antisymm_one has only zero instances there; a projective instance waits on cup-odd-degree-test. The same identity on rational classes of the affine 𝔾ₘ² is the separate theorem HodgeLadder.Tests.gm2_deRhamCup_antisymm (rung de-rham-cup-exact), with nonzero product gm2_deRhamCup_ne_zero and the sign +1 refuted by gm2_deRhamCup_swap_ne. Standard axioms; module about 37 s. Red team: docs/sketches/de-rham-cup-graded-comm.redteam.md (pass with changes): the sign (−1)^{ab} is Hatcher's and Voisin's graded commutativity, symmetric in a and b and so independent of the diagrammatic order of Cup.cup; it comes from cupSing_gradedComm with the comparison sign cancelling; rfl and simp fail on the correct-sign and the wrong-sign statements; deRhamCup x x 2 _ = 0 follows in 3 lines (for T1's exterior square). Added with the red team's change 5: deRhamCup_self_of_odd, deRhamCup x x n _ = 0 for x : H_dR^a(X) with a odd."
     },
     {
       "id": "betti-additive-naturality",
