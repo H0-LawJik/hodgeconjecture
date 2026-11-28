@@ -9,6 +9,7 @@ public import HodgeLadder.General.Ext
 public import HodgeLadder.General.LocallyConstantSheaf
 public import HodgeLadder.General.FreeAbelianTerminal
 public import HodgeLadder.General.Codimension
+public import HodgeLadder.General.LocalOrientation
 public import HodgeLadder.General.SimplicialCochainSpan
 public import HodgeLadder.General.SimplicialCochainSpanProof
 public import HodgeLadder.Upstream.Statements
@@ -148,6 +149,7 @@ public import HodgeLadder.Tests.CupPositiveDegreeP2
 public import HodgeLadder.Tests.CycleClassSignTestP2
 public import HodgeLadder.Tests.ProjectivePlaneFundamental
 public import HodgeLadder.Tests.ProjectivePlaneFundamentalDegree
+public import HodgeLadder.Tests.ProjectivePlaneFundamentalEveryPoint
 public import HodgeLadder.Tests.ClassProduct
 public import HodgeLadder.Tests.CycleClassMultiplicativeCodimZero
 public import HodgeLadder.Hodge.CupFiltration

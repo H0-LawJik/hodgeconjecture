@@ -54,8 +54,9 @@ theorem planeOrigin_relativeHomologyProjection_bijective :
 local orientation at `[0 : 0 : 1]`. On a connected manifold this one-point condition is the
 literature's characterization of the fundamental class of the orientation through that local
 generator; that the generator is the complex one is row "Complex orientation of ℂ^p" of
-`docs/conventions.md`. That `μ` restricts to `complexLocalOrientation` at every other point is not
-proved here. -/
+`docs/conventions.md`. That `μ` restricts to `complexLocalOrientation` at every other point is
+`existsUnique_forall_restrict_complexLocalOrientation` in
+`HodgeLadder.Tests.ProjectivePlaneFundamentalEveryPoint` (rung `p2-fundamental-class-every-point`). -/
 theorem existsUnique_restrict_complexLocalOrientation :
     ∃! μ : Homology ℚ (TopCat.of (ComplexPoint projectivePlane)) (2 * 2),
       (relativeHomologyProjection ℚ (pointComplementPair planeOriginPoint) (2 * 2)).hom μ =
