@@ -41,4 +41,4 @@ Upstream also states the variants this repository works on, in `HodgeConjecture/
 
 ## Targets on this ladder
 
-See `docs/roadmap.md`. The Lefschetz checkpoint is checked: `lefschetz-1-1` (upstream `LefschetzOneOne` at this repository's pin) and `lefschetz-1-1-equality` (Hdg^1 = `algebraicCycleClassSpan X 1`). The current target is milestone M2 (`docs/strategy.md`), with front `cup` as its blocking foundation.
+See `docs/roadmap.md`. The Lefschetz checkpoint is checked: `lefschetz-1-1` (upstream `LefschetzOneOne` at this repository's pin) and `lefschetz-1-1-equality` (Hdg^1 = `algebraicCycleClassSpan X 1`). The current target is milestone M2 (`docs/strategy.md`), with front `cup` closed (decision 0012) and T1 of the Markman inventory next.

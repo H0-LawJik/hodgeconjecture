@@ -1,6 +1,6 @@
 # 0010. Cycle classes multiply on the singular side; ℙ² is the first test case
 
-Date: 2026-11-26. Status: accepted. Amends decision 0009 (rungs 5 and 6, the test rung, the kill criterion).
+Date: 2026-11-26. Status: accepted; closed by decision 0012. Amends decision 0009 (rungs 5 and 6, the test rung, the kill criterion).
 
 ## Context
 

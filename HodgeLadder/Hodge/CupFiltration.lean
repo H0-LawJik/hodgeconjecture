@@ -9,7 +9,8 @@ public import Mathlib.Algebra.Homology.QuasiIso
 /-!
 # Cup products and the Hodge filtration: statements and the reduction
 
-Rungs `cup-hodge-reduction` (checked), `cup-hodge-classes` (stated) and the sub-rung statements
+Rungs `cup-hodge-reduction` (checked), `cup-hodge-classes` (checked in
+`HodgeLadder.Hodge.CupHodgeFiltration`) and the sub-rung statements
 `wedge-descends`, `tensor-bounded-quasi-iso` (front `cup`, decision 0009, item 8; red team
 `docs/sketches/cup-hodge-filtration.redteam.md`).
 
@@ -32,9 +33,9 @@ if `ι α ∈ F^p` and `ι β ∈ F^q` then `ι (α ∪ β) ∈ F^{p+q}`. This r
 (`HodgeLadder.hodgeFiltration_eq_top_of_nonpos`), so every degree-zero class is a Hodge class
 (`HodgeLadder.mem_hodgeClasses_zero`).
 
-The complex form `F^p ∪ F^q ⊆ F^{p+q}` on `H_dR^*(X)` (rung `cup-hodge-filtration`) needs a
-product on de Rham hypercohomology, which neither upstream nor Mathlib has at the pin; its
-construction and the sub-rungs are in `docs/sketches/cup-hodge-filtration.md`. Two sub-rung
+The complex form `F^p ∪ F^q ⊆ F^{p+q}` on `H_dR^*(X)` (rung `cup-hodge-filtration`) is checked
+in `HodgeLadder.Hodge.CupHodgeFiltration` for the local product `deRhamCup`; its construction and
+the sub-rungs are in `docs/sketches/cup-hodge-filtration.md`. Two sub-rung
 statements can be written on present definitions and are stated as `Prop`s below:
 
 * `HodgeLadder.WedgeDescends` (sub-rung `wedge-descends`, checked as

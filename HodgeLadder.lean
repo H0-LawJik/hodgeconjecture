@@ -188,3 +188,5 @@ public import HodgeLadder.Tests.P1p1Fibres
 public import HodgeLadder.Tests.CycleClassMultiplicativeP1p1
 public import HodgeLadder.Tests.ChartCohomology
 public import HodgeLadder.Tests.P1p1PointClassNonzero
+public import HodgeLadder.Hodge.CupHodgeFiltration
+public import HodgeLadder.Tests.CupHodgeFiltrationP2
