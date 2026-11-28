@@ -961,30 +961,77 @@
     {
       "id": "circle-cylinder-homology",
       "title": "finrank_homology_prod_circle_le: H_{k+1}(Y × S¹; ℚ) is finite-dimensional with dim ≤ b_{k+1}(Y) + b_k(Y) when both are finite",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.General.CircleCylinderHomology",
+      "declarations": [
+        "HodgeLadder.CircleCylinder.homologyEquivOfHomeomorphProd",
+        "HodgeLadder.CircleCylinder.prodSetHomeo",
+        "HodgeLadder.CircleCylinder.sliceHomeo",
+        "HodgeLadder.CircleCylinder.cyl",
+        "HodgeLadder.CircleCylinder.cylU",
+        "HodgeLadder.CircleCylinder.cylV",
+        "HodgeLadder.CircleCylinder.isOpen_cylU",
+        "HodgeLadder.CircleCylinder.isOpen_cylV",
+        "HodgeLadder.CircleCylinder.cylU_union_cylV",
+        "HodgeLadder.CircleCylinder.homologyCylUEquiv",
+        "HodgeLadder.CircleCylinder.homologyCylVEquiv",
+        "HodgeLadder.CircleCylinder.overlap",
+        "HodgeLadder.CircleCylinder.P₁",
+        "HodgeLadder.CircleCylinder.P₂",
+        "HodgeLadder.CircleCylinder.isOpen_P₁",
+        "HodgeLadder.CircleCylinder.isOpen_P₂",
+        "HodgeLadder.CircleCylinder.P₁_union_P₂",
+        "HodgeLadder.CircleCylinder.disjoint_P₁_P₂",
+        "HodgeLadder.CircleCylinder.mem_overlap_of_mem_inter",
+        "HodgeLadder.CircleCylinder.homologyP₁Equiv",
+        "HodgeLadder.CircleCylinder.homologyP₂Equiv",
+        "HodgeLadder.CircleCylinder.finiteDimensional_homology_overlap",
+        "HodgeLadder.CircleCylinder.finrank_homology_overlap_le",
+        "HodgeLadder.CircleCylinder.overlapSection",
+        "HodgeLadder.CircleCylinder.cylUFst",
+        "HodgeLadder.CircleCylinder.overlapSection_comp",
+        "HodgeLadder.CircleCylinder.finrank_le_finrank_range_overlap",
+        "HodgeLadder.CircleCylinder.finiteDimensional_homology_prod_circle",
+        "HodgeLadder.CircleCylinder.finrank_homology_prod_circle_le",
+        "HodgeLadder.CircleCylinder.homologyPointProdCircleEquiv",
+        "HodgeLadder.CircleCylinder.finiteDimensional_homology_one_circle",
+        "HodgeLadder.CircleCylinder.finrank_homology_one_circle_le",
+        "HodgeLadder.CircleCylinder.finrank_range_overlap_zero_add_one_le",
+        "HodgeLadder.CircleCylinder.one_le_finrank_homology_one_circle",
+        "HodgeLadder.CircleCylinder.finrank_homology_one_circle"
+      ],
       "depends_on": [
         "circle-arc-cover",
         "homology-prod-contractible",
         "mayer-vietoris-finrank"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 2). Failed so far: nothing (new). Size: medium; split if kernel time passes 10 minutes. Nonvacuity requirement (red team mayer-vietoris-finrank, change 7): instantiate at Y = point to get FiniteDimensional ℚ (Homology ℚ (TopCat.of UnitAddCircle) 1) and dim ≤ 1; this is the first positive-degree exercise of finrank_homology_succ_add_le. The rank bound from a section needs p ∘ f ∘ s = id ⇒ dim ≤ rank f (finrank_le_finrank_range_of_comp_eq_id, mayer-vietoris-finrank option O1, or a local copy)."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/torus-singular-cohomology.md (order 2, step 5). For Y : TopCat.{0} with H_{k+1}(Y; ℚ) and H_k(Y; ℚ) finite-dimensional, H_{k+1}(Y × S¹; ℚ) is finite-dimensional (finiteDimensional_homology_prod_circle) with dim ≤ b_{k+1}(Y) + b_k(Y) (finrank_homology_prod_circle_le), the inequality form of the Künneth count. Proof: the exact Mayer–Vietoris count on U = Y × U₀, V = Y × V₀; dim H_j(U) = dim H_j(V) = b_j(Y) (homologyEquivOfHomeomorphProd through prodSetHomeo); the overlap is the disjoint open union of P₁ ≃ₜ Y × W₁ and P₂ ≃ₜ Y × W₂ (sliceHomeo), so dim H_j(U ∩ V) ≤ 2 b_j(Y); the section y ↦ (y, ↑(1/4)) gives rank i_{*,j} ≥ b_j(Y). Degrees k + 1 ≥ 1 only; torus-homology-bound treats degree 0 by path-connectedness. No sign: upstream's (i, −j) enters ranks only. Nonvacuity: finrank_homology_one_circle, dim H_1(S¹; ℚ) = 1, the upper bound at Y = point with a lower bound from the exact count and the degree-zero augmentation (finrank_range_overlap_zero_add_one_le, upstream TopCat.singularHomology₀ε_naturality). The consumer torus-homology-bound was closed in red-team scratch on top of this file. Red team: docs/sketches/circle-cylinder-homology.redteam.md, pass with changes. General, kept local (decision 0011); about 4 s to elaborate."
     },
     {
       "id": "torus-homology-bound",
       "title": "finiteDimensional_homology_torus n k and finrank_homology_torus_le n k : finrank ℚ H_k(UnitAddTorus (Fin n); ℚ) ≤ n.choose k",
-      "status": "open",
+      "status": "checked",
       "kind": "foundation",
-      "module": null,
-      "declarations": [],
+      "module": "HodgeLadder.Torus.HomologyBound",
+      "declarations": [
+        "HodgeLadder.Torus.torusSuccHomeo",
+        "HodgeLadder.Torus.homology_torus_bound",
+        "HodgeLadder.Torus.finiteDimensional_homology_torus",
+        "HodgeLadder.Torus.finrank_homology_torus_le",
+        "HodgeLadder.Torus.nontrivial_homology_two_torus_two",
+        "HodgeLadder.Torus.finrank_homology_two_torus_two"
+      ],
       "depends_on": [
         "circle-cylinder-homology"
       ],
-      "contributors": [],
-      "note": "Sketch: docs/sketches/torus-singular-cohomology.md (order 3). Failed so far: nothing (new). Size: small."
+      "contributors": [
+        "claude-code"
+      ],
+      "note": "Checked 2026-11-28. Sketch: docs/sketches/torus-singular-cohomology.md (order 3, step 6). homology_torus_bound n : ∀ k, FiniteDimensional ℚ H_k(Tⁿ; ℚ) ∧ finrank ℚ H_k(Tⁿ; ℚ) ≤ n.choose k on Tⁿ = UnitAddTorus (Fin n), by induction on n with both clauses for all k at once (the degree-(j+1) step reads the hypothesis at j + 1 and at j); degree 0 by path-connectedness, degree j + 1 at n = 0 by total disconnectedness, the step along torusSuccHomeo n : Tⁿ⁺¹ ≃ₜ Tⁿ × S¹ ((Fin.appendHomeomorph n 1).symm, Homeomorph.funUnique) with the cylinder bound of circle-cylinder-homology and Nat.choose_succ_succ'. Corollaries finiteDimensional_homology_torus (an instance) and finrank_homology_torus_le. No sign. Nonvacuity: finrank_homology_two_torus_two, dim H_2(T²; ℚ) = 1, the bound 2.choose 2 = 1 attained, with the lower bound from torus_two_cup_ne_zero through upstream's cohomologyEquivDualHomology. Red team circle-cylinder-homology (2026-11-28): the induction closes in scratch on top of the cylinder file, proving ∀ k, FiniteDimensional ℚ H_k(Tⁿ) ∧ finrank ≤ n.choose k at once (the degree-k+1 step needs the hypothesis at k + 1 and at k); k = 0 at every n by MayerVietoris.finiteDimensional_homology_zero_of_pathConnected and finrank_homology_zero_of_pathConnected; k ≥ 1 at n = 0 by subsingleton_homology_succ_of_totallyDisconnected; the step by homologyIsoOfHomeomorph along (Fin.appendHomeomorph n 1).symm then Homeomorph.funUnique (Fin 1) UnitAddCircle, and Nat.choose_succ_succ'. Nonvacuity test: at n = k = 2 the bound is 1 and HodgeLadder.Torus.coordWinding_cup_ne_zero with upstream cohomologyEquivDualHomology gives H_2(T²; ℚ) ≠ 0, so dim H_2(T²; ℚ) = 1. Review: docs/sketches/circle-cylinder-homology.redteam.md (finding 8 and change 8; the recipe was closed in red-team scratch and landed in the same pull request). About 5 s to elaborate."
     },
     {
       "id": "torus-singular-cohomology",
