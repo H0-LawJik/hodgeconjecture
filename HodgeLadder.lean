@@ -223,3 +223,5 @@ public import HodgeLadder.Tests.WeilSpace
 public import HodgeLadder.Segre.General
 public import HodgeLadder.Cup.WindingPullback
 public import HodgeLadder.Torus.Singular.Pullback
+public import HodgeLadder.Tests.EllipticCurveIntegral
+public import HodgeLadder.Tests.EllipticCurveWitness
