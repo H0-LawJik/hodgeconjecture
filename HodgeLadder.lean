@@ -239,6 +239,8 @@ public import HodgeLadder.Rect.Periodic
 public import HodgeLadder.Supported.PullbackSection
 public import HodgeLadder.Tests.SupportedPullbackSection
 public import HodgeLadder.Tests.EllipticCurveCoordinates
+public import HodgeLadder.General.ContMDiffInv
+public import HodgeLadder.Tests.EllipticOmega
 public import HodgeLadder.General.TriangleShiftedHom
 public import HodgeLadder.Hodge.FilteredOneInjective
 public import HodgeLadder.Tests.PointFunctionsSurjective
